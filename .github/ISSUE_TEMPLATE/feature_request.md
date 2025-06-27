@@ -1,10 +1,9 @@
 ---
 name: Feature Request
 about: Suggest an idea for this project
-title: '[FEATURE] '
-labels: 'enhancement'
-assignees: ''
-
+title: "[FEATURE] "
+labels: "enhancement"
+assignees: ""
 ---
 
 **✨ Feature Description**
@@ -21,6 +20,7 @@ A clear and concise description of what you want to happen.
 A clear and concise description of any alternative solutions or features you've considered.
 
 **📋 Acceptance Criteria**
+
 - [ ] Criteria 1
 - [ ] Criteria 2
 - [ ] Criteria 3
@@ -29,6 +29,7 @@ A clear and concise description of any alternative solutions or features you've 
 If applicable, add mockups, wireframes, or examples to help explain your feature.
 
 **📱 Affected Components**
+
 - [ ] Frontend
 - [ ] Backend
 - [ ] Database
@@ -36,6 +37,7 @@ If applicable, add mockups, wireframes, or examples to help explain your feature
 - [ ] Documentation
 
 **📊 Priority**
+
 - [ ] Low
 - [ ] Medium
 - [ ] High

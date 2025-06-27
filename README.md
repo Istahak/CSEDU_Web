@@ -63,6 +63,7 @@ CSEDU_Web/
 ## 🌟 Features
 
 ### 🎨 **Frontend Features**
+
 - ⚡ **React 19** with **Vite** for fast development
 - 🏗️ **Component-based architecture** with reusable UI components
 - 🎣 **Custom hooks** for state management and API calls
@@ -72,6 +73,7 @@ CSEDU_Web/
 - 🎯 **Clean folder structure** following React best practices
 
 ### 🚀 **Backend Features**
+
 - 🔥 **FastAPI** with automatic OpenAPI documentation
 - 🛡️ **JWT Authentication** with secure password hashing
 - 🗄️ **SQLAlchemy ORM** with database migrations (Alembic)
@@ -82,6 +84,7 @@ CSEDU_Web/
 - 📝 **Request logging** and error handling
 
 ### 🏢 **Architecture Features**
+
 - 🎯 **Clean Architecture** with separation of concerns
 - 🔄 **Full-stack integration** between React and FastAPI
 - 📈 **Scalable structure** for easy feature additions
@@ -92,17 +95,20 @@ CSEDU_Web/
 ## 🚀 Quick Start
 
 ### **Prerequisites**
+
 - Node.js 18+ and npm/yarn
 - Python 3.9+
 - Git
 
 ### **1. Clone the Repository**
+
 ```bash
 git clone https://github.com/your-username/CSEDU_Web.git
 cd CSEDU_Web
 ```
 
 ### **2. Setup Backend**
+
 ```bash
 cd Backend
 
@@ -123,6 +129,7 @@ python run.py
 Backend will be available at: http://localhost:8000
 
 ### **3. Setup Frontend**
+
 ```bash
 cd Frontend
 
@@ -138,6 +145,7 @@ Frontend will be available at: http://localhost:5173
 ## 🔧 Development Setup
 
 ### **Backend Development**
+
 ```bash
 cd Backend
 
@@ -162,6 +170,7 @@ alembic upgrade head
 ```
 
 ### **Frontend Development**
+
 ```bash
 cd Frontend
 
@@ -194,11 +203,13 @@ The FastAPI backend provides automatic interactive documentation:
 ### **Main API Routes**
 
 #### **Authentication**
+
 - `POST /api/v1/auth/login` - User login
 - `POST /api/v1/auth/register` - User registration
 - `GET /api/v1/auth/me` - Get current user
 
 #### **Users**
+
 - `GET /api/v1/users/` - List all users
 - `POST /api/v1/users/` - Create new user
 - `GET /api/v1/users/{user_id}` - Get user by ID
@@ -206,6 +217,7 @@ The FastAPI backend provides automatic interactive documentation:
 - `DELETE /api/v1/users/{user_id}` - Delete user
 
 #### **Items**
+
 - `GET /api/v1/items/` - List all items
 - `POST /api/v1/items/` - Create new item
 - `GET /api/v1/items/{item_id}` - Get item by ID
@@ -215,6 +227,7 @@ The FastAPI backend provides automatic interactive documentation:
 ## 🧪 Testing
 
 ### **Backend Testing**
+
 ```bash
 cd Backend
 
@@ -229,6 +242,7 @@ pytest tests/test_api.py -v
 ```
 
 ### **Frontend Testing**
+
 ```bash
 cd Frontend
 
@@ -247,6 +261,7 @@ npm test:coverage
 ### **Environment Variables**
 
 #### **Backend (.env)**
+
 ```env
 DATABASE_URL=your_database_url
 SECRET_KEY=your_secret_key
@@ -255,6 +270,7 @@ BACKEND_CORS_ORIGINS=["https://yourdomain.com"]
 ```
 
 #### **Frontend**
+
 ```env
 VITE_API_BASE_URL=https://your-api-domain.com
 ```
@@ -262,6 +278,7 @@ VITE_API_BASE_URL=https://your-api-domain.com
 ### **Production Deployment**
 
 #### **Backend Deployment**
+
 ```bash
 # Using Uvicorn
 uvicorn app.main:app --host 0.0.0.0 --port 8000
@@ -271,6 +288,7 @@ gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app
 ```
 
 #### **Frontend Deployment**
+
 ```bash
 # Build for production
 npm run build
@@ -299,11 +317,13 @@ We welcome contributions! Please follow these steps:
 ### **Code Style**
 
 #### **Frontend**
+
 - Use ESLint and Prettier for code formatting
 - Follow React best practices
 - Use functional components with hooks
 
 #### **Backend**
+
 - Follow PEP 8 style guidelines
 - Use Black for code formatting
 - Write docstrings for functions and classes

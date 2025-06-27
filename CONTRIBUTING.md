@@ -44,6 +44,7 @@ This project adheres to a code of conduct. By participating, you are expected to
 ### Workflow
 
 1. **Create a feature branch** from `develop`:
+
    ```bash
    git checkout develop
    git pull origin develop
@@ -51,26 +52,30 @@ This project adheres to a code of conduct. By participating, you are expected to
    ```
 
 2. **Make your changes**:
+
    - Write code following our coding standards
    - Add tests for new functionality
    - Update documentation as needed
 
 3. **Test your changes**:
+
    ```bash
    # Backend tests
    cd Backend && pytest
-   
+
    # Frontend tests (when available)
    cd Frontend && npm test
    ```
 
 4. **Commit your changes**:
+
    ```bash
    git add .
    git commit -m "feat: add your feature description"
    ```
 
    Use conventional commit messages:
+
    - `feat:` - New features
    - `fix:` - Bug fixes
    - `docs:` - Documentation changes
@@ -80,6 +85,7 @@ This project adheres to a code of conduct. By participating, you are expected to
    - `chore:` - Maintenance tasks
 
 5. **Push to your fork**:
+
    ```bash
    git push origin feature/your-feature-name
    ```
@@ -89,6 +95,7 @@ This project adheres to a code of conduct. By participating, you are expected to
 ## Pull Request Process
 
 1. **Ensure your PR**:
+
    - Has a clear title and description
    - References any related issues
    - Includes tests for new functionality
@@ -96,6 +103,7 @@ This project adheres to a code of conduct. By participating, you are expected to
    - Follows our coding standards
 
 2. **PR Requirements**:
+
    - All tests must pass
    - Code must be reviewed by at least one maintainer
    - No merge conflicts with the target branch
@@ -161,6 +169,7 @@ Include the following information:
 ### Issue Templates
 
 Use our issue templates for:
+
 - 🐛 **Bug reports**
 - ✨ **Feature requests**
 - 📚 **Documentation improvements**

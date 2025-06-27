@@ -1,3 +1,31 @@
+
+CSEDU_Web/
+├── 🎨 Frontend/                   # React + Vite (organized structure)
+├── 🚀 Backend/                    # FastAPI (organized structure)
+├── 📋 .github/                    # GitHub configuration
+│   ├── workflows/
+│   │   └── ci-cd.yml             # CI/CD pipeline
+│   ├── ISSUE_TEMPLATE/
+│   │   ├── bug_report.md         # Bug report template
+│   │   ├── feature_request.md    # Feature request template
+│   │   └── documentation.md      # Documentation template
+│   └── PULL_REQUEST_TEMPLATE.md  # PR template
+├── 🔧 scripts/                    # Development scripts
+│   ├── setup.sh                  # Project setup script
+│   ├── start.sh                  # Start development servers
+│   └── stop.sh                   # Stop development servers
+├── 📚 Documentation files
+│   ├── README.md                 # Comprehensive project documentation
+│   ├── CONTRIBUTING.md           # Contributing guidelines
+│   └── LICENSE                   # MIT License
+└── 🔧 Configuration files
+    └── .gitignore                # Git ignore rules
+
+
+
+
+
+
 src/
 ├── 📱 **components/**           # Reusable UI components
 │   ├── layout/                 # Layout-related components
