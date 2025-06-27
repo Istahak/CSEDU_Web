@@ -1,0 +1,247 @@
+# CSEDU Web Project - Git Ignore File
+
+# ===========================================
+# GENERAL
+# ===========================================
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+.classpath
+
+# ===========================================
+# FRONTEND (React + Vite)
+# ===========================================
+Frontend/node_modules/
+Frontend/dist/
+Frontend/build/
+Frontend/.env
+Frontend/.env.local
+Frontend/.env.development.local
+Frontend/.env.test.local
+Frontend/.env.production.local
+
+# Logs
+Frontend/npm-debug.log*
+Frontend/yarn-debug.log*
+Frontend/yarn-error.log*
+Frontend/pnpm-debug.log*
+Frontend/lerna-debug.log*
+
+# Runtime data
+Frontend/pids
+Frontend/*.pid
+Frontend/*.seed
+Frontend/*.pid.lock
+
+# Coverage directory used by tools like istanbul
+Frontend/coverage/
+Frontend/*.lcov
+
+# nyc test coverage
+Frontend/.nyc_output
+
+# Dependency directories
+Frontend/jspm_packages/
+
+# Optional npm cache directory
+Frontend/.npm
+
+# Optional eslint cache
+Frontend/.eslintcache
+
+# Microbundle cache
+Frontend/.rpt2_cache/
+Frontend/.rts2_cache_cjs/
+Frontend/.rts2_cache_es/
+Frontend/.rts2_cache_umd/
+
+# Optional REPL history
+Frontend/.node_repl_history
+
+# Output of 'npm pack'
+Frontend/*.tgz
+
+# Yarn Integrity file
+Frontend/.yarn-integrity
+
+# parcel-bundler cache (https://parceljs.org/)
+Frontend/.cache
+Frontend/.parcel-cache
+
+# Storybook build outputs
+Frontend/.out
+Frontend/.storybook-out
+
+# ===========================================
+# BACKEND (Python FastAPI)
+# ===========================================
+# Byte-compiled / optimized / DLL files
+Backend/__pycache__/
+Backend/*.py[cod]
+Backend/*$py.class
+
+# C extensions
+Backend/*.so
+
+# Distribution / packaging
+Backend/.Python
+Backend/build/
+Backend/develop-eggs/
+Backend/dist/
+Backend/downloads/
+Backend/eggs/
+Backend/.eggs/
+Backend/lib/
+Backend/lib64/
+Backend/parts/
+Backend/sdist/
+Backend/var/
+Backend/wheels/
+Backend/pip-wheel-metadata/
+Backend/share/python-wheels/
+Backend/*.egg-info/
+Backend/.installed.cfg
+Backend/*.egg
+Backend/MANIFEST
+
+# PyInstaller
+Backend/*.manifest
+Backend/*.spec
+
+# Installer logs
+Backend/pip-log.txt
+Backend/pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+Backend/htmlcov/
+Backend/.tox/
+Backend/.nox/
+Backend/.coverage
+Backend/.coverage.*
+Backend/.cache
+Backend/nosetests.xml
+Backend/coverage.xml
+Backend/*.cover
+Backend/*.py,cover
+Backend/.hypothesis/
+Backend/.pytest_cache/
+
+# Translations
+Backend/*.mo
+Backend/*.pot
+
+# Django stuff (if applicable):
+Backend/*.log
+Backend/local_settings.py
+Backend/db.sqlite3
+Backend/db.sqlite3-journal
+
+# Flask stuff (if applicable):
+Backend/instance/
+Backend/.webassets-cache
+
+# Scrapy stuff (if applicable):
+Backend/.scrapy
+
+# Sphinx documentation
+Backend/docs/_build/
+
+# PyBuilder
+Backend/target/
+
+# Jupyter Notebook
+Backend/.ipynb_checkpoints
+
+# IPython
+Backend/profile_default/
+Backend/ipython_config.py
+
+# pyenv
+Backend/.python-version
+
+# pipenv
+Backend/Pipfile.lock
+
+# PEP 582
+Backend/__pypackages__/
+
+# Celery stuff
+Backend/celerybeat-schedule
+Backend/celerybeat.pid
+
+# SageMath parsed files
+Backend/*.sage.py
+
+# Environments
+Backend/.env
+Backend/.venv
+Backend/env/
+Backend/venv/
+Backend/ENV/
+Backend/env.bak/
+Backend/venv.bak/
+
+# Spyder project settings
+Backend/.spyderproject
+Backend/.spyproject
+
+# Rope project settings
+Backend/.ropeproject
+
+# mkdocs documentation
+Backend/site
+
+# mypy
+Backend/.mypy_cache/
+Backend/.dmypy.json
+Backend/dmypy.json
+
+# Pyre type checker
+Backend/.pyre/
+
+# Database files
+Backend/*.db
+Backend/*.sqlite3
+Backend/csedu_web.db
+Backend/test.db
+
+# Alembic
+Backend/alembic/versions/*.py
+
+# ===========================================
+# PROJECT SPECIFIC
+# ===========================================
+# Temporary files
+*.tmp
+*.temp
+.temporary/
+
+# Log files
+*.log
+logs/
+
+# Backup files
+*.backup
+*.bak
+
+# Configuration files with sensitive data
+config.local.*
+secrets.json
+
+# Development files
+.development/
+.dev/

@@ -1,0 +1,14 @@
+/* Page Styles */
+.page {
+  padding: 2rem 0;
+}
+
+.page h1 {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.page p {
+  color: #666;
+  line-height: 1.6;
+}
