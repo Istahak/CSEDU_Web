@@ -9,5 +9,3 @@ export { default as AcademicCalendar } from "./AcademicCalendar";
 export { default as AcademicCalendarView } from "./AcademicCalendarView";
 export { default as ExamSchedule } from "./ExamSchedule";
 export { default as Notices } from "./Notices";
-export { default as Contact } from "./Contact";
-export { default as NotFound } from "./NotFound";

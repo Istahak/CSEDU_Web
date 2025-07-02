@@ -174,7 +174,14 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
                     <span className="payment-due">Due: April 15, 2024</span>
                   </div>
                 </div>
-                <button className="pay-now-btn">Pay Now</button>
+                <button
+                  className="pay-now-btn"
+                  onClick={() =>
+                    alert("Payment functionality will be implemented soon!")
+                  }
+                >
+                  Pay Now
+                </button>
               </div>
             </div>
           </div>
@@ -197,7 +204,12 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
                   <label>Address:</label>
                   <textarea value={userData.address} readOnly />
                 </div>
-                <button className="edit-btn">Edit Information</button>
+                <button
+                  className="edit-btn"
+                  onClick={() => onEditProfile && onEditProfile()}
+                >
+                  Edit Information
+                </button>
               </div>
             </div>
           </div>
