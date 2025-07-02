@@ -1,5 +1,8 @@
 // Application Constants
 
+// Color Palette
+export { default as colors } from './colors';
+
 // API Endpoints
 export const API_ENDPOINTS = {
   USERS: "/users",
