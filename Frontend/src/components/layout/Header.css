@@ -6,7 +6,7 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .header-container {
@@ -71,7 +71,8 @@
   gap: 1rem;
 }
 
-.search-btn, .menu-btn {
+.search-btn,
+.menu-btn {
   background: none;
   border: none;
   font-size: 1.2rem;
@@ -82,8 +83,18 @@
   transition: background-color 0.3s ease;
 }
 
-.search-btn:hover, .menu-btn:hover {
+.search-btn:hover,
+.menu-btn:hover {
   background-color: #f1f3f4;
+}
+
+.user-profile-header {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.user-profile-header:hover {
+  transform: scale(1.1);
 }
 
 .user-avatar {
@@ -97,14 +108,122 @@
   justify-content: center;
   color: white;
   font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.user-avatar:hover {
+  box-shadow: 0 4px 12px rgba(52, 73, 94, 0.3);
 }
 
 @media (max-width: 768px) {
   .header-nav {
     display: none;
   }
-  
+
   .university-name {
     display: none;
   }
+}
+
+/* Dropdown Styles */
+.nav-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Extend hover area to include the gap */
+.nav-dropdown::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: transparent;
+  z-index: 999;
+}
+
+.nav-dropdown .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.dropdown-arrow {
+  font-size: 0.7rem;
+  transition: transform 0.3s ease;
+}
+
+.nav-dropdown:hover .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 200px;
+  z-index: 1000;
+  padding: 0.5rem 0;
+  margin-top: 0.25rem;
+  animation: dropdownFadeIn 0.2s ease-out;
+}
+
+/* Add invisible bridge to prevent gap issues */
+.dropdown-menu::after {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: transparent;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown-item {
+  display: block;
+  padding: 0.75rem 1.25rem;
+  color: #6c757d;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+  color: #4a90e2;
+  padding-left: 1.5rem;
+}
+
+.dropdown-menu::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 20px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid #ffffff;
+  filter: drop-shadow(0 -2px 2px rgba(0, 0, 0, 0.1));
 }
