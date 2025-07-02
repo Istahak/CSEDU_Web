@@ -116,10 +116,7 @@ const Header = ({ currentPage, setCurrentPage }) => {
         <div className="header-actions">
           <button className="search-btn">🔍</button>
           <button className="menu-btn">☰</button>
-          <div
-            className="user-profile-header"
-            onClick={() => setCurrentPage("user-profile")}
-          >
+          <div className="user-profile-header" onClick={() => setCurrentPage("user-profile")}>
             <div className="user-avatar">👤</div>
           </div>
         </div>
