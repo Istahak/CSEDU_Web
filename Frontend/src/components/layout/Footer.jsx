@@ -22,13 +22,25 @@ const Footer = ({ setCurrentPage }) => {
               <h4>Quick Links</h4>
               <ul>
                 <li>
-                  <a href="/home">Home</a>
+                  <a href="/home" onClick={(e) => handleNavClick("home", e)}>
+                    Home
+                  </a>
                 </li>
                 <li>
-                  <a href="/faculty">Faculty</a>
+                  <a
+                    href="/directory"
+                    onClick={(e) => handleNavClick("directory", e)}
+                  >
+                    Faculty
+                  </a>
                 </li>
                 <li>
-                  <a href="/events">Events</a>
+                  <a
+                    href="/events"
+                    onClick={(e) => handleNavClick("events", e)}
+                  >
+                    Events
+                  </a>
                 </li>
                 <li>
                   <a href="/achievements">Achievements</a>
@@ -63,6 +75,16 @@ const Footer = ({ setCurrentPage }) => {
 
             <div className="footer-column">
               <h4>Contact</h4>
+              <ul>
+                <li>
+                  <a
+                    href="/contact"
+                    onClick={(e) => handleNavClick("contact", e)}
+                  >
+                    Contact Us
+                  </a>
+                </li>
+              </ul>
               <p>New Science Complex Building</p>
               <p>University of Dhaka 1000</p>
             </div>

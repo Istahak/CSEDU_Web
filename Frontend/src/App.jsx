@@ -15,6 +15,9 @@ import AcademicCalendar from "./pages/AcademicCalendar";
 import AcademicCalendarView from "./pages/AcademicCalendarView";
 import ExamSchedule from "./pages/ExamSchedule";
 import Notices from "./pages/Notices";
+import Events from "./pages/Events";
+import EventRegistration from "./pages/EventRegistration";
+import Contact from "./pages/Contact";
 import "./styles/App.css";
 
 function App() {
@@ -22,6 +25,7 @@ function App() {
   const [selectedFaculty, setSelectedFaculty] = useState(null);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [selectedProgram, setSelectedProgram] = useState(null);
+  const [selectedEvent, setSelectedEvent] = useState(null);
   const [userData, setUserData] = useState({
     name: "Istahak Islam",
     studentId: "CSE-2020-2021",
@@ -57,7 +61,7 @@ function App() {
         );
       case "academics":
         return (
-          <Academics 
+          <Academics
             onCourseSelect={(course) => {
               setSelectedCourse(course);
               setCurrentPage("course-details");
@@ -70,7 +74,7 @@ function App() {
         );
       case "course-details":
         return (
-          <CourseDetails 
+          <CourseDetails
             course={selectedCourse}
             onBack={() => {
               setCurrentPage("academics");
@@ -80,7 +84,7 @@ function App() {
         );
       case "program-details":
         return (
-          <ProgramDetails 
+          <ProgramDetails
             program={selectedProgram}
             onBack={() => {
               setCurrentPage("academics");
@@ -93,7 +97,7 @@ function App() {
         );
       case "admissions-info":
         return (
-          <AdmissionsInfo 
+          <AdmissionsInfo
             onBack={() => {
               setCurrentPage("program-details");
             }}
@@ -134,6 +138,32 @@ function App() {
         );
       case "notices":
         return <Notices onBack={() => setCurrentPage("home")} />;
+      case "events":
+        return (
+          <Events
+            onBack={() => setCurrentPage("home")}
+            onEventRegister={(event) => {
+              setSelectedEvent(event);
+              setCurrentPage("event-registration");
+            }}
+          />
+        );
+      case "event-registration":
+        return (
+          <EventRegistration
+            event={selectedEvent}
+            onBack={() => {
+              setCurrentPage("events");
+              setSelectedEvent(null);
+            }}
+            onRegisterComplete={() => {
+              setCurrentPage("events");
+              setSelectedEvent(null);
+            }}
+          />
+        );
+      case "contact":
+        return <Contact onBack={() => setCurrentPage("home")} />;
       default:
         return <Home />;
     }

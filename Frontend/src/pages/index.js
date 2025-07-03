@@ -15,3 +15,5 @@ export { default as AcademicCalendar } from "./AcademicCalendar";
 export { default as AcademicCalendarView } from "./AcademicCalendarView";
 export { default as ExamSchedule } from "./ExamSchedule";
 export { default as Notices } from "./Notices";
+export { default as Events } from "./Events";
+export { default as EventRegistration } from "./EventRegistration";

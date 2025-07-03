@@ -14,11 +14,13 @@ const Header = ({ currentPage, setCurrentPage }) => {
 
   // Helper function to determine if a nav item should be active
   const isNavActive = (navPage) => {
-    if (navPage === 'academics') {
-      return ['academics', 'course-details', 'program-details'].includes(currentPage);
+    if (navPage === "academics") {
+      return ["academics", "course-details", "program-details"].includes(
+        currentPage
+      );
     }
-    if (navPage === 'directory') {
-      return ['directory', 'faculty-profile'].includes(currentPage);
+    if (navPage === "directory") {
+      return ["directory", "faculty-profile"].includes(currentPage);
     }
     return currentPage === navPage;
   };
@@ -49,7 +51,7 @@ const Header = ({ currentPage, setCurrentPage }) => {
       <div className="header-container">
         <div className="university-info">
           <div className="university-logo">🎓</div>
-          <span className="university-name">Dhaka University</span>
+          <span className="university-name">CSEDU</span>
         </div>
         <nav className="header-nav">
           <a
@@ -61,14 +63,14 @@ const Header = ({ currentPage, setCurrentPage }) => {
           </a>
           <a
             href="/directory"
-            className={`nav-link ${isNavActive('directory') ? 'active' : ''}`}
+            className={`nav-link ${isNavActive("directory") ? "active" : ""}`}
             onClick={(e) => handleNavClick("directory", e)}
           >
             Directory
           </a>
           <a
             href="/academics"
-            className={`nav-link ${isNavActive('academics') ? 'active' : ''}`}
+            className={`nav-link ${isNavActive("academics") ? "active" : ""}`}
             onClick={(e) => handleNavClick("academics", e)}
           >
             Academics
@@ -90,7 +92,11 @@ const Header = ({ currentPage, setCurrentPage }) => {
           >
             Notices
           </a>
-          <a href="/events" className="nav-link">
+          <a
+            href="/events"
+            className={`nav-link ${currentPage === "events" ? "active" : ""}`}
+            onClick={(e) => handleNavClick("events", e)}
+          >
             Events
           </a>
           <div
