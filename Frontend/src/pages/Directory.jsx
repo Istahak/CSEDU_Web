@@ -6,6 +6,16 @@ const Directory = ({ onFacultySelect }) => {
   const [selectedDepartment, setSelectedDepartment] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
+  // Clear all filters function
+  const clearAllFilters = () => {
+    setSelectedRole("All");
+    setSelectedDepartment("All");
+    setSearchQuery("");
+  };
+
+  // Check if any filters are active
+  const hasActiveFilters = selectedRole !== "All" || selectedDepartment !== "All" || searchQuery.trim() !== "";
+
   // Sample faculty data
   const facultyMembers = [
     {
@@ -85,8 +95,14 @@ const Directory = ({ onFacultySelect }) => {
   const filteredMembers = facultyMembers.filter(member => {
     const matchesRole = selectedRole === "All" || member.role === selectedRole;
     const matchesDepartment = selectedDepartment === "All" || member.department === selectedDepartment;
-    const matchesSearch = member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         member.specialization.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    // Enhanced search functionality
+    const searchTerm = searchQuery.toLowerCase().trim();
+    const matchesSearch = searchTerm === "" || 
+                         member.name.toLowerCase().includes(searchTerm) ||
+                         member.specialization.toLowerCase().includes(searchTerm) ||
+                         member.department.toLowerCase().includes(searchTerm) ||
+                         member.role.toLowerCase().includes(searchTerm);
     
     return matchesRole && matchesDepartment && matchesSearch;
   });
@@ -103,15 +119,29 @@ const Directory = ({ onFacultySelect }) => {
           <div className="search-bar">
             <input
               type="text"
-              placeholder="Search by Name / Email / Contact"
+              placeholder="Search by Name / Department / Specialization / Role"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="search-input"
             />
+            {searchQuery && (
+              <button 
+                className="clear-search-button"
+                onClick={() => setSearchQuery("")}
+                title="Clear search"
+              >
+                ✕
+              </button>
+            )}
             <button className="search-button">
               <span className="search-icon">🔍</span>
             </button>
           </div>
+          {searchQuery && (
+            <div className="search-results-info">
+              Showing {filteredMembers.length} result{filteredMembers.length !== 1 ? 's' : ''} for "{searchQuery}"
+            </div>
+          )}
         </div>
 
         <div className="filters-section">
@@ -150,30 +180,62 @@ const Directory = ({ onFacultySelect }) => {
             <span className="filter-icon">⚙️</span>
             Filters
           </button>
+
+          {hasActiveFilters && (
+            <button 
+              className="clear-filters-button"
+              onClick={clearAllFilters}
+              title="Clear all filters"
+            >
+              <span className="clear-icon">🗑️</span>
+              Clear All
+            </button>
+          )}
         </div>
       </div>
 
       <div className="directory-grid">
-        {filteredMembers.map((member) => (
-          <div 
-            key={member.id} 
-            className="faculty-card"
-            onClick={() => onFacultySelect && onFacultySelect(member)}
-          >
-            <div className="faculty-avatar">
-              <div className="avatar-placeholder">👤</div>
-              <div className={`status-indicator ${member.status.toLowerCase()}`}></div>
-            </div>
-            <div className="faculty-info">
-              <h3 className="faculty-name">{member.name}</h3>
-              <div className="faculty-role-badge">{member.role}</div>
-              <div className="faculty-details">
-                <p className="faculty-department">{member.department}</p>
-                <p className="faculty-specialization">{member.specialization}</p>
+        {filteredMembers.length > 0 ? (
+          filteredMembers.map((member) => (
+            <div 
+              key={member.id} 
+              className="faculty-card"
+              onClick={() => onFacultySelect && onFacultySelect(member)}
+            >
+              <div className="faculty-avatar">
+                <div className="avatar-placeholder">👤</div>
+                <div className={`status-indicator ${member.status.toLowerCase()}`}></div>
+              </div>
+              <div className="faculty-info">
+                <h3 className="faculty-name">{member.name}</h3>
+                <div className="faculty-role-badge">{member.role}</div>
+                <div className="faculty-details">
+                  <p className="faculty-department">{member.department}</p>
+                  <p className="faculty-specialization">{member.specialization}</p>
+                </div>
               </div>
             </div>
+          ))
+        ) : (
+          <div className="no-results">
+            <div className="no-results-icon">🔍</div>
+            <h3 className="no-results-title">No faculty members found</h3>
+            <p className="no-results-message">
+              {hasActiveFilters 
+                ? "Try adjusting your search criteria or clearing filters"
+                : "No faculty members available at the moment"
+              }
+            </p>
+            {hasActiveFilters && (
+              <button 
+                className="clear-filters-button-large"
+                onClick={clearAllFilters}
+              >
+                Clear All Filters
+              </button>
+            )}
           </div>
-        ))}
+        )}
       </div>
     </div>
   );
