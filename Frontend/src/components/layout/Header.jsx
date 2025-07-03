@@ -1,15 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./Header.css";
 
-const Header = ({ currentPage, setCurrentPage }) => {
-  const [isResourcesOpen, setIsResourcesOpen] = useState(false);
+const Header = ({ currentPage, setCurrentPage, userRole, isAuthenticated, onLogout }) => {
+  const [openDropdown, setOpenDropdown] = useState(null); // null | 'academics' | 'resources'
   const dropdownRef = useRef(null);
   const timeoutRef = useRef(null);
 
   const handleNavClick = (page, e) => {
     e.preventDefault();
     setCurrentPage(page);
-    setIsResourcesOpen(false); // Close dropdown when navigating
+    setOpenDropdown(null); // Close dropdown when navigating
   };
 
   // Helper function to determine if a nav item should be active
@@ -25,17 +25,17 @@ const Header = ({ currentPage, setCurrentPage }) => {
     return currentPage === navPage;
   };
 
-  const handleMouseEnter = () => {
+  const handleDropdownMouseEnter = (dropdown) => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
-    setIsResourcesOpen(true);
+    setOpenDropdown(dropdown);
   };
 
-  const handleMouseLeave = () => {
+  const handleDropdownMouseLeave = () => {
     timeoutRef.current = setTimeout(() => {
-      setIsResourcesOpen(false);
-    }, 150); // Small delay to allow moving to dropdown
+      setOpenDropdown(null);
+    }, 150);
   };
 
   useEffect(() => {
@@ -68,22 +68,43 @@ const Header = ({ currentPage, setCurrentPage }) => {
           >
             Directory
           </a>
-          <a
-            href="/academics"
-            className={`nav-link ${isNavActive("academics") ? "active" : ""}`}
-            onClick={(e) => handleNavClick("academics", e)}
+          <div
+            className="nav-dropdown"
+            onMouseEnter={() => handleDropdownMouseEnter('academics')}
+            onMouseLeave={handleDropdownMouseLeave}
           >
-            Academics
-          </a>
+            <a
+              href="/degree-outlines"
+              className={`nav-link ${isNavActive('academics') ? 'active' : ''}`}
+              onClick={(e) => handleNavClick("degree-outlines", e)}
+            >
+              Academics <span className="dropdown-arrow">▼</span>
+            </a>
+            {openDropdown === 'academics' && (
+              <div className="dropdown-menu">
+                <a
+                  href="/degree-outlines"
+                  className="dropdown-item"
+                  onClick={(e) => handleNavClick("degree-outlines", e)}
+                >
+                  Degree Outlines
+                </a>
+                <a
+                  href="/course-list"
+                  className="dropdown-item"
+                  onClick={(e) => handleNavClick("course-list", e)}
+                >
+                  Course List
+                </a>
+              </div>
+            )}
+          </div>
           <a
             href="/projects"
             className={`nav-link ${currentPage === "projects" ? "active" : ""}`}
             onClick={(e) => handleNavClick("projects", e)}
           >
             Projects
-          </a>
-          <a href="/achievements" className="nav-link">
-            Achievements
           </a>
           <a
             href="/notices"
@@ -101,15 +122,14 @@ const Header = ({ currentPage, setCurrentPage }) => {
           </a>
           <div
             className="nav-dropdown"
-            ref={dropdownRef}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onMouseEnter={() => handleDropdownMouseEnter('resources')}
+            onMouseLeave={handleDropdownMouseLeave}
           >
             <a href="/resources" className="nav-link">
               Resources
               <span className="dropdown-arrow">▼</span>
             </a>
-            {isResourcesOpen && (
+            {openDropdown === 'resources' && (
               <div className="dropdown-menu">
                 <a
                   href="/academic-calendar"
@@ -139,11 +159,42 @@ const Header = ({ currentPage, setCurrentPage }) => {
         <div className="header-actions">
           <button className="search-btn">🔍</button>
           <button className="menu-btn">☰</button>
-          <div
-            className="user-profile-header"
-            onClick={() => setCurrentPage("user-profile")}
-          >
-            <div className="user-avatar">👤</div>
+          <div className="user-section">
+            {isAuthenticated ? (
+              <>
+                <div
+                  className="user-profile-header"
+                  onClick={() => setCurrentPage("user-profile")}
+                >
+                  <div className="user-avatar">👤</div>
+                  <span className="user-role">{userRole}</span>
+                </div>
+                <button className="logout-btn" onClick={() => {
+                  if (typeof onLogout === 'function') onLogout();
+                }}
+                  style={{ minWidth: '80px', background: '#ffd6d6', color: '#a12a2a', border: 'none', borderRadius: '6px', padding: '0.5rem 1.2rem', fontWeight: 600, cursor: 'pointer' }}
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <div className="auth-buttons" style={{ display: 'flex', gap: '0.5rem' }}>
+                <button
+                  className="login-btn"
+                  onClick={() => setCurrentPage("login")}
+                  style={{ minWidth: '80px', background: '#b6f5c6', color: '#205c2c', border: 'none', borderRadius: '6px', padding: '0.5rem 1.2rem', fontWeight: 600, cursor: 'pointer' }}
+                >
+                  Login
+                </button>
+                <button
+                  className="signup-btn"
+                  onClick={() => setCurrentPage("signup")}
+                  style={{ minWidth: '80px', background: '#b6f5c6', color: '#205c2c', border: 'none', borderRadius: '6px', padding: '0.5rem 1.2rem', fontWeight: 600, cursor: 'pointer' }}
+                >
+                  Sign up
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

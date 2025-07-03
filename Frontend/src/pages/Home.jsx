@@ -1,15 +1,59 @@
 import React from "react";
+import cseduImg from "../assets/images/csedu.jpg";
 
-const Home = () => {
+const announcements = [
+  {
+    id: 1,
+    title: "Academic Calendar for Fall 2024",
+    description:
+      "View the full academic calendar for detailed information on course registration, exams, and holidays. Important dates and deadlines for the upcoming semester.",
+    type: "Academic",
+    date: "2024-07-01",
+  },
+  {
+    id: 2,
+    title: "New Administrative Procedures",
+    description:
+      "Learn about the new procedures for submitting documents, requesting approvals, and other administrative tasks. Changes to the department's administrative procedures.",
+    type: "Administrative",
+    date: "2024-06-28",
+  },
+  {
+    id: 3,
+    title: "Department-Wide Announcements",
+    description:
+      "Find out about upcoming events, workshops, and other important news from the department. General announcements and updates for all students and staff.",
+    type: "General",
+    date: "2024-06-25",
+  },
+];
+
+const getNoticeTypeColor = (type) => {
+  switch (type) {
+    case "Academic":
+      return "academic";
+    case "Administrative":
+      return "administrative";
+    case "General":
+      return "general";
+    default:
+      return "general";
+  }
+};
+
+const Home = ({ setCurrentPage }) => {
+  const handleNavigation = (page) => {
+    if (setCurrentPage) {
+      setCurrentPage(page);
+    }
+  };
+
   return (
     <div className="home-page">
       {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-image">
-          <div className="building-placeholder">
-            <div className="building-icon">🏢</div>
-            <p>Computer Science Building</p>
-          </div>
+          <img src={cseduImg} alt="CSEDU Building" className="hero-img-actual" />
         </div>
         <div className="hero-content">
           <p className="hero-description">
@@ -25,37 +69,19 @@ const Home = () => {
       {/* Announcements Section */}
       <section className="announcements-section">
         <h2 className="section-title">Announcements</h2>
-        
-        <div className="announcement-item">
-          <div className="announcement-content">
-            <div className="announcement-date">October 20, 2024</div>
-            <h3 className="announcement-title">Upcoming Conference on AI and Machine Learning</h3>
-            <p className="announcement-description">
-              Join us for a two-day conference featuring leading experts in artificial intelligence and 
-              machine learning. Register now to secure your spot.
-            </p>
-          </div>
-          <div className="announcement-image">
-            <div className="announcement-placeholder ai-theme">
-              <div className="announcement-icon">🤖</div>
+        <div className="notices-grid">
+          {announcements.map((a) => (
+            <div className="notice-card" key={a.id}>
+              <div className="notice-card-header">
+                <h3 className="notice-title">{a.title}</h3>
+                <span className={`notice-badge ${getNoticeTypeColor(a.type)}`}>{a.type}</span>
+              </div>
+              <p className="notice-description">{a.description}</p>
+              <div className="notice-footer">
+                <span className="notice-date">{new Date(a.date).toLocaleDateString()}</span>
+              </div>
             </div>
-          </div>
-        </div>
-
-        <div className="announcement-item">
-          <div className="announcement-content">
-            <div className="announcement-date">October 15, 2024</div>
-            <h3 className="announcement-title">New Research Grant Awarded to Dr. Evelyn Reed</h3>
-            <p className="announcement-description">
-              Dr. Evelyn Reed has been awarded a prestigious research grant to study the applications of 
-              quantum computing in cybersecurity.
-            </p>
-          </div>
-          <div className="announcement-image">
-            <div className="announcement-placeholder quantum-theme">
-              <div className="announcement-icon">⚛️</div>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
@@ -63,20 +89,28 @@ const Home = () => {
       <section className="quick-links-section">
         <h2 className="section-title">Quick Links</h2>
         <div className="quick-links-grid">
-          <div className="quick-link-card">
-            <div className="card-icon">🎓</div>
+          <div className="quick-link-card" onClick={() => handleNavigation("degree-outlines")}>
+            <div className="card-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12l-10-7-10 7 10 7 10-7z"/><path d="M2 12v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-7"/></svg>
+            </div>
             <h3>Academic Programs</h3>
           </div>
-          <div className="quick-link-card">
-            <div className="card-icon">🔬</div>
+          <div className="quick-link-card" onClick={() => handleNavigation("projects")}>
+            <div className="card-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            </div>
             <h3>Research Areas</h3>
           </div>
-          <div className="quick-link-card">
-            <div className="card-icon">👥</div>
+          <div className="quick-link-card" onClick={() => handleNavigation("directory")}>
+            <div className="card-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a7.5 7.5 0 0 1 13 0"/></svg>
+            </div>
             <h3>Faculty Directory</h3>
           </div>
-          <div className="quick-link-card">
-            <div className="card-icon">📚</div>
+          <div className="quick-link-card" onClick={() => handleNavigation("course-list")}>
+            <div className="card-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
+            </div>
             <h3>Course Catalog</h3>
           </div>
         </div>

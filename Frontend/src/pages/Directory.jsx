@@ -96,13 +96,12 @@ const Directory = ({ onFacultySelect }) => {
     const matchesRole = selectedRole === "All" || member.role === selectedRole;
     const matchesDepartment = selectedDepartment === "All" || member.department === selectedDepartment;
     
-    // Enhanced search functionality
+    // Search only by name with prefix matching
     const searchTerm = searchQuery.toLowerCase().trim();
     const matchesSearch = searchTerm === "" || 
-                         member.name.toLowerCase().includes(searchTerm) ||
-                         member.specialization.toLowerCase().includes(searchTerm) ||
-                         member.department.toLowerCase().includes(searchTerm) ||
-                         member.role.toLowerCase().includes(searchTerm);
+                         member.name.toLowerCase().split(' ').some(word => 
+                           word.startsWith(searchTerm)
+                         );
     
     return matchesRole && matchesDepartment && matchesSearch;
   });
@@ -119,40 +118,37 @@ const Directory = ({ onFacultySelect }) => {
           <div className="search-bar">
             <input
               type="text"
-              placeholder="Search by Name / Department / Specialization / Role"
+              placeholder="Search faculty members..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="search-input"
             />
             {searchQuery && (
               <button 
-                className="clear-search-button"
+                className="clear-search-btn"
                 onClick={() => setSearchQuery("")}
                 title="Clear search"
               >
-                ✕
+                ×
               </button>
             )}
-            <button className="search-button">
-              <span className="search-icon">🔍</span>
-            </button>
           </div>
           {searchQuery && (
-            <div className="search-results-info">
-              Showing {filteredMembers.length} result{filteredMembers.length !== 1 ? 's' : ''} for "{searchQuery}"
+            <div className="search-results-count">
+              {filteredMembers.length} result{filteredMembers.length !== 1 ? 's' : ''} found
             </div>
           )}
         </div>
 
         <div className="filters-section">
           <div className="filter-group">
-            <label className="filter-label">Select Role</label>
+            <label className="filter-label">Role</label>
             <select 
               value={selectedRole} 
               onChange={(e) => setSelectedRole(e.target.value)}
               className="filter-select"
             >
-              <option value="All">All</option>
+              <option value="All">All Roles</option>
               <option value="Faculty">Faculty</option>
               <option value="Professor">Professor</option>
               <option value="Student">Student</option>
@@ -161,13 +157,13 @@ const Directory = ({ onFacultySelect }) => {
           </div>
 
           <div className="filter-group">
-            <label className="filter-label">Select Department</label>
+            <label className="filter-label">Department</label>
             <select 
               value={selectedDepartment} 
               onChange={(e) => setSelectedDepartment(e.target.value)}
               className="filter-select"
             >
-              <option value="All">All</option>
+              <option value="All">All Departments</option>
               <option value="Artificial Intelligence">Artificial Intelligence</option>
               <option value="Machine Learning">Machine Learning</option>
               <option value="Software Engineering">Software Engineering</option>
@@ -176,20 +172,17 @@ const Directory = ({ onFacultySelect }) => {
             </select>
           </div>
 
-          <button className="filters-button">
-            <span className="filter-icon">⚙️</span>
-            Filters
-          </button>
-
           {hasActiveFilters && (
-            <button 
-              className="clear-filters-button"
-              onClick={clearAllFilters}
-              title="Clear all filters"
-            >
-              <span className="clear-icon">🗑️</span>
-              Clear All
-            </button>
+            <div className="filter-group">
+              <label className="filter-label">&nbsp;</label>
+              <button 
+                className="clear-filters-button"
+                onClick={clearAllFilters}
+                title="Clear all filters"
+              >
+                Clear Filters
+              </button>
+            </div>
           )}
         </div>
       </div>

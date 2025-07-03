@@ -1,4 +1,5 @@
 // Page Components
+export { default as Login } from "./Login";
 export { default as Home } from "./Home";
 export { default as About } from "./About";
 export { default as Directory } from "./Directory";
@@ -8,6 +9,8 @@ export { default as CourseDetails } from "./CourseDetails";
 export { default as ProgramDetails } from "./ProgramDetails";
 export { default as AdmissionsInfo } from "./AdmissionsInfo";
 export { default as Contact } from "./Contact";
+export { default as Projects } from "./Projects";
+export { default as ProjectDetails } from "./ProjectDetails";
 export { default as NotFound } from "./NotFound";
 export { default as UserProfile } from "./UserProfile";
 export { default as EditProfile } from "./EditProfile";
