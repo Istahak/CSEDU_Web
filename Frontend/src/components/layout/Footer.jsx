@@ -43,7 +43,12 @@ const Footer = ({ setCurrentPage }) => {
                   </a>
                 </li>
                 <li>
-                  <a href="/achievements">Achievements</a>
+                  <a
+                    href="/achievements"
+                    onClick={(e) => handleNavClick("achievements", e)}
+                  >
+                    Achievements
+                  </a>
                 </li>
               </ul>
             </div>
