@@ -119,7 +119,7 @@ const Notices = ({ onBack }) => {
     <div className="notices-page">
       <div className="notices-container">
         {/* Header Section */}
-        <div className="notices-header">
+        {/* <div className="notices-header">
           {onBack && (
             <button className="back-button" onClick={onBack}>
               ← Back
@@ -131,7 +131,7 @@ const Notices = ({ onBack }) => {
             important announcements, academic schedules, and general
             information.
           </p>
-        </div>
+        </div> */}
 
         {/* Filter Section */}
         <div className="filter-section">

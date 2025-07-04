@@ -111,10 +111,14 @@ function App() {
       case "faculty-profile":
         return (
           <FacultyProfile
-            faculty={selectedFaculty}
+            id={selectedFaculty}
             onBack={() => {
               setCurrentPage("directory");
               setSelectedFaculty(null);
+            }}
+            onCourseSelect={(course) => {
+              setSelectedCourse(course);
+              setCurrentPage("course-details");
             }}
           />
         );
@@ -172,14 +176,28 @@ function App() {
             }}
           />
         );
-      case "admissions-info":
+      case "admissions-info": {
+        // Determine programId based on selected program
+        let programId = "undergraduate";
+        if (selectedProgram && selectedProgram.title) {
+          const title = selectedProgram.title.toLowerCase();
+          if (title.includes("master")) {
+            programId = "graduate";
+          } else if (title.includes("international")) {
+            programId = "international";
+          } else {
+            programId = "undergraduate";
+          }
+        }
         return (
           <AdmissionsInfo
+            programId={programId}
             onBack={() => {
               setCurrentPage("program-details");
             }}
           />
         );
+      }
       case "projects":
         return (
           <Projects 
