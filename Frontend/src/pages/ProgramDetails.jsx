@@ -6,19 +6,34 @@ const ProgramDetails = ({ program, onBack, onAdmissionsInfo }) => {
     return (
       <div className="program-details-page">
         <div className="details-header">
-          <button onClick={onBack} className="back-button">
+          {/* <button onClick={onBack} className="back-button">
             ← Back to Academics
-          </button>
+          </button> */}
           <h1>Program not found</h1>
         </div>
       </div>
     );
   }
 
+  // Determine program type based on title
+  const getProgramType = () => {
+    if (!program.title) return "Undergraduate";
+    const title = program.title.toLowerCase();
+    if (title.includes("master")) return "Graduate";
+    if (title.includes("international")) return "International";
+    return "Undergraduate";
+  };
+
+  const programType = getProgramType();
+
   const programInfo = {
-    duration: "4 Years (8 Semesters)",
-    credits: "160 Credit Hours",
-    admissionRequirements: [
+    duration: programType === "Graduate" ? "2 Years (4 Semesters)" : "4 Years (8 Semesters)",
+    credits: programType === "Graduate" ? "64 Credit Hours" : "160 Credit Hours",
+    admissionRequirements: programType === "Graduate" ? [
+      "Bachelor's degree or equivalent from an accredited institution",
+      "Minimum GPA of 3.2 (on a 4.0 scale)",
+      "Research proposal (for research-based programs)"
+    ] : [
       "HSC/A-Level with Mathematics and Physics",
       "Minimum GPA of 4.0 (out of 5.0)",
       "Admission Test Score"
@@ -52,11 +67,11 @@ const ProgramDetails = ({ program, onBack, onAdmissionsInfo }) => {
 
   return (
     <div className="program-details-page">
-      <div className="page-header">
+      {/* <div className="page-header">
         <button onClick={onBack} className="back-button">
           ← Back to Academics
         </button>
-      </div>
+      </div> */}
       
       <div className="details-header">
         <div className="program-hero">
@@ -115,7 +130,6 @@ const ProgramDetails = ({ program, onBack, onAdmissionsInfo }) => {
                 <ul className="requirements-list">
                   {programInfo.admissionRequirements.map((requirement, index) => (
                     <li key={index} className="requirement-item">
-                      <span className="requirement-icon">✓</span>
                       {requirement}
                     </li>
                   ))}
@@ -158,7 +172,7 @@ const ProgramDetails = ({ program, onBack, onAdmissionsInfo }) => {
               <div className="info-list">
                 <div className="info-item">
                   <span className="info-label">Program Type:</span>
-                  <span className="info-value">Undergraduate</span>
+                  <span className="info-value">{programType}</span>
                 </div>
                 <div className="info-item">
                   <span className="info-label">Duration:</span>

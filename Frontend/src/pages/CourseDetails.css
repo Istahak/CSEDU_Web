@@ -1,3 +1,541 @@
+/* Syllabus & Outcomes grid to match Assessment & Textbooks */
+.syllabus-outcomes-grid {
+  margin-top: 2.5rem;
+}
+.syllabus-card-item {
+  background: #fff;
+  border-radius: 14px;
+  padding: 1.5rem 1.5rem;
+  border-left: 5px solid #4a90e2;
+  margin-bottom: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 8px 0 rgba(74,144,226,0.07);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.syllabus-card-item:hover {
+  box-shadow: 0 6px 24px 0 rgba(74,144,226,0.13);
+  transform: translateY(-2px) scale(1.01);
+}
+.syllabus-card-item .syllabus-topic-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #212529;
+  margin-bottom: 0.3rem;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+  text-align: center;
+}
+.syllabus-card-item .syllabus-desc {
+  color: #495057;
+  font-size: 1.01rem;
+  opacity: 0.97;
+  font-weight: 500;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  line-height: 1.6;
+  margin-left: 0;
+}
+
+.outcomes-list-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+.outcome-card-item {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
+  border-left: 5px solid #4a90e2;
+}
+/* Redesigned Syllabus & Outcomes Section */
+.redesigned-syllabus-outcomes {
+  display: flex;
+  gap: 2.5rem;
+  margin: 2.5rem 3rem 0 3rem;
+  align-items: stretch;
+  width: 100%;
+  max-width: 1400px;
+  box-sizing: border-box;
+}
+.syllabus-card-modern, .outcomes-card-modern {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 8px 0 rgba(60, 72, 88, 0.07);
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 50%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-self: stretch;
+  padding: 2rem 1.5rem;
+  box-sizing: border-box;
+}
+.syllabus-header-row, .outcomes-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+.syllabus-icon, .outcomes-icon {
+  font-size: 2.2rem;
+  color: #4a90e2;
+  background: #e2e8f0;
+  border-radius: 50%;
+  padding: 0.5rem 0.7rem;
+  box-shadow: 0 2px 8px rgba(74,144,226,0.10);
+}
+.syllabus-timeline-modern.custom-scrollbar {
+  overflow-y: auto;
+  max-height: 420px;
+  padding-right: 0.5rem;
+}
+.syllabus-row {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  align-items: flex-start;
+  gap: 1.2rem;
+  margin-bottom: 1.2rem;
+  border-left: 4px solid #4a90e2;
+  padding-left: 1.2rem;
+}
+.syllabus-week-col {
+  min-width: 80px;
+  max-width: 110px;
+  color: #4a90e2;
+  font-weight: 700;
+  font-size: 0.98rem;
+  margin-top: 0.2rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 1;
+}
+.syllabus-main-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+.syllabus-topic-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #212529;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+.syllabus-desc {
+  color: #495057;
+  font-size: 0.98rem;
+  opacity: 0.95;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  margin-top: 0.1rem;
+}
+.outcomes-card-modern {
+  margin-left: 0;
+}
+.outcomes-list-modern.custom-scrollbar {
+  overflow-y: auto;
+  max-height: 420px;
+  padding-right: 0.5rem;
+  list-style: none;
+  padding-left: 0;
+}
+.outcome-list-row {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
+  border-left: 5px solid #4a90e2;
+  margin-bottom: 1.2rem;
+}
+.outcome-desc {
+  color: #212529;
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+@media (max-width: 1100px) {
+  .redesigned-syllabus-outcomes {
+    flex-direction: column;
+    margin: 1.5rem;
+    max-width: 100%;
+    width: 100%;
+  }
+  .syllabus-card-modern, .outcomes-card-modern {
+    max-width: 100%;
+    width: 100%;
+    flex: 1 1 100%;
+  }
+}
+@media (max-width: 700px) {
+  .redesigned-syllabus-outcomes {
+    margin: 0.5rem !important;
+    gap: 1rem;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  .syllabus-card-modern, .outcomes-card-modern {
+    max-width: 100% !important;
+    width: 100% !important;
+    flex: 1 1 100% !important;
+    padding: 1rem 0.7rem;
+  }
+}
+.header-left-align {
+  justify-content: flex-start !important;
+  align-items: center;
+  min-height: 90px;
+}
+.header-title-group {
+  margin-left: 0;
+}
+/* Modern/Gradient/Glassmorphism Styles for Modern Course Details */
+
+/* Use a neutral, light background to match the rest of the site */
+.modern-gradient-bg {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+.modern-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 3rem 1.5rem 3rem;
+  background: transparent;
+  border-bottom: none;
+}
+
+.glass-effect {
+  background: rgba(255,255,255,0.85);
+  box-shadow: 0 2px 8px 0 rgba(60, 72, 88, 0.07);
+  backdrop-filter: blur(6px);
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+}
+
+.header-title-group {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.course-code-pill, .vibrant-pill {
+  background: #4a90e2;
+  color: #fff;
+  padding: 0.5rem 1.2rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 8px rgba(74,144,226,0.10);
+  letter-spacing: 1px;
+  display: inline-block;
+}
+
+.gradient-text {
+  color: #212529;
+}
+
+.accent-text {
+  color: #4a90e2;
+}
+
+.shadow-card {
+  box-shadow: 0 2px 8px 0 rgba(60, 72, 88, 0.07);
+  background: #fff;
+  border-radius: 14px;
+  padding: 2rem 1.5rem;
+}
+
+.responsive-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 2.5rem;
+  margin: 2rem 3rem 0 3rem;
+}
+
+.course-hero-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
+  min-width: 0;
+}
+
+.hero-gradient-circle {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  background: #e2e8f0;
+  color: #4a90e2;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(74,144,226,0.10);
+}
+
+.large-text {
+  font-size: 1.18rem;
+  line-height: 1.7;
+}
+
+.meta-flex {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.info-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.info-card-modern {
+  border-left: 5px solid #4a90e2;
+  border-radius: 14px;
+  padding: 1.5rem 1.2rem;
+  background: rgba(255,255,255,0.85);
+  box-shadow: 0 2px 8px rgba(74,144,226,0.07);
+}
+
+.syllabus-outcomes-flex {
+  display: flex;
+  gap: 2.5rem;
+  margin: 2.5rem auto 0 auto;
+  align-items: stretch;
+  height: 100%;
+  width: 100%;
+  /* max-width: 1400px; */
+  padding: 2.5rem;
+  box-sizing: border-box;
+}
+
+.syllabus-section-modern {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 50%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-self: stretch;
+  box-sizing: border-box;
+}
+
+.outcomes-section-modern {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 50%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-self: stretch;
+  box-sizing: border-box;
+}
+@media (max-width: 1100px) {
+  .syllabus-outcomes-flex {
+    flex-direction: column;
+    margin: 1.5rem;
+    max-width: 100%;
+    width: 100%;
+  }
+  .syllabus-section-modern, .outcomes-section-modern {
+    max-width: 100%;
+    width: 100%;
+    flex: 1 1 100%;
+  }
+}
+/* Ensure both sections fill the same height */
+.syllabus-section-modern > .syllabus-timeline-modern,
+.outcomes-section-modern > .outcomes-list-modern {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.bold-text {
+  font-weight: 700;
+}
+
+.outcomes-list-modern {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.outcome-item-modern {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
+  border-left: 5px solid #4a90e2;
+}
+
+.outcome-number-modern {
+  width: 2.2rem;
+  height: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #4a90e2;
+  color: #fff;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.assessment-textbooks-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  margin: 2.5rem 3rem 2.5rem 3rem;
+}
+
+.assessment-section-modern, .textbooks-section-modern {
+  border-radius: 18px;
+  padding: 2rem 1.5rem;
+}
+
+.assessment-grid-modern {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.assessment-card-modern {
+  background: #4a90e2;
+  color: #fff;
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(74,144,226,0.10);
+}
+
+.percentage-modern {
+  font-size: 1.2rem;
+  font-weight: 700;
+  background: #fff;
+  color: #4a90e2;
+  padding: 0.3rem 1rem;
+  border-radius: 999px;
+  margin-left: 1rem;
+}
+
+.textbooks-list-modern {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.textbook-item-modern {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
+  border-left: 5px solid #4a90e2;
+}
+
+.book-icon-modern {
+  font-size: 2.2rem;
+  background: #e2e8f0;
+  color: #4a90e2;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.book-info-modern {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.book-title.bold-text {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #4a90e2;
+}
+
+.book-type-modern {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 0.2rem;
+}
+
+.book-type-modern.primary {
+  background: #e2e8f0;
+  color: #4a90e2;
+}
+.book-type-modern.reference {
+  background: #f8fafc;
+  color: #212529;
+}
+
+/* Responsive for modern layout */
+@media (max-width: 1100px) {
+  .responsive-grid, .syllabus-outcomes-flex, .assessment-textbooks-grid {
+    grid-template-columns: 1fr;
+    flex-direction: column !important;
+    gap: 1.5rem;
+    margin: 1.5rem;
+  }
+  .syllabus-outcomes-flex {
+    flex-direction: column;
+  }
+}
+@media (max-width: 700px) {
+  .modern-header-bar {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.2rem 1rem 1rem 1rem;
+  }
+  .responsive-grid, .syllabus-outcomes-flex, .assessment-textbooks-grid {
+    margin: 0.5rem !important;
+    gap: 1rem;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  .syllabus-section-modern, .outcomes-section-modern {
+    max-width: 100% !important;
+    width: 100% !important;
+    flex: 1 1 100% !important;
+  }
+  .shadow-card, .glass-effect {
+    padding: 1rem 0.7rem;
+  }
+}
 /* Course Details Page Styles */
 .course-details-page {
   min-height: 100vh;

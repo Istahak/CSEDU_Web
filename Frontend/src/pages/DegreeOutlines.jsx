@@ -15,6 +15,13 @@ const degreeOutlines = [
     description: "The Master of Science in Computer Science and Engineering program provides advanced knowledge and skills in specialized areas of computer science.",
     status: "Available",
     image: "🎓"
+  },
+  {
+    id: 3,
+    title: "International Program in Computer Science and Engineering",
+    description: "The International Program in Computer Science and Engineering is designed for international students seeking quality education in computer science.",
+    status: "Available",
+    image: "🌍"
   }
 ];
 

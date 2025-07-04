@@ -3,18 +3,16 @@ import "./Directory.css";
 
 const Directory = ({ onFacultySelect }) => {
   const [selectedRole, setSelectedRole] = useState("All");
-  const [selectedDepartment, setSelectedDepartment] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
   // Clear all filters function
   const clearAllFilters = () => {
     setSelectedRole("All");
-    setSelectedDepartment("All");
     setSearchQuery("");
   };
 
   // Check if any filters are active
-  const hasActiveFilters = selectedRole !== "All" || selectedDepartment !== "All" || searchQuery.trim() !== "";
+  const hasActiveFilters = selectedRole !== "All" || searchQuery.trim() !== "";
 
   // Sample faculty data
   const facultyMembers = [
@@ -22,79 +20,60 @@ const Directory = ({ onFacultySelect }) => {
       id: 1,
       name: "Dr. Abdul Razzaque",
       role: "Faculty",
-      department: "Artificial Intelligence",
-      specialization: "Machine Learning",
-      status: "online"
+      specialization: ["Machine Learning", "Distributed Systems"]
     },
     {
       id: 2,
       name: "Dr. Mosaddek Khan",
       role: "Faculty",
-      department: "Networking",
-      specialization: "Machine Learning",
-      status: "online"
+      specialization: ["Machine Learning", "Networking"]
     },
     {
       id: 3,
       name: "Dr. Farhan Ahmed",
       role: "Faculty",
-      department: "Data Mining",
-      specialization: "Machine Learning",
-      status: "online"
+      specialization: ["Machine Learning", "Data Mining"]
     },
     {
       id: 4,
       name: "Dr. Mosaddek Khan",
       role: "Professor",
-      department: "Artificial Intelligence",
-      specialization: "Multi Agent Systems",
-      status: "online"
+      specialization: ["Multi Agent Systems", "Artificial Intelligence"]
     },
     {
       id: 5,
       name: "Dr. Mosaddek Khan",
       role: "Professor",
-      department: "Software Engineering",
-      specialization: "Multi Agent Systems",
-      status: "online"
+      specialization: ["Multi Agent Systems", "Software Engineering"]
     },
     {
       id: 6,
       name: "Dr. Mosaddek Khan",
       role: "Professor",
-      department: "Artificial Intelligence",
-      specialization: "Multi Agent Systems",
-      status: "online"
+      specialization: ["Multi Agent Systems"]
     },
     {
       id: 7,
       name: "Dr. Mosaddek Khan",
       role: "Professor",
-      department: "Artificial Intelligence",
-      specialization: "Multi Agent Systems",
-      status: "online"
+      specialization: ["Multi Agent Systems"]
     },
     {
       id: 8,
       name: "Dr. Mosaddek Khan",
       role: "Professor",
-      department: "Software Engineering",
-      specialization: "Multi Agent Systems",
-      status: "online"
+      specialization: ["Multi Agent Systems"]
     },
     {
       id: 9,
       name: "Dr. Mosaddek Khan",
       role: "Professor",
-      department: "Artificial Intelligence",
-      specialization: "Multi Agent Systems",
-      status: "online"
+      specialization: ["Multi Agent Systems"]
     }
   ];
 
   const filteredMembers = facultyMembers.filter(member => {
     const matchesRole = selectedRole === "All" || member.role === selectedRole;
-    const matchesDepartment = selectedDepartment === "All" || member.department === selectedDepartment;
     
     // Search only by name with prefix matching
     const searchTerm = searchQuery.toLowerCase().trim();
@@ -103,7 +82,7 @@ const Directory = ({ onFacultySelect }) => {
                            word.startsWith(searchTerm)
                          );
     
-    return matchesRole && matchesDepartment && matchesSearch;
+    return matchesRole && matchesSearch;
   });
 
   return (
@@ -156,22 +135,6 @@ const Directory = ({ onFacultySelect }) => {
             </select>
           </div>
 
-          <div className="filter-group">
-            <label className="filter-label">Department</label>
-            <select 
-              value={selectedDepartment} 
-              onChange={(e) => setSelectedDepartment(e.target.value)}
-              className="filter-select"
-            >
-              <option value="All">All Departments</option>
-              <option value="Artificial Intelligence">Artificial Intelligence</option>
-              <option value="Machine Learning">Machine Learning</option>
-              <option value="Software Engineering">Software Engineering</option>
-              <option value="Networking">Networking</option>
-              <option value="Data Mining">Data Mining</option>
-            </select>
-          </div>
-
           {hasActiveFilters && (
             <div className="filter-group">
               <label className="filter-label">&nbsp;</label>
@@ -193,20 +156,22 @@ const Directory = ({ onFacultySelect }) => {
             <div 
               key={member.id} 
               className="faculty-card"
-              onClick={() => onFacultySelect && onFacultySelect(member)}
+              onClick={() => onFacultySelect && onFacultySelect(member.id)}
             >
-              <div className="faculty-avatar">
-                <div className="avatar-placeholder">👤</div>
-                <div className={`status-indicator ${member.status.toLowerCase()}`}></div>
-              </div>
-              <div className="faculty-info">
-                <h3 className="faculty-name">{member.name}</h3>
-                <div className="faculty-role-badge">{member.role}</div>
-                <div className="faculty-details">
-                  <p className="faculty-department">{member.department}</p>
-                  <p className="faculty-specialization">{member.specialization}</p>
-                </div>
-              </div>
+              <ul className="faculty-info-list">
+                <li className="faculty-avatar">
+                  <div className="avatar-placeholder">👤</div>
+                </li>
+                <li className="faculty-name"><strong>Name:</strong> {member.name}</li>
+                <li className="faculty-role-badge"><strong>Role:</strong> {member.role}</li>
+                <li className="faculty-specializations"><strong>Specializations:</strong>
+                  <ul style={{ margin: 0, paddingLeft: 18 }}>
+                    {member.specialization.map((spec, idx) => (
+                      <li key={idx} className="faculty-specialization">{spec}</li>
+                    ))}
+                  </ul>
+                </li>
+              </ul>
             </div>
           ))
         ) : (
