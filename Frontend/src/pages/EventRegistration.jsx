@@ -61,15 +61,10 @@ const EventRegistration = ({ event, onBack, onRegisterComplete }) => {
     }
 
     // Complete registration
-    alert(
-      `Registration successful for ${event?.title}! ${
-        isPaidEvent ? "Payment will be processed." : ""
-      }`
-    );
     setIsSubmitting(false);
 
     if (onRegisterComplete) {
-      onRegisterComplete();
+      onRegisterComplete(formData);
     }
   };
 
@@ -80,11 +75,10 @@ const EventRegistration = ({ event, onBack, onRegisterComplete }) => {
     // Simulate payment processing
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    alert(`Payment successful! You are now registered for ${event?.title}.`);
     setIsSubmitting(false);
 
     if (onRegisterComplete) {
-      onRegisterComplete();
+      onRegisterComplete(formData);
     }
   };
 

@@ -19,9 +19,14 @@ import AcademicCalendar from "./pages/AcademicCalendar";
 import AcademicCalendarView from "./pages/AcademicCalendarView";
 import ExamSchedule from "./pages/ExamSchedule";
 import Notices from "./pages/Notices";
+import NoticeDetails from "./pages/NoticeDetails";
 import Events from "./pages/Events";
 import EventRegistration from "./pages/EventRegistration";
+import EventRegistrationSuccess from "./pages/EventRegistrationSuccess";
 import Contact from "./pages/Contact";
+import Achievements from "./pages/Achievements";
+import LabBooking from "./pages/LabBooking";
+import LabBookingSuccess from "./pages/LabBookingSuccess";
 import Signup from "./pages/Signup";
 import "./styles/App.css";
 
@@ -29,7 +34,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState("home");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userRole, setUserRole] = useState(null);
-  
+
   // Scroll to top whenever the page changes
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -39,6 +44,9 @@ function App() {
   const [selectedProgram, setSelectedProgram] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [selectedNotice, setSelectedNotice] = useState(null);
+  const [registrationData, setRegistrationData] = useState(null);
+  const [bookingData, setBookingData] = useState(null);
   const [userData, setUserData] = useState({
     name: "Istahak Islam",
     studentId: "CSE-2020-2021",
@@ -67,9 +75,9 @@ function App() {
   if (!isAuthenticated && currentPage === "login") {
     return (
       <>
-        <Header 
-          currentPage={currentPage} 
-          setCurrentPage={setCurrentPage} 
+        <Header
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
           userRole={userRole}
           isAuthenticated={isAuthenticated}
           onLogout={handleLogout}
@@ -82,14 +90,14 @@ function App() {
   if (!isAuthenticated && currentPage === "signup") {
     return (
       <>
-        <Header 
-          currentPage={currentPage} 
-          setCurrentPage={setCurrentPage} 
+        <Header
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
           userRole={userRole}
           isAuthenticated={isAuthenticated}
           onLogout={handleLogout}
         />
-        <Signup 
+        <Signup
           onSignup={() => setCurrentPage("login")}
           onBack={() => setCurrentPage("login")}
         />
@@ -137,7 +145,7 @@ function App() {
         );
       case "degree-outlines":
         return (
-          <DegreeOutlines 
+          <DegreeOutlines
             onProgramSelect={(program) => {
               setSelectedProgram(program);
               setCurrentPage("program-details");
@@ -146,7 +154,7 @@ function App() {
         );
       case "course-list":
         return (
-          <CourseList 
+          <CourseList
             onCourseSelect={(course) => {
               setSelectedCourse(course);
               setCurrentPage("course-details");
@@ -200,7 +208,7 @@ function App() {
       }
       case "projects":
         return (
-          <Projects 
+          <Projects
             onProjectSelect={(project) => {
               setSelectedProject(project);
               setCurrentPage("project-details");
@@ -209,7 +217,7 @@ function App() {
         );
       case "project-details":
         return (
-          <ProjectDetails 
+          <ProjectDetails
             project={selectedProject}
             onBack={() => {
               setCurrentPage("projects");
@@ -249,7 +257,25 @@ function App() {
           <ExamSchedule onBack={() => setCurrentPage("academic-calendar")} />
         );
       case "notices":
-        return <Notices onBack={() => setCurrentPage("home")} />;
+        return (
+          <Notices
+            onBack={() => setCurrentPage("home")}
+            onNoticeSelect={(notice) => {
+              setSelectedNotice(notice);
+              setCurrentPage("notice-details");
+            }}
+          />
+        );
+      case "notice-details":
+        return (
+          <NoticeDetails
+            notice={selectedNotice}
+            onBack={() => {
+              setCurrentPage("notices");
+              setSelectedNotice(null);
+            }}
+          />
+        );
       case "events":
         return (
           <Events
@@ -268,14 +294,48 @@ function App() {
               setCurrentPage("events");
               setSelectedEvent(null);
             }}
-            onRegisterComplete={() => {
+            onRegisterComplete={(formData) => {
+              setRegistrationData(formData);
+              setCurrentPage("event-registration-success");
+            }}
+          />
+        );
+      case "event-registration-success":
+        return (
+          <EventRegistrationSuccess
+            event={selectedEvent}
+            registrationData={registrationData}
+            onBackToEvents={() => {
               setCurrentPage("events");
               setSelectedEvent(null);
+              setRegistrationData(null);
             }}
           />
         );
       case "contact":
         return <Contact onBack={() => setCurrentPage("home")} />;
+      case "achievements":
+        return <Achievements onBack={() => setCurrentPage("home")} />;
+      case "lab-booking":
+        return (
+          <LabBooking
+            onBack={() => setCurrentPage("home")}
+            onBookingComplete={(formData) => {
+              setBookingData(formData);
+              setCurrentPage("lab-booking-success");
+            }}
+          />
+        );
+      case "lab-booking-success":
+        return (
+          <LabBookingSuccess
+            bookingData={bookingData}
+            onBackToBooking={() => {
+              setCurrentPage("lab-booking");
+              setBookingData(null);
+            }}
+          />
+        );
       default:
         return <Home setCurrentPage={setCurrentPage} />;
     }
@@ -283,9 +343,9 @@ function App() {
 
   return (
     <div className="app">
-      <Header 
-        currentPage={currentPage} 
-        setCurrentPage={setCurrentPage} 
+      <Header
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
         userRole={userRole}
         isAuthenticated={isAuthenticated}
         onLogout={handleLogout}

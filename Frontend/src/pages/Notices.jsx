@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Notices.css";
 
-const Notices = ({ onBack }) => {
+const Notices = ({ onBack, onNoticeSelect }) => {
   const [selectedNoticeType, setSelectedNoticeType] = useState("All");
   const [selectedYear, setSelectedYear] = useState("All");
   const [selectedMonth, setSelectedMonth] = useState("All");
@@ -59,20 +59,29 @@ const Notices = ({ onBack }) => {
     {
       id: 4,
       title: "Changes to Course Offerings for Spring 2024",
-      date: "October 15, 2023",
+      description:
+        "Important updates to course offerings for the Spring 2024 semester. Please review the changes and contact your academic advisor if you have any questions.",
+      date: "2023-10-15",
       type: "Academic",
+      status: "archived",
     },
     {
       id: 5,
       title: "Departmental Research Grant Applications Open",
-      date: "September 20, 2023",
+      description:
+        "Applications are now open for departmental research grants. Faculty and graduate students are encouraged to apply for funding opportunities.",
+      date: "2023-09-20",
       type: "Administrative",
+      status: "archived",
     },
     {
       id: 6,
       title: "Welcome Back Event for Students and Faculty",
-      date: "August 5, 2023",
+      description:
+        "Join us for our annual welcome back event featuring networking opportunities, refreshments, and updates from the department.",
+      date: "2023-08-05",
       type: "General",
+      status: "archived",
     },
   ];
 
@@ -178,7 +187,12 @@ const Notices = ({ onBack }) => {
                   <span className="notice-date">
                     {new Date(notice.date).toLocaleDateString()}
                   </span>
-                  <button className="read-more-btn">Read More</button>
+                  <button
+                    className="read-more-btn"
+                    onClick={() => onNoticeSelect(notice)}
+                  >
+                    Read More
+                  </button>
                 </div>
               </div>
             ))}
@@ -245,9 +259,16 @@ const Notices = ({ onBack }) => {
               <div key={notice.id} className="archive-notice-item">
                 <div className="archive-notice-content">
                   <h4 className="archive-notice-title">{notice.title}</h4>
-                  <span className="archive-notice-date">{notice.date}</span>
+                  <span className="archive-notice-date">
+                    {new Date(notice.date).toLocaleDateString()}
+                  </span>
                 </div>
-                <button className="view-btn">View</button>
+                <button
+                  className="view-btn"
+                  onClick={() => onNoticeSelect(notice)}
+                >
+                  View
+                </button>
               </div>
             ))}
           </div>

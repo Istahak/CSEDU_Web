@@ -1,7 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./Header.css";
 
-const Header = ({ currentPage, setCurrentPage, userRole, isAuthenticated, onLogout }) => {
+const Header = ({
+  currentPage,
+  setCurrentPage,
+  userRole,
+  isAuthenticated,
+  onLogout,
+}) => {
   const [openDropdown, setOpenDropdown] = useState(null); // null | 'academics' | 'resources'
   const dropdownRef = useRef(null);
   const timeoutRef = useRef(null);
@@ -70,17 +76,17 @@ const Header = ({ currentPage, setCurrentPage, userRole, isAuthenticated, onLogo
           </a>
           <div
             className="nav-dropdown"
-            onMouseEnter={() => handleDropdownMouseEnter('academics')}
+            onMouseEnter={() => handleDropdownMouseEnter("academics")}
             onMouseLeave={handleDropdownMouseLeave}
           >
             <a
               href="/degree-outlines"
-              className={`nav-link ${isNavActive('academics') ? 'active' : ''}`}
+              className={`nav-link ${isNavActive("academics") ? "active" : ""}`}
               onClick={(e) => handleNavClick("degree-outlines", e)}
             >
               Academics <span className="dropdown-arrow">▼</span>
             </a>
-            {openDropdown === 'academics' && (
+            {openDropdown === "academics" && (
               <div className="dropdown-menu">
                 <a
                   href="/degree-outlines"
@@ -120,16 +126,25 @@ const Header = ({ currentPage, setCurrentPage, userRole, isAuthenticated, onLogo
           >
             Events
           </a>
+          <a
+            href="/achievements"
+            className={`nav-link ${
+              currentPage === "achievements" ? "active" : ""
+            }`}
+            onClick={(e) => handleNavClick("achievements", e)}
+          >
+            Achievements
+          </a>
           <div
             className="nav-dropdown"
-            onMouseEnter={() => handleDropdownMouseEnter('resources')}
+            onMouseEnter={() => handleDropdownMouseEnter("resources")}
             onMouseLeave={handleDropdownMouseLeave}
           >
             <a href="/resources" className="nav-link">
               Resources
               <span className="dropdown-arrow">▼</span>
             </a>
-            {openDropdown === 'resources' && (
+            {openDropdown === "resources" && (
               <div className="dropdown-menu">
                 <a
                   href="/academic-calendar"
@@ -152,6 +167,13 @@ const Header = ({ currentPage, setCurrentPage, userRole, isAuthenticated, onLogo
                 >
                   Exam Schedule
                 </a>
+                <a
+                  href="/lab-booking"
+                  className="dropdown-item"
+                  onClick={(e) => handleNavClick("lab-booking", e)}
+                >
+                  Lab Equipment Booking
+                </a>
               </div>
             )}
           </div>
@@ -169,27 +191,59 @@ const Header = ({ currentPage, setCurrentPage, userRole, isAuthenticated, onLogo
                   <div className="user-avatar">👤</div>
                   <span className="user-role">{userRole}</span>
                 </div>
-                <button className="logout-btn" onClick={() => {
-                  if (typeof onLogout === 'function') onLogout();
-                }}
-                  style={{ minWidth: '80px', background: '#ffd6d6', color: '#a12a2a', border: 'none', borderRadius: '6px', padding: '0.5rem 1.2rem', fontWeight: 600, cursor: 'pointer' }}
+                <button
+                  className="logout-btn"
+                  onClick={() => {
+                    if (typeof onLogout === "function") onLogout();
+                  }}
+                  style={{
+                    minWidth: "80px",
+                    background: "#ffd6d6",
+                    color: "#a12a2a",
+                    border: "none",
+                    borderRadius: "6px",
+                    padding: "0.5rem 1.2rem",
+                    fontWeight: 600,
+                    cursor: "pointer",
+                  }}
                 >
                   Logout
                 </button>
               </>
             ) : (
-              <div className="auth-buttons" style={{ display: 'flex', gap: '0.5rem' }}>
+              <div
+                className="auth-buttons"
+                style={{ display: "flex", gap: "0.5rem" }}
+              >
                 <button
                   className="login-btn"
                   onClick={() => setCurrentPage("login")}
-                  style={{ minWidth: '80px', background: '#b6f5c6', color: '#205c2c', border: 'none', borderRadius: '6px', padding: '0.5rem 1.2rem', fontWeight: 600, cursor: 'pointer' }}
+                  style={{
+                    minWidth: "80px",
+                    background: "#b6f5c6",
+                    color: "#205c2c",
+                    border: "none",
+                    borderRadius: "6px",
+                    padding: "0.5rem 1.2rem",
+                    fontWeight: 600,
+                    cursor: "pointer",
+                  }}
                 >
                   Login
                 </button>
                 <button
                   className="signup-btn"
                   onClick={() => setCurrentPage("signup")}
-                  style={{ minWidth: '80px', background: '#b6f5c6', color: '#205c2c', border: 'none', borderRadius: '6px', padding: '0.5rem 1.2rem', fontWeight: 600, cursor: 'pointer' }}
+                  style={{
+                    minWidth: "80px",
+                    background: "#b6f5c6",
+                    color: "#205c2c",
+                    border: "none",
+                    borderRadius: "6px",
+                    padding: "0.5rem 1.2rem",
+                    fontWeight: 600,
+                    cursor: "pointer",
+                  }}
                 >
                   Sign up
                 </button>
