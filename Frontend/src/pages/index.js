@@ -15,6 +15,7 @@ export { default as NotFound } from "./NotFound";
 export { default as UserProfile } from "./UserProfile";
 export { default as TeacherProfile } from "./TeacherProfile";
 export { default as EditProfile } from "./EditProfile";
+export { default as TeacherEditProfile } from "./TeacherEditProfile";
 export { default as AcademicCalendar } from "./AcademicCalendar";
 export { default as AcademicCalendarView } from "./AcademicCalendarView";
 export { default as ExamSchedule } from "./ExamSchedule";

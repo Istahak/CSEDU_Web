@@ -1,0 +1,417 @@
+/* Teacher Edit Profile Page Styles */
+.teacher-edit-profile {
+  min-height: 100vh;
+  background-color: #f8f9fa !important;
+  padding: 2rem 0;
+}
+
+.edit-profile-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Header */
+.edit-profile-header {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.edit-profile-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  color: #4a90e2;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  transition: color 0.3s ease;
+}
+
+.back-button:hover {
+  color: #357abd;
+  text-decoration: underline;
+}
+
+.cancel-btn {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+  background: #5a6268;
+  transform: translateY(-2px);
+}
+
+.save-btn {
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.save-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+}
+
+.save-btn:disabled,
+.cancel-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Content */
+.edit-profile-content {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+/* Section Navigation */
+.section-nav {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+  position: sticky;
+  top: 2rem;
+}
+
+.nav-button {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 500;
+  color: #6c757d;
+  margin-bottom: 0.5rem;
+}
+
+.nav-button:hover {
+  background: #f8f9fa;
+  color: #4a90e2;
+}
+
+.nav-button.active {
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+  color: white;
+}
+
+.nav-button:last-child {
+  margin-bottom: 0;
+}
+
+.nav-icon {
+  font-size: 1.2rem;
+}
+
+/* Form Container */
+.form-container {
+  flex: 1;
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Section */
+.form-section h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #4a90e2;
+  padding-bottom: 0.5rem;
+}
+
+/* Form Grid */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.form-input {
+  padding: 0.875rem;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+  color: #2c3e50;
+}
+
+.form-input:focus {
+  border-color: #4a90e2;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.form-input:hover {
+  border-color: #dee2e6;
+}
+
+textarea.form-input {
+  resize: vertical;
+  min-height: 100px;
+}
+
+select.form-input {
+  cursor: pointer;
+}
+
+/* Required field indicator */
+.form-input:required {
+  border-left: 4px solid #4a90e2;
+}
+
+/* Form validation styles */
+.form-input:invalid {
+  border-color: #dc3545;
+}
+
+.form-input:valid {
+  border-color: #28a745;
+}
+
+/* Loading state */
+.form-container.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Success message */
+.success-message {
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Error message */
+.error-message {
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .edit-profile-content {
+    flex-direction: column;
+  }
+
+  .section-nav {
+    position: static;
+    min-width: auto;
+    width: 100%;
+  }
+
+  .section-nav {
+    display: flex;
+    overflow-x: auto;
+    padding: 1rem;
+  }
+
+  .nav-button {
+    white-space: nowrap;
+    min-width: 120px;
+    margin-bottom: 0;
+    margin-right: 0.5rem;
+  }
+
+  .nav-button:last-child {
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .teacher-edit-profile {
+    padding: 1rem 0;
+  }
+
+  .edit-profile-container {
+    padding: 0 0.5rem;
+  }
+
+  .edit-profile-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .edit-profile-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .header-actions {
+    justify-content: center;
+  }
+
+  .form-container {
+    padding: 1.5rem;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-section h3 {
+    font-size: 1.3rem;
+  }
+
+  .nav-button {
+    min-width: 100px;
+    padding: 0.75rem;
+  }
+
+  .nav-icon {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .edit-profile-header {
+    padding: 1.5rem;
+  }
+
+  .form-container {
+    padding: 1rem;
+  }
+
+  .form-grid {
+    gap: 1rem;
+  }
+
+  .form-input {
+    padding: 0.75rem;
+  }
+
+  .cancel-btn,
+  .save-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+
+  .section-nav {
+    padding: 0.75rem;
+  }
+
+  .nav-button {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  .teacher-edit-profile {
+    background: white;
+    padding: 0;
+  }
+
+  .edit-profile-header,
+  .section-nav {
+    display: none;
+  }
+
+  .form-container {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+
+  .form-input {
+    border: 1px solid #ccc;
+    background: white;
+  }
+}
+
+/* Dark mode support disabled to match project theme */
+/* @media (prefers-color-scheme: dark) {
+  .teacher-edit-profile {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+  }
+  
+  .edit-profile-header,
+  .section-nav,
+  .form-container {
+    background: #2d2d2d;
+    color: #e0e0e0;
+  }
+  
+  .form-input {
+    background: #3a3a3a;
+    border-color: #555;
+    color: #e0e0e0;
+  }
+  
+  .form-input:focus {
+    border-color: #e74c3c;
+  }
+} */

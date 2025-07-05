@@ -16,6 +16,7 @@ import ProjectDetails from "./pages/ProjectDetails";
 import UserProfile from "./pages/UserProfile";
 import TeacherProfile from "./pages/TeacherProfile";
 import EditProfile from "./pages/EditProfile";
+import TeacherEditProfile from "./pages/TeacherEditProfile";
 import AcademicCalendar from "./pages/AcademicCalendar";
 import AcademicCalendarView from "./pages/AcademicCalendarView";
 import ExamSchedule from "./pages/ExamSchedule";
@@ -73,7 +74,8 @@ function App() {
     joiningDate: "January 15, 2018",
     education: "PhD in Computer Science, Stanford University",
     experience: "8 years",
-    researchInterests: "Deep Learning, Natural Language Processing, Computer Vision",
+    researchInterests:
+      "Deep Learning, Natural Language Processing, Computer Vision",
   });
 
   const handleLogin = (role) => {
@@ -143,10 +145,14 @@ function App() {
       case "faculty-profile":
         return (
           <FacultyProfile
-            faculty={selectedFaculty}
+            id={selectedFaculty}
             onBack={() => {
               setCurrentPage("directory");
               setSelectedFaculty(null);
+            }}
+            onCourseSelect={(course) => {
+              setSelectedCourse(course);
+              setCurrentPage("course-details");
             }}
           />
         );
@@ -204,14 +210,28 @@ function App() {
             }}
           />
         );
-      case "admissions-info":
+      case "admissions-info": {
+        // Determine programId based on selected program
+        let programId = "undergraduate";
+        if (selectedProgram && selectedProgram.title) {
+          const title = selectedProgram.title.toLowerCase();
+          if (title.includes("master")) {
+            programId = "graduate";
+          } else if (title.includes("international")) {
+            programId = "international";
+          } else {
+            programId = "undergraduate";
+          }
+        }
         return (
           <AdmissionsInfo
+            programId={programId}
             onBack={() => {
               setCurrentPage("program-details");
             }}
           />
         );
+      }
       case "projects":
         return (
           <Projects
@@ -244,14 +264,29 @@ function App() {
           <TeacherProfile
             teacherData={teacherData}
             onBack={() => setCurrentPage("home")}
-            onEditProfile={() => setCurrentPage("edit-profile")}
+            onEditProfile={() => setCurrentPage("teacher-edit-profile")}
+          />
+        );
+      case "teacher-edit-profile":
+        return (
+          <TeacherEditProfile
+            teacherData={teacherData}
+            onBack={() => setCurrentPage("teacher-profile")}
+            onSave={(updatedData) => {
+              setTeacherData(updatedData);
+              setCurrentPage("teacher-profile");
+            }}
           />
         );
       case "edit-profile":
         return (
           <EditProfile
             userData={userRole === "faculty" ? teacherData : userData}
-            onBack={() => setCurrentPage(userRole === "faculty" ? "teacher-profile" : "user-profile")}
+            onBack={() =>
+              setCurrentPage(
+                userRole === "faculty" ? "teacher-profile" : "user-profile"
+              )
+            }
             onSave={(updatedData) => {
               if (userRole === "faculty") {
                 setTeacherData(updatedData);

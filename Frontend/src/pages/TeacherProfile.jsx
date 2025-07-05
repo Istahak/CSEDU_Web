@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import "./TeacherProfile.css";
 
-const TeacherProfile = ({ onBack, teacherData: propTeacherData, onEditProfile }) => {
+const TeacherProfile = ({
+  onBack,
+  teacherData: propTeacherData,
+  onEditProfile,
+}) => {
   const [activeTab, setActiveTab] = useState("overview");
 
   const teacherData = propTeacherData || {
@@ -17,7 +21,8 @@ const TeacherProfile = ({ onBack, teacherData: propTeacherData, onEditProfile })
     joiningDate: "January 15, 2018",
     education: "PhD in Computer Science, Stanford University",
     experience: "8 years",
-    researchInterests: "Deep Learning, Natural Language Processing, Computer Vision",
+    researchInterests:
+      "Deep Learning, Natural Language Processing, Computer Vision",
   };
 
   const renderTabContent = () => {
@@ -95,12 +100,23 @@ const TeacherProfile = ({ onBack, teacherData: propTeacherData, onEditProfile })
                     <h4>CSE 408 - Software Development</h4>
                     <span className="course-code">Section A</span>
                   </div>
-                  <p><strong>Schedule:</strong> Sunday, Tuesday - 10:00 AM - 11:30 AM</p>
-                  <p><strong>Students Enrolled:</strong> 45</p>
-                  <p><strong>Room:</strong> Room 301</p>
+                  <p>
+                    <strong>Schedule:</strong> Sunday, Tuesday - 10:00 AM -
+                    11:30 AM
+                  </p>
+                  <p>
+                    <strong>Students Enrolled:</strong> 45
+                  </p>
+                  <p>
+                    <strong>Room:</strong> Room 301
+                  </p>
                   <div className="course-actions">
-                    <button className="action-btn primary">View Students</button>
-                    <button className="action-btn secondary">Manage Grades</button>
+                    <button className="action-btn primary">
+                      View Students
+                    </button>
+                    <button className="action-btn secondary">
+                      Manage Grades
+                    </button>
                     <button className="action-btn secondary">Attendance</button>
                   </div>
                 </div>
@@ -109,12 +125,23 @@ const TeacherProfile = ({ onBack, teacherData: propTeacherData, onEditProfile })
                     <h4>CSE 412 - Machine Learning</h4>
                     <span className="course-code">Section B</span>
                   </div>
-                  <p><strong>Schedule:</strong> Monday, Wednesday - 2:00 PM - 3:30 PM</p>
-                  <p><strong>Students Enrolled:</strong> 38</p>
-                  <p><strong>Room:</strong> Room 205</p>
+                  <p>
+                    <strong>Schedule:</strong> Monday, Wednesday - 2:00 PM -
+                    3:30 PM
+                  </p>
+                  <p>
+                    <strong>Students Enrolled:</strong> 38
+                  </p>
+                  <p>
+                    <strong>Room:</strong> Room 205
+                  </p>
                   <div className="course-actions">
-                    <button className="action-btn primary">View Students</button>
-                    <button className="action-btn secondary">Manage Grades</button>
+                    <button className="action-btn primary">
+                      View Students
+                    </button>
+                    <button className="action-btn secondary">
+                      Manage Grades
+                    </button>
                     <button className="action-btn secondary">Attendance</button>
                   </div>
                 </div>
@@ -123,11 +150,19 @@ const TeacherProfile = ({ onBack, teacherData: propTeacherData, onEditProfile })
                     <h4>CSE 498 - Thesis Supervision</h4>
                     <span className="course-code">Research</span>
                   </div>
-                  <p><strong>Students Supervised:</strong> 8</p>
-                  <p><strong>Meeting Schedule:</strong> By Appointment</p>
+                  <p>
+                    <strong>Students Supervised:</strong> 8
+                  </p>
+                  <p>
+                    <strong>Meeting Schedule:</strong> By Appointment
+                  </p>
                   <div className="course-actions">
-                    <button className="action-btn primary">View Students</button>
-                    <button className="action-btn secondary">Progress Reports</button>
+                    <button className="action-btn primary">
+                      View Students
+                    </button>
+                    <button className="action-btn secondary">
+                      Progress Reports
+                    </button>
                   </div>
                 </div>
               </div>
@@ -139,22 +174,40 @@ const TeacherProfile = ({ onBack, teacherData: propTeacherData, onEditProfile })
           <div className="tab-content">
             <div className="research-section">
               <h3>Research Activities</h3>
-              
+
               <div className="research-subsection">
                 <h4>Current Research Projects</h4>
                 <div className="research-list">
                   <div className="research-item">
                     <h5>Deep Learning for Medical Image Analysis</h5>
-                    <p><strong>Funding:</strong> NSF Grant - $125,000</p>
-                    <p><strong>Duration:</strong> January 2023 - December 2025</p>
-                    <p><strong>Collaborators:</strong> Dr. John Smith (Medical College), Dr. Jane Doe (Engineering Dept)</p>
-                    <p><strong>Status:</strong> <span className="status-active">Active</span></p>
+                    <p>
+                      <strong>Funding:</strong> NSF Grant - $125,000
+                    </p>
+                    <p>
+                      <strong>Duration:</strong> January 2023 - December 2025
+                    </p>
+                    <p>
+                      <strong>Collaborators:</strong> Dr. John Smith (Medical
+                      College), Dr. Jane Doe (Engineering Dept)
+                    </p>
+                    <p>
+                      <strong>Status:</strong>{" "}
+                      <span className="status-active">Active</span>
+                    </p>
                   </div>
                   <div className="research-item">
                     <h5>Natural Language Processing for Bengali Text</h5>
-                    <p><strong>Funding:</strong> University Research Grant - $50,000</p>
-                    <p><strong>Duration:</strong> March 2024 - February 2026</p>
-                    <p><strong>Status:</strong> <span className="status-active">Active</span></p>
+                    <p>
+                      <strong>Funding:</strong> University Research Grant -
+                      $50,000
+                    </p>
+                    <p>
+                      <strong>Duration:</strong> March 2024 - February 2026
+                    </p>
+                    <p>
+                      <strong>Status:</strong>{" "}
+                      <span className="status-active">Active</span>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -163,22 +216,45 @@ const TeacherProfile = ({ onBack, teacherData: propTeacherData, onEditProfile })
                 <h4>Recent Publications</h4>
                 <div className="publication-list">
                   <div className="publication-item">
-                    <h5>"Advanced Deep Learning Techniques for Medical Diagnosis"</h5>
-                    <p><strong>Journal:</strong> IEEE Transactions on Medical Imaging</p>
-                    <p><strong>Year:</strong> 2024</p>
-                    <p><strong>Impact Factor:</strong> 8.5</p>
+                    <h5>
+                      "Advanced Deep Learning Techniques for Medical Diagnosis"
+                    </h5>
+                    <p>
+                      <strong>Journal:</strong> IEEE Transactions on Medical
+                      Imaging
+                    </p>
+                    <p>
+                      <strong>Year:</strong> 2024
+                    </p>
+                    <p>
+                      <strong>Impact Factor:</strong> 8.5
+                    </p>
                   </div>
                   <div className="publication-item">
-                    <h5>"Bengali Text Classification using Transformer Models"</h5>
-                    <p><strong>Conference:</strong> EMNLP 2023</p>
-                    <p><strong>Year:</strong> 2023</p>
-                    <p><strong>Citations:</strong> 23</p>
+                    <h5>
+                      "Bengali Text Classification using Transformer Models"
+                    </h5>
+                    <p>
+                      <strong>Conference:</strong> EMNLP 2023
+                    </p>
+                    <p>
+                      <strong>Year:</strong> 2023
+                    </p>
+                    <p>
+                      <strong>Citations:</strong> 23
+                    </p>
                   </div>
                   <div className="publication-item">
                     <h5>"Computer Vision Applications in Healthcare"</h5>
-                    <p><strong>Journal:</strong> Pattern Recognition Letters</p>
-                    <p><strong>Year:</strong> 2023</p>
-                    <p><strong>Impact Factor:</strong> 4.2</p>
+                    <p>
+                      <strong>Journal:</strong> Pattern Recognition Letters
+                    </p>
+                    <p>
+                      <strong>Year:</strong> 2023
+                    </p>
+                    <p>
+                      <strong>Impact Factor:</strong> 4.2
+                    </p>
                   </div>
                 </div>
               </div>
@@ -190,32 +266,54 @@ const TeacherProfile = ({ onBack, teacherData: propTeacherData, onEditProfile })
           <div className="tab-content">
             <div className="students-section">
               <h3>Student Management</h3>
-              
+
               <div className="students-subsection">
                 <h4>Thesis Students</h4>
                 <div className="student-list">
                   <div className="student-item">
                     <div className="student-info">
                       <h5>Mohammad Rahman</h5>
-                      <p><strong>Student ID:</strong> CSE-2020-1001</p>
-                      <p><strong>Thesis Topic:</strong> Machine Learning for Stock Price Prediction</p>
-                      <p><strong>Progress:</strong> 75%</p>
+                      <p>
+                        <strong>Student ID:</strong> CSE-2020-1001
+                      </p>
+                      <p>
+                        <strong>Thesis Topic:</strong> Machine Learning for
+                        Stock Price Prediction
+                      </p>
+                      <p>
+                        <strong>Progress:</strong> 75%
+                      </p>
                     </div>
                     <div className="student-actions">
-                      <button className="action-btn primary">View Progress</button>
-                      <button className="action-btn secondary">Schedule Meeting</button>
+                      <button className="action-btn primary">
+                        View Progress
+                      </button>
+                      <button className="action-btn secondary">
+                        Schedule Meeting
+                      </button>
                     </div>
                   </div>
                   <div className="student-item">
                     <div className="student-info">
                       <h5>Fatima Khan</h5>
-                      <p><strong>Student ID:</strong> CSE-2020-1015</p>
-                      <p><strong>Thesis Topic:</strong> Natural Language Processing for Bengali</p>
-                      <p><strong>Progress:</strong> 60%</p>
+                      <p>
+                        <strong>Student ID:</strong> CSE-2020-1015
+                      </p>
+                      <p>
+                        <strong>Thesis Topic:</strong> Natural Language
+                        Processing for Bengali
+                      </p>
+                      <p>
+                        <strong>Progress:</strong> 60%
+                      </p>
                     </div>
                     <div className="student-actions">
-                      <button className="action-btn primary">View Progress</button>
-                      <button className="action-btn secondary">Schedule Meeting</button>
+                      <button className="action-btn primary">
+                        View Progress
+                      </button>
+                      <button className="action-btn secondary">
+                        Schedule Meeting
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -227,13 +325,23 @@ const TeacherProfile = ({ onBack, teacherData: propTeacherData, onEditProfile })
                   <div className="student-item">
                     <div className="student-info">
                       <h5>Ahmed Hassan</h5>
-                      <p><strong>Student ID:</strong> CSE-2021-1025</p>
-                      <p><strong>Research Area:</strong> Deep Learning</p>
-                      <p><strong>Duration:</strong> 6 months</p>
+                      <p>
+                        <strong>Student ID:</strong> CSE-2021-1025
+                      </p>
+                      <p>
+                        <strong>Research Area:</strong> Deep Learning
+                      </p>
+                      <p>
+                        <strong>Duration:</strong> 6 months
+                      </p>
                     </div>
                     <div className="student-actions">
-                      <button className="action-btn primary">View Details</button>
-                      <button className="action-btn secondary">Assign Tasks</button>
+                      <button className="action-btn primary">
+                        View Details
+                      </button>
+                      <button className="action-btn secondary">
+                        Assign Tasks
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -255,7 +363,7 @@ const TeacherProfile = ({ onBack, teacherData: propTeacherData, onEditProfile })
                   <div className="day-slot">Wednesday</div>
                   <div className="day-slot">Thursday</div>
                 </div>
-                
+
                 <div className="schedule-row">
                   <div className="time-slot">9:00-10:30</div>
                   <div className="schedule-cell">
@@ -355,27 +463,50 @@ const TeacherProfile = ({ onBack, teacherData: propTeacherData, onEditProfile })
           <div className="tab-content">
             <div className="administrative-section">
               <h3>Administrative Duties</h3>
-              
+
               <div className="admin-subsection">
                 <h4>Committee Memberships</h4>
                 <div className="committee-list">
                   <div className="committee-item">
                     <h5>Curriculum Development Committee</h5>
-                    <p><strong>Role:</strong> Member</p>
-                    <p><strong>Responsibilities:</strong> Review and update course curricula, evaluate new course proposals</p>
-                    <p><strong>Meeting Schedule:</strong> First Wednesday of every month</p>
+                    <p>
+                      <strong>Role:</strong> Member
+                    </p>
+                    <p>
+                      <strong>Responsibilities:</strong> Review and update
+                      course curricula, evaluate new course proposals
+                    </p>
+                    <p>
+                      <strong>Meeting Schedule:</strong> First Wednesday of
+                      every month
+                    </p>
                   </div>
                   <div className="committee-item">
                     <h5>Admissions Committee</h5>
-                    <p><strong>Role:</strong> Co-Chair</p>
-                    <p><strong>Responsibilities:</strong> Review graduate applications, conduct interviews</p>
-                    <p><strong>Meeting Schedule:</strong> Bi-weekly during admission season</p>
+                    <p>
+                      <strong>Role:</strong> Co-Chair
+                    </p>
+                    <p>
+                      <strong>Responsibilities:</strong> Review graduate
+                      applications, conduct interviews
+                    </p>
+                    <p>
+                      <strong>Meeting Schedule:</strong> Bi-weekly during
+                      admission season
+                    </p>
                   </div>
                   <div className="committee-item">
                     <h5>Research Ethics Committee</h5>
-                    <p><strong>Role:</strong> Member</p>
-                    <p><strong>Responsibilities:</strong> Review research proposals for ethical compliance</p>
-                    <p><strong>Meeting Schedule:</strong> As needed</p>
+                    <p>
+                      <strong>Role:</strong> Member
+                    </p>
+                    <p>
+                      <strong>Responsibilities:</strong> Review research
+                      proposals for ethical compliance
+                    </p>
+                    <p>
+                      <strong>Meeting Schedule:</strong> As needed
+                    </p>
                   </div>
                 </div>
               </div>
@@ -386,8 +517,12 @@ const TeacherProfile = ({ onBack, teacherData: propTeacherData, onEditProfile })
                   <div className="task-item">
                     <div className="task-info">
                       <h5>Graduate Application Reviews</h5>
-                      <p><strong>Deadline:</strong> March 30, 2024</p>
-                      <p><strong>Progress:</strong> 15/25 applications reviewed</p>
+                      <p>
+                        <strong>Deadline:</strong> March 30, 2024
+                      </p>
+                      <p>
+                        <strong>Progress:</strong> 15/25 applications reviewed
+                      </p>
                     </div>
                     <div className="task-status">
                       <span className="status-progress">In Progress</span>
@@ -396,8 +531,12 @@ const TeacherProfile = ({ onBack, teacherData: propTeacherData, onEditProfile })
                   <div className="task-item">
                     <div className="task-info">
                       <h5>Course Curriculum Update - CSE 412</h5>
-                      <p><strong>Deadline:</strong> April 15, 2024</p>
-                      <p><strong>Status:</strong> Pending committee approval</p>
+                      <p>
+                        <strong>Deadline:</strong> April 15, 2024
+                      </p>
+                      <p>
+                        <strong>Status:</strong> Pending committee approval
+                      </p>
                     </div>
                     <div className="task-status">
                       <span className="status-pending">Pending</span>
@@ -406,12 +545,269 @@ const TeacherProfile = ({ onBack, teacherData: propTeacherData, onEditProfile })
                   <div className="task-item">
                     <div className="task-info">
                       <h5>Faculty Performance Evaluations</h5>
-                      <p><strong>Deadline:</strong> May 1, 2024</p>
-                      <p><strong>Status:</strong> Not started</p>
+                      <p>
+                        <strong>Deadline:</strong> May 1, 2024
+                      </p>
+                      <p>
+                        <strong>Status:</strong> Not started
+                      </p>
                     </div>
                     <div className="task-status">
                       <span className="status-todo">To Do</span>
                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      case "quick-actions":
+        return (
+          <div className="tab-content">
+            <div className="quick-actions-section">
+              <h3>Quick Actions</h3>
+              <p className="section-description">
+                Access frequently used teacher tools and functions
+              </p>
+
+              <div className="actions-grid">
+                <div className="action-category">
+                  <h4>📚 Course Management</h4>
+                  <div className="action-buttons">
+                    <button
+                      className="quick-action-btn"
+                      onClick={() => alert("Grade Assignment - Coming Soon!")}
+                    >
+                      <span className="btn-icon">📝</span>
+                      <span className="btn-text">
+                        <strong>Assign Grades</strong>
+                        <small>Grade student assignments and exams</small>
+                      </span>
+                    </button>
+                    <button
+                      className="quick-action-btn"
+                      onClick={() =>
+                        alert("Attendance Management - Coming Soon!")
+                      }
+                    >
+                      <span className="btn-icon">✅</span>
+                      <span className="btn-text">
+                        <strong>Mark Attendance</strong>
+                        <small>Record student attendance</small>
+                      </span>
+                    </button>
+                    <button
+                      className="quick-action-btn"
+                      onClick={() =>
+                        alert("Assignment Creation - Coming Soon!")
+                      }
+                    >
+                      <span className="btn-icon">📄</span>
+                      <span className="btn-text">
+                        <strong>Create Assignment</strong>
+                        <small>Create new assignments and projects</small>
+                      </span>
+                    </button>
+                    <button
+                      className="quick-action-btn"
+                      onClick={() => alert("Course Materials - Coming Soon!")}
+                    >
+                      <span className="btn-icon">📖</span>
+                      <span className="btn-text">
+                        <strong>Upload Materials</strong>
+                        <small>Add course materials and resources</small>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+
+                <div className="action-category">
+                  <h4>👥 Student Management</h4>
+                  <div className="action-buttons">
+                    <button
+                      className="quick-action-btn"
+                      onClick={() => alert("Student List - Coming Soon!")}
+                    >
+                      <span className="btn-icon">👨‍🎓</span>
+                      <span className="btn-text">
+                        <strong>View All Students</strong>
+                        <small>Manage enrolled students</small>
+                      </span>
+                    </button>
+                    <button
+                      className="quick-action-btn"
+                      onClick={() => alert("Grade Reports - Coming Soon!")}
+                    >
+                      <span className="btn-icon">📊</span>
+                      <span className="btn-text">
+                        <strong>Generate Reports</strong>
+                        <small>Create grade and progress reports</small>
+                      </span>
+                    </button>
+                    <button
+                      className="quick-action-btn"
+                      onClick={() =>
+                        alert("Student Communication - Coming Soon!")
+                      }
+                    >
+                      <span className="btn-icon">💬</span>
+                      <span className="btn-text">
+                        <strong>Send Messages</strong>
+                        <small>Communicate with students</small>
+                      </span>
+                    </button>
+                    <button
+                      className="quick-action-btn"
+                      onClick={() => alert("Meeting Scheduler - Coming Soon!")}
+                    >
+                      <span className="btn-icon">📅</span>
+                      <span className="btn-text">
+                        <strong>Schedule Meetings</strong>
+                        <small>Book consultation sessions</small>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+
+                <div className="action-category">
+                  <h4>🔬 Research & Academic</h4>
+                  <div className="action-buttons">
+                    <button
+                      className="quick-action-btn"
+                      onClick={() => alert("Research Proposal - Coming Soon!")}
+                    >
+                      <span className="btn-icon">🔍</span>
+                      <span className="btn-text">
+                        <strong>Submit Research Proposal</strong>
+                        <small>Submit new research proposals</small>
+                      </span>
+                    </button>
+                    <button
+                      className="quick-action-btn"
+                      onClick={() =>
+                        alert("Publication Manager - Coming Soon!")
+                      }
+                    >
+                      <span className="btn-icon">📑</span>
+                      <span className="btn-text">
+                        <strong>Manage Publications</strong>
+                        <small>Add and update publications</small>
+                      </span>
+                    </button>
+                    <button
+                      className="quick-action-btn"
+                      onClick={() =>
+                        alert("Conference Submissions - Coming Soon!")
+                      }
+                    >
+                      <span className="btn-icon">🎯</span>
+                      <span className="btn-text">
+                        <strong>Conference Submissions</strong>
+                        <small>Submit papers to conferences</small>
+                      </span>
+                    </button>
+                    <button
+                      className="quick-action-btn"
+                      onClick={() => alert("Grant Applications - Coming Soon!")}
+                    >
+                      <span className="btn-icon">💰</span>
+                      <span className="btn-text">
+                        <strong>Apply for Grants</strong>
+                        <small>Submit funding applications</small>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+
+                <div className="action-category">
+                  <h4>🏢 Administrative</h4>
+                  <div className="action-buttons">
+                    <button
+                      className="quick-action-btn"
+                      onClick={() => alert("Leave Request - Coming Soon!")}
+                    >
+                      <span className="btn-icon">🏖️</span>
+                      <span className="btn-text">
+                        <strong>Request Leave</strong>
+                        <small>Submit leave applications</small>
+                      </span>
+                    </button>
+                    <button
+                      className="quick-action-btn"
+                      onClick={() => alert("Expense Reports - Coming Soon!")}
+                    >
+                      <span className="btn-icon">💳</span>
+                      <span className="btn-text">
+                        <strong>Submit Expenses</strong>
+                        <small>Submit expense reports</small>
+                      </span>
+                    </button>
+                    <button
+                      className="quick-action-btn"
+                      onClick={() => alert("Committee Work - Coming Soon!")}
+                    >
+                      <span className="btn-icon">⚖️</span>
+                      <span className="btn-text">
+                        <strong>Committee Tasks</strong>
+                        <small>Manage committee responsibilities</small>
+                      </span>
+                    </button>
+                    <button
+                      className="quick-action-btn"
+                      onClick={() => alert("Resource Booking - Coming Soon!")}
+                    >
+                      <span className="btn-icon">🏛️</span>
+                      <span className="btn-text">
+                        <strong>Book Resources</strong>
+                        <small>Reserve rooms and equipment</small>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+
+                <div className="action-category">
+                  <h4>📋 Evaluation & Assessment</h4>
+                  <div className="action-buttons">
+                    <button
+                      className="quick-action-btn"
+                      onClick={() => alert("Create Exam - Coming Soon!")}
+                    >
+                      <span className="btn-icon">📝</span>
+                      <span className="btn-text">
+                        <strong>Create Exam</strong>
+                        <small>Design and schedule exams</small>
+                      </span>
+                    </button>
+                    <button
+                      className="quick-action-btn"
+                      onClick={() => alert("Grade Analysis - Coming Soon!")}
+                    >
+                      <span className="btn-icon">📈</span>
+                      <span className="btn-text">
+                        <strong>Grade Analytics</strong>
+                        <small>Analyze student performance</small>
+                      </span>
+                    </button>
+                    <button
+                      className="quick-action-btn"
+                      onClick={() => alert("Peer Review - Coming Soon!")}
+                    >
+                      <span className="btn-icon">🔄</span>
+                      <span className="btn-text">
+                        <strong>Peer Review</strong>
+                        <small>Review colleague submissions</small>
+                      </span>
+                    </button>
+                    <button
+                      className="quick-action-btn"
+                      onClick={() => alert("Thesis Evaluation - Coming Soon!")}
+                    >
+                      <span className="btn-icon">🎓</span>
+                      <span className="btn-text">
+                        <strong>Evaluate Thesis</strong>
+                        <small>Review and evaluate thesis work</small>
+                      </span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -463,9 +859,7 @@ const TeacherProfile = ({ onBack, teacherData: propTeacherData, onEditProfile })
               <button className="action-btn secondary">
                 📅 Schedule Meeting
               </button>
-              <button className="action-btn secondary">
-                📧 Send Message
-              </button>
+              <button className="action-btn secondary">📧 Send Message</button>
             </div>
           </div>
         </div>
@@ -503,17 +897,25 @@ const TeacherProfile = ({ onBack, teacherData: propTeacherData, onEditProfile })
             Schedule
           </button>
           <button
-            className={`nav-tab ${activeTab === "administrative" ? "active" : ""}`}
+            className={`nav-tab ${
+              activeTab === "administrative" ? "active" : ""
+            }`}
             onClick={() => setActiveTab("administrative")}
           >
             Administrative
           </button>
+          <button
+            className={`nav-tab ${
+              activeTab === "quick-actions" ? "active" : ""
+            }`}
+            onClick={() => setActiveTab("quick-actions")}
+          >
+            Quick Actions
+          </button>
         </div>
 
         {/* Profile Content */}
-        <div className="profile-content">
-          {renderTabContent()}
-        </div>
+        <div className="profile-content">{renderTabContent()}</div>
       </div>
     </div>
   );
