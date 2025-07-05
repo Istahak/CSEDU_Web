@@ -186,20 +186,10 @@ const Header = ({
               <>
                 <div
                   className="user-profile-header"
-                  onClick={() =>
-                    setCurrentPage(
-                      userRole === "faculty"
-                        ? "teacher-profile"
-                        : "user-profile"
-                    )
-                  }
+                  onClick={() => setCurrentPage(userRole === "faculty" ? "teacher-profile" : "user-profile")}
                 >
                   <div className="user-avatar">
-                    {userRole === "faculty"
-                      ? "👩‍🏫"
-                      : userRole === "student"
-                      ? "👨‍🎓"
-                      : "�️"}
+                    {userRole === "faculty" ? "👩‍🏫" : userRole === "student" ? "👨‍🎓" : "�️"}
                   </div>
                   <span className="user-role">{userRole}</span>
                 </div>
