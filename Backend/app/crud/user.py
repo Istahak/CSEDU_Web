@@ -1,74 +1,167 @@
-"""
-User CRUD operations
-"""
-from typing import Optional
+from typing import Optional, List
 from sqlalchemy.orm import Session
+
 from app.core.security import get_password_hash, verify_password
-from app.models.user import User
+from app.models.user import User, UserRole
 from app.schemas.user import UserCreate, UserUpdate
 
 
-def get_user(db: Session, user_id: int) -> Optional[User]:
-    """Get user by ID"""
-    return db.query(User).filter(User.id == user_id).first()
-
-
-def get_user_by_email(db: Session, email: str) -> Optional[User]:
-    """Get user by email"""
-    return db.query(User).filter(User.email == email).first()
-
-
-def get_users(db: Session, skip: int = 0, limit: int = 100):
-    """Get multiple users"""
-    return db.query(User).offset(skip).limit(limit).all()
-
-
-def create_user(db: Session, user: UserCreate) -> User:
-    """Create new user"""
-    hashed_password = get_password_hash(user.password)
-    db_user = User(
-        email=user.email,
-        full_name=user.full_name,
-        hashed_password=hashed_password,
-        is_active=user.is_active,
-    )
-    db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
-    return db_user
-
-
-def update_user(db: Session, user_id: int, user: UserUpdate) -> Optional[User]:
-    """Update user"""
-    db_user = get_user(db, user_id)
-    if db_user:
-        update_data = user.dict(exclude_unset=True)
-        if "password" in update_data:
+class UserCRUD:
+    """
+    CRUD operations for User model.
+    """
+    
+    @staticmethod
+    def get_by_id(db: Session, user_id: int) -> Optional[User]:
+        """
+        Get a user by ID.
+        
+        Args:
+            db: Database session
+            user_id: User ID
+            
+        Returns:
+            User object if found, None otherwise
+        """
+        return db.query(User).filter(User.id == user_id).first()
+    
+    @staticmethod
+    def get_by_email(db: Session, email: str) -> Optional[User]:
+        """
+        Get a user by email.
+        
+        Args:
+            db: Database session
+            email: User email
+            
+        Returns:
+            User object if found, None otherwise
+        """
+        return db.query(User).filter(User.email == email).first()
+    
+    @staticmethod
+    def get_by_username(db: Session, username: str) -> Optional[User]:
+        """
+        Get a user by username.
+        
+        Args:
+            db: Database session
+            username: Username
+            
+        Returns:
+            User object if found, None otherwise
+        """
+        return db.query(User).filter(User.username == username).first()
+    
+    @staticmethod
+    def get_all(db: Session, skip: int = 0, limit: int = 100) -> List[User]:
+        """
+        Get all users with pagination.
+        
+        Args:
+            db: Database session
+            skip: Number of records to skip
+            limit: Maximum number of records to return
+            
+        Returns:
+            List of User objects
+        """
+        return db.query(User).offset(skip).limit(limit).all()
+    
+    @staticmethod
+    def create(db: Session, user_in: UserCreate) -> User:
+        """
+        Create a new user.
+        
+        Args:
+            db: Database session
+            user_in: User creation data
+            
+        Returns:
+            Created User object
+        """
+        db_user = User(
+            email=user_in.email,
+            username=user_in.username,
+            hashed_password=get_password_hash(user_in.password),
+            full_name=user_in.full_name,
+            role=user_in.role
+        )
+        db.add(db_user)
+        db.commit()
+        db.refresh(db_user)
+        return db_user
+    
+    @staticmethod
+    def update(db: Session, db_user: User, user_in: UserUpdate) -> User:
+        """
+        Update a user.
+        
+        Args:
+            db: Database session
+            db_user: Existing user object
+            user_in: User update data
+            
+        Returns:
+            Updated User object
+        """
+        update_data = user_in.dict(exclude_unset=True)
+        
+        if "password" in update_data and update_data["password"]:
             update_data["hashed_password"] = get_password_hash(update_data.pop("password"))
         
         for field, value in update_data.items():
             setattr(db_user, field, value)
         
+        db.add(db_user)
         db.commit()
         db.refresh(db_user)
-    return db_user
-
-
-def delete_user(db: Session, user_id: int) -> bool:
-    """Delete user"""
-    db_user = get_user(db, user_id)
-    if db_user:
+        return db_user
+    
+    @staticmethod
+    def delete(db: Session, db_user: User) -> None:
+        """
+        Delete a user.
+        
+        Args:
+            db: Database session
+            db_user: User object to delete
+        """
         db.delete(db_user)
         db.commit()
-        return True
-    return False
+    
+    @staticmethod
+    def authenticate(db: Session, username: str, password: str) -> Optional[User]:
+        """
+        Authenticate a user.
+        
+        Args:
+            db: Database session
+            username: Username
+            password: Plain password
+            
+        Returns:
+            User object if authentication successful, None otherwise
+        """
+        user = UserCRUD.get_by_username(db, username)
+        if not user:
+            return None
+        if not verify_password(password, user.hashed_password):
+            return None
+        return user
+    
+    @staticmethod
+    def is_active(user: User) -> bool:
+        """
+        Check if a user is active.
+        
+        Args:
+            user: User object
+            
+        Returns:
+            True if user is active, False otherwise
+        """
+        return user.is_active
 
 
-def authenticate_user(db: Session, email: str, password: str) -> Optional[User]:
-    """Authenticate user"""
-    user = get_user_by_email(db, email)
-    if not user:
-        return None
-    if not verify_password(password, user.hashed_password):
-        return None
-    return user
+user_crud = UserCRUD()

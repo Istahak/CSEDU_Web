@@ -1,3 +1,1 @@
-"""
-CRUD package initialization
-"""
+from app.crud.user import user_crud
