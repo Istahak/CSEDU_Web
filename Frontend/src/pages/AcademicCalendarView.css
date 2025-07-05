@@ -54,25 +54,27 @@
 }
 
 .filter-select {
-  padding: 0.5rem 1rem;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  background: white;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  background-color: #fff;
   font-size: 0.9rem;
-  cursor: pointer;
+  color: #495057;
+  min-width: 150px;
+  outline: none;
+  transition: border-color 0.2s ease;
 }
 
 .filter-select:focus {
-  outline: none;
-  border-color: #4a90e2;
-  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+  border-color: #2c3e50;
 }
 
 /* Calendar Grid */
 .calendar-grid-container {
-  background: white;
+  background: #fff;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.07);
+  border: 1px solid #e9ecef;
   overflow: hidden;
   margin-bottom: 2rem;
 }
@@ -80,7 +82,8 @@
 .calendar-grid {
   display: grid;
   grid-template-columns: 100px repeat(7, 1fr) 100px 250px;
-  border: 1px solid #ddd;
+  border: 1px solid #e9ecef;
+  background: #fff;
 }
 
 /* Header Row */
@@ -92,12 +95,12 @@
 .day-header,
 .month-header,
 .holidays-header {
-  background: #4a90e2;
-  color: white;
+  background: #2c3e50;
+  color: #fff;
   padding: 0.75rem 0.5rem;
   font-weight: 600;
   text-align: center;
-  border-right: 1px solid #357abd;
+  border-right: 1px solid #dee2e6;
   font-size: 0.9rem;
 }
 
@@ -126,28 +129,31 @@
 .calendar-day {
   padding: 0.5rem;
   text-align: center;
-  border-right: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #e9ecef;
+  border-bottom: 1px solid #e9ecef;
   min-height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 500;
-  background: white;
+  background: #fff;
+  border-radius: 4px;
 }
 
-.month-cell {
+.month-cell,
+.holidays-cell {
   background: #f8f9fa;
   padding: 0.5rem;
   text-align: center;
-  border-right: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #e9ecef;
+  border-bottom: 1px solid #e9ecef;
   font-weight: 600;
   color: #666;
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 40px;
+  border-radius: 4px;
 }
 
 .holidays-cell {
@@ -221,10 +227,11 @@
 
 /* Legends Section */
 .legends-section {
-  background: white;
+  background: #fff;
   border-radius: 8px;
   padding: 2rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.07);
+  border: 1px solid #e9ecef;
 }
 
 .legends-title {
@@ -255,7 +262,7 @@
   width: 30px;
   height: 20px;
   border-radius: 4px;
-  border: 1px solid #ddd;
+  border: 1px solid #dee2e6;
   flex-shrink: 0;
 }
 

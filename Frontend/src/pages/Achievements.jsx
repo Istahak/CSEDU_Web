@@ -4,8 +4,10 @@ import "./Achievements.css";
 const Achievements = ({ onBack }) => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [expandedCard, setExpandedCard] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(6); // Show 6 achievements initially
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedYear, setSelectedYear] = useState("all");
+  const [yearFrom, setYearFrom] = useState("2023");
+  const [yearTo, setYearTo] = useState("2024");
 
   const categories = [
     { id: "all", name: "All Categories", icon: "🏆" },
@@ -16,9 +18,8 @@ const Achievements = ({ onBack }) => {
   ];
 
   const years = [
-    { id: "all", name: "All Years" },
-    { id: "2024", name: "2024" },
     { id: "2023", name: "2023" },
+    { id: "2024", name: "2024" },
   ];
 
   const achievements = [
@@ -139,17 +140,12 @@ const Achievements = ({ onBack }) => {
   const filteredAchievements = achievements.filter((achievement) => {
     const matchesCategory =
       selectedCategory === "all" || achievement.category === selectedCategory;
+    // Extract year from date string (assumes year is present in date string)
+    const achievementYear = achievement.date.match(/\d{4}/)?.[0];
     const matchesYear =
-      selectedYear === "all" || achievement.date.includes(selectedYear);
-    const matchesSearch =
-      searchTerm === "" ||
-      achievement.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      achievement.participant
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      achievement.description.toLowerCase().includes(searchTerm.toLowerCase());
-
-    return matchesCategory && matchesYear && matchesSearch;
+      (!yearFrom || !yearTo) ||
+      (achievementYear && achievementYear >= yearFrom && achievementYear <= yearTo);
+    return matchesCategory && matchesYear;
   });
 
   const handleViewMore = (id) => {
@@ -172,17 +168,17 @@ const Achievements = ({ onBack }) => {
     }
   };
 
+
+  // Show more handler
+  const handleShowMore = () => {
+    setVisibleCount((prev) => prev + 6);
+  };
+
   return (
     <div className="achievements-page">
       <div className="achievements-container">
-        {onBack && (
-          <button onClick={onBack} className="back-button">
-            ← Back
-          </button>
-        )}
-
         <div className="achievements-header">
-          <h1>Achievements & Excellence</h1>
+          <h1 className="achievements-title">Achievements & Excellence</h1>
           <p className="achievements-subtitle">
             Celebrating the outstanding accomplishments of our students,
             faculty, and department in academics, research, sports, and
@@ -190,50 +186,63 @@ const Achievements = ({ onBack }) => {
           </p>
         </div>
 
-        <div className="search-and-filters">
-          <div className="search-section">
-            <div className="search-input-container">
-              <input
-                type="text"
-                className="search-input"
-                placeholder="Search achievements, participants, or descriptions..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              <span className="search-icon">🔍</span>
-            </div>
-          </div>
-
-          <div className="year-filter">
+        <div className="filters-row">
+          <div className="filter-group">
+            <label className="filter-label">Category</label>
             <select
-              className="year-select"
-              value={selectedYear}
-              onChange={(e) => setSelectedYear(e.target.value)}
+              className="filter-select"
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
             >
-              {years.map((year) => (
-                <option key={year.id} value={year.id}>
-                  {year.name}
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
                 </option>
               ))}
             </select>
           </div>
-        </div>
-
-        <div className="category-filters">
-          {categories.map((category) => (
+          <div className="filter-group" style={{display: 'flex', flexDirection: 'row', gap: '0.5rem', alignItems: 'flex-end'}}>
+            <div style={{display: 'flex', flexDirection: 'column'}}>
+              <label className="filter-label">Year From</label>
+              <select
+                className="filter-select"
+                value={yearFrom}
+                onChange={e => setYearFrom(e.target.value)}
+              >
+                {years.map((year) => (
+                  <option key={year.id} value={year.id}>{year.name}</option>
+                ))}
+              </select>
+            </div>
+            <span style={{marginBottom: '0.5rem', color: '#6c757d'}}>to</span>
+            <div style={{display: 'flex', flexDirection: 'column'}}>
+              <label className="filter-label">Year To</label>
+              <select
+                className="filter-select"
+                value={yearTo}
+                onChange={e => setYearTo(e.target.value)}
+              >
+                {years.map((year) => (
+                  <option key={year.id} value={year.id}>{year.name}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+          {(selectedCategory !== "all" || yearFrom !== "2023" || yearTo !== "2024") && (
             <button
-              key={category.id}
-              className={`category-btn ${
-                selectedCategory === category.id ? "active" : ""
-              }`}
-              onClick={() => setSelectedCategory(category.id)}
+              className="clear-filters-button"
+              onClick={() => {
+                setSelectedCategory("all");
+                setYearFrom("2023");
+                setYearTo("2024");
+              }}
             >
-              <span className="category-icon">{category.icon}</span>
-              {category.name}
+              Clear Filters
             </button>
-          ))}
+          )}
         </div>
 
+        {/* Stats/Summary Cards */}
         <div className="achievements-stats">
           <div className="stat-item">
             <span className="stat-number">{achievements.length}</span>
@@ -241,89 +250,91 @@ const Achievements = ({ onBack }) => {
           </div>
           <div className="stat-item">
             <span className="stat-number">
-              {achievements.filter((a) => a.category === "programming").length}
+              {achievements.filter(a => a.category === 'programming').length}
             </span>
             <span className="stat-label">Programming Contests</span>
           </div>
           <div className="stat-item">
             <span className="stat-number">
-              {achievements.filter((a) => a.category === "sports").length}
+              {achievements.filter(a => a.category === 'sports').length}
             </span>
-            <span className="stat-label">Sports Awards</span>
+            <span className="stat-label">Sports Championships</span>
           </div>
           <div className="stat-item">
             <span className="stat-number">
-              {achievements.filter((a) => a.category === "research").length}
+              {achievements.filter(a => a.category === 'research').length}
             </span>
-            <span className="stat-label">Research Recognition</span>
+            <span className="stat-label">Research Awards</span>
+          </div>
+          <div className="stat-item">
+            <span className="stat-number">
+              {achievements.filter(a => a.category === 'academic').length}
+            </span>
+            <span className="stat-label">Academic Honors</span>
+          </div>
+          <div className="stat-item">
+            <span className="stat-number">
+              {achievements.filter(a => a.award.includes('Gold') || a.award.includes('1st') || a.award.includes('Champion')).length}
+            </span>
+            <span className="stat-label">Gold/Champion Awards</span>
           </div>
         </div>
 
         <div className="achievements-grid">
-          {filteredAchievements.map((achievement) => (
-            <div key={achievement.id} className="achievement-card">
-              <div className="achievement-image">
-                <img src={achievement.image} alt={achievement.title} />
-                <div className="achievement-category">
-                  <span className={`category-badge ${achievement.category}`}>
-                    {
-                      categories.find((c) => c.id === achievement.category)
-                        ?.icon
-                    }
-                    {
-                      categories.find((c) => c.id === achievement.category)
-                        ?.name
-                    }
+          {filteredAchievements.slice(0, visibleCount).map((achievement) => (
+            <div key={achievement.id} className="event-card">
+              <div className="event-header">
+                <div className="event-meta">
+                  <span className={`event-type ${achievement.category}`}>
+                    {categories.find((c) => c.id === achievement.category)?.name}
+                  </span>
+                  <span className="event-status">
+                    {achievement.award}
                   </span>
                 </div>
               </div>
-
-              <div className="achievement-content">
-                <h3 className="achievement-title">{achievement.title}</h3>
-                <div className="achievement-meta">
-                  <span className="participant">
-                    👤 {achievement.participant}
-                  </span>
-                  <span className="date">📅 {achievement.date}</span>
-                  <span className="location">📍 {achievement.location}</span>
+              <div className="event-content">
+                <div className="event-title">{achievement.title}</div>
+                <div className="event-description">{achievement.description}</div>
+                <div className="event-details-list">
+                  <div className="event-detail"><strong>Participant:</strong> {achievement.participant}</div>
+                  <div className="event-detail"><strong>Date:</strong> {achievement.date}</div>
+                  <div className="event-detail"><strong>Location:</strong> {achievement.location}</div>
                 </div>
-
-                <p className="achievement-description">
-                  {achievement.description}
-                </p>
-
-                {expandedCard === achievement.id && (
-                  <div className="achievement-details">
-                    <p>{achievement.details}</p>
-                    <div className="achievement-award">
-                      <span className="award-badge">
-                        🏆 {achievement.award}
-                      </span>
-                    </div>
-                  </div>
-                )}
-
-                <div className="achievement-actions">
-                  <button
-                    className="view-more-btn"
-                    onClick={() => handleViewMore(achievement.id)}
-                  >
-                    {expandedCard === achievement.id
-                      ? "View Less"
-                      : "View More"}
-                  </button>
-                  <button
-                    className="share-btn"
-                    onClick={() => handleShare(achievement)}
-                    title="Share this achievement"
-                  >
-                    📤 Share
-                  </button>
+                <div
+                  className={`event-expanded${expandedCard === achievement.id ? ' expanded' : ''}`}
+                  style={{
+                    maxHeight: expandedCard === achievement.id ? '500px' : '0',
+                    overflow: 'hidden',
+                    transition: 'max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s',
+                    opacity: expandedCard === achievement.id ? 1 : 0,
+                    marginTop: expandedCard === achievement.id ? '1rem' : '0',
+                  }}
+                >
+                  {expandedCard === achievement.id && (
+                    <p className="event-full-details">{achievement.details}</p>
+                  )}
                 </div>
+              </div>
+              <div className="event-footer">
+                <button
+                  className="view-more-btn"
+                  onClick={() => handleViewMore(achievement.id)}
+                >
+                  {expandedCard === achievement.id ? "View Less" : "View More"}
+                </button>
               </div>
             </div>
           ))}
         </div>
+
+        {filteredAchievements.length > visibleCount && (
+          <div style={{ display: 'flex', justifyContent: 'center', margin: '2rem 0' }}>
+            <button className="view-more-btn" onClick={handleShowMore}>
+              Show More Achievements ({filteredAchievements.length - visibleCount} more)
+            </button>
+          </div>
+        )}
 
         {filteredAchievements.length === 0 && (
           <div className="no-achievements">
