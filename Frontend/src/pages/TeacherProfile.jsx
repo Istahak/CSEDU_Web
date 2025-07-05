@@ -5,6 +5,7 @@ const TeacherProfile = ({
   onBack,
   teacherData: propTeacherData,
   onEditProfile,
+  onNavigate,
 }) => {
   const [activeTab, setActiveTab] = useState("overview");
 
@@ -576,7 +577,11 @@ const TeacherProfile = ({
                   <div className="action-buttons">
                     <button
                       className="quick-action-btn"
-                      onClick={() => alert("Grade Assignment - Coming Soon!")}
+                      onClick={() =>
+                        onNavigate
+                          ? onNavigate("grade-assignment")
+                          : alert("Grade Assignment - Coming Soon!")
+                      }
                     >
                       <span className="btn-icon">📝</span>
                       <span className="btn-text">
@@ -587,7 +592,9 @@ const TeacherProfile = ({
                     <button
                       className="quick-action-btn"
                       onClick={() =>
-                        alert("Attendance Management - Coming Soon!")
+                        onNavigate
+                          ? onNavigate("mark-attendance")
+                          : alert("Attendance Management - Coming Soon!")
                       }
                     >
                       <span className="btn-icon">✅</span>
@@ -599,7 +606,9 @@ const TeacherProfile = ({
                     <button
                       className="quick-action-btn"
                       onClick={() =>
-                        alert("Assignment Creation - Coming Soon!")
+                        onNavigate
+                          ? onNavigate("create-assignment")
+                          : alert("Assignment Creation - Coming Soon!")
                       }
                     >
                       <span className="btn-icon">📄</span>
@@ -610,202 +619,12 @@ const TeacherProfile = ({
                     </button>
                     <button
                       className="quick-action-btn"
-                      onClick={() => alert("Course Materials - Coming Soon!")}
+                      onClick={() => onNavigate("upload-materials")}
                     >
                       <span className="btn-icon">📖</span>
                       <span className="btn-text">
                         <strong>Upload Materials</strong>
                         <small>Add course materials and resources</small>
-                      </span>
-                    </button>
-                  </div>
-                </div>
-
-                <div className="action-category">
-                  <h4>👥 Student Management</h4>
-                  <div className="action-buttons">
-                    <button
-                      className="quick-action-btn"
-                      onClick={() => alert("Student List - Coming Soon!")}
-                    >
-                      <span className="btn-icon">👨‍🎓</span>
-                      <span className="btn-text">
-                        <strong>View All Students</strong>
-                        <small>Manage enrolled students</small>
-                      </span>
-                    </button>
-                    <button
-                      className="quick-action-btn"
-                      onClick={() => alert("Grade Reports - Coming Soon!")}
-                    >
-                      <span className="btn-icon">📊</span>
-                      <span className="btn-text">
-                        <strong>Generate Reports</strong>
-                        <small>Create grade and progress reports</small>
-                      </span>
-                    </button>
-                    <button
-                      className="quick-action-btn"
-                      onClick={() =>
-                        alert("Student Communication - Coming Soon!")
-                      }
-                    >
-                      <span className="btn-icon">💬</span>
-                      <span className="btn-text">
-                        <strong>Send Messages</strong>
-                        <small>Communicate with students</small>
-                      </span>
-                    </button>
-                    <button
-                      className="quick-action-btn"
-                      onClick={() => alert("Meeting Scheduler - Coming Soon!")}
-                    >
-                      <span className="btn-icon">📅</span>
-                      <span className="btn-text">
-                        <strong>Schedule Meetings</strong>
-                        <small>Book consultation sessions</small>
-                      </span>
-                    </button>
-                  </div>
-                </div>
-
-                <div className="action-category">
-                  <h4>🔬 Research & Academic</h4>
-                  <div className="action-buttons">
-                    <button
-                      className="quick-action-btn"
-                      onClick={() => alert("Research Proposal - Coming Soon!")}
-                    >
-                      <span className="btn-icon">🔍</span>
-                      <span className="btn-text">
-                        <strong>Submit Research Proposal</strong>
-                        <small>Submit new research proposals</small>
-                      </span>
-                    </button>
-                    <button
-                      className="quick-action-btn"
-                      onClick={() =>
-                        alert("Publication Manager - Coming Soon!")
-                      }
-                    >
-                      <span className="btn-icon">📑</span>
-                      <span className="btn-text">
-                        <strong>Manage Publications</strong>
-                        <small>Add and update publications</small>
-                      </span>
-                    </button>
-                    <button
-                      className="quick-action-btn"
-                      onClick={() =>
-                        alert("Conference Submissions - Coming Soon!")
-                      }
-                    >
-                      <span className="btn-icon">🎯</span>
-                      <span className="btn-text">
-                        <strong>Conference Submissions</strong>
-                        <small>Submit papers to conferences</small>
-                      </span>
-                    </button>
-                    <button
-                      className="quick-action-btn"
-                      onClick={() => alert("Grant Applications - Coming Soon!")}
-                    >
-                      <span className="btn-icon">💰</span>
-                      <span className="btn-text">
-                        <strong>Apply for Grants</strong>
-                        <small>Submit funding applications</small>
-                      </span>
-                    </button>
-                  </div>
-                </div>
-
-                <div className="action-category">
-                  <h4>🏢 Administrative</h4>
-                  <div className="action-buttons">
-                    <button
-                      className="quick-action-btn"
-                      onClick={() => alert("Leave Request - Coming Soon!")}
-                    >
-                      <span className="btn-icon">🏖️</span>
-                      <span className="btn-text">
-                        <strong>Request Leave</strong>
-                        <small>Submit leave applications</small>
-                      </span>
-                    </button>
-                    <button
-                      className="quick-action-btn"
-                      onClick={() => alert("Expense Reports - Coming Soon!")}
-                    >
-                      <span className="btn-icon">💳</span>
-                      <span className="btn-text">
-                        <strong>Submit Expenses</strong>
-                        <small>Submit expense reports</small>
-                      </span>
-                    </button>
-                    <button
-                      className="quick-action-btn"
-                      onClick={() => alert("Committee Work - Coming Soon!")}
-                    >
-                      <span className="btn-icon">⚖️</span>
-                      <span className="btn-text">
-                        <strong>Committee Tasks</strong>
-                        <small>Manage committee responsibilities</small>
-                      </span>
-                    </button>
-                    <button
-                      className="quick-action-btn"
-                      onClick={() => alert("Resource Booking - Coming Soon!")}
-                    >
-                      <span className="btn-icon">🏛️</span>
-                      <span className="btn-text">
-                        <strong>Book Resources</strong>
-                        <small>Reserve rooms and equipment</small>
-                      </span>
-                    </button>
-                  </div>
-                </div>
-
-                <div className="action-category">
-                  <h4>📋 Evaluation & Assessment</h4>
-                  <div className="action-buttons">
-                    <button
-                      className="quick-action-btn"
-                      onClick={() => alert("Create Exam - Coming Soon!")}
-                    >
-                      <span className="btn-icon">📝</span>
-                      <span className="btn-text">
-                        <strong>Create Exam</strong>
-                        <small>Design and schedule exams</small>
-                      </span>
-                    </button>
-                    <button
-                      className="quick-action-btn"
-                      onClick={() => alert("Grade Analysis - Coming Soon!")}
-                    >
-                      <span className="btn-icon">📈</span>
-                      <span className="btn-text">
-                        <strong>Grade Analytics</strong>
-                        <small>Analyze student performance</small>
-                      </span>
-                    </button>
-                    <button
-                      className="quick-action-btn"
-                      onClick={() => alert("Peer Review - Coming Soon!")}
-                    >
-                      <span className="btn-icon">🔄</span>
-                      <span className="btn-text">
-                        <strong>Peer Review</strong>
-                        <small>Review colleague submissions</small>
-                      </span>
-                    </button>
-                    <button
-                      className="quick-action-btn"
-                      onClick={() => alert("Thesis Evaluation - Coming Soon!")}
-                    >
-                      <span className="btn-icon">🎓</span>
-                      <span className="btn-text">
-                        <strong>Evaluate Thesis</strong>
-                        <small>Review and evaluate thesis work</small>
                       </span>
                     </button>
                   </div>
