@@ -15,6 +15,7 @@ import Projects from "./pages/Projects";
 import ProjectDetails from "./pages/ProjectDetails";
 import UserProfile from "./pages/UserProfile";
 import TeacherProfile from "./pages/TeacherProfile";
+import AdminProfile from "./pages/AdminProfile";
 import EditProfile from "./pages/EditProfile";
 import AcademicCalendar from "./pages/AcademicCalendar";
 import AcademicCalendarView from "./pages/AcademicCalendarView";
@@ -291,6 +292,8 @@ function App() {
             onNavigate={(page) => setCurrentPage(page)}
           />
         );
+      case "admin-profile":
+        return <AdminProfile onLogout={handleLogout} />;
       case "teacher-edit-profile":
         return (
           <TeacherEditProfile
