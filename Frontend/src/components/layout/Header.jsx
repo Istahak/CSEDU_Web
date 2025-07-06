@@ -186,7 +186,7 @@ const Header = ({
               <>
                 <div
                   className="user-profile-header"
-                  onClick={() => setCurrentPage("user-profile")}
+                  onClick={() => setCurrentPage(userRole==="faculty"? "teacher-profile" : "user-profile")}
                 >
                   <div className="user-avatar">👤</div>
                   <span className="user-role">{userRole}</span>

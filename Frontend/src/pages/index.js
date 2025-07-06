@@ -25,3 +25,8 @@ export { default as EventRegistrationSuccess } from "./EventRegistrationSuccess"
 export { default as Achievements } from "./Achievements";
 export { default as LabBooking } from "./LabBooking";
 export { default as LabBookingSuccess } from "./LabBookingSuccess";
+export { default as MarkAttendance } from "./MarkAttendance";
+export { default as CreateAssignment } from "./CreateAssignment";
+export { default as UploadMaterials } from "./UploadMaterials";
+export { default as ScheduleMeeting } from "./ScheduleMeeting";
+export { default as ReserveRoom } from "./ReserveRoom";

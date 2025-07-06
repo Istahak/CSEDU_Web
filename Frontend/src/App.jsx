@@ -25,6 +25,12 @@ import EventRegistration from "./pages/EventRegistration";
 import EventRegistrationSuccess from "./pages/EventRegistrationSuccess";
 import Contact from "./pages/Contact";
 import Achievements from "./pages/Achievements";
+import GradeAssignment from "./pages/GradeAssignment";
+import MarkAttendance from "./pages/MarkAttendance";
+import CreateAssignment from "./pages/CreateAssignment";
+import UploadMaterials from "./pages/UploadMaterials";
+import ScheduleMeeting from "./pages/ScheduleMeeting";
+import ReserveRoom from "./pages/ReserveRoom";
 import LabBooking from "./pages/LabBooking";
 import LabBookingSuccess from "./pages/LabBookingSuccess";
 import Signup from "./pages/Signup";
@@ -233,6 +239,48 @@ function App() {
             onEditProfile={() => setCurrentPage("edit-profile")}
           />
         );
+      case "teacher-profile":
+        return (
+          <TeacherProfile
+            teacherData={teacherData}
+            onBack={() => setCurrentPage("home")}
+            onEditProfile={() => setCurrentPage("teacher-edit-profile")}
+            onNavigate={(page) => setCurrentPage(page)}
+          />
+        );
+      case "teacher-edit-profile":
+        return (
+          <TeacherEditProfile
+            teacherData={teacherData}
+            onBack={() => setCurrentPage("teacher-profile")}
+            onSave={(updatedData) => {
+              setTeacherData(updatedData);
+              setCurrentPage("teacher-profile");
+            }}
+          />
+        );
+      case "grade-assignment":
+        return (
+          <GradeAssignment onBack={() => setCurrentPage("teacher-profile")} />
+        );
+      case "mark-attendance":
+        return (
+          <MarkAttendance onBack={() => setCurrentPage("teacher-profile")} />
+        );
+      case "create-assignment":
+        return (
+          <CreateAssignment onBack={() => setCurrentPage("teacher-profile")} />
+        );
+      case "upload-materials":
+        return (
+          <UploadMaterials onBack={() => setCurrentPage("teacher-profile")} />
+        );
+      case "schedule-meeting":
+        return (
+          <ScheduleMeeting onBack={() => setCurrentPage("teacher-profile")} />
+        );
+      case "reserve-room":
+        return <ReserveRoom onBack={() => setCurrentPage("teacher-profile")} />;
       case "edit-profile":
         return (
           <EditProfile
