@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { authService } from "./api";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import Login from "./pages/Login";
@@ -38,13 +39,34 @@ import "./styles/App.css";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userRole, setUserRole] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(authService.isAuthenticated());
+  const [userRole, setUserRole] = useState(authService.getUserRole());
+  const [user, setUser] = useState(null);
 
   // Scroll to top whenever the page changes
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentPage]);
+
+  // Check if user is already logged in
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      authService.getCurrentUser()
+        .then(userData => {
+          setUser(userData);
+          setIsAuthenticated(true);
+          setUserRole(userData.role);
+        })
+        .catch(() => {
+          // Token might be expired or invalid
+          authService.logout();
+          setIsAuthenticated(false);
+          setUser(null);
+        });
+    }
+  }, []);
+
   const [selectedFaculty, setSelectedFaculty] = useState(null);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [selectedProgram, setSelectedProgram] = useState(null);
@@ -82,23 +104,23 @@ function App() {
       "Deep Learning, Natural Language Processing, Computer Vision",
   });
 
-  const handleLogin = (role) => {
+  const handleLogin = (userData) => {
     setIsAuthenticated(true);
-    setUserRole(role);
-    // Redirect to appropriate profile based on role
-    if (role === "faculty") {
+    setUserRole(userData.role);
+    setUser(userData);
+    if (userData.role === "faculty") {
       setCurrentPage("teacher-profile");
-    } else if (role === "student") {
-      setCurrentPage("user-profile");
     } else {
-      setCurrentPage("home");
+      setCurrentPage("user-profile");
     }
   };
 
   const handleLogout = () => {
+    authService.logout();
     setIsAuthenticated(false);
     setUserRole(null);
-    setCurrentPage("home");
+    setUser(null);
+    setCurrentPage("login");
   };
 
   // If not authenticated and currentPage is 'login', show login page with header
@@ -127,9 +149,12 @@ function App() {
           isAuthenticated={isAuthenticated}
           onLogout={handleLogout}
         />
-        <Signup
-          onSignup={() => setCurrentPage("login")}
-          onBack={() => setCurrentPage("login")}
+        <Signup 
+          onSignup={(userData) => {
+            // Use the role from the signup data
+            handleLogin(userData.role);
+          }} 
+          onBack={() => setCurrentPage("login")} 
         />
       </>
     );

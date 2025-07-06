@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Login.css";
+import { authService } from "../api";
 
 const Login = ({ onLogin }) => {
   const [selectedRole, setSelectedRole] = useState("");
@@ -9,7 +10,7 @@ const Login = ({ onLogin }) => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  // Dummy credentials
+  // Demo credentials for fallback
   const credentials = {
     student: { email: "student@gmail.com", password: "123" },
     faculty: { email: "faculty@gmail.com", password: "123" },
@@ -27,15 +28,41 @@ const Login = ({ onLogin }) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
-    setTimeout(() => {
+    
+    try {
+      // Try to authenticate with the backend
+      const response = await authService.login(email, password);
+      
+      // Store user data
+      const userData = response.user;
+      
+      // Login with the user's role from the backend
+      onLogin(userData);
+      console.log('Login successful:', userData);
+    } catch (error) {
+      console.log('Backend login failed:', error);
+      
+      // Check if we should try demo credentials
       const roleCredentials = credentials[selectedRole];
       if (email === roleCredentials.email && password === roleCredentials.password) {
-        onLogin(selectedRole);
+        console.log('Using demo credentials');
+        // Use demo data
+        const demoUser = authService.getDemoUserData(selectedRole);
+        authService.setUserData(demoUser);
+        onLogin(demoUser);
       } else {
-        setError("Invalid email or password");
+        // Show appropriate error message
+        if (error.status === 401) {
+          setError("Invalid email or password");
+        } else if (error.message) {
+          setError(error.message);
+        } else {
+          setError("Login failed. Please try again.");
+        }
       }
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   const getRoleDisplayName = (role) => {

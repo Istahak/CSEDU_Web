@@ -397,7 +397,8 @@
   height: 540px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
+  overflow-y: auto;
 }
 
 .login-divider {
