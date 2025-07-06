@@ -289,7 +289,10 @@ const TeacherProfile = ({
                       <button className="action-btn primary">
                         View Progress
                       </button>
-                      <button className="action-btn secondary">
+                      <button
+                        className="action-btn secondary"
+                        onClick={() => onNavigate("schedule-meeting")}
+                      >
                         Schedule Meeting
                       </button>
                     </div>
@@ -312,7 +315,10 @@ const TeacherProfile = ({
                       <button className="action-btn primary">
                         View Progress
                       </button>
-                      <button className="action-btn secondary">
+                      <button
+                        className="action-btn secondary"
+                        onClick={() => onNavigate("schedule-meeting")}
+                      >
                         Schedule Meeting
                       </button>
                     </div>
@@ -627,6 +633,16 @@ const TeacherProfile = ({
                         <small>Add course materials and resources</small>
                       </span>
                     </button>
+                    <button
+                      className="quick-action-btn"
+                      onClick={() => onNavigate("reserve-room")}
+                    >
+                      <span className="btn-icon">🏛️</span>
+                      <span className="btn-text">
+                        <strong>Reserve Room</strong>
+                        <small>Book classrooms and facilities</small>
+                      </span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -675,10 +691,12 @@ const TeacherProfile = ({
               <button className="edit-profile-btn" onClick={onEditProfile}>
                 Edit Profile
               </button>
-              <button className="action-btn secondary">
-                📅 Schedule Meeting
+              <button
+                className="action-btn secondary"
+                onClick={() => onNavigate("schedule-meeting")}
+              >
+                � Schedule Meeting
               </button>
-              <button className="action-btn secondary">📧 Send Message</button>
             </div>
           </div>
         </div>

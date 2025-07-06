@@ -31,6 +31,8 @@ import GradeAssignment from "./pages/GradeAssignment";
 import MarkAttendance from "./pages/MarkAttendance";
 import CreateAssignment from "./pages/CreateAssignment";
 import UploadMaterials from "./pages/UploadMaterials";
+import ScheduleMeeting from "./pages/ScheduleMeeting";
+import ReserveRoom from "./pages/ReserveRoom";
 import LabBooking from "./pages/LabBooking";
 import LabBookingSuccess from "./pages/LabBookingSuccess";
 import Signup from "./pages/Signup";
@@ -299,6 +301,12 @@ function App() {
         return (
           <UploadMaterials onBack={() => setCurrentPage("teacher-profile")} />
         );
+      case "schedule-meeting":
+        return (
+          <ScheduleMeeting onBack={() => setCurrentPage("teacher-profile")} />
+        );
+      case "reserve-room":
+        return <ReserveRoom onBack={() => setCurrentPage("teacher-profile")} />;
       case "edit-profile":
         return (
           <EditProfile
