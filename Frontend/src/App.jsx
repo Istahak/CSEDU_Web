@@ -14,6 +14,7 @@ import AdmissionsInfo from "./pages/AdmissionsInfo";
 import Projects from "./pages/Projects";
 import ProjectDetails from "./pages/ProjectDetails";
 import UserProfile from "./pages/UserProfile";
+import TeacherProfile from "./pages/TeacherProfile";
 import EditProfile from "./pages/EditProfile";
 import AcademicCalendar from "./pages/AcademicCalendar";
 import AcademicCalendarView from "./pages/AcademicCalendarView";
@@ -45,6 +46,35 @@ function App() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentPage]);
+
+  // Add browser history support
+  useEffect(() => {
+    const handlePopState = (event) => {
+      if (event.state && event.state.page) {
+        setCurrentPage(event.state.page);
+      } else {
+        setCurrentPage("home");
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    
+    // Push initial state
+    if (window.history.state === null) {
+      window.history.replaceState({ page: currentPage }, '', `#${currentPage}`);
+    }
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
+
+  // Update history when page changes
+  useEffect(() => {
+    if (window.history.state === null || window.history.state.page !== currentPage) {
+      window.history.pushState({ page: currentPage }, '', `#${currentPage}`);
+    }
+  }, [currentPage]);
   const [selectedFaculty, setSelectedFaculty] = useState(null);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [selectedProgram, setSelectedProgram] = useState(null);
@@ -63,6 +93,19 @@ function App() {
     cgpa: "3.00",
     department: "Computer Science & Engineering",
     address: "123 University Road, Dhaka-1000",
+  });
+
+  const [teacherData, setTeacherData] = useState({
+    name: "Dr. John Smith",
+    employeeId: "FAC-2018-001",
+    email: "john.smith@csedu.ac.bd",
+    phone: "+880 1234 567891",
+    designation: "Associate Professor",
+    department: "Computer Science & Engineering",
+    specialization: "Machine Learning, Data Science",
+    officeRoom: "Room 302, CSE Building",
+    officeHours: "Mon-Wed-Fri: 2:00 PM - 4:00 PM",
+    education: "Ph.D. in Computer Science",
   });
 
   const handleLogin = (role) => {

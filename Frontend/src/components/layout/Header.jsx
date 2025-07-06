@@ -140,7 +140,11 @@ const Header = ({
             onMouseEnter={() => handleDropdownMouseEnter("resources")}
             onMouseLeave={handleDropdownMouseLeave}
           >
-            <a href="/resources" className="nav-link">
+            <a 
+              href="/academic-calendar" 
+              className="nav-link"
+              onClick={(e) => handleNavClick("academic-calendar", e)}
+            >
               Resources
               <span className="dropdown-arrow">▼</span>
             </a>
