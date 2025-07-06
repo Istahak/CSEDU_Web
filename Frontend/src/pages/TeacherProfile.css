@@ -302,6 +302,177 @@
   width: 100%;
 }
 
+.research-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.research-header h3 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.research-header h5 {
+  margin: 0;
+  color: #2c3e50;
+}
+
+.add-research-btn {
+  background: #4a90e2;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.add-research-btn:hover {
+  background: #357abd;
+  transform: translateY(-2px);
+}
+
+/* Add Research Form */
+.add-research-form {
+  background: white;
+  border-radius: 12px;
+  padding: 0;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+  overflow: hidden;
+}
+
+.form-header {
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+  color: white;
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-header h4 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.form-content {
+  padding: 2rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: #2c3e50;
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.75rem;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  background: white;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #4a90e2;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  padding-top: 1rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.cancel-btn {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+  background: #5a6268;
+}
+
+.submit-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+  background: #218838;
+}
+
 .research-subsection {
   margin-bottom: 2rem;
 }
@@ -344,6 +515,56 @@
 /* Students Section */
 .students-section {
   width: 100%;
+}
+
+.students-header,
+.courses-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.students-header h3,
+.courses-header h3 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.add-student-btn,
+.add-course-btn {
+  background: #4a90e2;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.add-student-btn:hover,
+.add-course-btn:hover {
+  background: #357abd;
+  transform: translateY(-2px);
+}
+
+/* Add Student/Course Form */
+.add-student-form,
+.add-course-form {
+  background: white;
+  border-radius: 12px;
+  padding: 0;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+  overflow: hidden;
 }
 
 .students-subsection {
@@ -589,6 +810,169 @@
 
 .action-btn.secondary:hover {
   background: #5a6268;
+}
+
+/* Archive Functionality Styles */
+.research-header,
+.student-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.research-header h5,
+.student-header h5 {
+  margin: 0;
+  color: #2c3e50;
+}
+
+.archive-btn {
+  background: #f8f9fa;
+  border: 2px solid #e9ecef;
+  color: #6c757d;
+  padding: 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  min-width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.archive-btn:hover {
+  background: #e9ecef;
+  border-color: #dc3545;
+  color: #dc3545;
+  transform: scale(1.1);
+}
+
+.action-btn.archive {
+  background: #fd7e14;
+  color: white;
+}
+
+.action-btn.archive:hover {
+  background: #e76a0f;
+}
+
+/* Archived Section Styles */
+.archived-section {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 2px solid #e9ecef;
+}
+
+.archived-section h4 {
+  color: #6c757d;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.archived-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.archived-item {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  border-left: 4px solid #6c757d;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+.archived-item:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.archived-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.archived-header h5 {
+  margin: 0;
+  color: #495057;
+  font-size: 1rem;
+}
+
+.archived-date {
+  background: #e9ecef;
+  color: #6c757d;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.archived-actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.action-btn.restore {
+  background: #28a745;
+  color: white;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+
+.action-btn.restore:hover {
+  background: #218838;
+}
+
+/* Status Styles */
+.status-active {
+  background: #27ae60;
+  color: white;
+  padding: 0.2rem 0.6rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.status-pending {
+  background: #f39c12;
+  color: white;
+  padding: 0.2rem 0.6rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.status-completed {
+  background: #3498db;
+  color: white;
+  padding: 0.2rem 0.6rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.status-on-hold {
+  background: #e74c3c;
+  color: white;
+  padding: 0.2rem 0.6rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: capitalize;
 }
 
 /* Quick Actions Section */
@@ -918,4 +1302,370 @@
     padding: 0.4rem 0.8rem;
     font-size: 0.8rem;
   }
+}
+
+/* Responsive Design for Research Form and Student/Course Forms */
+@media (max-width: 768px) {
+  .research-header,
+  .students-header,
+  .courses-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .research-header h3,
+  .students-header h3,
+  .courses-header h3 {
+    font-size: 1.5rem;
+  }
+
+  .add-research-btn,
+  .add-student-btn,
+  .add-course-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .cancel-btn,
+  .submit-btn {
+    width: 100%;
+  }
+
+  .form-header {
+    padding: 1rem 1.5rem;
+  }
+
+  .form-content {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .research-header h3,
+  .students-header h3,
+  .courses-header h3 {
+    font-size: 1.3rem;
+  }
+
+  .add-research-btn,
+  .add-student-btn,
+  .add-course-btn {
+    padding: 0.625rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .form-header h4 {
+    font-size: 1.1rem;
+  }
+
+  .form-content {
+    padding: 1rem;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 0.625rem;
+  }
+
+  .cancel-btn,
+  .submit-btn {
+    padding: 0.625rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Archive responsive styles */
+@media (max-width: 768px) {
+  .research-header,
+  .student-header {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  .archive-btn {
+    align-self: flex-end;
+    margin-top: -2rem;
+  }
+
+  .archived-header {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  .archived-date {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+  }
+
+  .archived-actions {
+    justify-content: stretch;
+  }
+
+  .action-btn.restore {
+    flex: 1;
+    text-align: center;
+  }
+
+  .archived-list {
+    gap: 0.75rem;
+  }
+
+  .archived-item {
+    padding: 0.75rem;
+  }
+}
+
+/* Administrative Tasks Styles */
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.task-header h5 {
+  margin: 0;
+  color: #2c3e50;
+  flex: 1;
+}
+
+.task-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.mark-done-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.mark-done-btn:hover {
+  background: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
+.task-progress {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.task-progress label {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: #495057;
+}
+
+.progress-slider {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background: #e9ecef;
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.progress-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #4a90e2;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.progress-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #4a90e2;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.progress-value {
+  font-weight: 600;
+  color: #4a90e2;
+  min-width: 50px;
+  text-align: right;
+}
+
+.no-tasks {
+  text-align: center;
+  padding: 2rem;
+  color: #6c757d;
+  font-size: 1.1rem;
+}
+
+.no-tasks p {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* Completed Tasks Styles */
+.completed-task-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.completed-task-item {
+  background: #f8fffe;
+  border-radius: 8px;
+  padding: 1rem;
+  border-left: 4px solid #28a745;
+  opacity: 0.9;
+  transition: all 0.3s ease;
+}
+
+.completed-task-item:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.1);
+}
+
+.completed-task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.completed-task-header h5 {
+  margin: 0;
+  color: #2c3e50;
+  text-decoration: line-through;
+}
+
+.completion-date {
+  background: #d4edda;
+  color: #155724;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.completed-task-info p {
+  margin: 0.5rem 0;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.completed-task-actions {
+  margin-top: 1rem;
+}
+
+.restore-task-btn {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.restore-task-btn:hover {
+  background: #5a6268;
+  transform: translateY(-2px);
+}
+
+/* Status indicator improvements */
+.status-in-progress {
+  background: #3498db;
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.status-completed {
+  background: #28a745;
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+/* Administrative tasks responsive styles */
+.task-header {
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: stretch;
+}
+
+.task-actions {
+  justify-content: flex-end;
+}
+
+.mark-done-btn {
+  padding: 0.625rem 1rem;
+  font-size: 0.8rem;
+}
+
+.task-progress label {
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+
+.progress-value {
+  text-align: center;
+  min-width: auto;
+}
+
+.completed-task-header {
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.completion-date {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+}
+
+.restore-task-btn {
+  width: 100%;
+  text-align: center;
 }
