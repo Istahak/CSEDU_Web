@@ -14,9 +14,7 @@ import AdmissionsInfo from "./pages/AdmissionsInfo";
 import Projects from "./pages/Projects";
 import ProjectDetails from "./pages/ProjectDetails";
 import UserProfile from "./pages/UserProfile";
-import TeacherProfile from "./pages/TeacherProfile";
 import EditProfile from "./pages/EditProfile";
-import TeacherEditProfile from "./pages/TeacherEditProfile";
 import AcademicCalendar from "./pages/AcademicCalendar";
 import AcademicCalendarView from "./pages/AcademicCalendarView";
 import ExamSchedule from "./pages/ExamSchedule";
@@ -27,10 +25,6 @@ import EventRegistration from "./pages/EventRegistration";
 import EventRegistrationSuccess from "./pages/EventRegistrationSuccess";
 import Contact from "./pages/Contact";
 import Achievements from "./pages/Achievements";
-import GradeAssignment from "./pages/GradeAssignment";
-import MarkAttendance from "./pages/MarkAttendance";
-import CreateAssignment from "./pages/CreateAssignment";
-import UploadMaterials from "./pages/UploadMaterials";
 import LabBooking from "./pages/LabBooking";
 import LabBookingSuccess from "./pages/LabBookingSuccess";
 import Signup from "./pages/Signup";
@@ -65,34 +59,10 @@ function App() {
     address: "123 University Road, Dhaka-1000",
   });
 
-  const [teacherData, setTeacherData] = useState({
-    name: "Dr. Sarah Wilson",
-    facultyId: "CSEDU-FAC-001",
-    email: "sarah.wilson@csedu.ac.bd",
-    phone: "+880 1987 654321",
-    designation: "Associate Professor",
-    department: "Computer Science & Engineering",
-    specialization: "Machine Learning, Artificial Intelligence",
-    officeRoom: "Room 402, CSEDU Building",
-    officeHours: "Sunday-Thursday: 10:00 AM - 12:00 PM",
-    joiningDate: "January 15, 2018",
-    education: "PhD in Computer Science, Stanford University",
-    experience: "8 years",
-    researchInterests:
-      "Deep Learning, Natural Language Processing, Computer Vision",
-  });
-
   const handleLogin = (role) => {
     setIsAuthenticated(true);
     setUserRole(role);
-    // Redirect to appropriate profile based on role
-    if (role === "faculty") {
-      setCurrentPage("teacher-profile");
-    } else if (role === "student") {
-      setCurrentPage("user-profile");
-    } else {
-      setCurrentPage("home");
-    }
+    setCurrentPage("home");
   };
 
   const handleLogout = () => {
@@ -263,59 +233,14 @@ function App() {
             onEditProfile={() => setCurrentPage("edit-profile")}
           />
         );
-      case "teacher-profile":
-        return (
-          <TeacherProfile
-            teacherData={teacherData}
-            onBack={() => setCurrentPage("home")}
-            onEditProfile={() => setCurrentPage("teacher-edit-profile")}
-            onNavigate={(page) => setCurrentPage(page)}
-          />
-        );
-      case "teacher-edit-profile":
-        return (
-          <TeacherEditProfile
-            teacherData={teacherData}
-            onBack={() => setCurrentPage("teacher-profile")}
-            onSave={(updatedData) => {
-              setTeacherData(updatedData);
-              setCurrentPage("teacher-profile");
-            }}
-          />
-        );
-      case "grade-assignment":
-        return (
-          <GradeAssignment onBack={() => setCurrentPage("teacher-profile")} />
-        );
-      case "mark-attendance":
-        return (
-          <MarkAttendance onBack={() => setCurrentPage("teacher-profile")} />
-        );
-      case "create-assignment":
-        return (
-          <CreateAssignment onBack={() => setCurrentPage("teacher-profile")} />
-        );
-      case "upload-materials":
-        return (
-          <UploadMaterials onBack={() => setCurrentPage("teacher-profile")} />
-        );
       case "edit-profile":
         return (
           <EditProfile
-            userData={userRole === "faculty" ? teacherData : userData}
-            onBack={() =>
-              setCurrentPage(
-                userRole === "faculty" ? "teacher-profile" : "user-profile"
-              )
-            }
+            userData={userData}
+            onBack={() => setCurrentPage("user-profile")}
             onSave={(updatedData) => {
-              if (userRole === "faculty") {
-                setTeacherData(updatedData);
-                setCurrentPage("teacher-profile");
-              } else {
-                setUserData(updatedData);
-                setCurrentPage("user-profile");
-              }
+              setUserData(updatedData);
+              setCurrentPage("user-profile");
             }}
           />
         );

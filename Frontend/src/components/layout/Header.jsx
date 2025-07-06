@@ -186,11 +186,9 @@ const Header = ({
               <>
                 <div
                   className="user-profile-header"
-                  onClick={() => setCurrentPage(userRole === "faculty" ? "teacher-profile" : "user-profile")}
+                  onClick={() => setCurrentPage("user-profile")}
                 >
-                  <div className="user-avatar">
-                    {userRole === "faculty" ? "👩‍🏫" : userRole === "student" ? "👨‍🎓" : "�️"}
-                  </div>
+                  <div className="user-avatar">👤</div>
                   <span className="user-role">{userRole}</span>
                 </div>
                 <button
