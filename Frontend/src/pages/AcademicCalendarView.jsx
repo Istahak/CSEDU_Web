@@ -153,30 +153,11 @@ const AcademicCalendarView = ({ onBack }) => {
       <div className="calendar-container">
         {/* Header Section */}
         <div className="calendar-header">
-          {onBack && (
-            <button className="back-button" onClick={onBack}>
-              ← Back
-            </button>
-          )}
-
           <div className="calendar-title-section">
             <h1 className="calendar-title">
-              Academic Calendar ({selectedSemester} - Batch {selectedBatch})
+              Academic Calendar ({selectedSemester})
             </h1>
-
             <div className="calendar-filters">
-              <select
-                value={selectedBatch}
-                onChange={(e) => setSelectedBatch(e.target.value)}
-                className="filter-select"
-              >
-                {batches.map((batch) => (
-                  <option key={batch} value={batch}>
-                    Batch {batch}
-                  </option>
-                ))}
-              </select>
-
               <select
                 value={selectedSemester}
                 onChange={(e) => setSelectedSemester(e.target.value)}

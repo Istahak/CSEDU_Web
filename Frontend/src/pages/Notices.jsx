@@ -6,6 +6,7 @@ const Notices = ({ onBack, onNoticeSelect }) => {
   const [selectedYear, setSelectedYear] = useState("All");
   const [selectedMonth, setSelectedMonth] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
+  const [archiveSearchTerm, setArchiveSearchTerm] = useState("");
 
   const noticeTypes = ["All", "Academic", "Administrative", "General"];
   const years = ["All", "2024", "2023", "2022"];
@@ -102,8 +103,9 @@ const Notices = ({ onBack, onNoticeSelect }) => {
       const typeMatch =
         selectedNoticeType === "All" || notice.type === selectedNoticeType;
       const searchMatch =
-        searchTerm === "" ||
-        notice.title.toLowerCase().includes(searchTerm.toLowerCase());
+        archiveSearchTerm === "" ||
+        notice.title.toLowerCase().includes(archiveSearchTerm.toLowerCase()) ||
+        notice.description.toLowerCase().includes(archiveSearchTerm.toLowerCase());
       return typeMatch && searchMatch;
     });
   };
@@ -127,41 +129,63 @@ const Notices = ({ onBack, onNoticeSelect }) => {
   return (
     <div className="notices-page">
       <div className="notices-container">
+
         {/* Header Section */}
-        {/* <div className="notices-header">
-          {onBack && (
-            <button className="back-button" onClick={onBack}>
-              ← Back
-            </button>
-          )}
-          <h1 className="notices-title">Department Notices</h1>
+        <div className="notices-header">
+          <h1 className="notices-title">Notices & Announcements</h1>
           <p className="notices-subtitle">
-            Stay informed with the latest updates from our department. Find
-            important announcements, academic schedules, and general
-            information.
+            Stay updated with the latest academic announcements, administrative updates, and department news.
           </p>
-        </div> */}
+        </div>
 
-        {/* Filter Section */}
-        <div className="filter-section">
-          <h2 className="filter-title">Filter Notices</h2>
-          <div className="filter-underline"></div>
-
-          <div className="notice-type-section">
-            <h3 className="filter-subtitle">Notice Type</h3>
-            <div className="notice-type-buttons">
-              {noticeTypes.map((type) => (
+        {/* Modern Filter/Search Section */}
+        <div className="directory-controls">
+          <div className="search-section">
+            <div className="search-bar">
+              <input
+                type="text"
+                className="search-input"
+                placeholder="Search notices..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              {searchTerm && (
                 <button
-                  key={type}
-                  className={`notice-type-btn ${
-                    selectedNoticeType === type ? "active" : ""
-                  }`}
-                  onClick={() => setSelectedNoticeType(type)}
+                  className="clear-search-btn"
+                  onClick={() => setSearchTerm("")}
+                  aria-label="Clear search"
                 >
-                  {type}
+                  ×
                 </button>
-              ))}
+              )}
             </div>
+          </div>
+
+          <div className="filters-section">
+            <div className="filter-group">
+              <label className="filter-label">Type</label>
+              <select
+                className="filter-select"
+                value={selectedNoticeType}
+                onChange={(e) => setSelectedNoticeType(e.target.value)}
+              >
+                {noticeTypes.map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {selectedNoticeType !== "All" && (
+              <div className="filter-group">
+                <button
+                  className="clear-filters-button"
+                  onClick={() => setSelectedNoticeType("All")}
+                >
+                  Clear Filters
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
@@ -173,7 +197,7 @@ const Notices = ({ onBack, onNoticeSelect }) => {
             {filteredActiveNotices.map((notice) => (
               <div key={notice.id} className="notice-card">
                 <div className="notice-card-header">
-                  <h3 className="notice-title">{notice.title}</h3>
+                  <h3 className="notice-title-2">{notice.title}</h3>
                   <span
                     className={`notice-badge ${getNoticeTypeColor(
                       notice.type
@@ -211,71 +235,101 @@ const Notices = ({ onBack, onNoticeSelect }) => {
 
         {/* Notice Archive Section */}
         <div className="archive-section">
-          <h2 className="section-title">Notice Archive</h2>
-
-          <div className="archive-filters">
-            <select
-              className="archive-select"
-              value={selectedYear}
-              onChange={(e) => setSelectedYear(e.target.value)}
-            >
-              <option value="All">Select Year</option>
-              {years.slice(1).map((year) => (
-                <option key={year} value={year}>
-                  {year}
-                </option>
-              ))}
-            </select>
-
-            <select
-              className="archive-select"
-              value={selectedMonth}
-              onChange={(e) => setSelectedMonth(e.target.value)}
-            >
-              <option value="All">Select Month</option>
-              {months.slice(1).map((month) => (
-                <option key={month} value={month}>
-                  {month}
-                </option>
-              ))}
-            </select>
+          <div className="archive-header">
+            <h2 className="section-title">Notice Archive</h2>
           </div>
 
-          <div className="search-section">
-            <div className="search-container">
-              <span className="search-icon">🔍</span>
-              <input
-                type="text"
-                placeholder="Search within archives"
-                className="search-input"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+          <div className="archive-controls">
+            <div className="archive-filters">
+              <div className="archive-filter-group">
+                <label className="archive-filter-label">Year</label>
+                <select
+                  className="archive-select"
+                  value={selectedYear}
+                  onChange={(e) => setSelectedYear(e.target.value)}
+                >
+                  <option value="All">All Years</option>
+                  {years.slice(1).map((year) => (
+                    <option key={year} value={year}>
+                      {year}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="archive-filter-group">
+                <label className="archive-filter-label">Month</label>
+                <select
+                  className="archive-select"
+                  value={selectedMonth}
+                  onChange={(e) => setSelectedMonth(e.target.value)}
+                >
+                  <option value="All">All Months</option>
+                  {months.slice(1).map((month) => (
+                    <option key={month} value={month}>
+                      {month}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="archive-search-section">
+              <div className="archive-search-container">
+                <span className="archive-search-icon">🔍</span>
+                <input
+                  type="text"
+                  placeholder="Search archived notices..."
+                  className="archive-search-input"
+                  value={archiveSearchTerm}
+                  onChange={(e) => setArchiveSearchTerm(e.target.value)}
+                />
+                {archiveSearchTerm && (
+                  <button
+                    className="clear-search-btn"
+                    onClick={() => setArchiveSearchTerm("")}
+                    aria-label="Clear archive search"
+                    style={{right: '0.75rem'}}
+                  >
+                    ×
+                  </button>
+                )}
+              </div>
             </div>
           </div>
 
           <div className="archive-notices">
             {filteredArchivedNotices.map((notice) => (
-              <div key={notice.id} className="archive-notice-item">
-                <div className="archive-notice-content">
+              <div key={notice.id} className="archive-notice-card">
+                <div className="archive-notice-header">
                   <h4 className="archive-notice-title">{notice.title}</h4>
+                  <span className="archive-notice-badge">
+                    {notice.type}
+                  </span>
+                </div>
+                <p className="archive-notice-description">{notice.description}</p>
+                <div className="archive-notice-footer">
                   <span className="archive-notice-date">
                     {new Date(notice.date).toLocaleDateString()}
                   </span>
+                  <button
+                    className="archive-view-btn"
+                    onClick={() => onNoticeSelect(notice)}
+                  >
+                    View
+                  </button>
                 </div>
-                <button
-                  className="view-btn"
-                  onClick={() => onNoticeSelect(notice)}
-                >
-                  View
-                </button>
               </div>
             ))}
           </div>
 
           {filteredArchivedNotices.length === 0 && (
-            <div className="no-archive">
-              <p>No archived notices found matching your criteria.</p>
+            <div className="no-notices">
+              <div className="no-notices-content">
+                <span className="no-notices-icon">📄</span>
+                <h3>No archived notices found</h3>
+                <p>No notices match your current search and filter criteria.</p>
+              </div>
             </div>
           )}
         </div>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./EventRegistration.css";
+import { FaCalendarAlt, FaMapMarkerAlt, FaUsers, FaCreditCard, FaUniversity } from "react-icons/fa";
 
 const EventRegistration = ({ event, onBack, onRegisterComplete }) => {
   const [formData, setFormData] = useState({
@@ -16,6 +17,7 @@ const EventRegistration = ({ event, onBack, onRegisterComplete }) => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
 
   const departments = [
     "Computer Science & Engineering",
@@ -39,10 +41,47 @@ const EventRegistration = ({ event, onBack, onRegisterComplete }) => {
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
+    
+    // Reset validation state when user starts typing
+    if (hasSubmitted && type !== "checkbox") {
+      // Allow users to clear validation errors by typing
+    }
+  };
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePhone = (phone) => {
+    if (!phone) return true; // Phone is optional
+    const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+    return phoneRegex.test(phone.replace(/[\s\-\(\)]/g, ''));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setHasSubmitted(true);
+
+    // Check for validation errors
+    const hasRequiredFieldErrors = !formData.firstName || !formData.lastName || !formData.email || !formData.department;
+    const hasEmailFormatError = formData.email && !validateEmail(formData.email);
+    const hasPhoneFormatError = formData.phoneNumber && !validatePhone(formData.phoneNumber);
+    
+    if (hasRequiredFieldErrors) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    if (hasEmailFormatError) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    if (hasPhoneFormatError) {
+      alert("Please enter a valid phone number.");
+      return;
+    }
 
     if (!formData.acceptTerms) {
       alert("Please accept the terms and conditions to proceed.");
@@ -103,24 +142,22 @@ const EventRegistration = ({ event, onBack, onRegisterComplete }) => {
   return (
     <div className="registration-page">
       <div className="registration-container">
-        {onBack && (
+        {/* {onBack && (
           <button onClick={onBack} className="back-button">
             ← Back to Events
           </button>
-        )}
+        )} */}
 
         <div className="registration-content">
           {/* Event Details Section */}
           <div className="event-summary">
             <div className="event-summary-image">
               <div className="event-summary-placeholder">
-                <span className="event-summary-icon">📅</span>
+                <FaCalendarAlt className="event-summary-icon" />
               </div>
               <div className="event-summary-badge">
                 <span
-                  className={`status-badge ${
-                    event.status === "FREE" ? "free" : "paid"
-                  }`}
+                  className={`status-badge ${event.status === "FREE" ? "free" : "paid"}`}
                 >
                   {event.status}
                 </span>
@@ -135,7 +172,7 @@ const EventRegistration = ({ event, onBack, onRegisterComplete }) => {
 
               <div className="event-summary-info">
                 <div className="summary-info-item">
-                  <span className="info-icon">📅</span>
+                  <FaCalendarAlt className="info-icon" />
                   <div>
                     <strong>Date & Time</strong>
                     <p>{event.date}</p>
@@ -144,7 +181,7 @@ const EventRegistration = ({ event, onBack, onRegisterComplete }) => {
                 </div>
 
                 <div className="summary-info-item">
-                  <span className="info-icon">📍</span>
+                  <FaMapMarkerAlt className="info-icon" />
                   <div>
                     <strong>Location</strong>
                     <p>{event.location}</p>
@@ -152,7 +189,7 @@ const EventRegistration = ({ event, onBack, onRegisterComplete }) => {
                 </div>
 
                 <div className="summary-info-item">
-                  <span className="info-icon">👥</span>
+                  <FaUsers className="info-icon" />
                   <div>
                     <strong>Attendance</strong>
                     <p>{event.attendees}</p>
@@ -190,7 +227,7 @@ const EventRegistration = ({ event, onBack, onRegisterComplete }) => {
             {!showPayment ? (
               <>
                 <h2>Event Registration</h2>
-                <form onSubmit={handleSubmit} className="registration-form">
+                <form onSubmit={handleSubmit} className="registration-form" noValidate>
                   <div className="form-row">
                     <div className="form-group">
                       <label htmlFor="firstName">First Name *</label>
@@ -200,7 +237,7 @@ const EventRegistration = ({ event, onBack, onRegisterComplete }) => {
                         name="firstName"
                         value={formData.firstName}
                         onChange={handleInputChange}
-                        required
+                        className={hasSubmitted && !formData.firstName ? "invalid" : ""}
                       />
                     </div>
 
@@ -212,7 +249,7 @@ const EventRegistration = ({ event, onBack, onRegisterComplete }) => {
                         name="lastName"
                         value={formData.lastName}
                         onChange={handleInputChange}
-                        required
+                        className={hasSubmitted && !formData.lastName ? "invalid" : ""}
                       />
                     </div>
                   </div>
@@ -226,7 +263,7 @@ const EventRegistration = ({ event, onBack, onRegisterComplete }) => {
                         name="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        required
+                        className={hasSubmitted && (!formData.email || !validateEmail(formData.email)) ? "invalid" : ""}
                       />
                     </div>
 
@@ -238,6 +275,7 @@ const EventRegistration = ({ event, onBack, onRegisterComplete }) => {
                         name="phoneNumber"
                         value={formData.phoneNumber}
                         onChange={handleInputChange}
+                        className={hasSubmitted && formData.phoneNumber && !validatePhone(formData.phoneNumber) ? "invalid" : ""}
                       />
                     </div>
                   </div>
@@ -249,7 +287,7 @@ const EventRegistration = ({ event, onBack, onRegisterComplete }) => {
                       name="department"
                       value={formData.department}
                       onChange={handleInputChange}
-                      required
+                      className={hasSubmitted && !formData.department ? "invalid" : ""}
                     >
                       <option value="">Select your department</option>
                       {departments.map((dept) => (
@@ -277,16 +315,13 @@ const EventRegistration = ({ event, onBack, onRegisterComplete }) => {
                   <div className="requirements-section">
                     <h3>Requirements</h3>
                     <div className="requirement-item">
-                      <span className="requirement-icon">✓</span>
                       <span>Student ID required</span>
                     </div>
                     <div className="requirement-item">
-                      <span className="requirement-icon">✓</span>
                       <span>Business casual attire recommended</span>
                     </div>
                     {isPaidEvent && (
                       <div className="requirement-item">
-                        <span className="requirement-icon">💳</span>
                         <span>Payment required: ${eventFee}</span>
                       </div>
                     )}
@@ -299,7 +334,6 @@ const EventRegistration = ({ event, onBack, onRegisterComplete }) => {
                         name="acceptTerms"
                         checked={formData.acceptTerms}
                         onChange={handleInputChange}
-                        required
                       />
                       <span className="checkmark"></span>I accept the terms and
                       conditions and privacy policy
@@ -350,6 +384,7 @@ const EventRegistration = ({ event, onBack, onRegisterComplete }) => {
                           checked={formData.paymentMethod === "credit-card"}
                           onChange={handleInputChange}
                         />
+                        <FaCreditCard style={{marginRight: 6}} />
                         <span>Credit/Debit Card</span>
                       </label>
                       <label className="payment-option">
@@ -360,6 +395,7 @@ const EventRegistration = ({ event, onBack, onRegisterComplete }) => {
                           checked={formData.paymentMethod === "bank-transfer"}
                           onChange={handleInputChange}
                         />
+                        <FaUniversity style={{marginRight: 6}} />
                         <span>Bank Transfer</span>
                       </label>
                     </div>
@@ -369,21 +405,37 @@ const EventRegistration = ({ event, onBack, onRegisterComplete }) => {
                     <div className="card-details">
                       <div className="form-group">
                         <label>Card Number</label>
-                        <input type="text" placeholder="1234 5678 9012 3456" />
+                        <input 
+                          type="text" 
+                          placeholder="1234 5678 9012 3456" 
+                          className=""
+                        />
                       </div>
                       <div className="form-row">
                         <div className="form-group">
                           <label>Expiry Date</label>
-                          <input type="text" placeholder="MM/YY" />
+                          <input 
+                            type="text" 
+                            placeholder="MM/YY" 
+                            className=""
+                          />
                         </div>
                         <div className="form-group">
                           <label>CVV</label>
-                          <input type="text" placeholder="123" />
+                          <input 
+                            type="text" 
+                            placeholder="123" 
+                            className=""
+                          />
                         </div>
                       </div>
                       <div className="form-group">
                         <label>Cardholder Name</label>
-                        <input type="text" placeholder="John Doe" />
+                        <input 
+                          type="text" 
+                          placeholder="John Doe" 
+                          className=""
+                        />
                       </div>
                     </div>
                   )}
@@ -401,8 +453,7 @@ const EventRegistration = ({ event, onBack, onRegisterComplete }) => {
                         <strong>Bank:</strong> University Bank
                       </p>
                       <p>
-                        <strong>Reference:</strong> {event.title} -{" "}
-                        {formData.firstName} {formData.lastName}
+                        <strong>Reference:</strong> {event.title} - {formData.firstName} {formData.lastName}
                       </p>
                     </div>
                   )}
