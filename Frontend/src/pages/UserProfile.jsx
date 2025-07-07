@@ -1,116 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./UserProfile.css";
-import ProfileService from "../api/ProfileService";
 
 const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
   const [activeTab, setActiveTab] = useState("overview");
-  const [userData, setUserData] = useState(propUserData || {});
-  const [academicRecords, setAcademicRecords] = useState([]);
-  const [courses, setCourses] = useState([]);
-  const [projects, setProjects] = useState([]);
-  const [assignments, setAssignments] = useState([]);
-  const [payments, setPayments] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  
-  // Fetch user profile data on component mount
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        setLoading(true);
-        const profileData = await ProfileService.getMyProfile();
-        setUserData(profileData);
-        setLoading(false);
-      } catch (err) {
-        console.error('Error fetching profile:', err);
-        setError('Failed to load profile data');
-        setLoading(false);
-      }
-    };
-    
-    fetchProfileData();
-  }, []);
-  
-  // Fetch tab-specific data when tab changes
-  useEffect(() => {
-    const fetchTabData = async () => {
-      try {
-        setLoading(true);
-        
-        switch (activeTab) {
-          case 'academic-records':
-            const records = await ProfileService.getAcademicRecords();
-            setAcademicRecords(records);
-            break;
-          case 'courses':
-            const courseData = await ProfileService.getCourses();
-            setCourses(courseData);
-            break;
-          case 'projects':
-            const projectData = await ProfileService.getProjects();
-            setProjects(projectData);
-            break;
-          case 'assignments':
-            const assignmentData = await ProfileService.getAssignments();
-            setAssignments(assignmentData);
-            break;
-          case 'due-payments':
-            const paymentData = await ProfileService.getPayments();
-            setPayments(paymentData);
-            break;
-          default:
-            break;
-        }
-        
-        setLoading(false);
-      } catch (err) {
-        console.error(`Error fetching data for ${activeTab} tab:`, err);
-        setError(`Failed to load ${activeTab} data`);
-        setLoading(false);
-      }
-    };
-    
-    if (activeTab !== 'overview' && activeTab !== 'contact-info') {
-      fetchTabData();
-    }
-  }, [activeTab]);
-  
-  // Handle profile update
-  const handleUpdateProfile = async (updatedData) => {
-    try {
-      setLoading(true);
-      const updated = await ProfileService.updateMyProfile(updatedData);
-      setUserData(updated);
-      setLoading(false);
-      return true;
-    } catch (err) {
-      console.error('Error updating profile:', err);
-      setError('Failed to update profile');
-      setLoading(false);
-      return false;
-    }
+
+  const userData = propUserData || {
+    name: "Istahak Islam",
+    studentId: "CSE-2020-2021",
+    email: "istahak.islam@csedu.ac.bd",
+    phone: "+880 1234 567890",
+    batch: "2019",
+    semester: "7th",
+    cgpa: "3.00",
+    department: "Computer Science & Engineering",
+    address: "123 University Road, Dhaka-1000",
   };
 
   const renderTabContent = () => {
-    // Show loading state
-    if (loading) {
-      return (
-        <div className="tab-content loading">
-          <p>Loading data...</p>
-        </div>
-      );
-    }
-    
-    // Show error state
-    if (error) {
-      return (
-        <div className="tab-content error">
-          <p>{error}</p>
-          <button onClick={() => setError(null)}>Try Again</button>
-        </div>
-      );
-    }
-    
     switch (activeTab) {
       case "overview":
         return (
@@ -122,24 +28,10 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
                   <span className="label">Full Name:</span>
                   <span className="value">{userData.name}</span>
                 </div>
-                {userData.studentId && (
-                  <div className="info-item">
-                    <span className="label">Student ID:</span>
-                    <span className="value">{userData.studentId}</span>
-                  </div>
-                )}
-                {userData.facultyId && (
-                  <div className="info-item">
-                    <span className="label">Faculty ID:</span>
-                    <span className="value">{userData.facultyId}</span>
-                  </div>
-                )}
-                {userData.adminId && (
-                  <div className="info-item">
-                    <span className="label">Admin ID:</span>
-                    <span className="value">{userData.adminId}</span>
-                  </div>
-                )}
+                <div className="info-item">
+                  <span className="label">Student ID:</span>
+                  <span className="value">{userData.studentId}</span>
+                </div>
                 <div className="info-item">
                   <span className="label">Email:</span>
                   <span className="value">{userData.email}</span>
@@ -148,40 +40,22 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
                   <span className="label">Phone:</span>
                   <span className="value">{userData.phone}</span>
                 </div>
-                {userData.batch && (
-                  <div className="info-item">
-                    <span className="label">Batch:</span>
-                    <span className="value">{userData.batch}</span>
-                  </div>
-                )}
-                {userData.semester && (
-                  <div className="info-item">
-                    <span className="label">Current Semester:</span>
-                    <span className="value">{userData.semester}</span>
-                  </div>
-                )}
-                {userData.cgpa && (
-                  <div className="info-item">
-                    <span className="label">CGPA:</span>
-                    <span className="value">{userData.cgpa}</span>
-                  </div>
-                )}
+                <div className="info-item">
+                  <span className="label">Batch:</span>
+                  <span className="value">{userData.batch}</span>
+                </div>
+                <div className="info-item">
+                  <span className="label">Current Semester:</span>
+                  <span className="value">{userData.semester}</span>
+                </div>
+                <div className="info-item">
+                  <span className="label">CGPA:</span>
+                  <span className="value">{userData.cgpa}</span>
+                </div>
                 <div className="info-item">
                   <span className="label">Department:</span>
                   <span className="value">{userData.department}</span>
                 </div>
-                {userData.designation && (
-                  <div className="info-item">
-                    <span className="label">Designation:</span>
-                    <span className="value">{userData.designation}</span>
-                  </div>
-                )}
-                {userData.role_description && (
-                  <div className="info-item">
-                    <span className="label">Role:</span>
-                    <span className="value">{userData.role_description}</span>
-                  </div>
-                )}
               </div>
             </div>
           </div>
@@ -191,18 +65,20 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
           <div className="tab-content">
             <div className="academic-records">
               <h3>Academic Records</h3>
-              {academicRecords.length > 0 ? (
-                <div className="semester-records">
-                  {academicRecords.map(record => (
-                    <div className="semester-item" key={record.id}>
-                      <h4>Semester {record.semester}</h4>
-                      <p>GPA: {record.gpa} | Credits: {record.credits} | Year: {record.year}</p>
-                    </div>
-                  ))}
+              <div className="semester-records">
+                <div className="semester-item">
+                  <h4>Semester 7</h4>
+                  <p>GPA: 3.8 | Credits: 18</p>
                 </div>
-              ) : (
-                <p>No academic records found.</p>
-              )}
+                <div className="semester-item">
+                  <h4>Semester 6</h4>
+                  <p>GPA: 3.7 | Credits: 18</p>
+                </div>
+                <div className="semester-item">
+                  <h4>Semester 5</h4>
+                  <p>GPA: 3.6 | Credits: 18</p>
+                </div>
+              </div>
             </div>
           </div>
         );
@@ -211,19 +87,23 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
           <div className="tab-content">
             <div className="courses-section">
               <h3>Current Courses</h3>
-              {courses.length > 0 ? (
-                <div className="course-list">
-                  {courses.map(course => (
-                    <div className="course-item" key={course.id}>
-                      <h4>{course.course_code} - {course.title}</h4>
-                      {course.instructor_name && <p>Instructor: {course.instructor_name}</p>}
-                      <p>Credits: {course.credits}</p>
-                    </div>
-                  ))}
+              <div className="course-list">
+                <div className="course-item">
+                  <h4>CSE 408 - Software Development</h4>
+                  <p>Instructor: Dr. Jane Smith</p>
+                  <p>Credits: 3</p>
                 </div>
-              ) : (
-                <p>No courses found.</p>
-              )}
+                <div className="course-item">
+                  <h4>CSE 410 - Computer Graphics</h4>
+                  <p>Instructor: Dr. Mike Johnson</p>
+                  <p>Credits: 3</p>
+                </div>
+                <div className="course-item">
+                  <h4>CSE 412 - Machine Learning</h4>
+                  <p>Instructor: Dr. Sarah Wilson</p>
+                  <p>Credits: 3</p>
+                </div>
+              </div>
             </div>
           </div>
         );
@@ -232,21 +112,18 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
           <div className="tab-content">
             <div className="projects-section">
               <h3>Projects</h3>
-              {projects.length > 0 ? (
-                <div className="project-list">
-                  {projects.map(project => (
-                    <div className="project-item" key={project.id}>
-                      <h4>{project.title}</h4>
-                      {project.description && <p>{project.description}</p>}
-                      <p>Status: {project.status}</p>
-                      {project.end_date && <p>Deadline: {new Date(project.end_date).toLocaleDateString()}</p>}
-                      {project.grade && <p>Grade: {project.grade}</p>}
-                    </div>
-                  ))}
+              <div className="project-list">
+                <div className="project-item">
+                  <h4>E-commerce Web Application</h4>
+                  <p>Status: Completed</p>
+                  <p>Technologies: React, Node.js, MongoDB</p>
                 </div>
-              ) : (
-                <p>No projects found.</p>
-              )}
+                <div className="project-item">
+                  <h4>Mobile Banking App</h4>
+                  <p>Status: In Progress</p>
+                  <p>Technologies: React Native, Firebase</p>
+                </div>
+              </div>
             </div>
           </div>
         );
@@ -255,22 +132,18 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
           <div className="tab-content">
             <div className="assignments-section">
               <h3>Assignments</h3>
-              {assignments.length > 0 ? (
-                <div className="assignment-list">
-                  {assignments.map(assignment => (
-                    <div className="assignment-item" key={assignment.id}>
-                      <h4>{assignment.title}</h4>
-                      {assignment.course_title && <p>Course: {assignment.course_title}</p>}
-                      {assignment.description && <p>{assignment.description}</p>}
-                      {assignment.due_date && <p>Due: {new Date(assignment.due_date).toLocaleDateString()}</p>}
-                      <p>Status: {assignment.status}</p>
-                      {assignment.grade && <p>Grade: {assignment.grade}</p>}
-                    </div>
-                  ))}
+              <div className="assignment-list">
+                <div className="assignment-item">
+                  <h4>CSE 408 - Assignment 3</h4>
+                  <p>Due: March 15, 2024</p>
+                  <p>Status: Submitted</p>
                 </div>
-              ) : (
-                <p>No assignments found.</p>
-              )}
+                <div className="assignment-item">
+                  <h4>CSE 410 - Lab Report 5</h4>
+                  <p>Due: March 20, 2024</p>
+                  <p>Status: Pending</p>
+                </div>
+              </div>
             </div>
           </div>
         );
@@ -321,22 +194,21 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
               <div className="contact-form">
                 <div className="form-group">
                   <label>Email:</label>
-                  <input type="email" value={userData.email || ''} readOnly />
+                  <input type="email" value={userData.email} readOnly />
                 </div>
                 <div className="form-group">
                   <label>Phone:</label>
-                  <input type="tel" value={userData.phone || ''} readOnly />
+                  <input type="tel" value={userData.phone} readOnly />
                 </div>
                 <div className="form-group">
                   <label>Address:</label>
-                  <textarea value={userData.address || ''} readOnly />
+                  <textarea value={userData.address} readOnly />
                 </div>
                 <button
                   className="edit-btn"
-                  onClick={() => onEditProfile && onEditProfile(userData, handleUpdateProfile)}
-                  disabled={loading}
+                  onClick={() => onEditProfile && onEditProfile()}
                 >
-                  {loading ? 'Updating...' : 'Edit Information'}
+                  Edit Information
                 </button>
               </div>
             </div>
@@ -354,37 +226,22 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
           <button onClick={onBack} className="back-button">
             ← Back
           </button>
-          {loading ? (
-            <div className="profile-info loading">
-              <p>Loading profile...</p>
+          <div className="profile-info">
+            <div className="profile-avatar">
+              <span className="avatar-icon">👩‍🎓</span>
             </div>
-          ) : (
-            <div className="profile-info">
-              <div className="profile-avatar">
-                {userData.profile_image ? (
-                  <img src={userData.profile_image} alt="Profile" className="avatar-image" />
-                ) : (
-                  <span className="avatar-icon">
-                    {userData.type === 'faculty' ? '👨‍🏫' : userData.type === 'admin' ? '👨‍💼' : '👩‍🎓'}
-                  </span>
-                )}
-              </div>
-              <div className="profile-details">
-                <h1 className="profile-name">{userData.name}</h1>
-                {userData.studentId && <p className="profile-id">Student ID: {userData.studentId}</p>}
-                {userData.facultyId && <p className="profile-id">Faculty ID: {userData.facultyId}</p>}
-                {userData.adminId && <p className="profile-id">Admin ID: {userData.adminId}</p>}
-                <p className="profile-department">{userData.department}</p>
-              </div>
-              <button
-                className="edit-profile-header-btn"
-                onClick={() => onEditProfile && onEditProfile(userData, handleUpdateProfile)}
-                disabled={loading}
-              >
-                {loading ? 'Updating...' : 'Edit Profile'}
-              </button>
+            <div className="profile-details">
+              <h1 className="profile-name">{userData.name}</h1>
+              <p className="profile-id">Student ID: {userData.studentId}</p>
+              <p className="profile-department">{userData.department}</p>
             </div>
-          )}
+            <button
+              className="edit-profile-header-btn"
+              onClick={() => onEditProfile && onEditProfile()}
+            >
+              Edit Profile
+            </button>
+          </div>
         </div>
 
         <div className="profile-content">

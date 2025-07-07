@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import "./Login.css";
-import { authService } from "../api";
 
 const Signup = ({ onSignup, onBack }) => {
   const [selectedRole, setSelectedRole] = useState("");
   const [name, setName] = useState("");
-  const [username, setUsername] = useState(""); // added by miraj
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -25,65 +23,19 @@ const Signup = ({ onSignup, onBack }) => {
   const handleSignup = async (e) => {
     e.preventDefault();
     setError("");
-    
-    // Validate inputs
     if (!name.trim()) {
       setError("Name is required");
-      return;
-    }
-    
-    // added by miraj
-    if (!username.trim()) {
-      setError("Username is required");
       return;
     }
     if (password !== confirmPassword) {
       setError("Passwords do not match");
       return;
     }
-    
     setIsLoading(true);
-    
-    try {
-      // Prepare user data for signup
-      const userData = {
-        email: email,
-        username: username, // added by miraj
-        password: password,
-        confirm_password: confirmPassword, // required by backend
-        full_name: name,
-        role: selectedRole
-      };
-      
-      // Try to sign up with the backend
-      await authService.signup(userData);
-      
-      // If signup is successful, try to login
-      const loginResponse = await authService.login(email, password);
-      
-      // Store user data
-      const user = loginResponse.user;
-      
-      // Login with the user's role from the backend
-      if (onSignup) {
-        onSignup(user);
-      }
-      
-      // Go back to login page if needed
-      if (onBack) {
-        onBack();
-      }
-    } catch (error) {
-      // Handle signup errors
-      if (error.status === 400) {
-        setError(error.message || "Email already registered or invalid data");
-      } else {
-        setError("Registration failed. Please try again.");
-        console.error("Signup error:", error);
-      }
-    } finally {
+    setTimeout(() => {
       setIsLoading(false);
-    }
+      if (onSignup) onSignup({ name, email, role: selectedRole });
+    }, 1200);
   };
 
   const getRoleDisplayName = (role) => {
@@ -155,24 +107,17 @@ const Signup = ({ onSignup, onBack }) => {
             </div>
             <form className="login-form" onSubmit={handleSignup}>
               <div className="form-group">
-                <label htmlFor="name">Full Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="username">Username</label>
-                <input
-                  type="text"
-                  id="username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  required
-                />
+                <label className="form-label">Full Name</label>
+                <div className="input-container">
+                  <input
+                    type="text"
+                    className="form-input"
+                    placeholder="Enter your name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                  />
+                </div>
               </div>
               <div className="form-group">
                 <label className="form-label">Email Address</label>
