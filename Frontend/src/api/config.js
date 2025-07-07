@@ -15,7 +15,8 @@ const API_CONFIG = {
       OVERVIEW: '/homepage/overview',
       ANNOUNCEMENTS: '/homepage/announcements',
       QUICKLINKS: '/homepage/quick-links',
-    }
+    },
+    PROFILE: '/profile'
   },
   TIMEOUT: 10000, // 10 seconds
 };
