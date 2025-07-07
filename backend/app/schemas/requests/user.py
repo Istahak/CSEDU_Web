@@ -1,11 +1,12 @@
 from pydantic import BaseModel, Field, EmailStr, field_validator
 from uuid import UUID
-from typing import Optional
+from typing import Optional, Literal
 
 class UserSignUp(BaseModel):
     user_name: Optional[str] = Field(...)
     email: Optional[EmailStr] = Field(...)
     password: Optional[str] = Field(...)
+    role: Optional[Literal["student", "faculty", "admin"]] = Field("student")
 
     @field_validator('user_name')
     def user_name_must_not_be_empty(cls, v):

@@ -3,6 +3,7 @@ from fastapi import Request, status
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from models.user import User, UserSession, Profile
+from models.role import Role
 from schemas.requests.user import UserSignUp, UserSignIn
 from utils import oauth2, agent_parse
 
@@ -21,8 +22,25 @@ def sign_up_user(userSchema: UserSignUp, db: Session):
     
     # if not oauth2.is_strong_password(userSchema.password):
     #     return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content={"message": "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character"})
+    
+    # Get the role based on the role name provided
+    role = db.query(Role).filter(Role.name == userSchema.role).first()
+    if not role:
+        # If the requested role doesn't exist, create a default student role
+        role = db.query(Role).filter(Role.name == "student").first()
+        if not role:
+            # If no student role exists, create it
+            role = Role(name="student")
+            db.add(role)
+            db.commit()
+            db.refresh(role)
 
-    user = User(**userSchema.model_dump())
+    # Create the user with the selected role
+    user_data = userSchema.model_dump()
+    user_data.pop('role', None)  # Remove role from the dict as we'll set it separately
+    
+    user = User(**user_data)
+    user.role_id = role.id
     user.password_salt = oauth2.generate_salt()
     user.password = oauth2.hash(user.password+" "+user.password_salt)
 
@@ -49,12 +67,19 @@ def sign_in_user(userSchema: UserSignIn, db: Session, request: Request):
 
     if not oauth2.verify(userSchema.password+" "+user.password_salt, user.password):
         return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED, content={"message": "Invalid password"})
+    
+    # Get role name from the role object
+    role_name = "student"  # Default role
+    if user.role_id:
+        role = db.query(Role).filter(Role.id == user.role_id).first()
+        if role:
+            role_name = role.name
 
     token = oauth2.createAccessToken({
                 "user_id":str(user.id),
                 "user_name":user.user_name,
                 "email":user.email,
-                "role":user.role,
+                "role":role_name,
                 "ip_address":ip_address,
                 "os":user_agent_info['os'],
                 "device":user_agent_info['device'],
@@ -68,7 +93,7 @@ def sign_in_user(userSchema: UserSignIn, db: Session, request: Request):
 
     return {
         "user_id": user.id,
-        "role": user.role,
+        "role": role_name,
         "token": token
     }
 
