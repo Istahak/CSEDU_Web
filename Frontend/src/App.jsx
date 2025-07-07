@@ -58,22 +58,25 @@ function App() {
       }
     };
 
-    window.addEventListener('popstate', handlePopState);
-    
+    window.addEventListener("popstate", handlePopState);
+
     // Push initial state
     if (window.history.state === null) {
-      window.history.replaceState({ page: currentPage }, '', `#${currentPage}`);
+      window.history.replaceState({ page: currentPage }, "", `#${currentPage}`);
     }
 
     return () => {
-      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener("popstate", handlePopState);
     };
   }, []);
 
   // Update history when page changes
   useEffect(() => {
-    if (window.history.state === null || window.history.state.page !== currentPage) {
-      window.history.pushState({ page: currentPage }, '', `#${currentPage}`);
+    if (
+      window.history.state === null ||
+      window.history.state.page !== currentPage
+    ) {
+      window.history.pushState({ page: currentPage }, "", `#${currentPage}`);
     }
   }, [currentPage]);
   const [selectedFaculty, setSelectedFaculty] = useState(null);
@@ -345,7 +348,12 @@ function App() {
           />
         );
       case "academic-calendar-view":
-        return <AcademicCalendarView onBack={() => setCurrentPage("home")} />;
+        return (
+          <AcademicCalendarView
+            onBack={() => setCurrentPage("home")}
+            userRole={userRole}
+          />
+        );
       case "exam-schedule":
         return (
           <ExamSchedule onBack={() => setCurrentPage("academic-calendar")} />
