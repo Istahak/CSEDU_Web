@@ -210,10 +210,7 @@ const NoticeDetails = ({ notice, onBack }) => {
           ← Back to Notices
         </button>
         <div className="notice-actions">
-          <button className="action-btn" onClick={handleShare}>
-            📤 Share
-          </button>
-          <button className="action-btn" onClick={handlePrint}>
+          <button className="action-btn print-btn" onClick={handlePrint}>
             🖨️ Print
           </button>
         </div>
@@ -233,11 +230,6 @@ const NoticeDetails = ({ notice, onBack }) => {
                 day: "numeric",
               })}
             </span>
-            {fullNotice.status && (
-              <span className={`notice-status ${fullNotice.status}`}>
-                {fullNotice.status === "active" ? "🟢 Active" : "🔴 Archived"}
-              </span>
-            )}
           </div>
         </div>
 
@@ -255,7 +247,7 @@ const NoticeDetails = ({ notice, onBack }) => {
               {fullNotice.attachments.map((attachment, index) => (
                 <div key={index} className="attachment-item">
                   <div className="attachment-info">
-                    <span className="attachment-icon">📎</span>
+                    <span className="attachment-icon">�</span>
                     <div className="attachment-details">
                       <span className="attachment-name">{attachment.name}</span>
                       <span className="attachment-size">{attachment.size}</span>
@@ -283,10 +275,7 @@ const NoticeDetails = ({ notice, onBack }) => {
             </p>
           </div>
           <div className="notice-actions-mobile">
-            <button className="action-btn mobile" onClick={handleShare}>
-              📤 Share
-            </button>
-            <button className="action-btn mobile" onClick={handlePrint}>
+            <button className="action-btn mobile print-btn" onClick={handlePrint}>
               🖨️ Print
             </button>
           </div>

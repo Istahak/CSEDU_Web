@@ -3,6 +3,9 @@ import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
+// added by miraj
+import authService from "./api/AuthService";
+import TestSignup from "./TestSignup"; // added by miraj
 import Directory from "./pages/Directory";
 import FacultyProfile from "./pages/FacultyProfile";
 import Academics from "./pages/Academics";
@@ -15,8 +18,8 @@ import Projects from "./pages/Projects";
 import ProjectDetails from "./pages/ProjectDetails";
 import UserProfile from "./pages/UserProfile";
 import TeacherProfile from "./pages/TeacherProfile";
+import AdminProfile from "./pages/AdminProfile";
 import EditProfile from "./pages/EditProfile";
-import TeacherEditProfile from "./pages/TeacherEditProfile";
 import AcademicCalendar from "./pages/AcademicCalendar";
 import AcademicCalendarView from "./pages/AcademicCalendarView";
 import ExamSchedule from "./pages/ExamSchedule";
@@ -31,6 +34,8 @@ import GradeAssignment from "./pages/GradeAssignment";
 import MarkAttendance from "./pages/MarkAttendance";
 import CreateAssignment from "./pages/CreateAssignment";
 import UploadMaterials from "./pages/UploadMaterials";
+import ScheduleMeeting from "./pages/ScheduleMeeting";
+import ReserveRoom from "./pages/ReserveRoom";
 import LabBooking from "./pages/LabBooking";
 import LabBookingSuccess from "./pages/LabBookingSuccess";
 import Signup from "./pages/Signup";
@@ -44,6 +49,38 @@ function App() {
   // Scroll to top whenever the page changes
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, [currentPage]);
+
+  // Add browser history support
+  useEffect(() => {
+    const handlePopState = (event) => {
+      if (event.state && event.state.page) {
+        setCurrentPage(event.state.page);
+      } else {
+        setCurrentPage("home");
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    // Push initial state
+    if (window.history.state === null) {
+      window.history.replaceState({ page: currentPage }, "", `#${currentPage}`);
+    }
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
+
+  // Update history when page changes
+  useEffect(() => {
+    if (
+      window.history.state === null ||
+      window.history.state.page !== currentPage
+    ) {
+      window.history.pushState({ page: currentPage }, "", `#${currentPage}`);
+    }
   }, [currentPage]);
   const [selectedFaculty, setSelectedFaculty] = useState(null);
   const [selectedCourse, setSelectedCourse] = useState(null);
@@ -66,39 +103,33 @@ function App() {
   });
 
   const [teacherData, setTeacherData] = useState({
-    name: "Dr. Sarah Wilson",
-    facultyId: "CSEDU-FAC-001",
-    email: "sarah.wilson@csedu.ac.bd",
-    phone: "+880 1987 654321",
+    name: "Dr. John Smith",
+    employeeId: "FAC-2018-001",
+    email: "john.smith@csedu.ac.bd",
+    phone: "+880 1234 567891",
     designation: "Associate Professor",
     department: "Computer Science & Engineering",
-    specialization: "Machine Learning, Artificial Intelligence",
-    officeRoom: "Room 402, CSEDU Building",
-    officeHours: "Sunday-Thursday: 10:00 AM - 12:00 PM",
-    joiningDate: "January 15, 2018",
-    education: "PhD in Computer Science, Stanford University",
-    experience: "8 years",
-    researchInterests:
-      "Deep Learning, Natural Language Processing, Computer Vision",
+    specialization: "Machine Learning, Data Science",
+    officeRoom: "Room 302, CSE Building",
+    officeHours: "Mon-Wed-Fri: 2:00 PM - 4:00 PM",
+    education: "Ph.D. in Computer Science",
   });
 
   const handleLogin = (role) => {
     setIsAuthenticated(true);
     setUserRole(role);
-    // Redirect to appropriate profile based on role
-    if (role === "faculty") {
-      setCurrentPage("teacher-profile");
-    } else if (role === "student") {
-      setCurrentPage("user-profile");
-    } else {
-      setCurrentPage("home");
-    }
+    setCurrentPage("home");
+  };
+
+  const handleSignup = () => {
+    // Simply navigate to login page after signup is handled in the Signup component
+    setCurrentPage("login");
   };
 
   const handleLogout = () => {
     setIsAuthenticated(false);
     setUserRole(null);
-    setCurrentPage("home");
+    setCurrentPage("login");
   };
 
   // If not authenticated and currentPage is 'login', show login page with header
@@ -128,7 +159,7 @@ function App() {
           onLogout={handleLogout}
         />
         <Signup
-          onSignup={() => setCurrentPage("login")}
+          onSignup={handleSignup}
           onBack={() => setCurrentPage("login")}
         />
       </>
@@ -272,6 +303,8 @@ function App() {
             onNavigate={(page) => setCurrentPage(page)}
           />
         );
+      case "admin-profile":
+        return <AdminProfile onLogout={handleLogout} />;
       case "teacher-edit-profile":
         return (
           <TeacherEditProfile
@@ -299,23 +332,20 @@ function App() {
         return (
           <UploadMaterials onBack={() => setCurrentPage("teacher-profile")} />
         );
+      case "schedule-meeting":
+        return (
+          <ScheduleMeeting onBack={() => setCurrentPage("teacher-profile")} />
+        );
+      case "reserve-room":
+        return <ReserveRoom onBack={() => setCurrentPage("teacher-profile")} />;
       case "edit-profile":
         return (
           <EditProfile
-            userData={userRole === "faculty" ? teacherData : userData}
-            onBack={() =>
-              setCurrentPage(
-                userRole === "faculty" ? "teacher-profile" : "user-profile"
-              )
-            }
+            userData={userData}
+            onBack={() => setCurrentPage("user-profile")}
             onSave={(updatedData) => {
-              if (userRole === "faculty") {
-                setTeacherData(updatedData);
-                setCurrentPage("teacher-profile");
-              } else {
-                setUserData(updatedData);
-                setCurrentPage("user-profile");
-              }
+              setUserData(updatedData);
+              setCurrentPage("user-profile");
             }}
           />
         );
@@ -326,7 +356,12 @@ function App() {
           />
         );
       case "academic-calendar-view":
-        return <AcademicCalendarView onBack={() => setCurrentPage("home")} />;
+        return (
+          <AcademicCalendarView
+            onBack={() => setCurrentPage("home")}
+            userRole={userRole}
+          />
+        );
       case "exam-schedule":
         return (
           <ExamSchedule onBack={() => setCurrentPage("academic-calendar")} />

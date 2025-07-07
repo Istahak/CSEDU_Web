@@ -6,6 +6,7 @@ class UserSignUp(BaseModel):
     user_name: Optional[str] = Field(...)
     email: Optional[EmailStr] = Field(...)
     password: Optional[str] = Field(...)
+    full_name: Optional[str] = Field(...)
     role: Optional[Literal["student", "faculty", "admin"]] = Field("student")
 
     @field_validator('user_name')
@@ -24,6 +25,12 @@ class UserSignUp(BaseModel):
     def password_must_not_be_empty(cls, v):
         if v is None or not v.strip():
             raise ValueError('Password must not be empty')
+        return v
+
+    @field_validator('full_name')
+    def full_name_must_not_be_empty(cls, v):
+        if v is None or not v.strip():
+            raise ValueError('Full name must not be empty')
         return v
 
     class Config:

@@ -3,7 +3,8 @@ import "./Events.css";
 
 const Events = ({ onBack, onEventRegister }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All Events");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedStatus, setSelectedStatus] = useState("All");
 
   const events = [
     {
@@ -92,12 +93,14 @@ const Events = ({ onBack, onEventRegister }) => {
   ];
 
   const categories = [
-    "All Events",
+    "All",
     "Academic",
-    "Workshop",
+    "Workshop", 
     "Cultural",
     "Technology",
   ];
+
+  const statuses = ["All", "FREE", "PAID/ADM required"];
 
   const filteredEvents = events.filter((event) => {
     const matchesSearch =
@@ -107,8 +110,10 @@ const Events = ({ onBack, onEventRegister }) => {
         tag.toLowerCase().includes(searchTerm.toLowerCase())
       );
     const matchesCategory =
-      selectedCategory === "All Events" || event.category === selectedCategory;
-    return matchesSearch && matchesCategory;
+      selectedCategory === "All" || event.category === selectedCategory;
+    const matchesStatus =
+      selectedStatus === "All" || event.status === selectedStatus;
+    return matchesSearch && matchesCategory && matchesStatus;
   });
 
   const handleRegister = (eventId) => {
@@ -121,63 +126,102 @@ const Events = ({ onBack, onEventRegister }) => {
   return (
     <div className="events-page">
       <div className="events-container">
-        {onBack && (
+        {/* {onBack && (
           <button onClick={onBack} className="back-button">
             ← Back
           </button>
-        )}
+        )} */}
 
         <div className="events-header">
-          <h1>Upcoming Events</h1>
+          <h1 className="events-title">Upcoming Events</h1>
           <p className="events-subtitle">
             Discover and join exciting events happening at our university
           </p>
         </div>
 
-        <div className="events-filters">
+        <div className="directory-controls">
           <div className="search-section">
-            <h3>Search Events</h3>
-            <div className="search-input-container">
+            <div className="search-bar">
               <input
                 type="text"
-                placeholder="Search by title or description"
+                placeholder="Search events by title, description, or tags..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="search-input"
               />
-              <span className="search-icon">🔍</span>
+              {searchTerm && (
+                <button
+                  className="clear-search-btn"
+                  onClick={() => setSearchTerm("")}
+                  title="Clear search"
+                >
+                  ×
+                </button>
+              )}
             </div>
           </div>
 
-          <div className="category-section">
-            <h3>Category</h3>
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="category-select"
-            >
-              {categories.map((category) => (
-                <option key={category} value={category}>
-                  {category}
-                </option>
-              ))}
-            </select>
+          <div className="filters-row">
+            <div className="filter-group">
+              <label htmlFor="category-select" className="filter-label">
+                Category
+              </label>
+              <select
+                id="category-select"
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="filter-select"
+              >
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="filter-group">
+              <label htmlFor="status-select" className="filter-label">
+                Status
+              </label>
+              <select
+                id="status-select"
+                value={selectedStatus}
+                onChange={(e) => setSelectedStatus(e.target.value)}
+                className="filter-select"
+              >
+                {statuses.map((status) => (
+                  <option key={status} value={status}>
+                    {status}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {(selectedCategory !== "All" || selectedStatus !== "All" || searchTerm) && (
+              <button
+                className="clear-filters-button"
+                onClick={() => {
+                  setSelectedCategory("All");
+                  setSelectedStatus("All");
+                  setSearchTerm("");
+                }}
+              >
+                Clear Filters
+              </button>
+            )}
           </div>
         </div>
 
         <div className="events-grid">
           {filteredEvents.map((event) => (
             <div key={event.id} className="event-card">
-              <div className="event-image">
-                <div className="event-placeholder">
-                  <span className="event-icon">📅</span>
-                </div>
-                <div className="event-status">
-                  <span
-                    className={`status-badge ${
-                      event.status === "FREE" ? "free" : "paid"
-                    }`}
-                  >
+              <div className="event-header">
+                <div className="event-meta">
+                  <span className={`event-type ${event.category.toLowerCase()}`}>
+                    {event.category}
+                  </span>
+                  <span className={`event-status ${event.status === "FREE" ? "free" : "paid"}`}>
                     {event.status}
                   </span>
                 </div>
@@ -189,20 +233,20 @@ const Events = ({ onBack, onEventRegister }) => {
 
                 <div className="event-details">
                   <div className="event-detail-item">
-                    <span className="detail-icon">📅</span>
-                    <span>{event.date}</span>
+                    <span className="detail-label">Date:</span>
+                    <span className="detail-value">{event.date}</span>
                   </div>
                   <div className="event-detail-item">
-                    <span className="detail-icon">🕐</span>
-                    <span>{event.time}</span>
+                    <span className="detail-label">Time:</span>
+                    <span className="detail-value">{event.time}</span>
                   </div>
                   <div className="event-detail-item">
-                    <span className="detail-icon">📍</span>
-                    <span>{event.location}</span>
+                    <span className="detail-label">Location:</span>
+                    <span className="detail-value">{event.location}</span>
                   </div>
                   <div className="event-detail-item">
-                    <span className="detail-icon">👥</span>
-                    <span>{event.attendees}</span>
+                    <span className="detail-label">Attendees:</span>
+                    <span className="detail-value">{event.attendees}</span>
                   </div>
                 </div>
 
@@ -213,7 +257,9 @@ const Events = ({ onBack, onEventRegister }) => {
                     </span>
                   ))}
                 </div>
+              </div>
 
+              <div className="event-footer">
                 <button
                   className="register-button"
                   onClick={() => handleRegister(event.id)}
@@ -226,12 +272,10 @@ const Events = ({ onBack, onEventRegister }) => {
         </div>
 
         {filteredEvents.length === 0 && (
-          <div className="no-events">
-            <span className="no-events-icon">📅</span>
+          <div className="no-events-message">
             <h3>No events found</h3>
             <p>
-              Try adjusting your search criteria or check back later for new
-              events.
+              Try adjusting your search criteria or check back later for new events.
             </p>
           </div>
         )}

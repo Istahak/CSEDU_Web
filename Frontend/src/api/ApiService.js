@@ -84,7 +84,24 @@ class ApiService {
     const url = `${API_CONFIG.BASE_URL}${API_CONFIG.API_VERSION}${endpoint}`;
     const headers = this.getHeaders();
     
+    // added by miraj - debug logging
+    console.log('Making POST request to:', url);
+    console.log('With headers:', headers);
+    console.log('With data:', data);
+    
     try {
+      // Check if the backend is accessible
+      try {
+        const pingResponse = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.API_VERSION}/auth/isLogged`, {
+          method: 'GET',
+          headers: this.getHeaders(),
+          mode: 'cors'
+        });
+        console.log('Backend ping response:', pingResponse.status, await pingResponse.text().catch(() => 'No text'));
+      } catch (pingError) {
+        console.error('Backend ping failed:', pingError);
+      }
+      
       const response = await fetch(url, {
         method: 'POST',
         headers,
@@ -92,8 +109,10 @@ class ApiService {
         mode: 'cors'
       });
       
+      console.log('POST response status:', response.status);
       return this.handleResponse(response);
     } catch (error) {
+      console.error('POST request failed:', error);
       return this.handleError(error);
     }
   }
@@ -167,22 +186,36 @@ class ApiService {
    * @returns {Promise} - Promise with response data
    */
   async handleResponse(response) {
+    // added by miraj - improved error handling
     if (!response.ok) {
-      const error = await response.json().catch(() => ({}));
+      console.error('API Error Response:', response.status, response.statusText);
+      let errorData;
+      try {
+        errorData = await response.json();
+        console.error('Error data:', errorData);
+      } catch (e) {
+        console.error('Could not parse error response as JSON');
+        errorData = {};
+      }
+      
       throw {
         status: response.status,
-        message: error.detail || error.message || 'Something went wrong',
-        data: error
+        message: errorData.message || errorData.detail || 'Something went wrong',
+        data: errorData
       };
     }
     
     // Check if response is empty
     const contentType = response.headers.get('content-type');
     if (contentType && contentType.includes('application/json')) {
-      return await response.json();
+      const jsonData = await response.json();
+      console.log('API Response:', jsonData);
+      return jsonData;
     }
     
-    return await response.text();
+    const textData = await response.text();
+    console.log('API Response (text):', textData);
+    return textData;
   }
   
   /**

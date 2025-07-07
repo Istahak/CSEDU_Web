@@ -39,6 +39,9 @@ def sign_up_user(userSchema: UserSignUp, db: Session):
     user_data = userSchema.model_dump()
     user_data.pop('role', None)  # Remove role from the dict as we'll set it separately
     
+    # Extract full_name before creating the User object
+    full_name = user_data.pop('full_name', None)
+    
     user = User(**user_data)
     user.role_id = role.id
     user.password_salt = oauth2.generate_salt()
@@ -47,7 +50,7 @@ def sign_up_user(userSchema: UserSignUp, db: Session):
     db.add(user)
     db.commit()
     db.refresh(user)
-    profile = Profile(user_id=user.id)
+    profile = Profile(user_id=user.id, full_name=full_name)
     db.add(profile)
     db.commit()
 

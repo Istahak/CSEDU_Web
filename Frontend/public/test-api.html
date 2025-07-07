@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Backend API Test</h1>
+    
+    <div>
+        <h2>Test Backend Connection</h2>
+        <button id="testConnection">Test Connection</button>
+        <div id="connectionResult"></div>
+    </div>
+    
+    <div>
+        <h2>Create Test Account</h2>
+        <form id="signupForm">
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" value="testuser123" required>
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" value="testuser123@example.com" required>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" value="password123" required>
+            </div>
+            <div>
+                <label for="fullName">Full Name:</label>
+                <input type="text" id="fullName" value="Test User" required>
+            </div>
+            <div>
+                <label for="role">Role:</label>
+                <select id="role">
+                    <option value="student">Student</option>
+                    <option value="faculty">Faculty</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            <button type="submit">Create Account</button>
+        </form>
+        <div id="signupResult"></div>
+    </div>
+    
+    <div>
+        <h2>Login with Test Account</h2>
+        <form id="loginForm">
+            <div>
+                <label for="loginEmail">Email:</label>
+                <input type="email" id="loginEmail" value="testuser123@example.com" required>
+            </div>
+            <div>
+                <label for="loginPassword">Password:</label>
+                <input type="password" id="loginPassword" value="password123" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <div id="loginResult"></div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8000/api/v1';
+        
+        // Test connection
+        document.getElementById('testConnection').addEventListener('click', async () => {
+            const resultDiv = document.getElementById('connectionResult');
+            resultDiv.innerHTML = 'Testing connection...';
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/isLogged`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        <p>Connection successful!</p>
+                        <p>Status: ${response.status}</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <p>Connection failed!</p>
+                        <p>Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        });
+        
+        // Signup form
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const resultDiv = document.getElementById('signupResult');
+            resultDiv.innerHTML = 'Creating account...';
+            
+            const userData = {
+                user_name: document.getElementById('username').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                full_name: document.getElementById('fullName').value,
+                role: document.getElementById('role').value
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/signup`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(userData)
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            <p>Account created successfully!</p>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                    // Update login form with the credentials
+                    document.getElementById('loginEmail').value = userData.email;
+                    document.getElementById('loginPassword').value = userData.password;
+                } else {
+                    const errorData = await response.json();
+                    resultDiv.innerHTML = `
+                        <div class="error">
+                            <p>Failed to create account!</p>
+                            <p>Status: ${response.status}</p>
+                            <pre>${JSON.stringify(errorData, null, 2)}</pre>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <p>Error creating account!</p>
+                        <p>Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        });
+        
+        // Login form
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const resultDiv = document.getElementById('loginResult');
+            resultDiv.innerHTML = 'Logging in...';
+            
+            const loginData = {
+                email: document.getElementById('loginEmail').value,
+                password: document.getElementById('loginPassword').value
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/signin`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(loginData)
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            <p>Login successful!</p>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                } else {
+                    const errorData = await response.json();
+                    resultDiv.innerHTML = `
+                        <div class="error">
+                            <p>Login failed!</p>
+                            <p>Status: ${response.status}</p>
+                            <pre>${JSON.stringify(errorData, null, 2)}</pre>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <p>Error during login!</p>
+                        <p>Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

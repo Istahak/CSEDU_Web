@@ -22,30 +22,32 @@ class AuthService {
    */
   async login(email, password) {
     try {
-      const response = await ApiService.postForm(API_CONFIG.ENDPOINTS.AUTH.LOGIN, {
-        username: email, // FastAPI expects 'username' for OAuth2 password flow
+      // added by miraj
+      console.log('Login attempt with email:', email);
+      
+      const response = await ApiService.post(API_CONFIG.ENDPOINTS.AUTH.LOGIN, {
+        email: email,
         password: password
       });
       
+      console.log('Login response:', response);
+      
       // Store token in localStorage
-      if (response.access_token) {
-        this.setToken(response.access_token);
+      if (response.token) {
+        this.setToken(response.token);
         
-        try {
-          // Get user profile after successful login
-          const userData = await this.getCurrentUser();
-          // Store user data in localStorage
-          this.setUserData(userData);
-          return { user: userData, token: response.access_token };
-        } catch (userError) {
-          console.error('Error fetching user profile:', userError);
-          // If we can't get the user profile but have a token, create a basic user object
-          const basicUserData = { email: email };
-          this.setUserData(basicUserData);
-          return { user: basicUserData, token: response.access_token };
-        }
+        // Create user data object from response
+        const userData = {
+          user_id: response.user_id,
+          email: email,
+          role: response.role
+        };
+        
+        // Store user data in localStorage
+        this.setUserData(userData);
+        return { user: userData, token: response.token };
       } else {
-        throw new Error('No access token received');
+        throw new Error('No token received');
       }
     } catch (error) {
       console.error('Login error:', error);
@@ -60,9 +62,25 @@ class AuthService {
    */
   async signup(userData) {
     try {
-      const response = await ApiService.post(API_CONFIG.ENDPOINTS.AUTH.SIGNUP, userData);
+      // added by miraj
+      console.log('AuthService signup called with:', userData);
+      
+      const signupData = {
+        user_name: userData.user_name || userData.username || userData.email.split('@')[0],
+        email: userData.email,
+        password: userData.password,
+        full_name: userData.full_name || userData.name,
+        role: userData.role
+      };
+      
+      console.log('Formatted signup data:', signupData);
+      console.log('Sending to endpoint:', API_CONFIG.ENDPOINTS.AUTH.SIGNUP);
+      
+      const response = await ApiService.post(API_CONFIG.ENDPOINTS.AUTH.SIGNUP, signupData);
+      console.log('Signup response:', response);
       return response;
     } catch (error) {
+      console.error('Signup error:', error);
       throw error;
     }
   }
@@ -144,23 +162,27 @@ class AuthService {
    * @returns {Object} - Demo user data
    */
   getDemoUserData(role) {
+    // added by miraj - updated with working test accounts
     const demoCredentials = {
       student: { 
-        email: "student@gmail.com", 
-        password: "123",
-        full_name: "Demo Student",
+        user_name: "teststudent123",
+        email: "student123@test.com", 
+        password: "student123",
+        full_name: "Test Student",
         role: "student"
       },
       faculty: { 
-        email: "faculty@gmail.com", 
-        password: "123",
-        full_name: "Demo Faculty",
+        user_name: "testfaculty123",
+        email: "faculty123@test.com", 
+        password: "faculty123",
+        full_name: "Test Faculty",
         role: "faculty"
       },
       admin: { 
-        email: "admin@gmail.com", 
-        password: "123",
-        full_name: "Demo Admin",
+        user_name: "testadmin123",
+        email: "admin123@test.com", 
+        password: "admin123",
+        full_name: "Test Admin",
         role: "admin"
       }
     };

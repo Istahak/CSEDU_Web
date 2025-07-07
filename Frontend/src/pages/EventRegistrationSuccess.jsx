@@ -72,34 +72,25 @@ const EventRegistrationSuccess = ({
             <h2>Event Details</h2>
             <div className="event-info">
               <div className="info-item">
-                <div className="info-icon">📅</div>
                 <div className="info-content">
                   <span className="info-label">Date</span>
                   <span className="info-value">{formatDate(event?.date)}</span>
                 </div>
               </div>
-
               <div className="info-item">
-                <div className="info-icon">⏰</div>
                 <div className="info-content">
                   <span className="info-label">Time</span>
                   <span className="info-value">{formatTime(event?.time)}</span>
                 </div>
               </div>
-
               <div className="info-item">
-                <div className="info-icon">📍</div>
                 <div className="info-content">
                   <span className="info-label">Location</span>
-                  <span className="info-value">
-                    {event?.location || "Main Auditorium"}
-                  </span>
+                  <span className="info-value">{event?.location || "Main Auditorium"}</span>
                 </div>
               </div>
-
               {event?.status !== "FREE" && (
                 <div className="info-item">
-                  <div className="info-icon">💳</div>
                   <div className="info-content">
                     <span className="info-label">Registration Fee</span>
                     <span className="info-value">$50.00</span>
@@ -147,58 +138,11 @@ const EventRegistrationSuccess = ({
 
           <div className="action-buttons">
             <button className="add-calendar-btn" onClick={handleAddToCalendar}>
-              📅 Add to Calendar
+              Add to Calendar
             </button>
             <button className="back-to-events-btn" onClick={onBackToEvents}>
               Back to Events
             </button>
-          </div>
-
-          <div className="confirmation-notice">
-            <div className="notice-icon">ℹ️</div>
-            <div className="notice-content">
-              <p>
-                <strong>Important:</strong> A confirmation email has been sent
-                to your registered email address with event details and
-                requirements.
-              </p>
-            </div>
-          </div>
-
-          <div className="next-steps">
-            <h3>What's Next?</h3>
-            <div className="steps-list">
-              <div className="step-item">
-                <div className="step-number">1</div>
-                <div className="step-content">
-                  <h4>Check Your Email</h4>
-                  <p>
-                    Look for a confirmation email with event details and any
-                    special instructions.
-                  </p>
-                </div>
-              </div>
-              <div className="step-item">
-                <div className="step-number">2</div>
-                <div className="step-content">
-                  <h4>Mark Your Calendar</h4>
-                  <p>
-                    Add the event to your calendar to get reminders before the
-                    event date.
-                  </p>
-                </div>
-              </div>
-              <div className="step-item">
-                <div className="step-number">3</div>
-                <div className="step-content">
-                  <h4>Prepare for the Event</h4>
-                  <p>
-                    Review any materials or prerequisites mentioned in the
-                    confirmation email.
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

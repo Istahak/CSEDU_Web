@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "./Login.css";
+// added by miraj
+import authService from "../api/AuthService";
 
 const Login = ({ onLogin }) => {
   const [selectedRole, setSelectedRole] = useState("");
@@ -27,15 +29,18 @@ const Login = ({ onLogin }) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
-    setTimeout(() => {
-      const roleCredentials = credentials[selectedRole];
-      if (email === roleCredentials.email && password === roleCredentials.password) {
-        onLogin(selectedRole);
-      } else {
-        setError("Invalid email or password");
-      }
+    
+    try {
+      // added by miraj
+      const response = await authService.login(email, password);
+      // On successful login, call the onLogin prop with the user's role
+      onLogin(response.user.role);
+    } catch (error) {
+      // Handle login error
+      setError(error.message || "Invalid email or password");
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   const getRoleDisplayName = (role) => {

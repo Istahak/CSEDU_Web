@@ -94,76 +94,92 @@ const TeacherProfile = ({
         return (
           <div className="tab-content">
             <div className="courses-section">
-              <h3>Current Courses</h3>
-              <div className="course-list">
-                <div className="course-item">
-                  <div className="course-header">
-                    <h4>CSE 408 - Software Development</h4>
-                    <span className="course-code">Section A</span>
+              <div className="section-header">
+                <h3>Current Courses</h3>
+                <p className="section-subtitle">Manage your course assignments and track student progress</p>
+              </div>
+              <div className="content-grid">
+                <div className="content-card">
+                  <div className="card-header">
+                    <div className="course-badge academic">CSE 408</div>
+                    <div className="course-meta">
+                      <h4>Software Development</h4>
+                      <span className="section-badge">Section A</span>
+                    </div>
                   </div>
-                  <p>
-                    <strong>Schedule:</strong> Sunday, Tuesday - 10:00 AM -
-                    11:30 AM
-                  </p>
-                  <p>
-                    <strong>Students Enrolled:</strong> 45
-                  </p>
-                  <p>
-                    <strong>Room:</strong> Room 301
-                  </p>
-                  <div className="course-actions">
-                    <button className="action-btn primary">
-                      View Students
-                    </button>
-                    <button className="action-btn secondary">
-                      Manage Grades
-                    </button>
+                  <div className="card-content">
+                    <div className="info-row">
+                      <span className="info-label">📅 Schedule:</span>
+                      <span className="info-value">Sunday, Tuesday - 10:00 AM - 11:30 AM</span>
+                    </div>
+                    <div className="info-row">
+                      <span className="info-label">👥 Students:</span>
+                      <span className="info-value">45 enrolled</span>
+                    </div>
+                    <div className="info-row">
+                      <span className="info-label">🏫 Room:</span>
+                      <span className="info-value">Room 301</span>
+                    </div>
+                  </div>
+                  <div className="card-actions">
+                    <button className="action-btn primary">View Students</button>
+                    <button className="action-btn secondary">Manage Grades</button>
                     <button className="action-btn secondary">Attendance</button>
                   </div>
                 </div>
-                <div className="course-item">
-                  <div className="course-header">
-                    <h4>CSE 412 - Machine Learning</h4>
-                    <span className="course-code">Section B</span>
+                <div className="content-card">
+                  <div className="card-header">
+                    <div className="course-badge workshop">CSE 412</div>
+                    <div className="course-meta">
+                      <h4>Machine Learning</h4>
+                      <span className="section-badge">Section B</span>
+                    </div>
                   </div>
-                  <p>
-                    <strong>Schedule:</strong> Monday, Wednesday - 2:00 PM -
-                    3:30 PM
-                  </p>
-                  <p>
-                    <strong>Students Enrolled:</strong> 38
-                  </p>
-                  <p>
-                    <strong>Room:</strong> Room 205
-                  </p>
-                  <div className="course-actions">
-                    <button className="action-btn primary">
-                      View Students
-                    </button>
-                    <button className="action-btn secondary">
-                      Manage Grades
-                    </button>
+                  <div className="card-content">
+                    <div className="info-row">
+                      <span className="info-label">📅 Schedule:</span>
+                      <span className="info-value">Monday, Wednesday - 2:00 PM - 3:30 PM</span>
+                    </div>
+                    <div className="info-row">
+                      <span className="info-label">👥 Students:</span>
+                      <span className="info-value">38 enrolled</span>
+                    </div>
+                    <div className="info-row">
+                      <span className="info-label">🏫 Room:</span>
+                      <span className="info-value">Room 205</span>
+                    </div>
+                  </div>
+                  <div className="card-actions">
+                    <button className="action-btn primary">View Students</button>
+                    <button className="action-btn secondary">Manage Grades</button>
                     <button className="action-btn secondary">Attendance</button>
                   </div>
                 </div>
-                <div className="course-item">
-                  <div className="course-header">
-                    <h4>CSE 498 - Thesis Supervision</h4>
-                    <span className="course-code">Research</span>
+                <div className="content-card">
+                  <div className="card-header">
+                    <div className="course-badge technology">CSE 498</div>
+                    <div className="course-meta">
+                      <h4>Thesis Supervision</h4>
+                      <span className="section-badge">Research</span>
+                    </div>
                   </div>
-                  <p>
-                    <strong>Students Supervised:</strong> 8
-                  </p>
-                  <p>
-                    <strong>Meeting Schedule:</strong> By Appointment
-                  </p>
-                  <div className="course-actions">
-                    <button className="action-btn primary">
-                      View Students
-                    </button>
-                    <button className="action-btn secondary">
-                      Progress Reports
-                    </button>
+                  <div className="card-content">
+                    <div className="info-row">
+                      <span className="info-label">👥 Students:</span>
+                      <span className="info-value">8 supervised</span>
+                    </div>
+                    <div className="info-row">
+                      <span className="info-label">📅 Meetings:</span>
+                      <span className="info-value">By Appointment</span>
+                    </div>
+                    <div className="info-row">
+                      <span className="info-label">🏫 Location:</span>
+                      <span className="info-value">Room 402 / Online</span>
+                    </div>
+                  </div>
+                  <div className="card-actions">
+                    <button className="action-btn primary">View Students</button>
+                    <button className="action-btn secondary">Progress Reports</button>
                   </div>
                 </div>
               </div>
@@ -174,88 +190,110 @@ const TeacherProfile = ({
         return (
           <div className="tab-content">
             <div className="research-section">
-              <h3>Research Activities</h3>
+              <div className="section-header">
+                <h3>Research Activities</h3>
+                <p className="section-subtitle">Current projects, publications, and research initiatives</p>
+              </div>
 
               <div className="research-subsection">
                 <h4>Current Research Projects</h4>
-                <div className="research-list">
-                  <div className="research-item">
-                    <h5>Deep Learning for Medical Image Analysis</h5>
-                    <p>
-                      <strong>Funding:</strong> NSF Grant - $125,000
-                    </p>
-                    <p>
-                      <strong>Duration:</strong> January 2023 - December 2025
-                    </p>
-                    <p>
-                      <strong>Collaborators:</strong> Dr. John Smith (Medical
-                      College), Dr. Jane Doe (Engineering Dept)
-                    </p>
-                    <p>
-                      <strong>Status:</strong>{" "}
-                      <span className="status-active">Active</span>
-                    </p>
+                <div className="content-grid">
+                  <div className="content-card research-card">
+                    <div className="card-header">
+                      <div className="status-badge active">Active</div>
+                      <div className="project-meta">
+                        <h4>Deep Learning for Medical Image Analysis</h4>
+                        <p className="project-period">January 2023 - December 2025</p>
+                      </div>
+                    </div>
+                    <div className="card-content">
+                      <div className="info-row">
+                        <span className="info-label">💰 Funding:</span>
+                        <span className="info-value">NSF Grant - $125,000</span>
+                      </div>
+                      <div className="info-row">
+                        <span className="info-label">🤝 Collaborators:</span>
+                        <span className="info-value">Dr. John Smith (Medical College), Dr. Jane Doe (Engineering Dept)</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="research-item">
-                    <h5>Natural Language Processing for Bengali Text</h5>
-                    <p>
-                      <strong>Funding:</strong> University Research Grant -
-                      $50,000
-                    </p>
-                    <p>
-                      <strong>Duration:</strong> March 2024 - February 2026
-                    </p>
-                    <p>
-                      <strong>Status:</strong>{" "}
-                      <span className="status-active">Active</span>
-                    </p>
+                  <div className="content-card research-card">
+                    <div className="card-header">
+                      <div className="status-badge active">Active</div>
+                      <div className="project-meta">
+                        <h4>Natural Language Processing for Bengali Text</h4>
+                        <p className="project-period">March 2024 - February 2026</p>
+                      </div>
+                    </div>
+                    <div className="card-content">
+                      <div className="info-row">
+                        <span className="info-label">💰 Funding:</span>
+                        <span className="info-value">University Research Grant - $50,000</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
 
               <div className="research-subsection">
                 <h4>Recent Publications</h4>
-                <div className="publication-list">
-                  <div className="publication-item">
-                    <h5>
-                      "Advanced Deep Learning Techniques for Medical Diagnosis"
-                    </h5>
-                    <p>
-                      <strong>Journal:</strong> IEEE Transactions on Medical
-                      Imaging
-                    </p>
-                    <p>
-                      <strong>Year:</strong> 2024
-                    </p>
-                    <p>
-                      <strong>Impact Factor:</strong> 8.5
-                    </p>
+                <div className="content-grid">
+                  <div className="content-card publication-card">
+                    <div className="card-header">
+                      <div className="publication-badge journal">Journal</div>
+                      <div className="publication-meta">
+                        <h4>"Advanced Deep Learning Techniques for Medical Diagnosis"</h4>
+                        <p className="publication-venue">IEEE Transactions on Medical Imaging</p>
+                      </div>
+                    </div>
+                    <div className="card-content">
+                      <div className="info-row">
+                        <span className="info-label">📅 Year:</span>
+                        <span className="info-value">2024</span>
+                      </div>
+                      <div className="info-row">
+                        <span className="info-label">📊 Impact Factor:</span>
+                        <span className="info-value">8.5</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="publication-item">
-                    <h5>
-                      "Bengali Text Classification using Transformer Models"
-                    </h5>
-                    <p>
-                      <strong>Conference:</strong> EMNLP 2023
-                    </p>
-                    <p>
-                      <strong>Year:</strong> 2023
-                    </p>
-                    <p>
-                      <strong>Citations:</strong> 23
-                    </p>
+                  <div className="content-card publication-card">
+                    <div className="card-header">
+                      <div className="publication-badge conference">Conference</div>
+                      <div className="publication-meta">
+                        <h4>"Bengali Text Classification using Transformer Models"</h4>
+                        <p className="publication-venue">EMNLP 2023</p>
+                      </div>
+                    </div>
+                    <div className="card-content">
+                      <div className="info-row">
+                        <span className="info-label">📅 Year:</span>
+                        <span className="info-value">2023</span>
+                      </div>
+                      <div className="info-row">
+                        <span className="info-label">📈 Citations:</span>
+                        <span className="info-value">23</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="publication-item">
-                    <h5>"Computer Vision Applications in Healthcare"</h5>
-                    <p>
-                      <strong>Journal:</strong> Pattern Recognition Letters
-                    </p>
-                    <p>
-                      <strong>Year:</strong> 2023
-                    </p>
-                    <p>
-                      <strong>Impact Factor:</strong> 4.2
-                    </p>
+                  <div className="content-card publication-card">
+                    <div className="card-header">
+                      <div className="publication-badge journal">Journal</div>
+                      <div className="publication-meta">
+                        <h4>"Computer Vision Applications in Healthcare"</h4>
+                        <p className="publication-venue">Pattern Recognition Letters</p>
+                      </div>
+                    </div>
+                    <div className="card-content">
+                      <div className="info-row">
+                        <span className="info-label">📅 Year:</span>
+                        <span className="info-value">2023</span>
+                      </div>
+                      <div className="info-row">
+                        <span className="info-label">📊 Impact Factor:</span>
+                        <span className="info-value">4.2</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -266,53 +304,60 @@ const TeacherProfile = ({
         return (
           <div className="tab-content">
             <div className="students-section">
-              <h3>Student Management</h3>
+              <div className="section-header">
+                <h3>Student Management</h3>
+                <p className="section-subtitle">Track thesis progress and manage research assistants</p>
+              </div>
 
               <div className="students-subsection">
                 <h4>Thesis Students</h4>
-                <div className="student-list">
-                  <div className="student-item">
-                    <div className="student-info">
-                      <h5>Mohammad Rahman</h5>
-                      <p>
-                        <strong>Student ID:</strong> CSE-2020-1001
-                      </p>
-                      <p>
-                        <strong>Thesis Topic:</strong> Machine Learning for
-                        Stock Price Prediction
-                      </p>
-                      <p>
-                        <strong>Progress:</strong> 75%
-                      </p>
+                <div className="content-grid">
+                  <div className="content-card student-card">
+                    <div className="card-header">
+                      <div className="progress-badge high">75%</div>
+                      <div className="student-meta">
+                        <h4>Mohammad Rahman</h4>
+                        <p className="student-id">CSE-2020-1001</p>
+                      </div>
                     </div>
-                    <div className="student-actions">
-                      <button className="action-btn primary">
-                        View Progress
-                      </button>
-                      <button className="action-btn secondary">
+                    <div className="card-content">
+                      <div className="info-row">
+                        <span className="info-label">📝 Thesis Topic:</span>
+                        <span className="info-value">Machine Learning for Stock Price Prediction</span>
+                      </div>
+                      <div className="info-row">
+                        <span className="info-label">📈 Progress:</span>
+                        <span className="info-value">75% Complete</span>
+                      </div>
+                    </div>
+                    <div className="card-actions">
+                      <button className="action-btn primary">View Progress</button>
+                      <button className="action-btn secondary" onClick={() => onNavigate("schedule-meeting")}>
                         Schedule Meeting
                       </button>
                     </div>
                   </div>
-                  <div className="student-item">
-                    <div className="student-info">
-                      <h5>Fatima Khan</h5>
-                      <p>
-                        <strong>Student ID:</strong> CSE-2020-1015
-                      </p>
-                      <p>
-                        <strong>Thesis Topic:</strong> Natural Language
-                        Processing for Bengali
-                      </p>
-                      <p>
-                        <strong>Progress:</strong> 60%
-                      </p>
+                  <div className="content-card student-card">
+                    <div className="card-header">
+                      <div className="progress-badge medium">60%</div>
+                      <div className="student-meta">
+                        <h4>Fatima Khan</h4>
+                        <p className="student-id">CSE-2020-1015</p>
+                      </div>
                     </div>
-                    <div className="student-actions">
-                      <button className="action-btn primary">
-                        View Progress
-                      </button>
-                      <button className="action-btn secondary">
+                    <div className="card-content">
+                      <div className="info-row">
+                        <span className="info-label">📝 Thesis Topic:</span>
+                        <span className="info-value">Natural Language Processing for Bengali</span>
+                      </div>
+                      <div className="info-row">
+                        <span className="info-label">📈 Progress:</span>
+                        <span className="info-value">60% Complete</span>
+                      </div>
+                    </div>
+                    <div className="card-actions">
+                      <button className="action-btn primary">View Progress</button>
+                      <button className="action-btn secondary" onClick={() => onNavigate("schedule-meeting")}>
                         Schedule Meeting
                       </button>
                     </div>
@@ -322,27 +367,28 @@ const TeacherProfile = ({
 
               <div className="students-subsection">
                 <h4>Research Assistants</h4>
-                <div className="student-list">
-                  <div className="student-item">
-                    <div className="student-info">
-                      <h5>Ahmed Hassan</h5>
-                      <p>
-                        <strong>Student ID:</strong> CSE-2021-1025
-                      </p>
-                      <p>
-                        <strong>Research Area:</strong> Deep Learning
-                      </p>
-                      <p>
-                        <strong>Duration:</strong> 6 months
-                      </p>
+                <div className="content-grid">
+                  <div className="content-card student-card">
+                    <div className="card-header">
+                      <div className="role-badge assistant">RA</div>
+                      <div className="student-meta">
+                        <h4>Ahmed Hassan</h4>
+                        <p className="student-id">CSE-2021-1025</p>
+                      </div>
                     </div>
-                    <div className="student-actions">
-                      <button className="action-btn primary">
-                        View Details
-                      </button>
-                      <button className="action-btn secondary">
-                        Assign Tasks
-                      </button>
+                    <div className="card-content">
+                      <div className="info-row">
+                        <span className="info-label">🔬 Research Area:</span>
+                        <span className="info-value">Deep Learning</span>
+                      </div>
+                      <div className="info-row">
+                        <span className="info-label">⏰ Duration:</span>
+                        <span className="info-value">6 months</span>
+                      </div>
+                    </div>
+                    <div className="card-actions">
+                      <button className="action-btn primary">View Details</button>
+                      <button className="action-btn secondary">Assign Tasks</button>
                     </div>
                   </div>
                 </div>
@@ -354,7 +400,10 @@ const TeacherProfile = ({
         return (
           <div className="tab-content">
             <div className="schedule-section">
-              <h3>Weekly Schedule</h3>
+              <div className="section-header">
+                <h3>Weekly Schedule</h3>
+                <p className="section-subtitle">View your teaching schedule and meeting commitments</p>
+              </div>
               <div className="schedule-grid">
                 <div className="schedule-header">
                   <div className="time-slot">Time</div>
@@ -463,98 +512,108 @@ const TeacherProfile = ({
         return (
           <div className="tab-content">
             <div className="administrative-section">
-              <h3>Administrative Duties</h3>
+              <div className="section-header">
+                <h3>Administrative Duties</h3>
+                <p className="section-subtitle">Committee memberships and administrative responsibilities</p>
+              </div>
 
               <div className="admin-subsection">
                 <h4>Committee Memberships</h4>
-                <div className="committee-list">
-                  <div className="committee-item">
-                    <h5>Curriculum Development Committee</h5>
-                    <p>
-                      <strong>Role:</strong> Member
-                    </p>
-                    <p>
-                      <strong>Responsibilities:</strong> Review and update
-                      course curricula, evaluate new course proposals
-                    </p>
-                    <p>
-                      <strong>Meeting Schedule:</strong> First Wednesday of
-                      every month
-                    </p>
+                <div className="content-grid">
+                  <div className="content-card admin-card">
+                    <div className="card-header">
+                      <div className="role-badge member">Member</div>
+                      <div className="committee-meta">
+                        <h4>Curriculum Development Committee</h4>
+                        <p className="meeting-schedule">First Wednesday of every month</p>
+                      </div>
+                    </div>
+                    <div className="card-content">
+                      <div className="info-row">
+                        <span className="info-label">🎯 Responsibilities:</span>
+                        <span className="info-value">Review and update course curricula, evaluate new course proposals</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="committee-item">
-                    <h5>Admissions Committee</h5>
-                    <p>
-                      <strong>Role:</strong> Co-Chair
-                    </p>
-                    <p>
-                      <strong>Responsibilities:</strong> Review graduate
-                      applications, conduct interviews
-                    </p>
-                    <p>
-                      <strong>Meeting Schedule:</strong> Bi-weekly during
-                      admission season
-                    </p>
+                  <div className="content-card admin-card">
+                    <div className="card-header">
+                      <div className="role-badge chair">Co-Chair</div>
+                      <div className="committee-meta">
+                        <h4>Admissions Committee</h4>
+                        <p className="meeting-schedule">Bi-weekly during admission season</p>
+                      </div>
+                    </div>
+                    <div className="card-content">
+                      <div className="info-row">
+                        <span className="info-label">🎯 Responsibilities:</span>
+                        <span className="info-value">Review graduate applications, conduct interviews</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="committee-item">
-                    <h5>Research Ethics Committee</h5>
-                    <p>
-                      <strong>Role:</strong> Member
-                    </p>
-                    <p>
-                      <strong>Responsibilities:</strong> Review research
-                      proposals for ethical compliance
-                    </p>
-                    <p>
-                      <strong>Meeting Schedule:</strong> As needed
-                    </p>
+                  <div className="content-card admin-card">
+                    <div className="card-header">
+                      <div className="role-badge member">Member</div>
+                      <div className="committee-meta">
+                        <h4>Research Ethics Committee</h4>
+                        <p className="meeting-schedule">As needed</p>
+                      </div>
+                    </div>
+                    <div className="card-content">
+                      <div className="info-row">
+                        <span className="info-label">🎯 Responsibilities:</span>
+                        <span className="info-value">Review research proposals for ethical compliance</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
 
               <div className="admin-subsection">
                 <h4>Current Administrative Tasks</h4>
-                <div className="task-list">
-                  <div className="task-item">
-                    <div className="task-info">
-                      <h5>Graduate Application Reviews</h5>
-                      <p>
-                        <strong>Deadline:</strong> March 30, 2024
-                      </p>
-                      <p>
-                        <strong>Progress:</strong> 15/25 applications reviewed
-                      </p>
+                <div className="content-grid">
+                  <div className="content-card task-card">
+                    <div className="card-header">
+                      <div className="status-badge progress">In Progress</div>
+                      <div className="task-meta">
+                        <h4>Graduate Application Reviews</h4>
+                        <p className="task-deadline">Deadline: March 30, 2024</p>
+                      </div>
                     </div>
-                    <div className="task-status">
-                      <span className="status-progress">In Progress</span>
-                    </div>
-                  </div>
-                  <div className="task-item">
-                    <div className="task-info">
-                      <h5>Course Curriculum Update - CSE 412</h5>
-                      <p>
-                        <strong>Deadline:</strong> April 15, 2024
-                      </p>
-                      <p>
-                        <strong>Status:</strong> Pending committee approval
-                      </p>
-                    </div>
-                    <div className="task-status">
-                      <span className="status-pending">Pending</span>
+                    <div className="card-content">
+                      <div className="info-row">
+                        <span className="info-label">📊 Progress:</span>
+                        <span className="info-value">15/25 applications reviewed</span>
+                      </div>
                     </div>
                   </div>
-                  <div className="task-item">
-                    <div className="task-info">
-                      <h5>Faculty Performance Evaluations</h5>
-                      <p>
-                        <strong>Deadline:</strong> May 1, 2024
-                      </p>
-                      <p>
-                        <strong>Status:</strong> Not started
-                      </p>
+                  <div className="content-card task-card">
+                    <div className="card-header">
+                      <div className="status-badge pending">Pending</div>
+                      <div className="task-meta">
+                        <h4>Course Curriculum Update - CSE 412</h4>
+                        <p className="task-deadline">Deadline: April 15, 2024</p>
+                      </div>
                     </div>
-                    <div className="task-status">
-                      <span className="status-todo">To Do</span>
+                    <div className="card-content">
+                      <div className="info-row">
+                        <span className="info-label">📋 Status:</span>
+                        <span className="info-value">Pending committee approval</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="content-card task-card">
+                    <div className="card-header">
+                      <div className="status-badge todo">To Do</div>
+                      <div className="task-meta">
+                        <h4>Faculty Performance Evaluations</h4>
+                        <p className="task-deadline">Deadline: May 1, 2024</p>
+                      </div>
+                    </div>
+                    <div className="card-content">
+                      <div className="info-row">
+                        <span className="info-label">📋 Status:</span>
+                        <span className="info-value">Not started</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -627,6 +686,16 @@ const TeacherProfile = ({
                         <small>Add course materials and resources</small>
                       </span>
                     </button>
+                    <button
+                      className="quick-action-btn"
+                      onClick={() => onNavigate("reserve-room")}
+                    >
+                      <span className="btn-icon">🏛️</span>
+                      <span className="btn-text">
+                        <strong>Reserve Room</strong>
+                        <small>Book classrooms and facilities</small>
+                      </span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -639,17 +708,19 @@ const TeacherProfile = ({
   };
 
   return (
-    <div className="teacher-profile">
-      <div className="profile-container">
-        {onBack && (
-          <button onClick={onBack} className="back-button">
-            ← Back to Dashboard
-          </button>
-        )}
+    <div className="teacher-profile-page">
+      <div className="teacher-profile-container">
+        {/* Header Section - Consistent with Notices */}
+        <div className="teacher-profile-header">
+          <h1 className="profile-title">{teacherData.name}</h1>
+          <p className="profile-subtitle">
+            {teacherData.designation} • {teacherData.department}
+          </p>
+        </div>
 
-        {/* Profile Header */}
-        <div className="profile-header">
-          <div className="profile-info">
+        {/* Profile Info Section */}
+        <div className="profile-info-section">
+          <div className="profile-avatar-section">
             <div className="profile-avatar">
               <img
                 src="/api/placeholder/120/120"
@@ -661,62 +732,64 @@ const TeacherProfile = ({
               />
               <div className="avatar-placeholder">👩‍🏫</div>
             </div>
-            <div className="profile-details">
-              <h1>{teacherData.name}</h1>
-              <p className="profile-title">{teacherData.designation}</p>
-              <p className="profile-department">{teacherData.department}</p>
-              <div className="profile-meta">
-                <span className="meta-item">📧 {teacherData.email}</span>
-                <span className="meta-item">📞 {teacherData.phone}</span>
-                <span className="meta-item">🏢 {teacherData.officeRoom}</span>
-              </div>
+          </div>
+          <div className="profile-details-section">
+            <h2 className="teacher-name">{teacherData.name}</h2>
+            <p className="teacher-designation">{teacherData.designation}</p>
+            <p className="teacher-department">{teacherData.department}</p>
+            <div className="profile-meta">
+              <span className="meta-item">📧 {teacherData.email}</span>
+              <span className="meta-item">📞 {teacherData.phone}</span>
+              <span className="meta-item">🏢 {teacherData.officeRoom}</span>
             </div>
-            <div className="profile-actions">
-              <button className="edit-profile-btn" onClick={onEditProfile}>
-                Edit Profile
-              </button>
-              <button className="action-btn secondary">
-                📅 Schedule Meeting
-              </button>
-              <button className="action-btn secondary">📧 Send Message</button>
-            </div>
+          </div>
+          <div className="profile-actions-section">
+            <button className="primary-action-btn" onClick={onEditProfile}>
+              Edit Profile
+            </button>
+            <button
+              className="secondary-action-btn"
+              onClick={() => onNavigate("schedule-meeting")}
+            >
+              Schedule Meeting
+            </button>
           </div>
         </div>
 
         {/* Profile Navigation */}
-        <div className="profile-nav">
+        <div className="profile-navigation-section">
           <button
-            className={`nav-tab ${activeTab === "overview" ? "active" : ""}`}
+            className={`profile-nav-tab ${activeTab === "overview" ? "active" : ""}`}
             onClick={() => setActiveTab("overview")}
           >
             Overview
           </button>
           <button
-            className={`nav-tab ${activeTab === "courses" ? "active" : ""}`}
+            className={`profile-nav-tab ${activeTab === "courses" ? "active" : ""}`}
             onClick={() => setActiveTab("courses")}
           >
             Courses
           </button>
           <button
-            className={`nav-tab ${activeTab === "research" ? "active" : ""}`}
+            className={`profile-nav-tab ${activeTab === "research" ? "active" : ""}`}
             onClick={() => setActiveTab("research")}
           >
             Research
           </button>
           <button
-            className={`nav-tab ${activeTab === "students" ? "active" : ""}`}
+            className={`profile-nav-tab ${activeTab === "students" ? "active" : ""}`}
             onClick={() => setActiveTab("students")}
           >
             Students
           </button>
           <button
-            className={`nav-tab ${activeTab === "schedule" ? "active" : ""}`}
+            className={`profile-nav-tab ${activeTab === "schedule" ? "active" : ""}`}
             onClick={() => setActiveTab("schedule")}
           >
             Schedule
           </button>
           <button
-            className={`nav-tab ${
+            className={`profile-nav-tab ${
               activeTab === "administrative" ? "active" : ""
             }`}
             onClick={() => setActiveTab("administrative")}
@@ -724,7 +797,7 @@ const TeacherProfile = ({
             Administrative
           </button>
           <button
-            className={`nav-tab ${
+            className={`profile-nav-tab ${
               activeTab === "quick-actions" ? "active" : ""
             }`}
             onClick={() => setActiveTab("quick-actions")}
@@ -734,7 +807,7 @@ const TeacherProfile = ({
         </div>
 
         {/* Profile Content */}
-        <div className="profile-content">{renderTabContent()}</div>
+        <div className="profile-content-section">{renderTabContent()}</div>
       </div>
     </div>
   );

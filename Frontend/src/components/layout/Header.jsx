@@ -140,7 +140,11 @@ const Header = ({
             onMouseEnter={() => handleDropdownMouseEnter("resources")}
             onMouseLeave={handleDropdownMouseLeave}
           >
-            <a href="/resources" className="nav-link">
+            <a
+              href="/academic-calendar"
+              className="nav-link"
+              onClick={(e) => handleNavClick("academic-calendar", e)}
+            >
               Resources
               <span className="dropdown-arrow">▼</span>
             </a>
@@ -186,10 +190,24 @@ const Header = ({
               <>
                 <div
                   className="user-profile-header"
-                  onClick={() => setCurrentPage(userRole === "faculty" ? "teacher-profile" : "user-profile")}
+                  onClick={() =>
+                    setCurrentPage(
+                      userRole === "faculty"
+                        ? "teacher-profile"
+                        : userRole === "admin"
+                        ? "admin-profile"
+                        : "user-profile"
+                    )
+                  }
                 >
                   <div className="user-avatar">
-                    {userRole === "faculty" ? "👩‍🏫" : userRole === "student" ? "👨‍🎓" : "�️"}
+                    {userRole === "faculty"
+                      ? "�‍🏫"
+                      : userRole === "student"
+                      ? "👨‍🎓"
+                      : userRole === "admin"
+                      ? "👨‍💼"
+                      : "�👤"}
                   </div>
                   <span className="user-role">{userRole}</span>
                 </div>

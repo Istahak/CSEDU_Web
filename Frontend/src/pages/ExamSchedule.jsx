@@ -83,16 +83,11 @@ const ExamSchedule = ({ onBack }) => {
     <div className="exam-schedule">
       <div className="exam-container">
         {/* Header Section */}
-        <div className="exam-header">
-          <div className="header-content">
-            <button className="back-button" onClick={onBack}>
-              ← Back to Calendar
-            </button>
-            <h1 className="exam-title">Exam Schedule</h1>
-            <p className="exam-subtitle">
-              View upcoming exams and examination details for all courses.
-            </p>
-          </div>
+        <div className="notices-header">
+          <h1 className="notices-title">Exam Schedule</h1>
+          <p className="notices-subtitle">
+            View upcoming exams and examination details for all courses.
+          </p>
         </div>
 
         {/* Filter Section */}
