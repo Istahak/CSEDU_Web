@@ -18,6 +18,15 @@ const API_CONFIG = {
       ANNOUNCEMENTS: '/homepage/announcements',
       QUICKLINKS: '/homepage/quick-links',
     },
+    // Tahsin added - Faculty endpoints
+    FACULTY: {
+      BASE: '/faculty',
+      GET_ALL: '/faculty',
+      GET_BY_ID: (id) => `/faculty/${id}`,
+      CREATE: '/faculty',
+      UPDATE: (id) => `/faculty/${id}`,
+      DELETE: (id) => `/faculty/${id}`,
+    },
     PROFILE: '/profile'
   },
   TIMEOUT: 10000, // 10 seconds

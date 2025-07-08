@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "./AdminProfile.css";
+// Tahsin added - Import FacultyService for API calls
+import facultyService from "../api/FacultyService";
 
 const AdminProfile = ({ onLogout }) => {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -351,33 +353,101 @@ const AdminProfile = ({ onLogout }) => {
   };
 
   // Faculty Management Functions
-  const handleAddFaculty = (facultyData) => {
-    const newFaculty = {
-      id: users.length + 1,
-      ...facultyData,
-      role: "faculty",
-      employeeId: generateEmployeeId(),
-      joinDate: new Date().toISOString().split("T")[0],
-    };
-    setUsers([...users, newFaculty]);
-    setShowFacultyModal(false);
+  // Tahsin added - Updated to use FacultyService API
+  const handleAddFaculty = async (facultyData) => {
+    try {
+      const response = await facultyService.createFaculty(facultyData);
+      
+      const newFaculty = {
+        id: response.id,
+        name: response.full_name,
+        email: response.email,
+        designation: response.designation,
+        department: response.department,
+        phone: response.phone_number,
+        officeRoom: response.office_room,
+        specialization: response.specialization,
+        qualifications: response.qualifications,
+        researchAreas: response.research_areas ? response.research_areas.split(',').map(area => area.trim()) : [],
+        publications: response.number_of_publications,
+        experience: response.experience,
+        status: response.employment_status,
+        profileImage: response.profile_photo_url,
+        role: "faculty",
+        employeeId: response.employee_id || generateEmployeeId(),
+        joinDate: response.created_at ? new Date(response.created_at).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
+      };
+      
+      setUsers([...users, newFaculty]);
+      setShowFacultyModal(false);
+      
+      alert(`Faculty member ${newFaculty.name} added successfully!`);
+    } catch (error) {
+      console.error('Error adding faculty:', error);
+      alert(`Failed to add faculty: ${error.message || 'Unknown error'}`);
+    }
   };
 
-  const handleEditFaculty = (facultyId, facultyData) => {
-    setUsers(
-      users.map((user) =>
-        user.id === facultyId ? { ...user, ...facultyData } : user
-      )
-    );
-    setShowFacultyModal(false);
-    setEditingFaculty(null);
+  // Tahsin added - Updated to use FacultyService API
+  const handleEditFaculty = async (facultyId, facultyData) => {
+    try {
+      // Call the API to update faculty
+      const response = await facultyService.updateFaculty(facultyId, facultyData);
+      
+      // Map the response data to our frontend format
+      const updatedFaculty = {
+        id: response.id,
+        name: response.full_name,
+        email: response.email,
+        designation: response.designation,
+        department: response.department,
+        phone: response.phone_number,
+        officeRoom: response.office_room,
+        specialization: response.specialization,
+        qualifications: response.qualifications,
+        researchAreas: response.research_areas ? response.research_areas.split(',').map(area => area.trim()) : [],
+        publications: response.number_of_publications,
+        experience: response.experience,
+        status: response.employment_status,
+        profileImage: response.profile_photo_url,
+        role: "faculty",
+        employeeId: response.employee_id || users.find(user => user.id === facultyId)?.employeeId,
+        joinDate: response.created_at ? new Date(response.created_at).toISOString().split("T")[0] : users.find(user => user.id === facultyId)?.joinDate,
+      };
+      
+      // Update the users state
+      const updatedUsers = users.map((user) =>
+        user.id === facultyId ? updatedFaculty : user
+      );
+      
+      setUsers(updatedUsers);
+      setShowFacultyModal(false);
+      setEditingFaculty(null);
+      
+      // Show success message
+      alert(`Faculty member ${updatedFaculty.name} updated successfully!`);
+    } catch (error) {
+      console.error('Error updating faculty:', error);
+      alert(`Failed to update faculty: ${error.message || 'Unknown error'}`);
+    }
   };
 
-  const handleDeleteFaculty = (facultyId) => {
-    if (
-      window.confirm("Are you sure you want to delete this faculty member?")
-    ) {
-      setUsers(users.filter((user) => user.id !== facultyId));
+  // Tahsin added - Updated to use FacultyService API
+  const handleDeleteFaculty = async (facultyId) => {
+    if (window.confirm("Are you sure you want to delete this faculty member?")) {
+      try {
+        // Call the API to delete faculty
+        await facultyService.deleteFaculty(facultyId);
+        
+        // Update the local state after successful deletion
+        setUsers(users.filter((user) => user.id !== facultyId));
+        
+        // Show success message
+        alert("Faculty member deleted successfully!");
+      } catch (error) {
+        console.error('Error deleting faculty:', error);
+        alert(`Failed to delete faculty: ${error.message || 'Unknown error'}`);
+      }
     }
   };
 
@@ -2259,28 +2329,55 @@ const AdminProfile = ({ onLogout }) => {
       editingFaculty?.profileImage || ""
     );
 
-    const handleSubmit = (e) => {
+    // Tahsin added - Updated to use FormData for API submission
+    const handleSubmit = async (e) => {
       e.preventDefault();
-
-      let finalFormData = { ...formData };
-
-      // Handle research areas as array
+      
+      // Create FormData object for multipart/form-data submission
+      const formDataToSubmit = new FormData();
+      
+      // Map frontend field names to backend expected field names
+      formDataToSubmit.append('full_name', formData.name);
+      formDataToSubmit.append('email', formData.email);
+      formDataToSubmit.append('designation', formData.designation);
+      formDataToSubmit.append('department', formData.department);
+      
+      // Optional fields - only add if they have values
+      if (formData.phone) formDataToSubmit.append('phone_number', formData.phone);
+      if (formData.officeRoom) formDataToSubmit.append('office_room', formData.officeRoom);
+      if (formData.specialization) formDataToSubmit.append('specialization', formData.specialization);
+      if (formData.qualifications) formDataToSubmit.append('qualifications', formData.qualifications);
+      if (formData.experience) formDataToSubmit.append('experience', formData.experience);
+      
+      // Convert publications to number and add to form
+      formDataToSubmit.append('number_of_publications', formData.publications || 0);
+      
+      // Handle research areas - convert array to comma-separated string for backend
+      let researchAreasString = "";
       if (typeof formData.researchAreas === "string") {
-        finalFormData.researchAreas = formData.researchAreas
-          .split(",")
-          .map((area) => area.trim());
+        researchAreasString = formData.researchAreas;
+      } else if (Array.isArray(formData.researchAreas)) {
+        researchAreasString = formData.researchAreas.join(", ");
       }
-
-      // Handle image upload
+      formDataToSubmit.append('research_areas', researchAreasString);
+      
+      // Map status to employment_status
+      formDataToSubmit.append('employment_status', formData.status);
+      
+      // Add profile photo if available
       if (profileImage) {
-        // In real app, this would be uploaded to server
-        finalFormData.profileImage = URL.createObjectURL(profileImage);
+        formDataToSubmit.append('profile_photo', profileImage);
       }
-
-      if (editingFaculty) {
-        handleEditFaculty(editingFaculty.id, finalFormData);
-      } else {
-        handleAddFaculty(finalFormData);
+      
+      try {
+        if (editingFaculty) {
+          await handleEditFaculty(editingFaculty.id, formDataToSubmit);
+        } else {
+          await handleAddFaculty(formDataToSubmit);
+        }
+      } catch (error) {
+        console.error('Error submitting faculty data:', error);
+        // Error is handled in the handleAddFaculty/handleEditFaculty functions
       }
     };
 
