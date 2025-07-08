@@ -345,6 +345,7 @@ function App() {
         return (
           <AcademicCalendar
             onExamsClick={() => setCurrentPage("exam-schedule")}
+            userRole={userRole}
           />
         );
       case "academic-calendar-view":
@@ -356,7 +357,10 @@ function App() {
         );
       case "exam-schedule":
         return (
-          <ExamSchedule onBack={() => setCurrentPage("academic-calendar")} />
+          <ExamSchedule
+            onBack={() => setCurrentPage("academic-calendar")}
+            userRole={userRole}
+          />
         );
       case "notices":
         return (
