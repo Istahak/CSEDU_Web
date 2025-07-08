@@ -15,6 +15,7 @@ import Projects from "./pages/Projects";
 import ProjectDetails from "./pages/ProjectDetails";
 import UserProfile from "./pages/UserProfile";
 import TeacherProfile from "./pages/TeacherProfile";
+import AdminProfile from "./pages/AdminProfile";
 import EditProfile from "./pages/EditProfile";
 import AcademicCalendar from "./pages/AcademicCalendar";
 import AcademicCalendarView from "./pages/AcademicCalendarView";
@@ -57,22 +58,25 @@ function App() {
       }
     };
 
-    window.addEventListener('popstate', handlePopState);
-    
+    window.addEventListener("popstate", handlePopState);
+
     // Push initial state
     if (window.history.state === null) {
-      window.history.replaceState({ page: currentPage }, '', `#${currentPage}`);
+      window.history.replaceState({ page: currentPage }, "", `#${currentPage}`);
     }
 
     return () => {
-      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener("popstate", handlePopState);
     };
   }, []);
 
   // Update history when page changes
   useEffect(() => {
-    if (window.history.state === null || window.history.state.page !== currentPage) {
-      window.history.pushState({ page: currentPage }, '', `#${currentPage}`);
+    if (
+      window.history.state === null ||
+      window.history.state.page !== currentPage
+    ) {
+      window.history.pushState({ page: currentPage }, "", `#${currentPage}`);
     }
   }, [currentPage]);
   const [selectedFaculty, setSelectedFaculty] = useState(null);
@@ -291,6 +295,8 @@ function App() {
             onNavigate={(page) => setCurrentPage(page)}
           />
         );
+      case "admin-profile":
+        return <AdminProfile onLogout={handleLogout} />;
       case "teacher-edit-profile":
         return (
           <TeacherEditProfile
@@ -339,13 +345,22 @@ function App() {
         return (
           <AcademicCalendar
             onExamsClick={() => setCurrentPage("exam-schedule")}
+            userRole={userRole}
           />
         );
       case "academic-calendar-view":
-        return <AcademicCalendarView onBack={() => setCurrentPage("home")} />;
+        return (
+          <AcademicCalendarView
+            onBack={() => setCurrentPage("home")}
+            userRole={userRole}
+          />
+        );
       case "exam-schedule":
         return (
-          <ExamSchedule onBack={() => setCurrentPage("academic-calendar")} />
+          <ExamSchedule
+            onBack={() => setCurrentPage("academic-calendar")}
+            userRole={userRole}
+          />
         );
       case "notices":
         return (
