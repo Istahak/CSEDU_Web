@@ -29,6 +29,8 @@ const AdminProfile = ({ onLogout }) => {
     pendingApprovals: 12,
     totalNotices: 85,
     upcomingEvents: 8,
+    pendingRequests: 3,
+    totalRequests: 6,
   });
 
   const [users, setUsers] = useState([
@@ -455,6 +457,184 @@ const AdminProfile = ({ onLogout }) => {
     },
   ]);
 
+  // Request Management State
+  const [requests, setRequests] = useState([
+    {
+      id: 1,
+      type: "Faculty Application",
+      applicantName: "Dr. Emily Johnson",
+      applicantEmail: "emily.johnson@email.com",
+      subject: "Application for Assistant Professor Position",
+      description:
+        "I am applying for the Assistant Professor position in Computer Science Department. I have completed my PhD in Machine Learning from Stanford University.",
+      status: "pending",
+      priority: "high",
+      submissionDate: "2024-12-15",
+      department: "CSE",
+      category: "HR",
+      attachments: [
+        { name: "CV.pdf", size: "2.5MB", type: "application/pdf" },
+        { name: "Cover_Letter.pdf", size: "150KB", type: "application/pdf" },
+        { name: "Certificates.pdf", size: "3.2MB", type: "application/pdf" },
+      ],
+      additionalInfo: {
+        position: "Assistant Professor",
+        experience: "5 years",
+        qualifications: "PhD in Machine Learning",
+        expectedSalary: "80,000 BDT",
+      },
+    },
+    {
+      id: 2,
+      type: "Course Enrollment",
+      applicantName: "Ahmed Rahman",
+      applicantEmail: "ahmed.rahman@student.edu.bd",
+      subject: "Request for Late Course Enrollment - CSE-401",
+      description:
+        "I missed the regular enrollment deadline due to medical reasons. I have attached medical certificates and would like to enroll in Advanced Database Systems course.",
+      status: "pending",
+      priority: "medium",
+      submissionDate: "2024-12-14",
+      department: "CSE",
+      category: "Academic",
+      attachments: [
+        {
+          name: "Medical_Certificate.pdf",
+          size: "800KB",
+          type: "application/pdf",
+        },
+        {
+          name: "Previous_Transcript.pdf",
+          size: "1.2MB",
+          type: "application/pdf",
+        },
+      ],
+      additionalInfo: {
+        courseCode: "CSE-401",
+        courseName: "Advanced Database Systems",
+        semester: "Spring 2024",
+        reason: "Medical Emergency",
+      },
+    },
+    {
+      id: 3,
+      type: "Event Registration",
+      applicantName: "Sarah Wilson",
+      applicantEmail: "sarah.wilson@student.edu.bd",
+      subject: "Special Registration for Tech Conference 2024",
+      description:
+        "I am a final year student and would like to register for the Annual Tech Conference. I understand the registration is closed but I am willing to volunteer.",
+      status: "approved",
+      priority: "low",
+      submissionDate: "2024-12-13",
+      department: "CSE",
+      category: "Events",
+      attachments: [
+        { name: "Student_ID.pdf", size: "300KB", type: "application/pdf" },
+      ],
+      additionalInfo: {
+        eventId: 1,
+        eventName: "Annual Tech Conference 2024",
+        volunteerRole: "Registration Desk Assistant",
+      },
+    },
+    {
+      id: 4,
+      type: "Grade Appeal",
+      applicantName: "Michael Chen",
+      applicantEmail: "michael.chen@student.edu.bd",
+      subject: "Grade Appeal for CSE-305 Final Exam",
+      description:
+        "I believe there was an error in grading my final exam for Data Structures and Algorithms course. I would like to request a review of my answer sheet.",
+      status: "under_review",
+      priority: "medium",
+      submissionDate: "2024-12-12",
+      department: "CSE",
+      category: "Academic",
+      attachments: [
+        { name: "Exam_Copy.pdf", size: "5.2MB", type: "application/pdf" },
+        {
+          name: "Supporting_Documents.pdf",
+          size: "1.8MB",
+          type: "application/pdf",
+        },
+      ],
+      additionalInfo: {
+        courseCode: "CSE-305",
+        courseName: "Data Structures and Algorithms",
+        currentGrade: "B",
+        expectedGrade: "A-",
+        instructor: "Dr. John Smith",
+      },
+    },
+    {
+      id: 5,
+      type: "Research Proposal",
+      applicantName: "Dr. Robert Taylor",
+      applicantEmail: "robert.taylor@faculty.edu.bd",
+      subject: "Research Grant Application - AI in Healthcare",
+      description:
+        "Submitting research proposal for AI in Healthcare project. Requesting funding approval and lab resource allocation for the next academic year.",
+      status: "rejected",
+      priority: "high",
+      submissionDate: "2024-12-10",
+      department: "CSE",
+      category: "Research",
+      attachments: [
+        {
+          name: "Research_Proposal.pdf",
+          size: "8.5MB",
+          type: "application/pdf",
+        },
+        {
+          name: "Budget_Plan.xlsx",
+          size: "150KB",
+          type: "application/vnd.ms-excel",
+        },
+        {
+          name: "Literature_Review.pdf",
+          size: "12.3MB",
+          type: "application/pdf",
+        },
+      ],
+      additionalInfo: {
+        fundingAmount: "500,000 BDT",
+        duration: "2 years",
+        collaborators: ["Dr. Jane Doe", "Dr. Mark Johnson"],
+        equipment: "GPU Cluster, Medical Imaging Software",
+      },
+    },
+    {
+      id: 6,
+      type: "Facility Booking",
+      applicantName: "Student Council",
+      applicantEmail: "council@student.edu.bd",
+      subject: "Booking Request for Seminar Hall - Programming Contest",
+      description:
+        "We need to book the main seminar hall for organizing Inter-University Programming Contest on March 20th, 2024.",
+      status: "pending",
+      priority: "medium",
+      submissionDate: "2024-12-11",
+      department: "CSE",
+      category: "Administrative",
+      attachments: [
+        { name: "Event_Proposal.pdf", size: "2.1MB", type: "application/pdf" },
+        { name: "Sponsor_Letters.pdf", size: "3.5MB", type: "application/pdf" },
+      ],
+      additionalInfo: {
+        facility: "Main Seminar Hall",
+        date: "2024-03-20",
+        duration: "8 hours",
+        expectedParticipants: "150 students",
+        equipment: "Projector, Sound System, Wi-Fi",
+      },
+    },
+  ]);
+
+  const [showRequestModal, setShowRequestModal] = useState(false);
+  const [selectedRequest, setSelectedRequest] = useState(null);
+  const [requestFilter, setRequestFilter] = useState("all");
+
   const handleUserStatusChange = (userId, newStatus) => {
     setUsers(
       users.map((user) =>
@@ -725,6 +905,53 @@ const AdminProfile = ({ onLogout }) => {
     });
   };
 
+  // Request Management Functions
+  const handleRequestAction = (requestId, action, adminNotes = "") => {
+    setRequests(
+      requests.map((request) =>
+        request.id === requestId
+          ? {
+              ...request,
+              status: action,
+              adminNotes,
+              reviewedDate: new Date().toISOString().split("T")[0],
+              reviewedBy: adminData.name,
+            }
+          : request
+      )
+    );
+    setShowRequestModal(false);
+    setSelectedRequest(null);
+  };
+
+  const handleViewRequest = (request) => {
+    setSelectedRequest(request);
+    setShowRequestModal(true);
+  };
+
+  const handleDeleteRequest = (requestId) => {
+    if (window.confirm("Are you sure you want to delete this request?")) {
+      setRequests(requests.filter((request) => request.id !== requestId));
+    }
+  };
+
+  const getFilteredRequests = () => {
+    if (requestFilter === "all") return requests;
+    return requests.filter((request) => request.status === requestFilter);
+  };
+
+  const getRequestStats = () => {
+    const total = requests.length;
+    const pending = requests.filter((r) => r.status === "pending").length;
+    const approved = requests.filter((r) => r.status === "approved").length;
+    const rejected = requests.filter((r) => r.status === "rejected").length;
+    const underReview = requests.filter(
+      (r) => r.status === "under_review"
+    ).length;
+
+    return { total, pending, approved, rejected, underReview };
+  };
+
   const renderDashboard = () => (
     <div className="admin-dashboard">
       <div className="dashboard-header">
@@ -789,6 +1016,13 @@ const AdminProfile = ({ onLogout }) => {
             <p>Pending Approvals</p>
           </div>
         </div>
+        <div className="stat-card">
+          <div className="stat-icon">📋</div>
+          <div className="stat-info">
+            <h3>{stats.pendingRequests}</h3>
+            <p>Pending Requests</p>
+          </div>
+        </div>
       </div>
 
       <div className="quick-actions">
@@ -817,6 +1051,12 @@ const AdminProfile = ({ onLogout }) => {
           </button>
           <button className="action-btn" onClick={() => setActiveTab("events")}>
             📅 Manage Events
+          </button>
+          <button
+            className="action-btn"
+            onClick={() => setActiveTab("requests")}
+          >
+            📋 Manage Requests
           </button>
           <button
             className="action-btn"
@@ -2444,6 +2684,388 @@ const AdminProfile = ({ onLogout }) => {
     );
   };
 
+  const renderRequestManagement = () => {
+    const filteredRequests = getFilteredRequests();
+    const stats = getRequestStats();
+
+    return (
+      <div className="user-management">
+        <div className="section-header">
+          <h2>Request Management</h2>
+          <div className="header-actions">
+            <button
+              className={`filter-btn ${
+                requestFilter === "all" ? "active" : ""
+              }`}
+              onClick={() => setRequestFilter("all")}
+            >
+              📋 All Requests ({stats.total})
+            </button>
+            <button
+              className={`filter-btn ${
+                requestFilter === "pending" ? "active" : ""
+              }`}
+              onClick={() => setRequestFilter("pending")}
+            >
+              ⏳ Pending ({stats.pending})
+            </button>
+            <button
+              className={`filter-btn ${
+                requestFilter === "under_review" ? "active" : ""
+              }`}
+              onClick={() => setRequestFilter("under_review")}
+            >
+              👁️ Under Review ({stats.underReview})
+            </button>
+            <button
+              className={`filter-btn ${
+                requestFilter === "approved" ? "active" : ""
+              }`}
+              onClick={() => setRequestFilter("approved")}
+            >
+              ✅ Approved ({stats.approved})
+            </button>
+            <button
+              className={`filter-btn ${
+                requestFilter === "rejected" ? "active" : ""
+              }`}
+              onClick={() => setRequestFilter("rejected")}
+            >
+              ❌ Rejected ({stats.rejected})
+            </button>
+          </div>
+        </div>
+
+        <div className="user-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Applicant</th>
+                <th>Subject</th>
+                <th>Category</th>
+                <th>Department</th>
+                <th>Priority</th>
+                <th>Submission Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredRequests.map((request) => (
+                <tr key={request.id}>
+                  <td>
+                    <span
+                      className={`role-badge ${request.type
+                        .toLowerCase()
+                        .replace(/\s+/g, "-")}`}
+                    >
+                      {request.type}
+                    </span>
+                  </td>
+                  <td>
+                    <strong>{request.applicantName}</strong>
+                    <br />
+                    <small>{request.applicantEmail}</small>
+                  </td>
+                  <td>
+                    <strong>{request.subject}</strong>
+                    <br />
+                    <small>{request.description.substring(0, 60)}...</small>
+                  </td>
+                  <td>
+                    <span
+                      className={`role-badge ${request.category.toLowerCase()}`}
+                    >
+                      {request.category}
+                    </span>
+                  </td>
+                  <td>{request.department}</td>
+                  <td>
+                    <span className={`priority-badge ${request.priority}`}>
+                      {request.priority}
+                    </span>
+                  </td>
+                  <td>{request.submissionDate}</td>
+                  <td>
+                    <span className={`status-badge ${request.status}`}>
+                      {request.status.replace("_", " ")}
+                    </span>
+                  </td>
+                  <td>
+                    <button
+                      className="view-btn"
+                      onClick={() => handleViewRequest(request)}
+                      title="View Details"
+                    >
+                      👁️ View
+                    </button>
+                    {request.status === "pending" && (
+                      <>
+                        <button
+                          className="edit-btn"
+                          onClick={() =>
+                            handleRequestAction(request.id, "under_review")
+                          }
+                          title="Mark as Under Review"
+                        >
+                          👁️ Review
+                        </button>
+                        <button
+                          className="save-btn"
+                          onClick={() =>
+                            handleRequestAction(request.id, "approved")
+                          }
+                          title="Approve Request"
+                        >
+                          ✅ Approve
+                        </button>
+                        <button
+                          className="delete-btn"
+                          onClick={() =>
+                            handleRequestAction(request.id, "rejected")
+                          }
+                          title="Reject Request"
+                        >
+                          ❌ Reject
+                        </button>
+                      </>
+                    )}
+                    <button
+                      className="delete-btn"
+                      onClick={() => handleDeleteRequest(request.id)}
+                      title="Delete Request"
+                    >
+                      🗑️ Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {filteredRequests.length === 0 && (
+            <div className="empty-state">
+              <p>No requests found for the selected filter.</p>
+            </div>
+          )}
+        </div>
+        {showRequestModal && <RequestModal />}
+      </div>
+    );
+  };
+
+  // Request Detail Modal
+  const RequestModal = () => {
+    const [adminNotes, setAdminNotes] = useState("");
+    const [actionType, setActionType] = useState("");
+
+    const handleAction = (action) => {
+      handleRequestAction(selectedRequest.id, action, adminNotes);
+    };
+
+    if (!selectedRequest) return null;
+
+    return (
+      <div className="modal-overlay">
+        <div className="modal-content large-modal">
+          <div className="modal-header">
+            <h3>Request Details - {selectedRequest.type}</h3>
+            <button
+              className="close-btn"
+              onClick={() => setShowRequestModal(false)}
+            >
+              ✕
+            </button>
+          </div>
+
+          <div className="request-details">
+            <div className="request-info-grid">
+              <div className="info-section">
+                <h4>Applicant Information</h4>
+                <div className="info-item">
+                  <label>Name:</label>
+                  <span>{selectedRequest.applicantName}</span>
+                </div>
+                <div className="info-item">
+                  <label>Email:</label>
+                  <span>{selectedRequest.applicantEmail}</span>
+                </div>
+                <div className="info-item">
+                  <label>Department:</label>
+                  <span>{selectedRequest.department}</span>
+                </div>
+              </div>
+
+              <div className="info-section">
+                <h4>Request Information</h4>
+                <div className="info-item">
+                  <label>Type:</label>
+                  <span
+                    className={`role-badge ${selectedRequest.type
+                      .toLowerCase()
+                      .replace(/\s+/g, "-")}`}
+                  >
+                    {selectedRequest.type}
+                  </span>
+                </div>
+                <div className="info-item">
+                  <label>Category:</label>
+                  <span
+                    className={`role-badge ${selectedRequest.category.toLowerCase()}`}
+                  >
+                    {selectedRequest.category}
+                  </span>
+                </div>
+                <div className="info-item">
+                  <label>Priority:</label>
+                  <span
+                    className={`priority-badge ${selectedRequest.priority}`}
+                  >
+                    {selectedRequest.priority}
+                  </span>
+                </div>
+                <div className="info-item">
+                  <label>Status:</label>
+                  <span className={`status-badge ${selectedRequest.status}`}>
+                    {selectedRequest.status.replace("_", " ")}
+                  </span>
+                </div>
+                <div className="info-item">
+                  <label>Submission Date:</label>
+                  <span>{selectedRequest.submissionDate}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="request-content">
+              <h4>Subject</h4>
+              <p>
+                <strong>{selectedRequest.subject}</strong>
+              </p>
+
+              <h4>Description</h4>
+              <p>{selectedRequest.description}</p>
+
+              {selectedRequest.additionalInfo && (
+                <>
+                  <h4>Additional Information</h4>
+                  <div className="additional-info">
+                    {Object.entries(selectedRequest.additionalInfo).map(
+                      ([key, value]) => (
+                        <div key={key} className="info-item">
+                          <label>
+                            {key
+                              .replace(/([A-Z])/g, " $1")
+                              .replace(/^./, (str) => str.toUpperCase())}
+                            :
+                          </label>
+                          <span>
+                            {Array.isArray(value) ? value.join(", ") : value}
+                          </span>
+                        </div>
+                      )
+                    )}
+                  </div>
+                </>
+              )}
+
+              {selectedRequest.attachments &&
+                selectedRequest.attachments.length > 0 && (
+                  <>
+                    <h4>Attachments</h4>
+                    <div className="attachments-list">
+                      {selectedRequest.attachments.map((file, index) => (
+                        <div key={index} className="attachment-item">
+                          <span className="file-icon">📎</span>
+                          <span className="file-name">{file.name}</span>
+                          <span className="file-size">({file.size})</span>
+                          <button className="download-btn" type="button">
+                            📥 Download
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
+
+              {selectedRequest.reviewedBy && (
+                <>
+                  <h4>Review Information</h4>
+                  <div className="review-info">
+                    <div className="info-item">
+                      <label>Reviewed By:</label>
+                      <span>{selectedRequest.reviewedBy}</span>
+                    </div>
+                    <div className="info-item">
+                      <label>Review Date:</label>
+                      <span>{selectedRequest.reviewedDate}</span>
+                    </div>
+                    {selectedRequest.adminNotes && (
+                      <div className="info-item">
+                        <label>Admin Notes:</label>
+                        <span>{selectedRequest.adminNotes}</span>
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
+
+            {(selectedRequest.status === "pending" ||
+              selectedRequest.status === "under_review") && (
+              <div className="admin-actions">
+                <h4>Admin Actions</h4>
+                <div className="form-group">
+                  <label>Admin Notes (Optional)</label>
+                  <textarea
+                    value={adminNotes}
+                    onChange={(e) => setAdminNotes(e.target.value)}
+                    placeholder="Add any notes or feedback..."
+                    rows="3"
+                  />
+                </div>
+                <div className="action-buttons">
+                  {selectedRequest.status === "pending" && (
+                    <button
+                      className="edit-btn"
+                      onClick={() => handleAction("under_review")}
+                      type="button"
+                    >
+                      👁️ Mark as Under Review
+                    </button>
+                  )}
+                  <button
+                    className="save-btn"
+                    onClick={() => handleAction("approved")}
+                    type="button"
+                  >
+                    ✅ Approve Request
+                  </button>
+                  <button
+                    className="delete-btn"
+                    onClick={() => handleAction("rejected")}
+                    type="button"
+                  >
+                    ❌ Reject Request
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="modal-actions">
+            <button
+              className="cancel-btn"
+              onClick={() => setShowRequestModal(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   const renderTabContent = () => {
     switch (activeTab) {
       case "dashboard":
@@ -2458,6 +3080,8 @@ const AdminProfile = ({ onLogout }) => {
         return renderAchievementManagement();
       case "events":
         return renderEventManagement();
+      case "requests":
+        return renderRequestManagement();
       case "settings":
         return renderSettings();
       case "profile":
@@ -2526,7 +3150,13 @@ const AdminProfile = ({ onLogout }) => {
               className={`nav-item ${activeTab === "events" ? "active" : ""}`}
               onClick={() => setActiveTab("events")}
             >
-              📅 Manage Events
+              📅 Event Management
+            </button>
+            <button
+              className={`nav-item ${activeTab === "requests" ? "active" : ""}`}
+              onClick={() => setActiveTab("requests")}
+            >
+              📋 Request Management
             </button>
             <button
               className={`nav-item ${activeTab === "settings" ? "active" : ""}`}
