@@ -19,67 +19,134 @@ const Directory = ({ onFacultySelect }) => {
     {
       id: 1,
       name: "Dr. Abdul Razzaque",
-      role: "Faculty",
-      specialization: ["Machine Learning", "Distributed Systems"]
+      role: "Professor",
+      designation: "Professor & Head",
+      department: "Computer Science & Engineering",
+      email: "razzaque@csedu.ac.bd",
+      phone: "+880 1712 345678",
+      office: "Room 401, CSEDU Building",
+      specialization: ["Machine Learning", "Distributed Systems"],
+      experience: "15 years",
+      education: "PhD in Computer Science, University of Toronto"
     },
     {
       id: 2,
       name: "Dr. Mosaddek Khan",
-      role: "Faculty",
-      specialization: ["Machine Learning", "Networking"]
+      role: "Professor",
+      designation: "Professor",
+      department: "Computer Science & Engineering",
+      email: "mosaddek@csedu.ac.bd",
+      phone: "+880 1712 345679",
+      office: "Room 402, CSEDU Building",
+      specialization: ["Machine Learning", "Networking"],
+      experience: "12 years",
+      education: "PhD in Computer Science, MIT"
     },
     {
       id: 3,
       name: "Dr. Farhan Ahmed",
-      role: "Faculty",
-      specialization: ["Machine Learning", "Data Mining"]
+      role: "Associate Professor",
+      designation: "Associate Professor",
+      department: "Computer Science & Engineering",
+      email: "farhan@csedu.ac.bd",
+      phone: "+880 1712 345680",
+      office: "Room 403, CSEDU Building",
+      specialization: ["Machine Learning", "Data Mining"],
+      experience: "10 years",
+      education: "PhD in Computer Science, Stanford University"
     },
     {
       id: 4,
-      name: "Dr. Mosaddek Khan",
-      role: "Professor",
-      specialization: ["Multi Agent Systems", "Artificial Intelligence"]
+      name: "Dr. Sarah Wilson",
+      role: "Associate Professor",
+      designation: "Associate Professor",
+      department: "Computer Science & Engineering",
+      email: "sarah.wilson@csedu.ac.bd",
+      phone: "+880 1712 345681",
+      office: "Room 404, CSEDU Building",
+      specialization: ["Multi Agent Systems", "Artificial Intelligence"],
+      experience: "8 years",
+      education: "PhD in Computer Science, Carnegie Mellon University"
     },
     {
       id: 5,
-      name: "Dr. Mosaddek Khan",
-      role: "Professor",
-      specialization: ["Multi Agent Systems", "Software Engineering"]
+      name: "Dr. Ahmed Hassan",
+      role: "Assistant Professor",
+      designation: "Assistant Professor",
+      department: "Computer Science & Engineering",
+      email: "ahmed.hassan@csedu.ac.bd",
+      phone: "+880 1712 345682",
+      office: "Room 405, CSEDU Building",
+      specialization: ["Software Engineering", "Database Systems"],
+      experience: "6 years",
+      education: "PhD in Computer Science, University of British Columbia"
     },
     {
       id: 6,
-      name: "Dr. Mosaddek Khan",
-      role: "Professor",
-      specialization: ["Multi Agent Systems"]
+      name: "Dr. Fatima Rahman",
+      role: "Assistant Professor",
+      designation: "Assistant Professor",
+      department: "Computer Science & Engineering",
+      email: "fatima@csedu.ac.bd",
+      phone: "+880 1712 345683",
+      office: "Room 406, CSEDU Building",
+      specialization: ["Computer Vision", "Deep Learning"],
+      experience: "5 years",
+      education: "PhD in Computer Science, University of Waterloo"
     },
     {
       id: 7,
-      name: "Dr. Mosaddek Khan",
-      role: "Professor",
-      specialization: ["Multi Agent Systems"]
+      name: "Dr. Mohammad Ali",
+      role: "Lecturer",
+      designation: "Lecturer",
+      department: "Computer Science & Engineering",
+      email: "mohammad.ali@csedu.ac.bd",
+      phone: "+880 1712 345684",
+      office: "Room 407, CSEDU Building",
+      specialization: ["Web Development", "Human-Computer Interaction"],
+      experience: "4 years",
+      education: "PhD in Computer Science, University of Calgary"
     },
     {
       id: 8,
-      name: "Dr. Mosaddek Khan",
-      role: "Professor",
-      specialization: ["Multi Agent Systems"]
+      name: "Dr. Nadia Islam",
+      role: "Lecturer",
+      designation: "Lecturer",
+      department: "Computer Science & Engineering",
+      email: "nadia@csedu.ac.bd",
+      phone: "+880 1712 345685",
+      office: "Room 408, CSEDU Building",
+      specialization: ["Cybersecurity", "Network Security"],
+      experience: "3 years",
+      education: "PhD in Computer Science, Concordia University"
     },
     {
       id: 9,
-      name: "Dr. Mosaddek Khan",
-      role: "Professor",
-      specialization: ["Multi Agent Systems"]
+      name: "Md. Karim Uddin",
+      role: "Staff",
+      designation: "System Administrator",
+      department: "Computer Science & Engineering",
+      email: "karim@csedu.ac.bd",
+      phone: "+880 1712 345686",
+      office: "Room 101, CSEDU Building",
+      specialization: ["System Administration", "Network Management"],
+      experience: "8 years",
+      education: "MSc in Computer Science, University of Dhaka"
     }
   ];
+
+  const roles = ["All", "Professor", "Associate Professor", "Assistant Professor", "Lecturer", "Staff"];
 
   const filteredMembers = facultyMembers.filter(member => {
     const matchesRole = selectedRole === "All" || member.role === selectedRole;
     
-    // Search only by name with prefix matching
+    // Search by name, email, specialization
     const searchTerm = searchQuery.toLowerCase().trim();
     const matchesSearch = searchTerm === "" || 
-                         member.name.toLowerCase().split(' ').some(word => 
-                           word.startsWith(searchTerm)
+                         member.name.toLowerCase().includes(searchTerm) ||
+                         member.email.toLowerCase().includes(searchTerm) ||
+                         member.specialization.some(spec => 
+                           spec.toLowerCase().includes(searchTerm)
                          );
     
     return matchesRole && matchesSearch;
@@ -87,111 +154,138 @@ const Directory = ({ onFacultySelect }) => {
 
   return (
     <div className="directory-page">
-      <div className="directory-header">
-        <h1 className="directory-title">CSEDU Directory</h1>
-        <p className="directory-subtitle">Find Faculty Members, Students and Staffs</p>
-      </div>
-
-      <div className="directory-controls">
-        <div className="search-section">
-          <div className="search-bar">
-            <input
-              type="text"
-              placeholder="Search faculty members..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="search-input"
-            />
-            {searchQuery && (
-              <button 
-                className="clear-search-btn"
-                onClick={() => setSearchQuery("")}
-                title="Clear search"
-              >
-                ×
-              </button>
-            )}
-          </div>
-          {searchQuery && (
-            <div className="search-results-count">
-              {filteredMembers.length} result{filteredMembers.length !== 1 ? 's' : ''} found
-            </div>
-          )}
+      <div className="directory-container">
+        <div className="events-header">
+          <h1 className="events-title">CSEDU Directory</h1>
+          <p className="events-subtitle">
+            Find Faculty Members, Students and Staff
+          </p>
         </div>
 
-        <div className="filters-section">
-          <div className="filter-group">
-            <label className="filter-label">Role</label>
-            <select 
-              value={selectedRole} 
-              onChange={(e) => setSelectedRole(e.target.value)}
-              className="filter-select"
-            >
-              <option value="All">All Roles</option>
-              <option value="Faculty">Faculty</option>
-              <option value="Professor">Professor</option>
-              <option value="Student">Student</option>
-              <option value="Staff">Staff</option>
-            </select>
+        <div className="directory-controls">
+          <div className="search-section">
+            <div className="search-bar">
+              <input
+                type="text"
+                placeholder="Search faculty members by name, email, or specialization..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="search-input"
+              />
+              {searchQuery && (
+                <button 
+                  className="clear-search-btn"
+                  onClick={() => setSearchQuery("")}
+                  title="Clear search"
+                >
+                  ×
+                </button>
+              )}
+            </div>
           </div>
 
-          {hasActiveFilters && (
+          <div className="filters-row">
             <div className="filter-group">
-              <label className="filter-label">&nbsp;</label>
-              <button 
+              <label htmlFor="role-select" className="filter-label">
+                Role
+              </label>
+              <select 
+                id="role-select"
+                value={selectedRole} 
+                onChange={(e) => setSelectedRole(e.target.value)}
+                className="filter-select"
+              >
+                {roles.map((role) => (
+                  <option key={role} value={role}>
+                    {role === "All" ? "All Roles" : role}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {hasActiveFilters && (
+              <button
                 className="clear-filters-button"
                 onClick={clearAllFilters}
-                title="Clear all filters"
               >
                 Clear Filters
               </button>
-            </div>
-          )}
+            )}
+          </div>
         </div>
-      </div>
 
-      <div className="directory-grid">
-        {filteredMembers.length > 0 ? (
-          filteredMembers.map((member) => (
+        <div className="directory-grid">
+          {filteredMembers.map((member) => (
             <div 
               key={member.id} 
               className="faculty-card"
               onClick={() => onFacultySelect && onFacultySelect(member.id)}
             >
-              <ul className="faculty-info-list">
-                <li className="faculty-avatar">
-                  <div className="avatar-placeholder">👤</div>
-                </li>
-                <li className="faculty-name"><strong>Name:</strong> {member.name}</li>
-                <li className="faculty-role-badge"><strong>Role:</strong> {member.role}</li>
-                <li className="faculty-specializations"><strong>Specializations:</strong>
-                  <ul style={{ margin: 0, paddingLeft: 18 }}>
-                    {member.specialization.map((spec, idx) => (
-                      <li key={idx} className="faculty-specialization">{spec}</li>
-                    ))}
-                  </ul>
-                </li>
-              </ul>
+              <div className="faculty-avatar">
+                <div className={`avatar-placeholder ${member.role.toLowerCase().replace(/\s+/g, '-')}-avatar`}>
+                  {member.name.split(' ').map(n => n[0]).join('').substring(0, 2)}
+                </div>
+              </div>
+              <div className="faculty-header">
+                <div className="faculty-meta">
+                  <span className={`faculty-role ${member.role.toLowerCase().replace(/\s+/g, '-')}`}>
+                    {member.role}
+                  </span>
+                  <span className="faculty-department">
+                    {member.department}
+                  </span>
+                </div>
+              </div>
+              <div className="faculty-content">
+                <h3 className="faculty-name">{member.name}</h3>
+                <p className="faculty-designation">{member.designation}</p>
+                <div className="faculty-details">
+                  <div className="faculty-detail-item">
+                    <span className="detail-label">Email:</span>
+                    <span className="detail-value">{member.email}</span>
+                  </div>
+                  <div className="faculty-detail-item">
+                    <span className="detail-label">Phone:</span>
+                    <span className="detail-value">{member.phone}</span>
+                  </div>
+                  <div className="faculty-detail-item">
+                    <span className="detail-label">Office:</span>
+                    <span className="detail-value">{member.office}</span>
+                  </div>
+                  <div className="faculty-detail-item">
+                    <span className="detail-label">Experience:</span>
+                    <span className="detail-value">{member.experience}</span>
+                  </div>
+                </div>
+                <div className="faculty-specializations">
+                  {member.specialization.map((spec) => (
+                    <span key={spec} className="faculty-specialization">
+                      {spec}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="faculty-footer">
+                <button
+                  className="view-profile-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onFacultySelect && onFacultySelect(member.id);
+                  }}
+                >
+                  View Profile
+                </button>
+              </div>
             </div>
-          ))
-        ) : (
-          <div className="no-results">
-            <div className="no-results-icon">🔍</div>
-            <h3 className="no-results-title">No faculty members found</h3>
-            <p className="no-results-message">
-              {hasActiveFilters 
-                ? "Try adjusting your search criteria or clearing filters"
-                : "No faculty members available at the moment"
-              }
+          ))}
+        </div>
+
+        {filteredMembers.length === 0 && (
+          <div className="no-faculty-message">
+            <h3>No faculty members found</h3>
+            <p>
+              Try adjusting your search criteria or check back later for new faculty.
             </p>
-            {hasActiveFilters && (
-              <button 
-                className="clear-filters-button-large"
-                onClick={clearAllFilters}
-              >
-                Clear All Filters
-              </button>
-            )}
           </div>
         )}
       </div>
