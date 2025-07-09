@@ -36,6 +36,7 @@ import ReserveRoom from "./pages/ReserveRoom";
 import LabBooking from "./pages/LabBooking";
 import LabBookingSuccess from "./pages/LabBookingSuccess";
 import Signup from "./pages/Signup";
+import TeacherEditProfile from "./pages/TeacherEditProfile";
 import "./styles/App.css";
 
 function App() {

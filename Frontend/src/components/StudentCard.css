@@ -164,6 +164,16 @@
   border-color: #e67e22;
   transform: translateY(-1px);
 }
+.course-action-btn.remove, .student-action-btn.remove {
+  background-color: #e74c3c;
+  color: #ffffff;
+  border: 1px solid #e74c3c;
+}
+.course-action-btn.remove:hover, .student-action-btn.remove:hover {
+  background-color: #c0392b;
+  border-color: #c0392b;
+  transform: translateY(-1px);
+}
 
 /* Responsive Design */
 @media (max-width: 768px) {

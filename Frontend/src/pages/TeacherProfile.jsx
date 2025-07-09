@@ -68,9 +68,8 @@ const initialThesisStudents = [
   {
     id: "CSE-2020-1001",
     name: "Mohammad Rahman",
+    email: "mohammad.rahman@student.csedu.ac.bd",
     thesisTopic: "Machine Learning for Stock Price Prediction",
-    progress: 75,
-    progressLevel: "high",
     startDate: "Jan 2023",
     year: "Final",
     level: "Undergraduate"
@@ -78,9 +77,8 @@ const initialThesisStudents = [
   {
     id: "CSE-2020-1015",
     name: "Fatima Khan",
+    email: "fatima.khan@student.csedu.ac.bd",
     thesisTopic: "Natural Language Processing for Bengali",
-    progress: 60,
-    progressLevel: "medium",
     startDate: "Feb 2023",
     year: "Final",
     level: "Undergraduate"
@@ -88,9 +86,8 @@ const initialThesisStudents = [
   {
     id: "CSE-2019-1008",
     name: "Ali Hassan",
+    email: "ali.hassan@student.csedu.ac.bd",
     thesisTopic: "Blockchain Technology in Healthcare",
-    progress: 40,
-    progressLevel: "low",
     startDate: "Sep 2022",
     year: "Final",
     level: "Undergraduate"
@@ -101,6 +98,7 @@ const initialResearchAssistants = [
   {
     id: "CSE-2021-1025",
     name: "Ahmed Hassan",
+    email: "ahmed.hassan@student.csedu.ac.bd",
     researchArea: "Deep Learning",
     duration: "6 months",
     joinDate: "Aug 2024",
@@ -109,6 +107,7 @@ const initialResearchAssistants = [
   {
     id: "CSE-2022-1030",
     name: "Samira Ahmed",
+    email: "samira.ahmed@student.csedu.ac.bd",
     researchArea: "Computer Vision",
     duration: "8 months",
     joinDate: "Jun 2024",
@@ -117,6 +116,7 @@ const initialResearchAssistants = [
   {
     id: "CSE-2021-1042",
     name: "Nadia Islam",
+    email: "nadia.islam@student.csedu.ac.bd",
     researchArea: "Natural Language Processing",
     duration: "4 months",
     joinDate: "Oct 2024",
@@ -136,6 +136,8 @@ const TeacherProfile = ({
   const [researchAssistants, setResearchAssistants] = useState(initialResearchAssistants);
   const [showCreateCourseForm, setShowCreateCourseForm] = useState(false);
   const [showCreateResearchForm, setShowCreateResearchForm] = useState(false);
+  const [showAddThesisStudentForm, setShowAddThesisStudentForm] = useState(false);
+  const [showAddResearchAssistantForm, setShowAddResearchAssistantForm] = useState(false);
 
   const teacherData = propTeacherData || {
     name: "Dr. Sarah Wilson",
@@ -504,14 +506,227 @@ const TeacherProfile = ({
     );
   };
 
-  // Student action handlers
-  const handleViewProgress = (student) => {
-    console.log("Viewing progress for:", student.name);
-    if (onNavigate) {
-      onNavigate("student-progress", { studentId: student.id });
-    }
+  // Add Thesis Student Form Component
+  const AddThesisStudentForm = () => {
+    const [formData, setFormData] = useState({
+      name: '',
+      email: '',
+      thesisTopic: '',
+      startDate: '',
+      year: 'Final',
+      level: 'Undergraduate'
+    });
+
+    const handleInputChange = (e) => {
+      const { name, value } = e.target;
+      setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      if (formData.name && formData.email && formData.thesisTopic && formData.startDate) {
+        handleAddThesisStudentSubmit(formData);
+      } else {
+        alert("Please fill in all required fields");
+      }
+    };
+
+    return (
+      <div className="create-course-form-overlay">
+        <div className="create-course-form">
+          <div className="form-header">
+            <h3>Add Thesis Student</h3>
+            <button className="close-btn" onClick={() => setShowAddThesisStudentForm(false)}>×</button>
+          </div>
+          <form onSubmit={handleSubmit}>
+            <div className="form-row">
+              <div className="form-group">
+                <label>Student Name *</label>
+                <input 
+                  type="text" 
+                  name="name" 
+                  value={formData.name} 
+                  onChange={handleInputChange} 
+                  placeholder="e.g., Mohammad Rahman"
+                  required 
+                />
+              </div>
+              <div className="form-group">
+                <label>Academic Year *</label>
+                <select name="year" value={formData.year} onChange={handleInputChange} required>
+                  <option value="1st">1st Year</option>
+                  <option value="2nd">2nd Year</option>
+                  <option value="3rd">3rd Year</option>
+                  <option value="Final">Final Year</option>
+                </select>
+              </div>
+            </div>
+            <div className="form-row">
+              <div className="form-group">
+                <label>Academic Level *</label>
+                <select name="level" value={formData.level} onChange={handleInputChange} required>
+                  <option value="Undergraduate">Undergraduate</option>
+                  <option value="Graduate">Graduate (Masters)</option>
+                  <option value="PhD">PhD</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Start Date *</label>
+                <input 
+                  type="text" 
+                  name="startDate" 
+                  value={formData.startDate} 
+                  onChange={handleInputChange} 
+                  placeholder="e.g., Jan 2024"
+                  required 
+                />
+              </div>
+            </div>
+            <div className="form-group full-width">
+              <label>Student Email *</label>
+              <input 
+                type="email" 
+                name="email" 
+                value={formData.email} 
+                onChange={handleInputChange} 
+                placeholder="e.g., student@example.com"
+                required 
+              />
+            </div>
+            <div className="form-group full-width">
+              <label>Thesis Topic *</label>
+              <input 
+                type="text" 
+                name="thesisTopic" 
+                value={formData.thesisTopic} 
+                onChange={handleInputChange} 
+                placeholder="e.g., Machine Learning for Stock Price Prediction"
+                required 
+              />
+            </div>
+            <div className="form-actions">
+              <button type="button" className="secondary-action-btn" onClick={() => setShowAddThesisStudentForm(false)}>Cancel</button>
+              <button type="submit" className="primary-action-btn">Add Student</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    );
   };
 
+  // Add Research Assistant Form Component
+  const AddResearchAssistantForm = () => {
+    const [formData, setFormData] = useState({
+      name: '',
+      email: '',
+      researchArea: '',
+      duration: '',
+      joinDate: '',
+      level: 'Undergraduate'
+    });
+
+    const handleInputChange = (e) => {
+      const { name, value } = e.target;
+      setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      if (formData.name && formData.email && formData.researchArea && formData.duration && formData.joinDate) {
+        handleAddResearchAssistantSubmit(formData);
+      } else {
+        alert("Please fill in all required fields");
+      }
+    };
+
+    return (
+      <div className="create-course-form-overlay">
+        <div className="create-course-form">
+          <div className="form-header">
+            <h3>Add Research Assistant</h3>
+            <button className="close-btn" onClick={() => setShowAddResearchAssistantForm(false)}>×</button>
+          </div>
+          <form onSubmit={handleSubmit}>
+            <div className="form-row">
+              <div className="form-group">
+                <label>Student Name *</label>
+                <input 
+                  type="text" 
+                  name="name" 
+                  value={formData.name} 
+                  onChange={handleInputChange} 
+                  placeholder="e.g., Ahmed Hassan"
+                  required 
+                />
+              </div>
+              <div className="form-group">
+                <label>Student Email *</label>
+                <input 
+                  type="email" 
+                  name="email" 
+                  value={formData.email} 
+                  onChange={handleInputChange} 
+                  placeholder="e.g., student@example.com"
+                  required 
+                />
+              </div>
+            </div>
+            <div className="form-row">
+              <div className="form-group">
+                <label>Academic Level *</label>
+                <select name="level" value={formData.level} onChange={handleInputChange} required>
+                  <option value="Undergraduate">Undergraduate</option>
+                  <option value="Graduate">Graduate (Masters)</option>
+                  <option value="PhD">PhD</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Duration *</label>
+                <input 
+                  type="text" 
+                  name="duration" 
+                  value={formData.duration} 
+                  onChange={handleInputChange} 
+                  placeholder="e.g., 6 months"
+                  required 
+                />
+              </div>
+            </div>
+            <div className="form-row">
+              <div className="form-group">
+                <label>Research Area *</label>
+                <input 
+                  type="text" 
+                  name="researchArea" 
+                  value={formData.researchArea} 
+                  onChange={handleInputChange} 
+                  placeholder="e.g., Deep Learning"
+                  required 
+                />
+              </div>
+              <div className="form-group">
+                <label>Join Date *</label>
+                <input 
+                  type="text" 
+                  name="joinDate" 
+                  value={formData.joinDate} 
+                  onChange={handleInputChange} 
+                  placeholder="e.g., Aug 2024"
+                  required 
+                />
+              </div>
+            </div>
+            <div className="form-actions">
+              <button type="button" className="secondary-action-btn" onClick={() => setShowAddResearchAssistantForm(false)}>Cancel</button>
+              <button type="submit" className="primary-action-btn">Add Research Assistant</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    );
+  };
+
+  // Student action handlers
   const handleScheduleMeeting = (student) => {
     console.log("Scheduling meeting with:", student.name);
     if (onNavigate) {
@@ -531,6 +746,56 @@ const TeacherProfile = ({
     if (onNavigate) {
       onNavigate("assign-tasks", { studentId: student.id });
     }
+  };
+
+  const handleRemoveStudent = (student, type) => {
+    const studentType = type === "thesis" ? "thesis student" : "research assistant";
+    const confirmRemove = window.confirm(
+      `Are you sure you want to remove ${student.name} from your ${studentType} list?`
+    );
+
+    if (confirmRemove) {
+      if (type === "thesis") {
+        setThesisStudents(prevStudents =>
+          prevStudents.filter(s => s.id !== student.id)
+        );
+        console.log("Thesis student removed:", student.name);
+      } else {
+        setResearchAssistants(prevAssistants =>
+          prevAssistants.filter(s => s.id !== student.id)
+        );
+        console.log("Research assistant removed:", student.name);
+      }
+    }
+  };
+
+  // Add student handlers
+  const handleAddThesisStudent = () => {
+    setShowAddThesisStudentForm(true);
+  };
+
+  const handleAddResearchAssistant = () => {
+    setShowAddResearchAssistantForm(true);
+  };
+
+  const handleAddThesisStudentSubmit = (newStudentData) => {
+    const newStudent = {
+      id: `CSE-${new Date().getFullYear()}-${Math.floor(Math.random() * 9000) + 1000}`,
+      ...newStudentData
+    };
+    setThesisStudents(prevStudents => [...prevStudents, newStudent]);
+    setShowAddThesisStudentForm(false);
+    console.log("New thesis student added:", newStudent);
+  };
+
+  const handleAddResearchAssistantSubmit = (newAssistantData) => {
+    const newAssistant = {
+      id: `CSE-${new Date().getFullYear()}-${Math.floor(Math.random() * 9000) + 1000}`,
+      ...newAssistantData
+    };
+    setResearchAssistants(prevAssistants => [...prevAssistants, newAssistant]);
+    setShowAddResearchAssistantForm(false);
+    console.log("New research assistant added:", newAssistant);
   };
 
   // Research project action handlers
@@ -653,20 +918,18 @@ const TeacherProfile = ({
           <div className="tab-content">
             <div className="courses-section">
               <div className="section-header">
-                <div className="section-header-content">
-                  <div className="section-header-text">
-                    <h3>Current Courses</h3>
-                    <p className="section-subtitle">Manage your course assignments and track student progress</p>
-                  </div>
-                  <button
-                    className="create-course-btn"
-                    onClick={() => {
-                      handleCreateCourse();
-                    }}
-                  >
-                    + Create Course
-                  </button>
+                <div className="section-header-text">
+                  <h3>Current Courses</h3>
+                  <p className="section-subtitle">Manage your course assignments and track student progress</p>
                 </div>
+                <button
+                  className="create-course-btn"
+                  onClick={() => {
+                    handleCreateCourse();
+                  }}
+                >
+                  + Create Course
+                </button>
               </div>
               <div className="notices-grid">
                 {activeCourses.map((course) => (
@@ -723,18 +986,16 @@ const TeacherProfile = ({
           <div className="tab-content">
             <div className="research-section">
               <div className="section-header">
-                <div className="section-header-content">
-                  <div className="section-header-text">
-                    <h3>Research Activities</h3>
-                    <p className="section-subtitle">Manage your research projects and track progress</p>
-                  </div>
-                  <button 
-                    className="create-course-btn" 
-                    onClick={handleCreateResearchProject}
-                  >
-                    + Create Project
-                  </button>
+                <div className="section-header-text">
+                  <h3>Research Activities</h3>
+                  <p className="section-subtitle">Manage your research projects and track progress</p>
                 </div>
+                <button 
+                  className="create-course-btn" 
+                  onClick={handleCreateResearchProject}
+                >
+                  + Create Project
+                </button>
               </div>
 
               <div className="notices-grid">
@@ -808,8 +1069,10 @@ const TeacherProfile = ({
           <div className="tab-content">
       <div className="students-section">
         <div className="section-header">
-          <h3>Student Management</h3>
-          <p className="section-subtitle">Track thesis progress and manage research assistants</p>
+          <div className="section-header-text">
+            <h3>Student Management</h3>
+            <p className="section-subtitle">Track thesis progress and manage research assistants</p>
+          </div>
         </div>
 
         <div className="students-subsection">
@@ -817,8 +1080,7 @@ const TeacherProfile = ({
             <h4>Thesis Students</h4>
             <button
               className="create-course-btn"
-              style={{ marginLeft: 'auto' }}
-              onClick={() => alert('Add Thesis Student (form/modal coming soon!)')}
+              onClick={handleAddThesisStudent}
             >
               + Add Student
             </button>
@@ -829,8 +1091,8 @@ const TeacherProfile = ({
                 key={student.id}
                 student={student}
                 type="thesis"
-                onViewProgress={handleViewProgress}
                 onScheduleMeeting={handleScheduleMeeting}
+                onRemove={(student) => handleRemoveStudent(student, "thesis")}
               />
             ))}
           </div>
@@ -850,8 +1112,7 @@ const TeacherProfile = ({
             <h4>Research Assistants</h4>
             <button
               className="create-course-btn"
-              style={{ marginLeft: 'auto' }}
-              onClick={() => alert('Add Research Assistant (form/modal coming soon!)')}
+              onClick={handleAddResearchAssistant}
             >
               + Add Research Assistant
             </button>
@@ -864,6 +1125,7 @@ const TeacherProfile = ({
                 type="assistant"
                 onViewDetails={handleViewDetails}
                 onAssignTasks={handleAssignTasks}
+                onRemove={(student) => handleRemoveStudent(student, "assistant")}
               />
             ))}
           </div>
@@ -878,6 +1140,8 @@ const TeacherProfile = ({
           )}
         </div>
       </div>
+            {showAddThesisStudentForm && <AddThesisStudentForm />}
+            {showAddResearchAssistantForm && <AddResearchAssistantForm />}
           </div>
         );
       case "schedule":
@@ -989,119 +1253,127 @@ const TeacherProfile = ({
                   <div className="schedule-cell empty"></div>
                 </div>
               </div>
+
+              {/* Schedule Legend */}
+              <div className="schedule-legend">
+                <div className="legend-item">
+                  <div className="legend-color class"></div>
+                  <span>Classes</span>
+                </div>
+                <div className="legend-item">
+                  <div className="legend-color meeting"></div>
+                  <span>Meetings</span>
+                </div>
+                <div className="legend-item">
+                  <div className="legend-color office"></div>
+                  <span>Office Hours</span>
+                </div>
+                <div className="legend-item">
+                  <div className="legend-color committee"></div>
+                  <span>Committee</span>
+                </div>
+              </div>
             </div>
           </div>
         );
       case "administrative":
+        const committeeMemberships = [
+          {
+            id: 1,
+            name: "Curriculum Development Committee",
+            role: "Member",
+            schedule: "First Wednesday of every month",
+            responsibilities: "Review and update course curricula, evaluate new course proposals",
+            status: "active"
+          },
+          {
+            id: 2,
+            name: "Admissions Committee",
+            role: "Co-Chair",
+            schedule: "Bi-weekly during admission season",
+            responsibilities: "Review graduate applications, conduct interviews",
+            status: "active"
+          },
+          {
+            id: 3,
+            name: "Research Ethics Committee",
+            role: "Member",
+            schedule: "As needed",
+            responsibilities: "Review research proposals for ethical compliance",
+            status: "active"
+          }
+        ];
+
+        const activeCommittees = committeeMemberships.filter(committee => committee.status === "active");
+
+        const handleMarkCommitteeDone = (committeeId) => {
+          const committee = committeeMemberships.find(c => c.id === committeeId);
+          const confirmMark = window.confirm(
+            `Are you sure you want to mark "${committee.name}" as completed? This will remove it from your active committees.`
+          );
+
+          if (confirmMark) {
+            // In a real app, this would update the backend
+            console.log("Committee marked as done:", committee.name);
+            // For demo purposes, we'll just show an alert
+            alert(`"${committee.name}" has been marked as completed and will be moved to committee history.`);
+          }
+        };
+
         return (
           <div className="tab-content">
             <div className="administrative-section">
               <div className="section-header">
-                <h3>Administrative Duties</h3>
-                <p className="section-subtitle">Committee memberships and administrative responsibilities</p>
-              </div>
-
-              <div className="admin-subsection">
-                <h4>Committee Memberships</h4>
-                <div className="content-grid">
-                  <div className="content-card admin-card">
-                    <div className="card-header">
-                      <div className="role-badge member">Member</div>
-                      <div className="committee-meta">
-                        <h4>Curriculum Development Committee</h4>
-                        <p className="meeting-schedule">First Wednesday of every month</p>
-                      </div>
-                    </div>
-                    <div className="card-content">
-                      <div className="info-row">
-                        <span className="info-label">🎯 Responsibilities:</span>
-                        <span className="info-value">Review and update course curricula, evaluate new course proposals</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="content-card admin-card">
-                    <div className="card-header">
-                      <div className="role-badge chair">Co-Chair</div>
-                      <div className="committee-meta">
-                        <h4>Admissions Committee</h4>
-                        <p className="meeting-schedule">Bi-weekly during admission season</p>
-                      </div>
-                    </div>
-                    <div className="card-content">
-                      <div className="info-row">
-                        <span className="info-label">🎯 Responsibilities:</span>
-                        <span className="info-value">Review graduate applications, conduct interviews</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="content-card admin-card">
-                    <div className="card-header">
-                      <div className="role-badge member">Member</div>
-                      <div className="committee-meta">
-                        <h4>Research Ethics Committee</h4>
-                        <p className="meeting-schedule">As needed</p>
-                      </div>
-                    </div>
-                    <div className="card-content">
-                      <div className="info-row">
-                        <span className="info-label">🎯 Responsibilities:</span>
-                        <span className="info-value">Review research proposals for ethical compliance</span>
-                      </div>
-                    </div>
-                  </div>
+                <div className="section-header-text">
+                  <h3>Administrative Duties</h3>
+                  <p className="section-subtitle">Committee memberships and administrative responsibilities</p>
                 </div>
               </div>
 
-              <div className="admin-subsection">
-                <h4>Current Administrative Tasks</h4>
-                <div className="content-grid">
-                  <div className="content-card task-card">
-                    <div className="card-header">
-                      <div className="status-badge progress">In Progress</div>
-                      <div className="task-meta">
-                        <h4>Graduate Application Reviews</h4>
-                        <p className="task-deadline">Deadline: March 30, 2024</p>
+              <div className="notices-grid">
+                {activeCommittees.map((committee) => (
+                  <div key={committee.id} className="content-card admin-committee-card course-card-style">
+                    <div className="course-card-header">
+                      <h3 className="course-title">{committee.name}</h3>
+                      <span className={`course-badge ${committee.role.toLowerCase().replace(/[^a-z]/g, '-')}`}>
+                        {committee.role}
+                      </span>
+                    </div>
+
+                    <div className="course-description">
+                      <div className="course-info-row">
+                        <span className="course-info-label">📅 Schedule:</span>
+                        <span className="course-info-value">{committee.schedule}</span>
+                      </div>
+                      <div className="course-info-row">
+                        <span className="course-info-label">🎯 Responsibilities:</span>
+                        <span className="course-info-value">{committee.responsibilities}</span>
                       </div>
                     </div>
-                    <div className="card-content">
-                      <div className="info-row">
-                        <span className="info-label">📊 Progress:</span>
-                        <span className="info-value">15/25 applications reviewed</span>
+
+                    <div className="course-footer">
+                      <div className="course-actions">
+                        <button
+                          className="course-action-btn primary"
+                          onClick={() => handleMarkCommitteeDone(committee.id)}
+                        >
+                          ✓ Mark as Done
+                        </button>
                       </div>
                     </div>
                   </div>
-                  <div className="content-card task-card">
-                    <div className="card-header">
-                      <div className="status-badge pending">Pending</div>
-                      <div className="task-meta">
-                        <h4>Course Curriculum Update - CSE 412</h4>
-                        <p className="task-deadline">Deadline: April 15, 2024</p>
-                      </div>
-                    </div>
-                    <div className="card-content">
-                      <div className="info-row">
-                        <span className="info-label">📋 Status:</span>
-                        <span className="info-value">Pending committee approval</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="content-card task-card">
-                    <div className="card-header">
-                      <div className="status-badge todo">To Do</div>
-                      <div className="task-meta">
-                        <h4>Faculty Performance Evaluations</h4>
-                        <p className="task-deadline">Deadline: May 1, 2024</p>
-                      </div>
-                    </div>
-                    <div className="card-content">
-                      <div className="info-row">
-                        <span className="info-label">📋 Status:</span>
-                        <span className="info-value">Not started</span>
-                      </div>
-                    </div>
+                ))}
+              </div>
+
+              {activeCommittees.length === 0 && (
+                <div className="no-courses">
+                  <div className="no-courses-content">
+                    <span className="no-courses-icon">🏛️</span>
+                    <h3>No committee memberships</h3>
+                    <p>You are not currently assigned to any committees.</p>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         );
