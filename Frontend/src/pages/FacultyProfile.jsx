@@ -1,5 +1,5 @@
 import React from "react";
-import "./FacultyProfile.css";
+import "./ProjectDetails.css";
 
 const facultyMembers = [
   {
@@ -186,108 +186,223 @@ const FacultyProfile = ({ id, onBack, onCourseSelect }) => {
   ];
 
   return (
-    <div className="faculty-profile-page modern-faculty-profile" style={{ background: 'linear-gradient(120deg, #f8fafc 0%, #e0e7ef 100%)', minHeight: '100vh', padding: 0 }}>
-      {/* <div className="profile-header modern-profile-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '2rem 4vw 1rem 4vw', background: 'rgba(255,255,255,0.85)', boxShadow: '0 2px 12px 0 rgba(0,0,0,0.04)', borderRadius: '0 0 2rem 2rem' }}>
-        <button onClick={onBack} className="back-button" style={{ fontWeight: 600, fontSize: '1.1rem', background: 'none', border: 'none', color: '#3b82f6', cursor: 'pointer', padding: 0 }}>← Back to Directory</button>
-        <div className="breadcrumb" style={{ fontWeight: 500, color: '#64748b', fontSize: '1.1rem' }}>
-          <span>Faculty Detailed Profile</span>
-        </div>
-      </div> */}
-      <div className="profile-content modern-profile-content" style={{ display: 'flex', flexDirection: 'row', gap: '2vw', padding: '2vw 4vw', maxWidth: 1400, margin: '0 auto', boxShadow: 'none', borderRadius: 0, background: 'none' }}>
-        {/* Left: Avatar & Basic Info */}
-        <div style={{ flex: 1.2, display: 'flex', flexDirection: 'column', alignItems: 'center', background: 'rgba(255,255,255,0.95)', borderRadius: '2rem', boxShadow: '0 4px 24px 0 rgba(0,0,0,0.06)', padding: '2.5rem 2rem 2rem 2rem', minWidth: 320, maxWidth: 400 }}>
-          <div className="faculty-avatar-large modern-faculty-avatar-large" style={{ marginBottom: 24 }}>
-            <div className="avatar-placeholder-large" style={{ width: 120, height: 120, borderRadius: '50%', background: 'linear-gradient(135deg, #e0e7ef 60%, #c7d2fe 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 60, color: '#64748b', boxShadow: '0 2px 12px 0 rgba(0,0,0,0.07)' }}>👤</div>
-          </div>
-          <h1 className="faculty-title modern-faculty-title" style={{ fontSize: '2rem', fontWeight: 700, color: '#1e293b', margin: 0 }}>{faculty.name}</h1>
-          <p className="faculty-position modern-faculty-position" style={{ color: '#475569', fontWeight: 500, margin: '0.5rem 0 0.7rem 0', fontSize: '1.1rem', textAlign: 'center' }}>{faculty.role}, Computer Science, University of Dhaka, Bangladesh</p>
-          <ul className="faculty-specializations modern-faculty-specializations" style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center', margin: 0, padding: 0, listStyle: 'none' }}>
-            {faculty.specialization.map((spec, idx) => (
-              <li key={idx} className="faculty-specialization modern-faculty-specialization" style={{ background: '#e0e7ef', color: '#2563eb', borderRadius: 12, padding: '0.3em 0.9em', fontSize: '0.98em', fontWeight: 500 }}>{spec}</li>
-            ))}
-          </ul>
-          <div className="contact-info" style={{ marginTop: 32, width: '100%' }}>
-            <div className="contact-item" style={{ marginBottom: 10 }}>
-              <strong>Email:</strong> <span style={{ color: '#2563eb', fontWeight: 500 }}>{faculty.name.toLowerCase().replace(/\s+/g, '.').replace('dr.', '')}@du.ac.bd</span>
+    <div className="notices-page">
+      <div className="notices-container">
+        {/* Hero Header Section */}
+        <div className="project-hero-header">
+          <div className="project-hero-content">
+            <div className="project-category-badge">
+              {faculty.role}
             </div>
-            <div className="contact-item" style={{ marginBottom: 10 }}>
-              <strong>Phone:</strong> <span>+880 2-9661920 Ext: 7456</span>
-            </div>
-            <div className="contact-item">
-              <strong>Office:</strong> <span>Room 304, New Science Complex Building</span><br /><span>University of Dhaka 1000</span>
+            <h1 className="project-hero-title">{faculty.name}</h1>
+            <p className="project-hero-description">
+              {faculty.background.bio.slice(0, 200) + (faculty.background.bio.length > 200 ? "..." : "")}
+            </p>
+            <div className="project-hero-meta">
+              <div className="hero-meta-item">
+                <span className="meta-icon">🎓</span>
+                <span className="meta-text">Joined {faculty.background.joined}</span>
+              </div>
+              <div className="hero-meta-item">
+                <span className="meta-icon">📧</span>
+                <span className="meta-text">{faculty.name.toLowerCase().replace(/\s+/g, '.').replace('dr.', '')}@du.ac.bd</span>
+              </div>
+              <div className="hero-meta-item">
+                <span className="meta-icon">🏢</span>
+                <span className="meta-text">Computer Science & Engineering</span>
+              </div>
             </div>
           </div>
+          <div className="project-hero-visual">
+            <div className="hero-icon-container">
+              <span className="hero-project-icon">👨‍🏫</span>
+            </div>
+          </div>
         </div>
-        {/* Right: Details */}
-        <div style={{ flex: 2.5, display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
-          <section className="background-section modern-background-section" style={{ background: 'rgba(255,255,255,0.92)', borderRadius: '1.5rem', boxShadow: '0 2px 12px 0 rgba(0,0,0,0.04)', padding: '2rem 2.5rem', marginBottom: 0 }}>
-            <h2 className="section-title modern-section-title" style={{ fontSize: '1.35rem', fontWeight: 700, color: '#2563eb', marginBottom: 18 }}>Background</h2>
-            <div className="background-details modern-background-details" style={{ display: 'flex', flexWrap: 'wrap', gap: '2.5rem' }}>
-              <div className="background-education modern-background-education" style={{ flex: 1, minWidth: 220 }}>
-                <h3 style={{ fontSize: '1.08rem', color: '#334155', marginBottom: 8 }}>Education</h3>
-                <ul style={{ paddingLeft: 18, margin: 0 }}>
-                  {faculty.background.education.map((ed, idx) => (
-                    <li key={idx} style={{ marginBottom: 4 }}><strong>{ed.degree}</strong>, {ed.institution} ({ed.year})</li>
+
+        {/* Faculty Meta Bar */}
+        <div className="project-meta-bar">
+          <span className="project-meta-item">
+            <strong>Role:</strong> {faculty.role}
+          </span>
+          <span className="project-meta-item">
+            <strong>Joined:</strong> {faculty.background.joined}
+          </span>
+          <span className="project-meta-item">
+            <strong>Office:</strong> Room 304, New Science Complex
+          </span>
+          {faculty.specialization && (
+            <span className="project-meta-item">
+              <strong>Specializations:</strong> {faculty.specialization.join(", ")}
+            </span>
+          )}
+        </div>
+
+        {/* Faculty Content Grid */}
+        <div className="project-details-grid">
+          <div className="project-main-content">
+            <div className="notice-card scrollable-card">
+              <div className="notice-card-header">
+                <h3 className="notice-title-2">Biography</h3>
+              </div>
+              <div className="scrollable-content">
+                <p className="notice-description">
+                  {faculty.background.bio}
+                </p>
+              </div>
+            </div>
+
+            {faculty.specialization && (
+              <div className="notice-card">
+                <div className="notice-card-header">
+                  <h3 className="notice-title-2">Specialization Areas</h3>
+                </div>
+                <div className="project-tags-detail">
+                  {faculty.specialization.map((spec, i) => (
+                    <span className="project-tag-detail" key={i}>
+                      {spec}
+                    </span>
                   ))}
-                </ul>
+                </div>
               </div>
-              <div className="background-joined modern-background-joined" style={{ flex: 0.7, minWidth: 180 }}>
-                <h3 style={{ fontSize: '1.08rem', color: '#334155', marginBottom: 8 }}>Joined CSEDU</h3>
-                <div style={{ fontWeight: 500, color: '#2563eb', fontSize: '1.1rem' }}>{faculty.background.joined}</div>
+            )}
+
+            <div className="notice-card scrollable-card project-details-large">
+              <div className="notice-card-header">
+                <h3 className="notice-title-2">Academic Details</h3>
               </div>
-            </div>
-          </section>
-          <section className="bio-section" style={{ background: 'rgba(255,255,255,0.92)', borderRadius: '1.5rem', boxShadow: '0 2px 12px 0 rgba(0,0,0,0.04)', padding: '2rem 2.5rem' }}>
-            <h2 className="section-title" style={{ fontSize: '1.25rem', fontWeight: 700, color: '#2563eb', marginBottom: 14 }}>Bio</h2>
-            <div className="bio-text" style={{ color: '#475569', fontSize: '1.08rem', lineHeight: 1.7, margin: 0 }}>{faculty.background.bio}</div>
-          </section>
-          <section className="courses-section" style={{ background: 'rgba(255,255,255,0.92)', borderRadius: '1.5rem', boxShadow: '0 2px 12px 0 rgba(0,0,0,0.04)', padding: '2rem 2.5rem' }}>
-            <h2 className="section-title" style={{ fontSize: '1.18rem', fontWeight: 700, color: '#2563eb', marginBottom: 14 }}>Courses</h2>
-            <div className="courses-table" style={{ width: '100%' }}>
-              <div className="table-header" style={{ display: 'flex', fontWeight: 600, color: '#334155', borderBottom: '1.5px solid #e0e7ef', marginBottom: 8 }}>
-                <div className="header-cell" style={{ flex: 1 }}>Course Code</div>
-                <div className="header-cell" style={{ flex: 3 }}>Course Title</div>
-                <div className="header-cell" style={{ flex: 1 }}>Credits</div>
-              </div>
-              {faculty.courses && faculty.courses.map((courseId) => {
-                const course = allCourses.find(c => c.id === courseId);
-                return course ? (
-                  <div key={course.id} className="table-row" style={{ display: 'flex', alignItems: 'center', borderBottom: '1px solid #f1f5f9', padding: '0.4em 0' }}>
-                    <div 
-                      className="table-cell course-code" 
-                      style={{ flex: 1, color: '#2563eb', fontWeight: 500, cursor: 'pointer', textDecoration: 'underline' }}
-                      onClick={() => onCourseSelect && onCourseSelect(course)}
-                    >
-                      {course.code}
-                    </div>
-                    <div 
-                      className="table-cell course-name" 
-                      style={{ flex: 3, cursor: 'pointer' }}
-                      onClick={() => onCourseSelect && onCourseSelect(course)}
-                    >
-                      {course.name}
-                    </div>
-                    <div className="table-cell course-credits" style={{ flex: 1 }}>{course.credits}</div>
+              <div className="scrollable-content">
+                <div className="detail-item">
+                  <strong>Education:</strong>
+                  <ul style={{ marginTop: '0.5rem', paddingLeft: '1.5rem' }}>
+                    {faculty.background.education.map((ed, idx) => (
+                      <li key={idx} style={{ marginBottom: '0.5rem' }}>
+                        <strong>{ed.degree}</strong>, {ed.institution} ({ed.year})
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="detail-item">
+                  <strong>Contact Information:</strong>
+                  <div style={{ marginTop: '0.5rem' }}>
+                    <p><strong>Email:</strong> {faculty.name.toLowerCase().replace(/\s+/g, '.').replace('dr.', '')}@du.ac.bd</p>
+                    <p><strong>Phone:</strong> +880 2-9661920 Ext: 7456</p>
+                    <p><strong>Office:</strong> Room 304, New Science Complex Building, University of Dhaka 1000</p>
                   </div>
-                ) : null;
-              })}
+                </div>
+              </div>
             </div>
-          </section>
-          <section className="publications-section" style={{ background: 'rgba(255,255,255,0.92)', borderRadius: '1.5rem', boxShadow: '0 2px 12px 0 rgba(0,0,0,0.04)', padding: '2rem 2.5rem' }}>
-            <h2 className="section-title" style={{ fontSize: '1.18rem', fontWeight: 700, color: '#2563eb', marginBottom: 14 }}>Publications</h2>
-            <div className="publications-list" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-              {faculty.publications && faculty.publications.map((pubId) => {
-                const pub = publications.find(p => p.id === pubId);
-                return pub ? (
-                  <div key={pub.id} className="publication-item" style={{ background: '#f8f9fa', borderRadius: 6, borderLeft: '4px solid #4a90e2', padding: '1.5rem' }}>
-                    <p className="publication-authors" style={{ color: '#6c757d', fontSize: '0.9rem', margin: '0 0 0.5rem 0' }}>{pub.authors}</p>
-                    <p className="publication-title" style={{ color: '#212529', fontWeight: 600, margin: '0 0 0.5rem 0', fontSize: '1rem' }}>{pub.title}</p>
-                    <p className="publication-journal" style={{ color: '#495057', fontStyle: 'italic', margin: 0, fontSize: '0.9rem' }}>{pub.journal}</p>
+          </div>
+
+          <div className="project-sidebar">
+            <div className="simple-info-card">
+              <h3 className="simple-card-title">Faculty Information</h3>
+              
+              <div className="simple-info-list">
+                <div className="simple-info-item">
+                  <span className="simple-info-label">Position:</span>
+                  <span className="simple-info-value">{faculty.role}</span>
+                </div>
+                
+                <div className="simple-info-item">
+                  <span className="simple-info-label">Department:</span>
+                  <span className="simple-info-value">Computer Science & Engineering</span>
+                </div>
+                
+                <div className="simple-info-item">
+                  <span className="simple-info-label">Joined:</span>
+                  <span className="simple-info-value">{faculty.background.joined}</span>
+                </div>
+                
+                <div className="simple-info-item">
+                  <span className="simple-info-label">Office:</span>
+                  <span className="simple-info-value">Room 304, New Science Complex</span>
+                </div>
+                
+                {faculty.specialization && (
+                  <div className="simple-info-item">
+                    <span className="simple-info-label">Specializations:</span>
+                    <div className="simple-tags">
+                      {faculty.specialization.map((spec, i) => (
+                        <span className="simple-tag" key={i}>{spec}</span>
+                      ))}
+                    </div>
                   </div>
-                ) : null;
-              })}
+                )}
+              </div>
             </div>
-          </section>
+
+            <div className="simple-info-card">
+              <h3 className="simple-card-title">Courses Taught</h3>
+              
+              <div className="simple-info-list">
+                {faculty.courses && faculty.courses.map((courseId) => {
+                  const course = allCourses.find(c => c.id === courseId);
+                  return course ? (
+                    <div key={course.id} className="simple-info-item" style={{ 
+                      flexDirection: 'column', 
+                      alignItems: 'flex-start',
+                      borderBottom: '1px solid #f1f5f9',
+                      paddingBottom: '0.5rem',
+                      marginBottom: '0.5rem'
+                    }}>
+                      <span 
+                        style={{ 
+                          color: '#4a90e2', 
+                          fontWeight: 500, 
+                          cursor: 'pointer', 
+                          textDecoration: 'underline',
+                          marginBottom: '0.25rem'
+                        }}
+                        onClick={() => onCourseSelect && onCourseSelect(course)}
+                      >
+                        {course.code} - {course.name}
+                      </span>
+                      <span style={{ color: '#6c757d', fontSize: '0.85rem' }}>{course.credits} Credits</span>
+                    </div>
+                  ) : null;
+                })}
+              </div>
+            </div>
+
+            <div className="simple-info-card">
+              <h3 className="simple-card-title">Publications</h3>
+              
+              <div className="simple-info-list">
+                {faculty.publications && faculty.publications.map((pubId) => {
+                  const pub = publications.find(p => p.id === pubId);
+                  return pub ? (
+                    <div key={pub.id} className="simple-info-item" style={{ 
+                      flexDirection: 'column', 
+                      alignItems: 'flex-start',
+                      borderBottom: '1px solid #f1f5f9',
+                      paddingBottom: '0.75rem',
+                      marginBottom: '0.75rem'
+                    }}>
+                      <span style={{ color: '#6c757d', fontSize: '0.8rem', marginBottom: '0.25rem' }}>{pub.authors}</span>
+                      <span style={{ color: '#212529', fontWeight: 600, marginBottom: '0.25rem', fontSize: '0.9rem' }}>{pub.title}</span>
+                      <span style={{ color: '#495057', fontStyle: 'italic', fontSize: '0.8rem' }}>{pub.journal}</span>
+                    </div>
+                  ) : null;
+                })}
+              </div>
+            </div>
+
+            <div className="simple-action-card">
+              <h3 className="simple-card-title">Actions</h3>
+              <div className="simple-action-list">
+                <button 
+                  className="simple-action-btn"
+                  onClick={() => window.open(`mailto:${faculty.name.toLowerCase().replace(/\s+/g, '.').replace('dr.', '')}@du.ac.bd`, '_blank')}
+                >
+                  Send Email
+                </button>
+                <button className="simple-action-btn">
+                  View Publications
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

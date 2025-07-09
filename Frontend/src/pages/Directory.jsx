@@ -214,60 +214,64 @@ const Directory = ({ onFacultySelect }) => {
           </div>
         </div>
 
-        <div className="directory-grid">
+        <div className="events-grid">
           {filteredMembers.map((member) => (
             <div 
               key={member.id} 
-              className="faculty-card"
+              className="event-card"
               onClick={() => onFacultySelect && onFacultySelect(member.id)}
             >
-              <div className="faculty-avatar">
-                <div className={`avatar-placeholder ${member.role.toLowerCase().replace(/\s+/g, '-')}-avatar`}>
-                  {member.name.split(' ').map(n => n[0]).join('').substring(0, 2)}
-                </div>
-              </div>
-              <div className="faculty-header">
-                <div className="faculty-meta">
-                  <span className={`faculty-role ${member.role.toLowerCase().replace(/\s+/g, '-')}`}>
+              <div className="event-header">
+                <div className="event-meta">
+                  <span className={`event-type ${member.role.toLowerCase().replace(/\s+/g, '-')}`}>
                     {member.role}
                   </span>
-                  <span className="faculty-department">
+                  <span className="event-status department">
                     {member.department}
                   </span>
                 </div>
               </div>
-              <div className="faculty-content">
-                <h3 className="faculty-name">{member.name}</h3>
-                <p className="faculty-designation">{member.designation}</p>
-                <div className="faculty-details">
-                  <div className="faculty-detail-item">
+
+              <div className="event-content">
+                <div className="faculty-avatar">
+                  <div className={`avatar-placeholder ${member.role.toLowerCase().replace(/\s+/g, '-')}-avatar`}>
+                    {member.name.split(' ').map(n => n[0]).join('').substring(0, 2)}
+                  </div>
+                </div>
+                <h3 className="event-title">{member.name}</h3>
+                <p className="event-description">{member.designation}</p>
+
+                <div className="event-details">
+                  <div className="event-detail-item">
                     <span className="detail-label">Email:</span>
                     <span className="detail-value">{member.email}</span>
                   </div>
-                  <div className="faculty-detail-item">
+                  <div className="event-detail-item">
                     <span className="detail-label">Phone:</span>
                     <span className="detail-value">{member.phone}</span>
                   </div>
-                  <div className="faculty-detail-item">
+                  <div className="event-detail-item">
                     <span className="detail-label">Office:</span>
                     <span className="detail-value">{member.office}</span>
                   </div>
-                  <div className="faculty-detail-item">
+                  <div className="event-detail-item">
                     <span className="detail-label">Experience:</span>
                     <span className="detail-value">{member.experience}</span>
                   </div>
                 </div>
-                <div className="faculty-specializations">
+
+                <div className="event-tags">
                   {member.specialization.map((spec) => (
-                    <span key={spec} className="faculty-specialization">
+                    <span key={spec} className="event-tag">
                       {spec}
                     </span>
                   ))}
                 </div>
               </div>
-              <div className="faculty-footer">
+
+              <div className="event-footer">
                 <button
-                  className="view-profile-button"
+                  className="register-button"
                   onClick={(e) => {
                     e.stopPropagation();
                     onFacultySelect && onFacultySelect(member.id);
@@ -281,7 +285,7 @@ const Directory = ({ onFacultySelect }) => {
         </div>
 
         {filteredMembers.length === 0 && (
-          <div className="no-faculty-message">
+          <div className="no-events-message">
             <h3>No faculty members found</h3>
             <p>
               Try adjusting your search criteria or check back later for new faculty.
