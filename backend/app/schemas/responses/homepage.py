@@ -8,7 +8,7 @@ class AnnouncementTypeResponse(BaseModel):
     color_code: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class AnnouncementResponse(BaseModel):
     id: int
@@ -19,7 +19,7 @@ class AnnouncementResponse(BaseModel):
     is_active: bool
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class QuickLinkResponse(BaseModel):
     id: int
@@ -29,7 +29,7 @@ class QuickLinkResponse(BaseModel):
     is_active: bool
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class OverviewResponse(BaseModel):
     id: int
@@ -39,7 +39,7 @@ class OverviewResponse(BaseModel):
     is_active: bool
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class HomepageResponse(BaseModel):
     overview: Optional[OverviewResponse] = None
@@ -47,4 +47,4 @@ class HomepageResponse(BaseModel):
     quick_links: List[QuickLinkResponse] = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True
