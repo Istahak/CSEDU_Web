@@ -2,7 +2,7 @@ from typing import List, Optional
 from fastapi import APIRouter, HTTPException, UploadFile, Form, status
 from sqlalchemy.orm import Session
 import json
-
+from uuid import UUID
 from db import get_db
 from models.notice import Notice
 from schemas.requests.notice import NoticeCreate, NoticeUpdate
@@ -44,7 +44,7 @@ def get_all_notices(
 
 @router.get("/{notice_id}", response_model=NoticeResponse)
 def get_notice_by_id(
-    notice_id: int,
+    notice_id: UUID,
     db: get_db_session,
 ):
     """
@@ -172,7 +172,7 @@ async def create_notice_with_attachments(
 
 @router.put("/{notice_id}", response_model=NoticeResponse)
 async def update_notice(
-    notice_id: int,
+    notice_id: UUID,
     db: get_db_session,
     current_user: get_current_user,
     title: Optional[str] = Form(None),
@@ -229,7 +229,7 @@ async def update_notice(
 
 @router.put("/{notice_id}/with-attachments", response_model=NoticeResponse)
 async def update_notice_with_attachments(
-    notice_id: int,
+    notice_id: UUID,
     db: get_db_session,
     current_user: get_current_user,
     title: Optional[str] = Form(None),
@@ -293,7 +293,7 @@ async def update_notice_with_attachments(
 
 @router.delete("/{notice_id}", status_code=status.HTTP_200_OK)
 def delete_notice(
-    notice_id: int,
+    notice_id: UUID,
     db: get_db_session,
     current_user: get_current_user,
 ):
@@ -310,7 +310,7 @@ def delete_notice(
 
 @router.delete("/{notice_id}/attachments/{filename}", status_code=status.HTTP_200_OK)
 def delete_attachment(
-    notice_id: int,
+    notice_id: UUID,
     filename: str,
     db: get_db_session,
     current_user: get_current_user,
