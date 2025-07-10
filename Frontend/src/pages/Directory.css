@@ -1,41 +1,25 @@
 /* Directory Page Specific Styles */
-
-/* Consistent theme for Directory */
-.directory-header .directory-title {
-  color: #212529;
-}
-
-/* Directory Page Layout */
 .directory-page {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
+  max-width: none;
+  width: 100vw;
+  padding: 2rem 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f8f9fa;
 }
 
-.directory-header {
-  text-align: center;
-  margin-bottom: 3rem;
+.directory-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  width: 100%;
 }
 
-.directory-title {
-  font-size: 2.5rem;
-  font-weight: 300;
-  color: #2c3e50;
-  margin-bottom: 0.5rem;
-}
-
-.directory-subtitle {
-  font-size: 1.1rem;
-  color: #6c757d;
-  font-weight: 400;
-}
-
-/* Search Section - Minimal Design */
+/* Directory Controls */
 .directory-controls {
   margin-bottom: 3rem;
 }
 
+/* Search Section */
 .search-section {
   margin-bottom: 2rem;
 }
@@ -43,7 +27,7 @@
 .search-bar {
   position: relative;
   max-width: 600px;
-  margin: 0 auto;
+  margin: 0;
 }
 
 .search-input {
@@ -88,14 +72,190 @@
 
 .clear-search-btn:hover {
   background-color: #f8f9fa;
-  color: #495057;
+  color: #dc3545;
 }
 
-.search-results-count {
-  text-align: center;
-  margin-top: 1rem;
+/* Filters Row */
+.filters-row {
+  display: flex;
+  gap: 1.5rem;
+  align-items: end;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filter-label {
   font-size: 0.9rem;
-  color: #6c757d;
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.filter-select {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #e9ecef;
+  border-radius: 4px;
+  background-color: #fff;
+  font-size: 0.9rem;
+  color: #2c3e50;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+  min-width: 150px;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #2c3e50;
+  box-shadow: 0 0 0 2px rgba(44, 62, 80, 0.1);
+}
+
+.clear-filters-button {
+  background: none;
+  border: 2px solid #dc3545;
+  color: #dc3545;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  height: fit-content;
+  align-self: end;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.clear-filters-button:hover {
+  background-color: #dc3545;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+/* Events Grid */
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 2rem;
+  width: 100%;
+}
+
+/* Faculty Avatar within Event Content */
+.event-content .faculty-avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.event-content .avatar-placeholder {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+  min-width: 60px;
+  min-height: 60px;
+}
+
+/* Role-based colors matching Events pattern */
+.event-type.professor {
+  background-color: rgba(74, 144, 226, 0.2);
+  border: 2px solid rgba(74, 144, 226, 0.5);
+  color: #4a90e2;
+}
+
+.professor-avatar {
+  background-color: #4a90e2;
+}
+
+.event-type.associate-professor {
+  background-color: rgba(255, 193, 7, 0.2);
+  border: 2px solid rgba(255, 193, 7, 0.5);
+  color: #ffc107;
+}
+
+.associate-professor-avatar {
+  background-color: #ffc107;
+}
+
+.event-type.assistant-professor {
+  background-color: rgba(16, 185, 129, 0.2);
+  border: 2px solid rgba(16, 185, 129, 0.5);
+  color: #10b981;
+}
+
+.assistant-professor-avatar {
+  background-color: #10b981;
+}
+
+.event-type.lecturer {
+  background-color: rgba(245, 124, 0, 0.15);
+  border: 2px solid rgba(245, 124, 0, 0.3);
+  color: #f57c00;
+}
+
+.lecturer-avatar {
+  background-color: #f57c00;
+}
+
+.event-type.staff {
+  background-color: rgba(139, 69, 19, 0.15);
+  border: 2px solid rgba(139, 69, 19, 0.3);
+  color: #8b4513;
+}
+
+.staff-avatar {
+  background-color: #8b4513;
+}
+
+/* Department status styling */
+.event-status.department {
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  background: rgba(44, 62, 80, 0.07);
+  color: #2c3e50;
+  border: 1px solid #e9ecef;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .directory-page {
+    padding: 1rem;
+  }
+  
+  .directory-container {
+    padding: 0 1rem;
+  }
+  
+  .events-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .search-bar {
+    max-width: 100%;
+  }
+  
+  .filters-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .filter-group {
+    width: 100%;
+  }
 }
 
 /* Filters Section - Minimal Design */
@@ -303,6 +463,61 @@
 .clear-filters-button-large:hover {
   background-color: #2c3e50;
   color: #fff;
+}
+
+/* Faculty Avatar within Event Content */
+.event-content .faculty-avatar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.event-content .avatar-placeholder {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Role-based avatar colors matching the card meta styles */
+.professor-avatar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.associate-professor-avatar {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.assistant-professor-avatar {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.lecturer-avatar {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.staff-avatar {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+/* Department status styling */
+.event-status.department {
+  background-color: #e9ecef;
+  color: #495057;
+  font-size: 0.75rem;
+}
+
+/* Update grid class name */
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
 }
 
 /* Responsive Design */

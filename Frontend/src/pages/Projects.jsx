@@ -248,12 +248,9 @@ const projects = [
 ];
 
 const Projects = ({ onProjectSelect }) => {
-	const [visibleCount, setVisibleCount] = useState(8);
+	const [searchTerm, setSearchTerm] = useState("");
 	const [selectedTag, setSelectedTag] = useState("All");
 	const [selectedSupervisor, setSelectedSupervisor] = useState("All");
-	const [showTagDropdown, setShowTagDropdown] = useState(false);
-	const [showSupervisorDropdown, setShowSupervisorDropdown] = useState(false);
-	const [searchTerm, setSearchTerm] = useState("");
 
 	// Get unique tags and supervisors
 	const getAllTags = () => {
@@ -275,30 +272,16 @@ const Projects = ({ onProjectSelect }) => {
 	};
 
 	// Filter projects based on selected filters and search term
-	const getFilteredProjects = () => {
-		return projects.filter((project) => {
-			const tagMatch =
-				selectedTag === "All" || project.tags.includes(selectedTag);
-			const supervisorMatch =
-				selectedSupervisor === "All" ||
-				project.supervisor === selectedSupervisor;
-			const searchMatch =
-				searchTerm === "" ||
-				project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-				project.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-				project.tags.some((tag) =>
-					tag.toLowerCase().includes(searchTerm.toLowerCase())
-				);
+	const filteredProjects = projects.filter((project) => {
+		const tagMatch = selectedTag === "All" || project.tags.includes(selectedTag);
+		const supervisorMatch = selectedSupervisor === "All" || project.supervisor === selectedSupervisor;
+		const searchMatch = searchTerm === "" ||
+			project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+			project.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+			project.tags.some((tag) => tag.toLowerCase().includes(searchTerm.toLowerCase()));
 
-			return tagMatch && supervisorMatch && searchMatch;
-		});
-	};
-
-	const filteredProjects = getFilteredProjects();
-	const visibleProjects = filteredProjects.slice(0, visibleCount);
-	const hasMore = visibleCount < filteredProjects.length;
-
-	const handleShowMore = () => setVisibleCount((prev) => prev + 8);
+		return tagMatch && supervisorMatch && searchMatch;
+	});
 
 	const handleProjectClick = (project) => {
 		if (onProjectSelect) {
@@ -306,193 +289,163 @@ const Projects = ({ onProjectSelect }) => {
 		}
 	};
 
-	const clearFilters = () => {
-		setSelectedTag("All");
-		setSelectedSupervisor("All");
-		setSearchTerm("");
-		setVisibleCount(8);
-	};
-
-	// --- Modernized UI ---
 	return (
-		<div className="projects-modern-root">
-			<section className="projects-hero">
-				<div className="hero-content">
-					<h1 className="hero-title">Research & Projects</h1>
-					<p className="hero-desc">
-						Discover the most innovative research and real-world projects from
-						our students and faculty. Filter by topic, supervisor, or search for
-						your interests.
+		<div className="events-page">
+			<div className="events-container">
+				<div className="events-header">
+					<h1 className="events-title">Research & Projects</h1>
+					<p className="events-subtitle">
+						Discover innovative research and real-world projects from our students and faculty
 					</p>
 				</div>
-			</section>
 
-			<div className="projects-filters-bar">
-				<div className="projects-search-modern">
-					<input
-						className="projects-search-input"
-						type="text"
-						placeholder="Search projects, tags, or keywords..."
-						value={searchTerm}
-						onChange={(e) => {
-							setSearchTerm(e.target.value);
-							setVisibleCount(8);
-						}}
-					/>
-					{searchTerm && (
-						<button
-							className="projects-search-clear"
-							onClick={() => setSearchTerm("")}
-						>
-							✕
-						</button>
-					)}
-				</div>
-				<div className="projects-filters-group">
-					<div className="projects-filter-dropdown">
-						<button
-							className={`projects-filter-btn${
-								selectedTag !== "All" ? " active" : ""
-							}`}
-							onClick={() => setShowTagDropdown((v) => !v)}
-						>
-							<span>{selectedTag}</span>
-							<span className="dropdown-arrow">▼</span>
-						</button>
-						{showTagDropdown && (
-							<div className="projects-dropdown-list">
+				<div className="directory-controls">
+					<div className="search-section">
+						<div className="search-bar">
+							<input
+								type="text"
+								placeholder="Search projects by title, description, or tags..."
+								value={searchTerm}
+								onChange={(e) => setSearchTerm(e.target.value)}
+								className="search-input"
+							/>
+							{searchTerm && (
+								<button
+									className="clear-search-btn"
+									onClick={() => setSearchTerm("")}
+									title="Clear search"
+								>
+									×
+								</button>
+							)}
+						</div>
+					</div>
+
+					<div className="filters-row">
+						<div className="filter-group">
+							<label htmlFor="tag-select" className="filter-label">
+								Tag
+							</label>
+							<select
+								id="tag-select"
+								value={selectedTag}
+								onChange={(e) => setSelectedTag(e.target.value)}
+								className="filter-select"
+							>
 								{getAllTags().map((tag) => (
-									<button
-										key={tag}
-										className={`dropdown-item${
-											selectedTag === tag ? " selected" : ""
-										}`}
-										onClick={() => {
-											setSelectedTag(tag);
-											setShowTagDropdown(false);
-											setVisibleCount(8);
-										}}
-									>
+									<option key={tag} value={tag}>
 										{tag}
-									</button>
+									</option>
 								))}
-							</div>
-						)}
-					</div>
-					<div className="projects-filter-dropdown">
-						<button
-							className={`projects-filter-btn${
-								selectedSupervisor !== "All" ? " active" : ""
-							}`}
-							onClick={() => setShowSupervisorDropdown((v) => !v)}
-						>
-							<span>
-								{selectedSupervisor === "All"
-									? "Supervisor"
-									: selectedSupervisor.split(" ").slice(-1)[0]}
-							</span>
-							<span className="dropdown-arrow">▼</span>
-						</button>
-						{showSupervisorDropdown && (
-							<div className="projects-dropdown-list">
+							</select>
+						</div>
+
+						<div className="filter-group">
+							<label htmlFor="supervisor-select" className="filter-label">
+								Supervisor
+							</label>
+							<select
+								id="supervisor-select"
+								value={selectedSupervisor}
+								onChange={(e) => setSelectedSupervisor(e.target.value)}
+								className="filter-select"
+							>
 								{getAllSupervisors().map((supervisor) => (
-									<button
-										key={supervisor}
-										className={`dropdown-item${
-											selectedSupervisor === supervisor ? " selected" : ""
-										}`}
-										onClick={() => {
-											setSelectedSupervisor(supervisor);
-											setShowSupervisorDropdown(false);
-											setVisibleCount(8);
-										}}
-									>
+									<option key={supervisor} value={supervisor}>
 										{supervisor}
-									</button>
+									</option>
 								))}
-							</div>
+							</select>
+						</div>
+
+						{(selectedTag !== "All" || selectedSupervisor !== "All" || searchTerm) && (
+							<button
+								className="clear-filters-button"
+								onClick={() => {
+									setSelectedTag("All");
+									setSelectedSupervisor("All");
+									setSearchTerm("");
+								}}
+							>
+								Clear Filters
+							</button>
 						)}
 					</div>
-					{(selectedTag !== "All" ||
-						selectedSupervisor !== "All" ||
-						searchTerm) && (
-						<button
-							className="projects-clear-filters"
-							onClick={clearFilters}
-						>
-							Clear
-						</button>
-					)}
 				</div>
-			</div>
 
-			<div className="projects-results-info">
-				<span className="projects-results-count">
-					{filteredProjects.length} project
-					{filteredProjects.length !== 1 ? "s" : ""} found
-				</span>
-			</div>
-
-			{filteredProjects.length === 0 ? (
-				<div className="projects-no-results">
-					<span className="no-results-emoji">🔍</span>
-					<h3>No projects found</h3>
-					<button className="projects-reset-btn" onClick={clearFilters}>
-						Reset Filters
-					</button>
-				</div>
-			) : (
-				<div className="projects-modern-grid">
-					{visibleProjects.map((proj, idx) => (
-						<div
-							className="projects-modern-card"
-							key={idx}
-							onClick={() => handleProjectClick(proj)}
-						>
-							<div className="card-emoji">{proj.image}</div>
-							<div className="card-content">
-								<h3 className="card-title">{proj.title}</h3>
-								<p className="card-desc">{proj.description}</p>
-								<div className="card-meta">
-									<div className="card-tags">
-										{proj.tags.slice(0, 3).map((tag, i) => (
-											<span className="card-tag" key={i}>
-												{tag}
-											</span>
-										))}
-										{proj.tags.length > 3 && (
-											<span className="card-tag more">
-												+{proj.tags.length - 3}
-											</span>
-										)}
-									</div>
-									{proj.supervisor && (
-										<div className="card-supervisor">
-											{proj.supervisor}
-										</div>
-									)}
-									{proj.year && (
-										<span className="card-year">{proj.year}</span>
-									)}
+				<div className="events-grid">
+					{filteredProjects.map((project, index) => (
+						<div key={index} className="event-card" onClick={() => handleProjectClick(project)}>
+							<div className="event-header">
+								<div className="event-meta">
+									<span className={`event-type ${project.tags[0]?.toLowerCase()}`}>
+										{project.tags[0]}
+									</span>
+									<span className="event-status project-year">
+										{project.year}
+									</span>
 								</div>
 							</div>
-							<div className="card-overlay">
-								<span>View Details</span>
+
+							<div className="event-content">
+								<div className="project-emoji">
+									{project.image}
+								</div>
+								<h3 className="event-title">{project.title}</h3>
+								<p className="event-description">{project.description}</p>
+
+								<div className="event-details">
+									<div className="event-detail-item">
+										<span className="detail-label">Team:</span>
+										<span className="detail-value">{project.team}</span>
+									</div>
+									<div className="event-detail-item">
+										<span className="detail-label">Authors:</span>
+										<span className="detail-value">{project.authors}</span>
+									</div>
+									<div className="event-detail-item">
+										<span className="detail-label">Supervisor:</span>
+										<span className="detail-value">{project.supervisor}</span>
+									</div>
+									<div className="event-detail-item">
+										<span className="detail-label">Year:</span>
+										<span className="detail-value">{project.year}</span>
+									</div>
+								</div>
+
+								<div className="event-tags">
+									{project.tags.map((tag) => (
+										<span key={tag} className="event-tag">
+											{tag}
+										</span>
+									))}
+								</div>
+							</div>
+
+							<div className="event-footer">
+								<button
+									className="register-button"
+									onClick={(e) => {
+										e.stopPropagation();
+										handleProjectClick(project);
+									}}
+								>
+									View Details
+								</button>
 							</div>
 						</div>
 					))}
 				</div>
-			)}
-			{hasMore && filteredProjects.length > 0 && (
-				<div className="projects-show-more-bar">
-					<button className="projects-show-more-btn" onClick={handleShowMore}>
-						Show More Projects
-						<span className="show-more-count">
-							({filteredProjects.length - visibleCount} remaining)
-						</span>
-					</button>
-				</div>
-			)}
+
+				{filteredProjects.length === 0 && (
+					<div className="no-events-message">
+						<h3>No projects found</h3>
+						<p>
+							Try adjusting your search criteria or check back later for new projects.
+						</p>
+					</div>
+				)}
+			</div>
 		</div>
 	);
 };
