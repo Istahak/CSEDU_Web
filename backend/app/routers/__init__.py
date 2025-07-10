@@ -1,6 +1,5 @@
 from fastapi import APIRouter
-
-from routers import token, auth, img, profile, homepage, faculty, notice, classroom, committee, committee_member, research_assistant, equipment, equipment_booking, office_room
+from routers import token, auth, img, profile, homepage, faculty, notice, classroom, committee, committee_member, research_assistant, equipment, equipment_booking, office_room, achievement
 router = APIRouter(
     prefix="/api/v1"
 )
@@ -19,3 +18,4 @@ router.include_router(research_assistant.router)
 router.include_router(equipment.router)
 router.include_router(equipment_booking.router)
 router.include_router(office_room.router)
+router.include_router(achievement.router)
