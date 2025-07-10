@@ -13,7 +13,7 @@ from models.author_publication import AuthorPublication
 # Newly added models
 from models.student_profile import StudentProfile
 from models.grade import Grade
-from models.classroom import Classroom
+from models.classroom import Classroom, RoomBooking
 from models.course import Course, CourseSyllabusItem, LearningOutcome, AssessmentMethod, RequiredTextbook
 from models.attendance import Attendance
 from models.research_assistant import ResearchAssistant
@@ -24,4 +24,4 @@ from models.event_type import EventType
 from models.payment import Payment, PaymentStudent
 from models.admin_profile import AdminProfile
 from models.achievement import Achievement, AchievementWinner
-from models.equipment import Equipment, EquipmentBooking, RoomBooking
+from models.equipment import Equipment, EquipmentBooking

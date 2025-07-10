@@ -9,6 +9,21 @@ import uuid
 class CommitteeMemberService:
     @staticmethod
     def create_committee_member(db: Session, member_data: CommitteeMemberCreate) -> CommitteeMember:
+        # Check if user exists
+        from models.user import User
+        from models.committee import Committee
+        user = db.query(User).filter(User.id == member_data.user_id).first()
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"User with ID {member_data.user_id} does not exist"
+            )
+        committee = db.query(Committee).filter(Committee.id == member_data.committee_id).first()
+        if not committee:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Committee with ID {member_data.committee_id} does not exist"
+            )
         try:
             db_member = CommitteeMember(
                 user_id=member_data.user_id,

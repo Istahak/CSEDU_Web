@@ -39,6 +39,49 @@ class CommitteeService:
         return db.query(Committee).offset(skip).limit(limit).all()
 
     @staticmethod
+    def get_all_committees_detailed(db: Session, skip: int = 0, limit: int = 100):
+        from models.committee_member import CommitteeMember
+        committees = db.query(Committee).offset(skip).limit(limit).all()
+        for committee in committees:
+            committee.members = db.query(CommitteeMember).filter(CommitteeMember.committee_id == committee.id).all()
+        return committees
+
+    @staticmethod
+    def get_committee_by_id_detailed(db: Session, committee_id: str):
+        from models.committee_member import CommitteeMember
+        import uuid
+        try:
+            committee_uuid = uuid.UUID(committee_id)
+        except ValueError:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Invalid committee ID format"
+            )
+        committee = db.query(Committee).filter(Committee.id == committee_uuid).first()
+        if not committee:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Committee with ID {committee_id} not found"
+            )
+        committee.members = db.query(CommitteeMember).filter(CommitteeMember.committee_id == committee.id).all()
+        return committee
+
+    @staticmethod
+    def get_committees_by_user_id(db: Session, user_id: str, skip: int = 0, limit: int = 100):
+        from models.committee_member import CommitteeMember
+        import uuid
+        try:
+            user_uuid = uuid.UUID(user_id)
+        except ValueError:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Invalid user ID format"
+            )
+        committee_ids = db.query(CommitteeMember.committee_id).filter(CommitteeMember.user_id == user_uuid).all()
+        committee_ids = [cid[0] for cid in committee_ids]
+        return db.query(Committee).filter(Committee.id.in_(committee_ids)).offset(skip).limit(limit).all()
+
+    @staticmethod
     def get_committee_by_id(db: Session, committee_id: str) -> Committee:
         try:
             committee_uuid = uuid.UUID(committee_id)
