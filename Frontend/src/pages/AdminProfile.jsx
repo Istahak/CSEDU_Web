@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./AdminProfile.css";
 
+
 const AdminProfile = ({ onLogout }) => {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [adminData, setAdminData] = useState({
@@ -1281,6 +1282,8 @@ const AdminProfile = ({ onLogout }) => {
       </div>
     </div>
   );
+  
+  
 
   const renderNoticeManagement = () => {
     const filteredNotices = showArchivedNotices
@@ -1306,7 +1309,10 @@ const AdminProfile = ({ onLogout }) => {
             </button>
             <button
               className="add-user-btn"
-              onClick={() => setShowNoticeModal(true)}
+              onClick={() =>{ 
+                setEditingNotice(null);
+                setShowNoticeModal(true);
+              }}
             >
               ➕ Add New Notice
             </button>
@@ -1428,6 +1434,8 @@ const AdminProfile = ({ onLogout }) => {
             </div>
           )}
         </div>
+        {showNoticeModal && <NoticeModal />}
+        {editingNotice && <NoticeModal />}
       </div>
     );
   };
