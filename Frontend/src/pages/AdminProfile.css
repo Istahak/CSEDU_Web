@@ -376,6 +376,60 @@
   color: #dc3545;
 }
 
+.view-btn {
+  background: #f8f9fa;
+  color: #495057;
+}
+
+.edit-btn:hover {
+  background: #cce7ff;
+}
+
+.delete-btn:hover {
+  background: #ffcccb;
+}
+
+.view-btn:hover {
+  background: #e9ecef;
+}
+
+.user-table .action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-table .action-buttons .edit-btn,
+.user-table .action-buttons .delete-btn,
+.user-table .action-buttons .view-btn {
+  margin-left: 0;
+  padding: 0.5rem 0.7rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.user-table .action-buttons .edit-btn:hover {
+  background: #cce7ff !important;
+  transform: translateY(-1px);
+}
+
+.user-table .action-buttons .delete-btn:hover {
+  background: #ffcccb !important;
+  transform: translateY(-1px);
+}
+
+.user-table .action-buttons .view-btn:hover {
+  background: #e0e0e0 !important;
+  transform: translateY(-1px);
+}
+
 /* Settings Styles */
 .system-settings {
   background: #fff;
@@ -833,16 +887,32 @@
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  padding: 1rem;
+}
+
+.modal-container {
+  background: white;
+  border-radius: 8px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .modal-content {
   background: white;
   border-radius: 8px;
-  max-width: 600px;
+  max-width: 700px; /* Increased from 600px */
   width: 90%;
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Large modal for complex forms */
+.large-modal .modal-content {
+  max-width: 1000px; /* Extra wide for event form */
+  width: 95%;
 }
 
 .modal-header {
@@ -851,8 +921,11 @@
   align-items: center;
   padding: 1.5rem;
   border-bottom: 1px solid #e9ecef;
+  background: white;
+  border-radius: 8px 8px 0 0;
 }
 
+.modal-header h2,
 .modal-header h3 {
   margin: 0;
   color: #2c3e50;
@@ -994,103 +1067,67 @@
 .form-section {
   margin-bottom: 2rem;
   padding: 1.5rem;
-  background: #f8f9fa;
+  border: 1px solid #e1e5e9;
   border-radius: 8px;
-  border: 1px solid #e9ecef;
+  background-color: #f8f9fa;
 }
 
 .form-section h4 {
   margin: 0 0 1rem 0;
-  color: #2c3e50;
+  color: #495057;
   font-size: 1.1rem;
   font-weight: 600;
   border-bottom: 2px solid #007bff;
   padding-bottom: 0.5rem;
 }
 
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-}
-
-.form-group label {
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  color: #2c3e50;
-  font-size: 0.9rem;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-  padding: 0.75rem;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  font-size: 1rem;
-  transition: border-color 0.2s ease;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-
 .image-upload-section {
   display: flex;
-  align-items: center;
   gap: 2rem;
+  align-items: flex-start;
 }
 
 .current-image {
-  flex-shrink: 0;
+  flex: 1;
+  max-width: 300px;
 }
 
-.image-preview {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
+.event-image-preview {
+  width: 100%;
+  height: 200px;
   object-fit: cover;
-  border: 3px solid #e9ecef;
+  border-radius: 8px;
+  border: 2px solid #dee2e6;
 }
 
 .image-placeholder {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background: #f8f9fa;
+  width: 100%;
+  height: 200px;
+  border: 2px dashed #dee2e6;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 3px dashed #ced4da;
+  background-color: #f8f9fa;
   color: #6c757d;
 }
 
 .image-placeholder span {
-  font-size: 2rem;
+  font-size: 3rem;
   margin-bottom: 0.5rem;
 }
 
 .image-placeholder p {
   margin: 0;
-  font-size: 0.8rem;
-  text-align: center;
+  font-size: 0.9rem;
 }
 
 .image-controls {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
 .file-input {
@@ -1098,15 +1135,16 @@
 }
 
 .upload-btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
   background: #007bff;
   color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-  font-weight: 600;
-  text-align: center;
   transition: background-color 0.2s ease;
-  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-size: 0.9rem;
 }
 
 .upload-btn:hover {
@@ -1114,275 +1152,109 @@
 }
 
 .remove-btn {
+  padding: 0.75rem 1.5rem;
   background: #dc3545;
   color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 600;
-  text-align: center;
-  transition: background-color 0.2s ease;
   border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 0.9rem;
 }
 
 .remove-btn:hover {
   background: #c82333;
 }
 
-.large-modal .modal-content {
-  width: 90%;
-  max-width: 900px;
-  max-height: 90vh;
-  overflow-y: auto;
+.event-form .form-group.full-width {
+  flex: 1 1 100%;
 }
 
-.view-btn {
-  background: #28a745;
-  color: white;
+.event-form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+  min-height: 60px;
+}
+
+.event-form textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Event table styles */
+.event-image {
+  width: 60px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.event-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.event-image-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: #6c757d;
+}
+
+.status-select {
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  background: white;
+}
+
+.toggle-btn {
+  padding: 0.3rem 0.6rem;
   border: none;
-  padding: 0.4rem 0.8rem;
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.8rem;
-  margin-left: 0.5rem;
-  transition: background-color 0.2s ease;
-}
-
-.view-btn:hover {
-  background: #218838;
-}
-
-/* Role badge variations for designations */
-.role-badge.professor {
-  background: #e7f3ff;
-  color: #0066cc;
-}
-
-.role-badge.associate-professor {
-  background: #f0f9ff;
-  color: #0369a1;
-}
-
-.role-badge.assistant-professor {
-  background: #ecfdf5;
-  color: #059669;
-}
-
-.role-badge.lecturer {
-  background: #fef3c7;
-  color: #d97706;
-}
-
-.role-badge.senior-lecturer {
-  background: #fce7f3;
-  color: #be185d;
-}
-
-/* Enhanced Course Management Styles */
-.course-image {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 60px;
-  height: 60px;
-}
-
-.course-thumbnail {
-  width: 60px;
-  height: 60px;
-  border-radius: 8px;
-  object-fit: cover;
-  border: 2px solid #e9ecef;
-}
-
-.course-image-placeholder {
-  width: 60px;
-  height: 60px;
-  border-radius: 8px;
-  background: #f8f9fa;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  border: 2px solid #e9ecef;
-  color: #6c757d;
-}
-
-.course-title-cell {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.course-title-cell strong {
-  color: #2c3e50;
-  font-size: 0.95rem;
-}
-
-.course-title-cell small {
-  color: #6c757d;
-  font-size: 0.8rem;
   font-weight: 500;
+  transition: all 0.2s ease;
 }
 
-.course-image-preview {
-  width: 150px;
-  height: 100px;
-  border-radius: 8px;
-  object-fit: cover;
-  border: 3px solid #e9ecef;
-}
-
-.course-form .image-placeholder {
-  width: 150px;
-  height: 100px;
-  border-radius: 8px;
-  background: #f8f9fa;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: 3px dashed #ced4da;
-  color: #6c757d;
-}
-
-.course-form .image-placeholder span {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-.course-form .image-placeholder p {
-  margin: 0;
-  font-size: 0.8rem;
-  text-align: center;
-}
-
-/* Course form specific styles */
-.course-form .form-section h4 {
-  border-bottom: 2px solid #17a2b8;
-  color: #17a2b8;
-}
-
-.course-form .form-group input:focus,
-.course-form .form-group select:focus,
-.course-form .form-group textarea:focus {
-  border-color: #17a2b8;
-  box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25);
-}
-
-/* Course table responsive */
-.user-management table th:first-child {
-  width: 80px;
-}
-
-.user-management table th:nth-child(2) {
-  width: 100px;
-}
-
-.user-management table th:nth-child(3) {
-  width: 200px;
-}
-
-.user-management table th:nth-child(4) {
-  width: 150px;
-}
-
-.user-management table th:nth-child(5) {
-  width: 80px;
-}
-
-.user-management table th:nth-child(6) {
-  width: 100px;
-}
-
-.user-management table th:nth-child(7) {
-  width: 100px;
-}
-
-.user-management table th:nth-child(8) {
-  width: 120px;
-}
-
-.user-management table th:nth-child(9) {
-  width: 220px;
-}
-
-/* Course status badges */
-.course-form .form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-/* Additional button styles for course actions */
-.view-btn {
-  background: #17a2b8;
-  color: white;
-  border: none;
-  padding: 0.4rem 0.8rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.8rem;
-  margin-left: 0.5rem;
-  transition: background-color 0.2s ease;
-}
-
-.view-btn:hover {
-  background: #138496;
-}
-
-/* Difficulty level indicators */
-.difficulty-badge {
-  padding: 0.2rem 0.5rem;
-  border-radius: 10px;
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-
-.difficulty-badge.beginner {
+.toggle-btn.open {
   background: #d4edda;
   color: #155724;
 }
 
-.difficulty-badge.intermediate {
-  background: #fff3cd;
-  color: #856404;
-}
-
-.difficulty-badge.advanced {
+.toggle-btn.closed {
   background: #f8d7da;
   color: #721c24;
 }
 
-/* Mobile responsive for course management */
-@media (max-width: 1200px) {
-  .course-thumbnail,
-  .course-image-placeholder {
-    width: 50px;
-    height: 50px;
-  }
-
-  .course-image {
-    width: 50px;
-    height: 50px;
-  }
-
-  .user-management table {
-    font-size: 0.85rem;
-  }
+.toggle-btn:hover {
+  opacity: 0.8;
 }
 
 @media (max-width: 768px) {
-  .course-form .form-row {
-    grid-template-columns: 1fr;
+  .image-upload-section {
+    flex-direction: column;
+    gap: 1rem;
   }
-
-  .course-form {
+  
+  .current-image {
     max-width: 100%;
-  }
-
-  .user-management table {
-    min-width: 1100px;
   }
 }

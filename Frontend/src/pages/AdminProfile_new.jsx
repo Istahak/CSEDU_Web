@@ -2,13 +2,9 @@ import React, { useState } from "react";
 import "./AdminProfile.css";
 import Dashboard from '../components/admin/Dashboard';
 import FacultyManagement from '../components/admin/FacultyManagement';
-import FacultyModal from '../components/admin/FacultyModal';
 import CourseManagement from '../components/admin/CourseManagement';
-import CourseModal from '../components/admin/CourseModal';
 import NoticeManagement from '../components/admin/NoticeManagement';
-import NoticeModal from '../components/admin/NoticeModal';
 import AchievementManagement from '../components/admin/AchievementManagement';
-import AchievementModal from '../components/admin/AchievementModal';
 import EventManagement from '../components/admin/EventManagement';
 import RequestManagement from '../components/admin/RequestManagement';
 import RegistrationModal from '../components/admin/RegistrationModal';
@@ -182,57 +178,16 @@ const AdminProfile = ({ onLogout }) => {
   const [selectedEventRegistrations, setSelectedEventRegistrations] = useState([]);
 
   // Handler functions
-  const generateEmployeeId = () => {
-    const year = new Date().getFullYear();
-    const count = users.filter((user) => user.role === "faculty").length + 1;
-    return `CSE-${year}-${String(count).padStart(3, "0")}`;
-  };
-
-  const handleAddFaculty = (facultyData) => {
-    const newFaculty = {
-      id: Date.now(), // Simple ID generation for demo
-      ...facultyData,
-      employeeId: generateEmployeeId(),
-    };
-    setUsers([...users, newFaculty]);
-    setShowFacultyModal(false);
-    setEditingFaculty(null);
-  };
-
-  const handleEditFaculty = (facultyData) => {
+  const handleUserStatusChange = (userId, newStatus) => {
     setUsers(users.map((user) => 
-      user.id === editingFaculty.id ? { ...user, ...facultyData } : user
+      user.id === userId ? { ...user, status: newStatus } : user
     ));
-    setShowFacultyModal(false);
-    setEditingFaculty(null);
   };
 
   const handleDeleteFaculty = (facultyId) => {
     if (window.confirm("Are you sure you want to delete this faculty member?")) {
       setUsers(users.filter((user) => user.id !== facultyId));
     }
-  };
-
-  const generateCourseId = () => {
-    return `COURSE-${Date.now()}`;
-  };
-
-  const handleAddCourse = (courseData) => {
-    const newCourse = {
-      id: Date.now(), // Simple ID generation for demo
-      ...courseData,
-    };
-    setCourses([...courses, newCourse]);
-    setShowCourseModal(false);
-    setEditingCourse(null);
-  };
-
-  const handleEditCourse = (courseData) => {
-    setCourses(courses.map((course) => 
-      course.id === editingCourse.id ? { ...course, ...courseData } : course
-    ));
-    setShowCourseModal(false);
-    setEditingCourse(null);
   };
 
   const handleCourseStatusChange = (courseId, newStatus) => {
@@ -271,24 +226,6 @@ const AdminProfile = ({ onLogout }) => {
     }
   };
 
-  const handleAddNotice = (noticeData) => {
-    const newNotice = {
-      id: Date.now(), // Simple ID generation for demo
-      ...noticeData,
-    };
-    setNotices([...notices, newNotice]);
-    setShowNoticeModal(false);
-    setEditingNotice(null);
-  };
-
-  const handleEditNotice = (noticeData) => {
-    setNotices(notices.map((notice) => 
-      notice.id === editingNotice.id ? { ...notice, ...noticeData } : notice
-    ));
-    setShowNoticeModal(false);
-    setEditingNotice(null);
-  };
-
   const handleAchievementStatusChange = (achievementId, newStatus) => {
     setAchievements(achievements.map((achievement) => 
       achievement.id === achievementId ? { ...achievement, status: newStatus } : achievement
@@ -313,34 +250,10 @@ const AdminProfile = ({ onLogout }) => {
     }
   };
 
-  const handleAddAchievement = (achievementData) => {
-    const newAchievement = {
-      id: Date.now(), // Simple ID generation for demo
-      ...achievementData,
-    };
-    setAchievements([...achievements, newAchievement]);
-    setShowAchievementModal(false);
-    setEditingAchievement(null);
-  };
-
-  const handleEditAchievement = (achievementData) => {
-    setAchievements(achievements.map((achievement) => 
-      achievement.id === editingAchievement.id ? { ...achievement, ...achievementData } : achievement
-    ));
-    setShowAchievementModal(false);
-    setEditingAchievement(null);
-  };
-
   const handleEditEvent = (eventId, eventData) => {
-    if (eventId) {
-      // Edit existing event
-      setEvents(events.map((event) => 
-        event.id === eventId ? { ...event, ...eventData } : event
-      ));
-    } else {
-      // Add new event
-      setEvents([...events, eventData]);
-    }
+    setEvents(events.map((event) => 
+      event.id === eventId ? { ...event, ...eventData } : event
+    ));
   };
 
   const handleDeleteEvent = (eventId) => {
@@ -396,6 +309,7 @@ const AdminProfile = ({ onLogout }) => {
         return <FacultyManagement 
           users={users} 
           setShowFacultyModal={setShowFacultyModal} 
+          handleUserStatusChange={handleUserStatusChange} 
           setEditingFaculty={setEditingFaculty} 
           handleDeleteFaculty={handleDeleteFaculty} 
         />;
@@ -535,54 +449,6 @@ const AdminProfile = ({ onLogout }) => {
 
         <div className="admin-main">{renderTabContent()}</div>
       </div>
-
-      {showFacultyModal && (
-        <FacultyModal
-          isOpen={showFacultyModal}
-          onClose={() => {
-            setShowFacultyModal(false);
-            setEditingFaculty(null);
-          }}
-          onSave={editingFaculty ? handleEditFaculty : handleAddFaculty}
-          editingFaculty={editingFaculty}
-        />
-      )}
-
-      {showCourseModal && (
-        <CourseModal
-          isOpen={showCourseModal}
-          onClose={() => {
-            setShowCourseModal(false);
-            setEditingCourse(null);
-          }}
-          onSave={editingCourse ? handleEditCourse : handleAddCourse}
-          editingCourse={editingCourse}
-        />
-      )}
-
-      {showNoticeModal && (
-        <NoticeModal
-          isOpen={showNoticeModal}
-          onClose={() => {
-            setShowNoticeModal(false);
-            setEditingNotice(null);
-          }}
-          onSave={editingNotice ? handleEditNotice : handleAddNotice}
-          editingNotice={editingNotice}
-        />
-      )}
-
-      {showAchievementModal && (
-        <AchievementModal
-          isOpen={showAchievementModal}
-          onClose={() => {
-            setShowAchievementModal(false);
-            setEditingAchievement(null);
-          }}
-          onSave={editingAchievement ? handleEditAchievement : handleAddAchievement}
-          editingAchievement={editingAchievement}
-        />
-      )}
 
       {showRegistrationModal && (
         <RegistrationModal
