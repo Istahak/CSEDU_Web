@@ -3,6 +3,7 @@ from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from db import Base
+from sqlalchemy import UniqueConstraint
 
 class CommitteeMember(Base):
     __tablename__ = "committee_members"
@@ -13,3 +14,7 @@ class CommitteeMember(Base):
 
     user = relationship('User', backref='committee_memberships')
     committee = relationship('Committee', backref='members')
+
+    __table_args__ = (
+        UniqueConstraint('user_id', 'committee_id', name='uq_user_committee'),
+    )
