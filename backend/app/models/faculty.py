@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship
 from db import Base
 from models.base import CommonBase
 
-class Faculty(Base, CommonBase):
+class Faculty(Base):
     __tablename__ = "faculty"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)

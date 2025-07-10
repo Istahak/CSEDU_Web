@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship
 from db import Base
 from models.base import CommonBase, AuditBase
 
-class OfficeRoom(Base, CommonBase, AuditBase):
+class OfficeRoom(Base):
     __tablename__ = "office_rooms"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
