@@ -17,7 +17,9 @@ def get_research_assistant_by_id(db: Session, ra_id: UUID) -> Optional[ResearchA
 
 
 def create_research_assistant(db: Session, data: ResearchAssistantCreate) -> ResearchAssistant:
+    print("in this funcion")
     ra = ResearchAssistant(**data.dict())
+    print(ra)
     db.add(ra)
     db.commit()
     db.refresh(ra)

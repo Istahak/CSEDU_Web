@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from routers import token, auth, img, profile, homepage, faculty, course, notice, classroom, committee, committee_member, research_assistant
+from routers import token, auth, img, profile, homepage, faculty, notice, classroom, committee, committee_member, research_assistant, office_room, faculty
 
 router = APIRouter(
     prefix="/api/v1"
@@ -11,9 +11,10 @@ router.include_router(img.router)
 router.include_router(profile.router)
 router.include_router(homepage.router)
 router.include_router(faculty.router)
-router.include_router(course.router)
 router.include_router(notice.router)
 router.include_router(classroom.router)
 router.include_router(committee.router)
 router.include_router(committee_member.router)
 router.include_router(research_assistant.router)
+router.include_router(office_room.router)
+router.include_router(faculty.router)
