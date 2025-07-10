@@ -111,3 +111,18 @@ class EquipmentBookingService:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail=f"Failed to delete equipment booking: {str(e)}"
             )
+
+    @staticmethod
+    def approve_equipment_booking(db: Session, booking_id: str) -> 'EquipmentBooking':
+        booking = EquipmentBookingService.get_equipment_booking_by_id(db, booking_id)
+        booking.is_approved = True
+        try:
+            db.commit()
+            db.refresh(booking)
+            return booking
+        except Exception as e:
+            db.rollback()
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Failed to approve equipment booking: {str(e)}"
+            )

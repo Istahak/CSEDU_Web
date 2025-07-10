@@ -87,3 +87,13 @@ def delete_equipment_booking(
     Delete an equipment booking.
     """
     return EquipmentBookingService.delete_equipment_booking(db, booking_id)
+
+@router.put("/{booking_id}/approve", response_model=EquipmentBookingResponse)
+def approve_equipment_booking(
+    booking_id: str,
+    db: Session = Depends(get_db),
+):
+    """
+    Approve an equipment booking (set is_approved=True).
+    """
+    return EquipmentBookingService.approve_equipment_booking(db, booking_id)
