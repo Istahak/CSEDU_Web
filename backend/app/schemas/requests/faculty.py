@@ -16,7 +16,7 @@ class FacultyCreate(BaseModel):
     experience: Optional[str] = None
     number_of_publications: Optional[int] = 0
     qualifications: Optional[str] = None
-    profile_photo_url: Optional[str] = None
+    image: Optional[str] = Field(None, description="Base64 encoded user image")
 
 class FacultyUpdate(BaseModel):
     office_room_id: Optional[UUID] = None
@@ -31,4 +31,7 @@ class FacultyUpdate(BaseModel):
     experience: Optional[str] = None
     number_of_publications: Optional[int] = None
     qualifications: Optional[str] = None
-    profile_photo_url: Optional[str] = None
+    image: Optional[str] = Field(None, description="Base64 encoded user image")
+
+class FacultyImageUpdate(BaseModel):
+    image: str = Field(..., description="Base64 encoded user image")

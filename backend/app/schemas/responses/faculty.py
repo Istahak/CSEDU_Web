@@ -17,7 +17,7 @@ class FacultyResponse(BaseModel):
     experience: Optional[str] = None
     number_of_publications: Optional[int] = None
     qualifications: Optional[str] = None
-    profile_photo_url: Optional[str] = None
+    image: Optional[str] = None  # base64 encoded user image
 
     class Config:
         orm_mode = True

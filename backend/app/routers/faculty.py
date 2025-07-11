@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List
 from uuid import UUID
 from db import get_db
-from schemas.requests.faculty import FacultyCreate, FacultyUpdate
+from schemas.requests.faculty import FacultyCreate, FacultyUpdate, FacultyImageUpdate
 from schemas.responses.faculty import FacultyResponse
 from services import faculty_service
 
@@ -37,3 +37,10 @@ def delete_faculty(faculty_id: UUID, db: Session = Depends(get_db)):
     if not deleted:
         raise HTTPException(status_code=404, detail="Faculty not found")
     return None
+
+@router.put("/{faculty_id}/image", response_model=FacultyResponse)
+def update_faculty_image(faculty_id: UUID, image_in: FacultyImageUpdate, db: Session = Depends(get_db)):
+    faculty = faculty_service.update_faculty_image(db, faculty_id, image_in)
+    if not faculty:
+        raise HTTPException(status_code=404, detail="Faculty not found")
+    return faculty

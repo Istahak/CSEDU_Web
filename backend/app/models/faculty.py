@@ -24,5 +24,6 @@ class Faculty(Base):
     experience = Column(String(50))  # e.g., "15 years"
     number_of_publications = Column(Integer, default=0)
     qualifications = Column(Text)
-    profile_photo_url = Column(String(255))
+    # Profile photo will be handled via User.image (LargeBinary), not as a URL.
+    # profile_photo_url = Column(String(255))
     is_active = Column(Boolean, default=True)
