@@ -1,5 +1,10 @@
 import React from "react";
 import cseduImg from "../assets/images/csedu.jpg";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import API_CONFIG from "../api/config";
+
+// const BASE_URL = API_CONFIG.BASE_URL;
 
 const announcements = [
   {
@@ -41,7 +46,46 @@ const getNoticeTypeColor = (type) => {
   }
 };
 
+
+// Added By Tanzim (Date : 2025-07-11)
+
 const Home = ({ setCurrentPage }) => {
+  const [notices, setNotices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchNotices = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await axios.get(
+        `${API_CONFIG.BASE_URL}${API_CONFIG.API_VERSION}/notices`,
+        { params: { skip: 0, limit: 3 } }
+    );
+      console.log("API Response:", response.data); // Debug response
+      const fetchedNotices = response.data.length > 0
+        ? response.data.map(notice => ({
+            id: notice.id || notice.notice_id || `temp-${Math.random()}`,
+            title: notice.title || "Untitled",
+            description: notice.description || "No description",
+            type: notice.type || "General",
+            date: notice.date || "2025-07-11",
+          }))
+        : announcements; // Fallback to static announcements
+      setNotices(fetchedNotices);
+      setLoading(false);
+    } catch (err) {
+      console.error("Fetch Error:", err.message, err.response?.data); // Detailed error
+      setError(`Failed to fetch notices: ${err.message}. Using static announcements.`);
+      setNotices(announcements); // Fallback to static on error
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchNotices();
+  }, []);
+
   const handleNavigation = (page) => {
     if (setCurrentPage) {
       setCurrentPage(page);

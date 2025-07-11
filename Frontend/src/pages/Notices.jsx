@@ -1,5 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import API_CONFIG from "../api/config"; 
 import "./Notices.css";
+
+
+// Edited by Tanzim (Date: 2025-07-11)
+
 
 const Notices = ({ onBack, onNoticeSelect }) => {
   const [selectedNoticeType, setSelectedNoticeType] = useState("All");
@@ -7,6 +13,9 @@ const Notices = ({ onBack, onNoticeSelect }) => {
   const [selectedMonth, setSelectedMonth] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
   const [archiveSearchTerm, setArchiveSearchTerm] = useState("");
+  const [activeNotices, setActiveNotices] = useState([]);
+  const [archivedNotices, setArchivedNotices] = useState([]);
+  const [error, setError] = useState(null);
 
   const noticeTypes = ["All", "Academic", "Administrative", "General"];
   const years = ["All", "2024", "2023", "2022"];
@@ -26,65 +35,98 @@ const Notices = ({ onBack, onNoticeSelect }) => {
     "December",
   ];
 
-  const activeNotices = [
-    {
-      id: 1,
-      title: "Academic Calendar for Fall 2024",
-      description:
-        "View the full academic calendar for detailed information on course registration, exams, and holidays. Important dates and deadlines for the upcoming semester.",
-      type: "Academic",
-      date: "2024-07-01",
-      status: "active",
-    },
-    {
-      id: 2,
-      title: "New Administrative Procedures",
-      description:
-        "Learn about the new procedures for submitting documents, requesting approvals, and other administrative tasks. Changes to the department's administrative procedures.",
-      type: "Administrative",
-      date: "2024-06-28",
-      status: "active",
-    },
-    {
-      id: 3,
-      title: "Department-Wide Announcements",
-      description:
-        "Find out about upcoming events, workshops, and other important news from the department. General announcements and updates for all students and staff.",
-      type: "General",
-      date: "2024-06-25",
-      status: "active",
-    },
-  ];
-
-  const archivedNotices = [
-    {
-      id: 4,
-      title: "Changes to Course Offerings for Spring 2024",
-      description:
-        "Important updates to course offerings for the Spring 2024 semester. Please review the changes and contact your academic advisor if you have any questions.",
-      date: "2023-10-15",
-      type: "Academic",
-      status: "archived",
-    },
-    {
-      id: 5,
-      title: "Departmental Research Grant Applications Open",
-      description:
-        "Applications are now open for departmental research grants. Faculty and graduate students are encouraged to apply for funding opportunities.",
-      date: "2023-09-20",
-      type: "Administrative",
-      status: "archived",
-    },
-    {
-      id: 6,
-      title: "Welcome Back Event for Students and Faculty",
-      description:
-        "Join us for our annual welcome back event featuring networking opportunities, refreshments, and updates from the department.",
-      date: "2023-08-05",
-      type: "General",
-      status: "archived",
-    },
-  ];
+  // Fetch notices from backend
+  useEffect(() => {
+    const fetchNotices = async () => {
+      try {
+        const response = await axios.get(
+          `${API_CONFIG.BASE_URL}${API_CONFIG.API_VERSION}/notices`,
+          { params: { skip: 0, limit: 100 } }
+        );
+        console.log("API Response:", response.data);
+        if (Array.isArray(response.data)) {
+          // Map backend fields to frontend expectations
+          const mappedNotices = response.data.map((notice) => ({
+            id: notice.id,
+            title: notice.title,
+            description: notice.content, // Map content to description
+            type: notice.category, // Map category to type
+            date: notice.expiry_date || notice.created_at || "2024-01-01", // Fallback date
+            status: notice.status || "Published", // Default to Published if missing
+          }));
+          // Split into active and archived
+          const active = mappedNotices.filter(
+            (notice) => notice.status === "Published"
+          );
+          const archived = mappedNotices.filter(
+            (notice) => notice.status === "Archived"
+          );
+          setActiveNotices(active);
+          setArchivedNotices(archived);
+          setError(null);
+        } else {
+          setError("Invalid response format from server");
+        }
+      } catch (err) {
+        console.error("Fetch Error:", err.message, err.response?.data);
+        setError(`Failed to fetch notices: ${err.message}`);
+        // Fallback to static notices
+        setActiveNotices([
+          {
+            id: 1,
+            title: "Academic Calendar for Fall 2024",
+            description: "View the full academic calendar...",
+            type: "Academic",
+            date: "2024-07-01",
+            status: "active",
+          },
+          {
+            id: 2,
+            title: "New Administrative Procedures",
+            description: "Learn about the new procedures...",
+            type: "Administrative",
+            date: "2024-06-28",
+            status: "active",
+          },
+          {
+            id: 3,
+            title: "Department-Wide Announcements",
+            description: "Find out about upcoming events...",
+            type: "General",
+            date: "2024-06-25",
+            status: "active",
+          },
+        ]);
+        setArchivedNotices([
+          {
+            id: 4,
+            title: "Changes to Course Offerings for Spring 2024",
+            description: "Important updates to course offerings...",
+            type: "Academic",
+            date: "2023-10-15",
+            status: "archived",
+          },
+          {
+            id: 5,
+            title: "Departmental Research Grant Applications Open",
+            description: "Applications are now open...",
+            type: "Administrative",
+            date: "2023-09-20",
+            status: "archived",
+          },
+          {
+            id: 6,
+            title: "Welcome Back Event for Students and Faculty",
+            description: "Join us for our annual welcome back event...",
+            type: "General",
+            date: "2023-08-05",
+            status: "archived",
+          },
+        ]);
+      }
+    };
+    fetchNotices();
+  }, []);
 
   const getFilteredActiveNotices = () => {
     return activeNotices.filter((notice) => {
@@ -102,11 +144,17 @@ const Notices = ({ onBack, onNoticeSelect }) => {
     return archivedNotices.filter((notice) => {
       const typeMatch =
         selectedNoticeType === "All" || notice.type === selectedNoticeType;
+      const yearMatch =
+        selectedYear === "All" ||
+        new Date(notice.date).getFullYear().toString() === selectedYear;
+      const monthMatch =
+        selectedMonth === "All" ||
+        months[new Date(notice.date).getMonth() + 1] === selectedMonth;
       const searchMatch =
         archiveSearchTerm === "" ||
         notice.title.toLowerCase().includes(archiveSearchTerm.toLowerCase()) ||
         notice.description.toLowerCase().includes(archiveSearchTerm.toLowerCase());
-      return typeMatch && searchMatch;
+      return typeMatch && yearMatch && monthMatch && searchMatch;
     });
   };
 
