@@ -15,6 +15,15 @@ def get_course_by_code(db: Session, course_code: str) -> Optional[Course]:
 def get_courses(db: Session, skip: int = 0, limit: int = 100) -> List[Course]:
     return db.query(Course).offset(skip).limit(limit).all()
 
+def filter_courses_by_semester(db: Session, semester: str, skip: int = 0, limit: int = 100) -> List[Course]:
+    return db.query(Course).filter(Course.semester == semester).offset(skip).limit(limit).all()
+
+def filter_courses_by_instructor(db: Session, instructor_id: UUID, skip: int = 0, limit: int = 100) -> List[Course]:
+    return db.query(Course).filter(Course.instructor_id == instructor_id).offset(skip).limit(limit).all()
+
+def filter_courses_by_classroom(db: Session, classroom_id: UUID, skip: int = 0, limit: int = 100) -> List[Course]:
+    return db.query(Course).filter(Course.classroom_id == classroom_id).offset(skip).limit(limit).all()
+
 def create_course(db: Session, course_in: CourseCreate) -> Course:
     course = Course(
         course_title=course_in.course_title,

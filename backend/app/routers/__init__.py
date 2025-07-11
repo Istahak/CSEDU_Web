@@ -7,6 +7,9 @@ from schemas.requests.user import (
 
 from routers import token, auth, img, profile, homepage, faculty, notice, classroom, committee, committee_member, research_assistant, equipment, equipment_booking, office_room, payment, payment_user, project, publication
 from .user import router as user_router
+
+from .assignment import router as assignment_router
+from .assignment_submission import router as assignment_submission_router
 from .student_profile import router as student_profile_router
 from .achievement import router as achievement_router
 from .course import router as course_router
@@ -14,11 +17,14 @@ from .project import router as project_router
 from .event import router as event_router
 from .event_booking import router as event_booking_router
 from .attendance import router as attendance_router
+from .grade import router as grade_router
 router = APIRouter(
     prefix="/api/v1"
 )
 
 router.include_router(student_profile_router)
+router.include_router(assignment_router)
+router.include_router(assignment_submission_router)
 
 router.include_router(token.router)
 router.include_router(auth.router)
@@ -43,3 +49,4 @@ router.include_router(publication.router)
 router.include_router(event.router)
 router.include_router(event_booking.router)
 router.include_router(attendance.router)
+router.include_router(grade.router)

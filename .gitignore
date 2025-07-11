@@ -4,3 +4,4 @@ backend/env/
 backend/.pytest_cache/
 backend/app/media/
 backend/venv/
+backend/app/files/
