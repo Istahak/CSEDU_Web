@@ -21,7 +21,7 @@ from models.committee import Committee
 from models.committee_member import CommitteeMember
 from models.faculty_event_schedule import FacultyEventSchedule
 from models.event_type import EventType
-from models.payment import Payment, PaymentStudent
+from models.payment import Payment, PaymentUser
 from models.admin_profile import AdminProfile
 from models.achievement import Achievement, AchievementWinner
 from models.equipment import Equipment, EquipmentBooking

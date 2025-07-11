@@ -1,9 +1,19 @@
 from fastapi import APIRouter
 
-from routers import token, auth, img, profile, homepage, faculty, notice, classroom, committee, committee_member, research_assistant, equipment, equipment_booking, office_room
+from schemas.requests.user import (
+    UserSignUp, UserSignIn, 
+    ProfileUpdateRequest
+)
+
+from routers import token, auth, img, profile, homepage, faculty, notice, classroom, committee, committee_member, research_assistant, equipment, equipment_booking, office_room, payment, payment_user
+from .user import router as user_router
+from .student_profile import router as student_profile_router
+
 router = APIRouter(
     prefix="/api/v1"
 )
+
+router.include_router(student_profile_router)
 
 router.include_router(token.router)
 router.include_router(auth.router)
@@ -19,3 +29,5 @@ router.include_router(research_assistant.router)
 router.include_router(equipment.router)
 router.include_router(equipment_booking.router)
 router.include_router(office_room.router)
+router.include_router(payment.router)
+router.include_router(payment_user.router)

@@ -11,14 +11,14 @@ class Payment(Base):
     amount = Column(Float, nullable=False)
     semester = Column(String(50), nullable=False)
 
-    students = relationship('PaymentStudent', back_populates='payment', cascade='all, delete-orphan')
+    users = relationship('PaymentUser', back_populates='payment', cascade='all, delete-orphan')
 
-class PaymentStudent(Base):
-    __tablename__ = "payment_students"
+class PaymentUser(Base):
+    __tablename__ = "payment_users"
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     payment_id = Column(UUID(as_uuid=True), ForeignKey('payments.id', ondelete='CASCADE'), nullable=False)
-    student_id = Column(UUID(as_uuid=True), ForeignKey('student_profiles.id', ondelete='CASCADE'), nullable=False)
+    user_id = Column(UUID(as_uuid=True), ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     is_paid = Column(Boolean, default=False)
 
-    payment = relationship('Payment', back_populates='students')
-    student_profile = relationship('StudentProfile')
+    payment = relationship('Payment', back_populates='users')
+    user = relationship('User')

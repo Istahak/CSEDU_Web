@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import Column, Integer,  String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, LargeBinary
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from db import Base
@@ -12,6 +12,7 @@ class User(Base,CommonBase):
         email = Column(String, nullable=False, unique=True)
         password = Column(String, nullable=False)
         password_salt = Column(String, nullable=False)
+        image = Column(LargeBinary, nullable=True)  # Optional user image as BLOB
 
         role_id = Column(Integer, ForeignKey("roles.id"))
         role = relationship("Role", back_populates="users",foreign_keys=[role_id])

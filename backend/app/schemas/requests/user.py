@@ -8,6 +8,7 @@ class UserSignUp(BaseModel):
     password: Optional[str] = Field(...)
     full_name: Optional[str] = Field(...)
     role: Optional[Literal["student", "faculty", "admin"]] = Field("student")
+    image: Optional[str] = Field(None, description="Base64 encoded user image")
 
     @field_validator('user_name')
     def user_name_must_not_be_empty(cls, v):

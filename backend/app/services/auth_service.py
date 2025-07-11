@@ -42,6 +42,17 @@ def sign_up_user(userSchema: UserSignUp, db: Session):
     # Extract full_name before creating the User object
     full_name = user_data.pop('full_name', None)
     
+    # Handle optional image (base64 string)
+    import base64
+    image_b64 = user_data.pop('image', None)
+    if image_b64:
+        try:
+            user_data['image'] = base64.b64decode(image_b64)
+        except Exception:
+            user_data['image'] = None
+    else:
+        user_data['image'] = None
+
     user = User(**user_data)
     user.role_id = role.id
     user.password_salt = oauth2.generate_salt()
