@@ -17,6 +17,18 @@ def list_courses(skip: int = 0, limit: int = 100, db: Session = Depends(get_db))
     courses = course_service.get_courses(db, skip=skip, limit=limit)
     return courses
 
+@router.get("/filter/semester", response_model=List[CourseResponse])
+def filter_courses_by_semester(semester: str, skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    return course_service.filter_courses_by_semester(db, semester, skip=skip, limit=limit)
+
+@router.get("/filter/instructor", response_model=List[CourseResponse])
+def filter_courses_by_instructor(instructor_id: UUID, skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    return course_service.filter_courses_by_instructor(db, instructor_id, skip=skip, limit=limit)
+
+@router.get("/filter/classroom", response_model=List[CourseResponse])
+def filter_courses_by_classroom(classroom_id: UUID, skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    return course_service.filter_courses_by_classroom(db, classroom_id, skip=skip, limit=limit)
+
 @router.get("/{course_id}", response_model=CourseResponse)
 def get_course(course_id: UUID, db: Session = Depends(get_db)):
     course = course_service.get_course(db, course_id)
