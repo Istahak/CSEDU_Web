@@ -13,7 +13,7 @@ class Achievement(Base):
     date = Column(Date, nullable=False)
     awarding_organization = Column(String(200))
     image_url = Column(String(255))  # Store image path or URL
-    is_team = Column(Boolean, default=False)
+    team_name = Column(String(200), nullable=True)
 
     winners = relationship('AchievementWinner', back_populates='achievement', cascade='all, delete-orphan')
 
