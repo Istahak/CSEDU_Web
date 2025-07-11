@@ -12,6 +12,7 @@ from .achievement import router as achievement_router
 from .course import router as course_router
 from .project import router as project_router
 from .event import router as event_router
+from .event_booking import router as event_booking_router
 router = APIRouter(
     prefix="/api/v1"
 )
@@ -39,3 +40,4 @@ router.include_router(course.router)
 router.include_router(project.router)
 router.include_router(publication.router)
 router.include_router(event.router)
+router.include_router(event_booking.router)
