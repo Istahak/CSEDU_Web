@@ -5,7 +5,7 @@ from schemas.requests.user import (
     ProfileUpdateRequest
 )
 
-from routers import token, auth, img, profile, homepage, faculty, notice, classroom, committee, committee_member, research_assistant, equipment, equipment_booking, office_room, payment, payment_user, project
+from routers import token, auth, img, profile, homepage, faculty, notice, classroom, committee, committee_member, research_assistant, equipment, equipment_booking, office_room, payment, payment_user, project, publication
 from .user import router as user_router
 from .student_profile import router as student_profile_router
 from .achievement import router as achievement_router
@@ -36,3 +36,4 @@ router.include_router(payment_user.router)
 router.include_router(achievement.router)
 router.include_router(course.router)
 router.include_router(project.router)
+router.include_router(publication.router)
