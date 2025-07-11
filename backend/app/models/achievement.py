@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import Column, String, Text, Date, Boolean, ForeignKey
+from sqlalchemy import Column, String, Text, Date, Boolean, ForeignKey, LargeBinary
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from db import Base
@@ -12,7 +12,7 @@ class Achievement(Base):
     description = Column(Text)
     date = Column(Date, nullable=False)
     awarding_organization = Column(String(200))
-    image_url = Column(String(255))  # Store image path or URL
+    image_data = Column(LargeBinary)  # Store image as a BLOB
     team_name = Column(String(200), nullable=True)
 
     winners = relationship('AchievementWinner', back_populates='achievement', cascade='all, delete-orphan')

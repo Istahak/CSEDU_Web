@@ -4,6 +4,7 @@ from typing import List, Optional
 from models.achievement import Achievement, AchievementWinner
 from schemas.requests.achievement import AchievementCreate, AchievementUpdate
 from datetime import date
+import base64
 
 # CRUD for Achievement
 
@@ -17,13 +18,20 @@ def get_achievements_by_user_id(db: Session, user_id: UUID) -> List[Achievement]
     return db.query(Achievement).join(AchievementWinner).filter(AchievementWinner.user_id == user_id).all()
 
 def create_achievement(db: Session, data: AchievementCreate) -> Achievement:
+    # Decode base64 image if provided
+    image_data = None
+    if data.image_base64:
+        try:
+            image_data = base64.b64decode(data.image_base64)
+        except Exception:
+            image_data = None  # Optionally, handle error/log
     achievement = Achievement(
         title=data.title,
         category=data.category,
         description=data.description,
         date=data.date,
         awarding_organization=data.awarding_organization,
-        image_url=data.image_url,
+        image_data=image_data,
         team_name=getattr(data, 'team_name', None)
     )
     db.add(achievement)
@@ -50,6 +58,14 @@ def update_achievement(db: Session, achievement_id: UUID, data: AchievementUpdat
                     db.add(winner)
         elif key == "team_name":
             setattr(achievement, "team_name", value)
+        elif key == "image_base64":
+            if value:
+                try:
+                    achievement.image_data = base64.b64decode(value)
+                except Exception:
+                    achievement.image_data = None  # Optionally, handle error/log
+            else:
+                achievement.image_data = None
         else:
             setattr(achievement, key, value)
     db.commit()

@@ -18,7 +18,7 @@ class AchievementResponse(BaseModel):
     description: Optional[str] = None
     date: date
     awarding_organization: Optional[str] = None
-    image_url: Optional[str] = None
+    image_base64: Optional[str] = None  # base64 encoded image string
     team_name: Optional[str] = None
     winners: List[AchievementWinnerResponse] = []
 
