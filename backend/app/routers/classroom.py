@@ -35,7 +35,7 @@ def get_all_classrooms(
     """
     return ClassroomService.get_all_classrooms(db, skip=skip, limit=limit)
 
-@router.get("/{classroom_id}", response_model=ClassroomResponse)
+@router.get("/by-id/{classroom_id}", response_model=ClassroomResponse)
 def get_classroom_by_id(
     classroom_id: str,
     db: Session = Depends(get_db),

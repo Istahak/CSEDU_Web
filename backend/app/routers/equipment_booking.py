@@ -57,7 +57,7 @@ def get_pending_equipment_bookings(
     """
     return EquipmentBookingService.get_pending_equipment_bookings(db, skip=skip, limit=limit)
 
-@router.get("/{booking_id}", response_model=EquipmentBookingResponse)
+@router.get("/by-id/{booking_id}", response_model=EquipmentBookingResponse)
 def get_equipment_booking_by_id(
     booking_id: str,
     db: Session = Depends(get_db),
