@@ -13,6 +13,7 @@ class UserResponse(BaseModel):
     id: UUID
     user_name: str
     email: str
+    image: Optional[str] = None  # base64 encoded user image
 
     class Config:
         from_attributes = True

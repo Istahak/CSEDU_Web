@@ -3,9 +3,6 @@ import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-// added by miraj
-import authService from "./api/AuthService";
-import TestSignup from "./TestSignup"; // added by miraj
 import Directory from "./pages/Directory";
 import FacultyProfile from "./pages/FacultyProfile";
 import Academics from "./pages/Academics";
@@ -39,6 +36,7 @@ import ReserveRoom from "./pages/ReserveRoom";
 import LabBooking from "./pages/LabBooking";
 import LabBookingSuccess from "./pages/LabBookingSuccess";
 import Signup from "./pages/Signup";
+import TeacherEditProfile from "./pages/TeacherEditProfile";
 import "./styles/App.css";
 
 function App() {
@@ -121,15 +119,10 @@ function App() {
     setCurrentPage("home");
   };
 
-  const handleSignup = () => {
-    // Simply navigate to login page after signup is handled in the Signup component
-    setCurrentPage("login");
-  };
-
   const handleLogout = () => {
     setIsAuthenticated(false);
     setUserRole(null);
-    setCurrentPage("login");
+    setCurrentPage("home");
   };
 
   // If not authenticated and currentPage is 'login', show login page with header
@@ -159,7 +152,7 @@ function App() {
           onLogout={handleLogout}
         />
         <Signup
-          onSignup={handleSignup}
+          onSignup={() => setCurrentPage("login")}
           onBack={() => setCurrentPage("login")}
         />
       </>
@@ -353,6 +346,7 @@ function App() {
         return (
           <AcademicCalendar
             onExamsClick={() => setCurrentPage("exam-schedule")}
+            userRole={userRole}
           />
         );
       case "academic-calendar-view":
@@ -364,7 +358,10 @@ function App() {
         );
       case "exam-schedule":
         return (
-          <ExamSchedule onBack={() => setCurrentPage("academic-calendar")} />
+          <ExamSchedule
+            onBack={() => setCurrentPage("academic-calendar")}
+            userRole={userRole}
+          />
         );
       case "notices":
         return (

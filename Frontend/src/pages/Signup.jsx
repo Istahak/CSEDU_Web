@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import "./Login.css";
-// added by miraj
-import authService from "../api/AuthService";
 
 const Signup = ({ onSignup, onBack }) => {
   const [selectedRole, setSelectedRole] = useState("");
@@ -34,43 +32,10 @@ const Signup = ({ onSignup, onBack }) => {
       return;
     }
     setIsLoading(true);
-    
-    try {
-      // added by miraj
-      // Create a username from email but ensure it's alphanumeric and at least 3 chars
-      const emailUsername = email.split('@')[0];
-      const username = emailUsername.replace(/[^a-zA-Z0-9]/g, '') || 'user';
-      const finalUsername = username.length >= 3 ? username : username + '123';
-      
-      const userData = {
-        user_name: finalUsername,
-        full_name: name,
-        email: email,
-        password: password,
-        role: selectedRole
-      };
-      
-      console.log('Attempting to sign up with:', userData);
-      
-      // Direct call to authService.signup
-      const response = await authService.signup(userData);
-      
-      console.log('Signup successful:', response);
-      
-      // Show success message
-      alert(`Account created successfully! Username: ${finalUsername}\nPlease log in with your credentials.`);
-      
-      // On successful signup, call the onSignup prop to navigate to login page
-      if (onSignup) {
-        onSignup();
-      }
-    } catch (error) {
-      console.error('Signup error in component:', error);
-      // Handle signup error
-      setError(error.message || error.data?.message || "Signup failed. Please try again.");
-    } finally {
+    setTimeout(() => {
       setIsLoading(false);
-    }
+      if (onSignup) onSignup({ name, email, role: selectedRole });
+    }, 1200);
   };
 
   const getRoleDisplayName = (role) => {
@@ -127,7 +92,7 @@ const Signup = ({ onSignup, onBack }) => {
             </div>
           </>
         ) : (
-          <div className="login-form-container" style={{ maxHeight: '80vh', overflowY: 'auto' }}>
+          <div className="login-form-container">
             <div className="form-header-row">
               <button 
                 className="back-button"

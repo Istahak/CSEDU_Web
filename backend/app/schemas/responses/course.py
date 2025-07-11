@@ -1,37 +1,46 @@
-from typing import Optional
+from typing import List, Optional
+from uuid import UUID
 from pydantic import BaseModel
-from datetime import datetime
-from schemas.responses.faculty import FacultyResponse
 
+class CourseSyllabusItem(BaseModel):
+    id: UUID
+    title: str
+    topic: str
+
+class LearningOutcome(BaseModel):
+    id: UUID
+    outcome: str
+
+class AssessmentMethod(BaseModel):
+    id: UUID
+    method_type: str
+    value: str
+
+class RequiredTextbook(BaseModel):
+    id: UUID
+    title: str
+    author: Optional[str]
+    edition: Optional[str]
+    isbn: Optional[str]
 
 class CourseResponse(BaseModel):
-    """Schema for course response data"""
-    id: int
-    course_code: str
+    id: UUID
     course_title: str
-    instructor: FacultyResponse
-    credits: float
+    course_code: str
+    intro: Optional[str]
+    credit: float
+    duration: Optional[str]
+    instructor_id: Optional[UUID]
+    instructor_other: Optional[str]
+    schedule: Optional[str]
+    classroom_id: Optional[UUID]
+    pre_requisites: List[UUID]
+    syllabus_items: List[CourseSyllabusItem]
+    learning_outcomes: List[LearningOutcome]
+    assessment_methods: List[AssessmentMethod]
+    required_textbooks: List[RequiredTextbook]
     semester: str
-    year: int
-    duration: str
-    difficulty_level: str
-    description: str
-    learning_outcomes: Optional[str] = None
-    prerequisites: Optional[str] = None
-    syllabus_topics: Optional[str] = None
-    schedule: str
-    location: Optional[str] = None
-    max_students: Optional[int] = None
-    language: Optional[str] = None
-    department: Optional[str] = None
-    status: str
-    assessment_methods: Optional[str] = None
-    required_textbooks: Optional[str] = None
-    references: Optional[str] = None
-    course_image: Optional[str] = None
-    is_active: bool = True
-    created_at: datetime
-    updated_at: Optional[datetime] = None
+    is_active: bool
 
     class Config:
-        from_attributes = True  # For newer Pydantic versions
+        orm_mode = True

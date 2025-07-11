@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import Column, Integer,  String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, LargeBinary
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from db import Base
@@ -12,12 +12,15 @@ class User(Base,CommonBase):
         email = Column(String, nullable=False, unique=True)
         password = Column(String, nullable=False)
         password_salt = Column(String, nullable=False)
+        image = Column(LargeBinary, nullable=True)  # Optional user image as BLOB
 
         role_id = Column(Integer, ForeignKey("roles.id"))
         role = relationship("Role", back_populates="users",foreign_keys=[role_id])
 
         profile = relationship("Profile", back_populates="user",cascade="all, delete-orphan")
-       
+        faculty = relationship("Faculty", back_populates="user", uselist=False)  # One-to-One relationship
+        student_profile = relationship("StudentProfile", back_populates="user", uselist=False, cascade="all, delete-orphan")
+        admin_profile = relationship("AdminProfile", back_populates="user", uselist=False, cascade="all, delete-orphan")
 
 class Profile(Base,CommonBase):
         __tablename__ = "profiles"
@@ -27,10 +30,7 @@ class Profile(Base,CommonBase):
         contact_number = Column(String, nullable=True)
         reg_no = Column(String, nullable=True, unique=True)
         bio = Column(String, nullable=True)
-        
 
-
-       
 
         # session_id = Column(ForeignKey("sessions.id"))
         # session = relationship("Session", back_populates="profiles", foreign_keys=[session_id])
@@ -48,4 +48,3 @@ class UserSession(Base,CommonBase):
         device = Column(String, nullable=False)
         browser = Column(String, nullable=False)
         token = Column(String, nullable=False)
-

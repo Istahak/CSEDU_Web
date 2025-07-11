@@ -249,6 +249,21 @@
 /* Section Headers */
 .section-header {
   margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.section-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.section-header-text {
+  flex: 1;
 }
 
 .section-header h3 {
@@ -256,12 +271,33 @@
   font-weight: 600;
   color: #2c3e50;
   margin-bottom: 0.5rem;
+  margin-top: 0;
 }
 
 .section-subtitle {
   font-size: 1rem;
   color: #6c757d;
   margin: 0;
+}
+
+.create-course-btn {
+  padding: 0.75rem 1.5rem;
+  background: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.create-course-btn:hover {
+  background: #219a52;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(39, 174, 96, 0.2);
 }
 
 .tab-content h4 {
@@ -298,321 +334,1561 @@
   transform: translateY(-2px);
 }
 
-/* Card Headers */
-.card-header {
-  padding: 1.25rem 1.5rem 0.75rem;
+/* Course Card Styling for Administrative Committee Cards */
+.admin-committee-card.course-card-style {
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 1.5rem;
+  background-color: #fff;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  height: 280px;
   display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.admin-committee-card.course-card-style:hover {
+  border-color: #2c3e50;
+  box-shadow: 0 4px 12px rgba(44, 62, 80, 0.1);
+  transform: translateY(-2px);
+}
+
+.admin-committee-card .course-card-header {
+  display: flex;
+  justify-content: space-between;
   align-items: flex-start;
+  margin-bottom: 1rem;
   gap: 1rem;
+  flex-shrink: 0;
 }
 
-.card-content {
-  padding: 0 1.5rem 1rem;
+.admin-committee-card .course-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
   flex: 1;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.card-actions {
-  padding: 0 1.5rem 1.25rem;
-  display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
+.admin-committee-card .course-badge {
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
-/* Info Rows */
-.info-row {
+.admin-committee-card .course-badge.member {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.admin-committee-card .course-badge.co-chair {
+  background-color: #fff3e0;
+  color: #f57c00;
+}
+
+.admin-committee-card .course-badge.chair {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.admin-committee-card .course-description {
+  color: #6c757d;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+  flex: 1;
+  overflow: hidden;
+}
+
+.admin-committee-card .course-info-row {
   display: flex;
+  justify-content: space-between;
   align-items: flex-start;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
+  padding: 0.25rem 0;
 }
 
-.info-row:last-child {
+.admin-committee-card .course-info-row:last-child {
   margin-bottom: 0;
 }
 
-.info-label {
-  font-size: 0.9rem;
-  color: #6c757d;
+.admin-committee-card .course-info-label {
   font-weight: 500;
-  min-width: fit-content;
-}
-
-.info-value {
-  font-size: 0.9rem;
-  color: #2c3e50;
-  font-weight: 400;
-  flex: 1;
-}
-
-/* Course Cards */
-.course-meta h4 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #2c3e50;
-  margin: 0 0 0.25rem 0;
-}
-
-.section-badge {
-  display: inline-block;
-  background: #f8f9fa;
-  color: #6c757d;
-  padding: 0.25rem 0.75rem;
-  border-radius: 4px;
+  color: #495057;
   font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.admin-committee-card .course-info-value {
   font-weight: 500;
-  border: 1px solid #e9ecef;
-}
-
-/* Course Badges */
-.course-badge {
-  padding: 0.4rem 0.8rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  min-width: fit-content;
-}
-
-.course-badge.academic {
-  background-color: rgba(74, 144, 226, 0.15);
-  border: 2px solid rgba(74, 144, 226, 0.3);
-  color: #4a90e2;
-}
-
-.course-badge.workshop {
-  background-color: rgba(255, 193, 7, 0.15);
-  border: 2px solid rgba(255, 193, 7, 0.3);
-  color: #ffc107;
-}
-
-.course-badge.technology {
-  background-color: rgba(39, 174, 96, 0.15);
-  border: 2px solid rgba(39, 174, 96, 0.3);
-  color: #27ae60;
-}
-
-/* Research Cards */
-.research-card .project-meta h4 {
-  font-size: 1.1rem;
-  font-weight: 600;
   color: #2c3e50;
-  margin: 0 0 0.25rem 0;
+  font-size: 0.8rem;
+  text-align: right;
+  flex: 1;
+  margin-left: 0.5rem;
+  line-height: 1.3;
 }
 
-.project-period {
-  font-size: 0.85rem;
-  color: #6c757d;
-  margin: 0;
-}
-
-.status-badge {
-  padding: 0.3rem 0.8rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.status-badge.active {
-  background-color: rgba(39, 174, 96, 0.15);
-  border: 2px solid rgba(39, 174, 96, 0.3);
-  color: #27ae60;
-}
-
-/* Publication Cards */
-.publication-card .publication-meta h4 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #2c3e50;
-  margin: 0 0 0.25rem 0;
-  line-height: 1.4;
-}
-
-.publication-venue {
-  font-size: 0.85rem;
-  color: #6c757d;
-  margin: 0;
-  font-style: italic;
-}
-
-.publication-badge {
-  padding: 0.3rem 0.8rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.publication-badge.journal {
-  background-color: rgba(16, 185, 129, 0.15);
-  border: 2px solid rgba(16, 185, 129, 0.3);
-  color: #10b981;
-}
-
-.publication-badge.conference {
-  background-color: rgba(139, 69, 19, 0.15);
-  border: 2px solid rgba(139, 69, 19, 0.3);
-  color: #8b4513;
-}
-
-/* Student Cards */
-.student-card .student-meta h4 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #2c3e50;
-  margin: 0 0 0.25rem 0;
-}
-
-.student-id {
-  font-size: 0.85rem;
-  color: #6c757d;
-  margin: 0;
-  font-family: 'Courier New', monospace;
-}
-
-.progress-badge {
-  padding: 0.3rem 0.8rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.progress-badge.high {
-  background-color: rgba(39, 174, 96, 0.15);
-  border: 2px solid rgba(39, 174, 96, 0.3);
-  color: #27ae60;
-}
-
-.progress-badge.medium {
-  background-color: rgba(255, 193, 7, 0.15);
-  border: 2px solid rgba(255, 193, 7, 0.3);
-  color: #ffc107;
-}
-
-.role-badge {
-  padding: 0.3rem 0.8rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.role-badge.assistant {
-  background-color: rgba(74, 144, 226, 0.15);
-  border: 2px solid rgba(74, 144, 226, 0.3);
-  color: #4a90e2;
-}
-
-/* Overview Section */
-.overview-section {
-  width: 100%;
-}
-
-.info-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.info-item {
+/* Administrative Committee Card Footer and Actions */
+.admin-committee-card .course-footer {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  padding: 1rem;
-  background: #f8f9fa;
-  border-radius: 8px;
-  border-left: 4px solid #27ae60;
+  gap: 0.75rem;
+  flex-shrink: 0;
+  margin-top: auto;
 }
 
-.info-item .label {
-  font-weight: 600;
-  color: #6c757d;
-  font-size: 0.9rem;
-}
-
-.info-item .value {
-  font-weight: 500;
-  color: #2c3e50;
-  font-size: 1rem;
-}
-
-/* Subsections styling */
-.research-subsection,
-.students-subsection {
-  margin-bottom: 2rem;
-}
-
-.research-item h5,
-.publication-item h5 {
-  color: #2c3e50;
-  margin-bottom: 0.75rem;
-}
-
-.research-item p,
-.publication-item p {
-  margin: 0.5rem 0;
-  color: #6c757d;
-}
-
-.status-active {
-  background: #27ae60;
-  color: white;
-  padding: 0.2rem 0.6rem;
-  border-radius: 15px;
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-/* Students Section */
-.students-section {
-  width: 100%;
-}
-
-.students-subsection {
-  margin-bottom: 2rem;
-}
-
-.student-list {
-  display: grid;
-  gap: 1.5rem;
-}
-
-.student-item {
-  background: #f8f9fa;
-  border-radius: 8px;
-  padding: 1.5rem;
-  border-left: 4px solid #3498db;
+.admin-committee-card .course-actions {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.student-info h5 {
-  margin: 0 0 0.5rem 0;
-  color: #2c3e50;
-}
-
-.student-info p {
-  margin: 0.25rem 0;
-  color: #6c757d;
-}
-
-.student-actions {
-  display: flex;
-  gap: 0.5rem;
+  gap: 0.75rem;
   flex-wrap: wrap;
 }
 
-/* Schedule Section */
+.admin-committee-card .course-action-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 120px;
+  min-height: 36px;
+}
+
+.admin-committee-card .course-action-btn.primary {
+  background-color: #27ae60;
+  color: #ffffff;
+}
+
+.admin-committee-card .course-action-btn.primary:hover {
+  background-color: #219a52;
+  transform: translateY(-1px);
+}
+
+/* Responsive Design for Administrative Committee Cards */
+@media (max-width: 768px) {
+  .admin-committee-card.course-card-style {
+    height: auto;
+    min-height: 250px;
+  }
+
+  .admin-committee-card .course-card-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .admin-committee-card .course-badge {
+    align-self: flex-start;
+  }
+
+  .admin-committee-card .course-info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .admin-committee-card .course-info-value {
+    text-align: left;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-committee-card.course-card-style {
+    padding: 1rem;
+    min-height: 220px;
+  }
+
+  .admin-committee-card .course-title {
+    font-size: 0.9rem;
+  }
+
+  .admin-committee-card .course-info-label,
+  .admin-committee-card .course-info-value {
+    font-size: 0.75rem;
+  }
+
+  .admin-committee-card .course-action-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.7rem;
+    min-height: 34px;
+    min-width: 100px;
+  }
+}
+
+/* Profile Navigation Section */
+.profile-navigation-section {
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  border: 1px solid #e9ecef;
+}
+
+.profile-nav-tab {
+  background: none;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  color: #6c757d;
+  font-size: 0.95rem;
+}
+
+.profile-nav-tab:hover {
+  background: #f8f9fa;
+  color: #27ae60;
+}
+
+.profile-nav-tab.active {
+  background: #27ae60;
+  color: white;
+}
+
+/* Profile Content Section */
+.profile-content-section {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  min-height: 500px;
+  border: 1px solid #e9ecef;
+}
+
+/* Tab Content Styling */
+.tab-content {
+  width: 100%;
+}
+
+/* Section Headers */
+.section-header {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.section-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.section-header-text {
+  flex: 1;
+}
+
+.section-header h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  margin-top: 0;
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  color: #6c757d;
+  margin: 0;
+}
+
+.create-course-btn {
+  padding: 0.75rem 1.5rem;
+  background: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.create-course-btn:hover {
+  background: #219a52;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(39, 174, 96, 0.2);
+}
+
+.tab-content h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #34495e;
+  margin: 2rem 0 1rem 0;
+}
+
+/* Modern Card Grid Layout */
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Modern Content Cards */
+.content-card {
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  background-color: #fff;
+  transition: all 0.2s ease;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.content-card:hover {
+  border-color: #27ae60;
+  box-shadow: 0 4px 12px rgba(39, 174, 96, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Course Card Styling for Administrative Committee Cards */
+.admin-committee-card.course-card-style {
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 1.5rem;
+  background-color: #fff;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  height: 280px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.admin-committee-card.course-card-style:hover {
+  border-color: #2c3e50;
+  box-shadow: 0 4px 12px rgba(44, 62, 80, 0.1);
+  transform: translateY(-2px);
+}
+
+.admin-committee-card .course-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.admin-committee-card .course-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+  flex: 1;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-committee-card .course-badge {
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.admin-committee-card .course-badge.member {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.admin-committee-card .course-badge.co-chair {
+  background-color: #fff3e0;
+  color: #f57c00;
+}
+
+.admin-committee-card .course-badge.chair {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.admin-committee-card .course-description {
+  color: #6c757d;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+  flex: 1;
+  overflow: hidden;
+}
+
+.admin-committee-card .course-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+  padding: 0.25rem 0;
+}
+
+.admin-committee-card .course-info-row:last-child {
+  margin-bottom: 0;
+}
+
+.admin-committee-card .course-info-label {
+  font-weight: 500;
+  color: #495057;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.admin-committee-card .course-info-value {
+  font-weight: 500;
+  color: #2c3e50;
+  font-size: 0.8rem;
+  text-align: right;
+  flex: 1;
+  margin-left: 0.5rem;
+  line-height: 1.3;
+}
+
+/* Administrative Committee Card Footer and Actions */
+.admin-committee-card .course-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
+.admin-committee-card .course-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.admin-committee-card .course-action-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 120px;
+  min-height: 36px;
+}
+
+.admin-committee-card .course-action-btn.primary {
+  background-color: #27ae60;
+  color: #ffffff;
+}
+
+.admin-committee-card .course-action-btn.primary:hover {
+  background-color: #219a52;
+  transform: translateY(-1px);
+}
+
+/* Responsive Design for Administrative Committee Cards */
+@media (max-width: 768px) {
+  .admin-committee-card.course-card-style {
+    height: auto;
+    min-height: 250px;
+  }
+
+  .admin-committee-card .course-card-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .admin-committee-card .course-badge {
+    align-self: flex-start;
+  }
+
+  .admin-committee-card .course-info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .admin-committee-card .course-info-value {
+    text-align: left;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-committee-card.course-card-style {
+    padding: 1rem;
+    min-height: 220px;
+  }
+
+  .admin-committee-card .course-title {
+    font-size: 0.9rem;
+  }
+
+  .admin-committee-card .course-info-label,
+  .admin-committee-card .course-info-value {
+    font-size: 0.75rem;
+  }
+
+  .admin-committee-card .course-action-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.7rem;
+    min-height: 34px;
+    min-width: 100px;
+  }
+}
+
+/* Profile Navigation Section */
+.profile-navigation-section {
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  border: 1px solid #e9ecef;
+}
+
+.profile-nav-tab {
+  background: none;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  color: #6c757d;
+  font-size: 0.95rem;
+}
+
+.profile-nav-tab:hover {
+  background: #f8f9fa;
+  color: #27ae60;
+}
+
+.profile-nav-tab.active {
+  background: #27ae60;
+  color: white;
+}
+
+/* Profile Content Section */
+.profile-content-section {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  min-height: 500px;
+  border: 1px solid #e9ecef;
+}
+
+/* Tab Content Styling */
+.tab-content {
+  width: 100%;
+}
+
+/* Section Headers */
+.section-header {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.section-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.section-header-text {
+  flex: 1;
+}
+
+.section-header h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  margin-top: 0;
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  color: #6c757d;
+  margin: 0;
+}
+
+.create-course-btn {
+  padding: 0.75rem 1.5rem;
+  background: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.create-course-btn:hover {
+  background: #219a52;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(39, 174, 96, 0.2);
+}
+
+.tab-content h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #34495e;
+  margin: 2rem 0 1rem 0;
+}
+
+/* Modern Card Grid Layout */
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Modern Content Cards */
+.content-card {
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  background-color: #fff;
+  transition: all 0.2s ease;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.content-card:hover {
+  border-color: #27ae60;
+  box-shadow: 0 4px 12px rgba(39, 174, 96, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Course Card Styling for Administrative Committee Cards */
+.admin-committee-card.course-card-style {
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 1.5rem;
+  background-color: #fff;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  height: 280px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.admin-committee-card.course-card-style:hover {
+  border-color: #2c3e50;
+  box-shadow: 0 4px 12px rgba(44, 62, 80, 0.1);
+  transform: translateY(-2px);
+}
+
+.admin-committee-card .course-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.admin-committee-card .course-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+  flex: 1;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-committee-card .course-badge {
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.admin-committee-card .course-badge.member {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.admin-committee-card .course-badge.co-chair {
+  background-color: #fff3e0;
+  color: #f57c00;
+}
+
+.admin-committee-card .course-badge.chair {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.admin-committee-card .course-description {
+  color: #6c757d;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+  flex: 1;
+  overflow: hidden;
+}
+
+.admin-committee-card .course-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+  padding: 0.25rem 0;
+}
+
+.admin-committee-card .course-info-row:last-child {
+  margin-bottom: 0;
+}
+
+.admin-committee-card .course-info-label {
+  font-weight: 500;
+  color: #495057;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.admin-committee-card .course-info-value {
+  font-weight: 500;
+  color: #2c3e50;
+  font-size: 0.8rem;
+  text-align: right;
+  flex: 1;
+  margin-left: 0.5rem;
+  line-height: 1.3;
+}
+
+/* Administrative Committee Card Footer and Actions */
+.admin-committee-card .course-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
+.admin-committee-card .course-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.admin-committee-card .course-action-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 120px;
+  min-height: 36px;
+}
+
+.admin-committee-card .course-action-btn.primary {
+  background-color: #27ae60;
+  color: #ffffff;
+}
+
+.admin-committee-card .course-action-btn.primary:hover {
+  background-color: #219a52;
+  transform: translateY(-1px);
+}
+
+/* Responsive Design for Administrative Committee Cards */
+@media (max-width: 768px) {
+  .admin-committee-card.course-card-style {
+    height: auto;
+    min-height: 250px;
+  }
+
+  .admin-committee-card .course-card-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .admin-committee-card .course-badge {
+    align-self: flex-start;
+  }
+
+  .admin-committee-card .course-info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .admin-committee-card .course-info-value {
+    text-align: left;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-committee-card.course-card-style {
+    padding: 1rem;
+    min-height: 220px;
+  }
+
+  .admin-committee-card .course-title {
+    font-size: 0.9rem;
+  }
+
+  .admin-committee-card .course-info-label,
+  .admin-committee-card .course-info-value {
+    font-size: 0.75rem;
+  }
+
+  .admin-committee-card .course-action-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.7rem;
+    min-height: 34px;
+    min-width: 100px;
+  }
+}
+
+/* Profile Navigation Section */
+.profile-navigation-section {
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  border: 1px solid #e9ecef;
+}
+
+.profile-nav-tab {
+  background: none;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  color: #6c757d;
+  font-size: 0.95rem;
+}
+
+.profile-nav-tab:hover {
+  background: #f8f9fa;
+  color: #27ae60;
+}
+
+.profile-nav-tab.active {
+  background: #27ae60;
+  color: white;
+}
+
+/* Profile Content Section */
+.profile-content-section {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  min-height: 500px;
+  border: 1px solid #e9ecef;
+}
+
+/* Tab Content Styling */
+.tab-content {
+  width: 100%;
+}
+
+/* Section Headers */
+.section-header {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.section-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.section-header-text {
+  flex: 1;
+}
+
+.section-header h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  margin-top: 0;
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  color: #6c757d;
+  margin: 0;
+}
+
+.create-course-btn {
+  padding: 0.75rem 1.5rem;
+  background: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.create-course-btn:hover {
+  background: #219a52;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(39, 174, 96, 0.2);
+}
+
+.tab-content h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #34495e;
+  margin: 2rem 0 1rem 0;
+}
+
+/* Modern Card Grid Layout */
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Modern Content Cards */
+.content-card {
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  background-color: #fff;
+  transition: all 0.2s ease;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.content-card:hover {
+  border-color: #27ae60;
+  box-shadow: 0 4px 12px rgba(39, 174, 96, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Course Card Styling for Administrative Committee Cards */
+.admin-committee-card.course-card-style {
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 1.5rem;
+  background-color: #fff;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  height: 280px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.admin-committee-card.course-card-style:hover {
+  border-color: #2c3e50;
+  box-shadow: 0 4px 12px rgba(44, 62, 80, 0.1);
+  transform: translateY(-2px);
+}
+
+.admin-committee-card .course-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.admin-committee-card .course-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+  flex: 1;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-committee-card .course-badge {
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.admin-committee-card .course-badge.member {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.admin-committee-card .course-badge.co-chair {
+  background-color: #fff3e0;
+  color: #f57c00;
+}
+
+.admin-committee-card .course-badge.chair {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.admin-committee-card .course-description {
+  color: #6c757d;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+  flex: 1;
+  overflow: hidden;
+}
+
+.admin-committee-card .course-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+  padding: 0.25rem 0;
+}
+
+.admin-committee-card .course-info-row:last-child {
+  margin-bottom: 0;
+}
+
+.admin-committee-card .course-info-label {
+  font-weight: 500;
+  color: #495057;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.admin-committee-card .course-info-value {
+  font-weight: 500;
+  color: #2c3e50;
+  font-size: 0.8rem;
+  text-align: right;
+  flex: 1;
+  margin-left: 0.5rem;
+  line-height: 1.3;
+}
+
+/* Administrative Committee Card Footer and Actions */
+.admin-committee-card .course-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
+.admin-committee-card .course-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.admin-committee-card .course-action-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 120px;
+  min-height: 36px;
+}
+
+.admin-committee-card .course-action-btn.primary {
+  background-color: #27ae60;
+  color: #ffffff;
+}
+
+.admin-committee-card .course-action-btn.primary:hover {
+  background-color: #219a52;
+  transform: translateY(-1px);
+}
+
+/* Responsive Design for Administrative Committee Cards */
+@media (max-width: 768px) {
+  .admin-committee-card.course-card-style {
+    height: auto;
+    min-height: 250px;
+  }
+
+  .admin-committee-card .course-card-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .admin-committee-card .course-badge {
+    align-self: flex-start;
+  }
+
+  .admin-committee-card .course-info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .admin-committee-card .course-info-value {
+    text-align: left;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-committee-card.course-card-style {
+    padding: 1rem;
+    min-height: 220px;
+  }
+
+  .admin-committee-card .course-title {
+    font-size: 0.9rem;
+  }
+
+  .admin-committee-card .course-info-label,
+  .admin-committee-card .course-info-value {
+    font-size: 0.75rem;
+  }
+
+  .admin-committee-card .course-action-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.7rem;
+    min-height: 34px;
+    min-width: 100px;
+  }
+}
+
+/* Profile Navigation Section */
+.profile-navigation-section {
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  border: 1px solid #e9ecef;
+}
+
+.profile-nav-tab {
+  background: none;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  color: #6c757d;
+  font-size: 0.95rem;
+}
+
+.profile-nav-tab:hover {
+  background: #f8f9fa;
+  color: #27ae60;
+}
+
+.profile-nav-tab.active {
+  background: #27ae60;
+  color: white;
+}
+
+/* Profile Content Section */
+.profile-content-section {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  min-height: 500px;
+  border: 1px solid #e9ecef;
+}
+
+/* Tab Content Styling */
+.tab-content {
+  width: 100%;
+}
+
+/* Section Headers */
+.section-header {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.section-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.section-header-text {
+  flex: 1;
+}
+
+.section-header h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  margin-top: 0;
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  color: #6c757d;
+  margin: 0;
+}
+
+.create-course-btn {
+  padding: 0.75rem 1.5rem;
+  background: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.create-course-btn:hover {
+  background: #219a52;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(39, 174, 96, 0.2);
+}
+
+.tab-content h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #34495e;
+  margin: 2rem 0 1rem 0;
+}
+
+/* Modern Card Grid Layout */
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Modern Content Cards */
+.content-card {
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  background-color: #fff;
+  transition: all 0.2s ease;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.content-card:hover {
+  border-color: #27ae60;
+  box-shadow: 0 4px 12px rgba(39, 174, 96, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Course Card Styling for Administrative Committee Cards */
+.admin-committee-card.course-card-style {
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 1.5rem;
+  background-color: #fff;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  height: 280px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.admin-committee-card.course-card-style:hover {
+  border-color: #2c3e50;
+  box-shadow: 0 4px 12px rgba(44, 62, 80, 0.1);
+  transform: translateY(-2px);
+}
+
+.admin-committee-card .course-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.admin-committee-card .course-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+  flex: 1;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-committee-card .course-badge {
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.admin-committee-card .course-badge.member {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.admin-committee-card .course-badge.co-chair {
+  background-color: #fff3e0;
+  color: #f57c00;
+}
+
+.admin-committee-card .course-badge.chair {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.admin-committee-card .course-description {
+  color: #6c757d;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+  flex: 1;
+  overflow: hidden;
+}
+
+.admin-committee-card .course-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+  padding: 0.25rem 0;
+}
+
+.admin-committee-card .course-info-row:last-child {
+  margin-bottom: 0;
+}
+
+.admin-committee-card .course-info-label {
+  font-weight: 500;
+  color: #495057;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.admin-committee-card .course-info-value {
+  font-weight: 500;
+  color: #2c3e50;
+  font-size: 0.8rem;
+  text-align: right;
+  flex: 1;
+  margin-left: 0.5rem;
+  line-height: 1.3;
+}
+
+/* Administrative Committee Card Footer and Actions */
+.admin-committee-card .course-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
+.admin-committee-card .course-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.admin-committee-card .course-action-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 120px;
+  min-height: 36px;
+}
+
+.admin-committee-card .course-action-btn.primary {
+  background-color: #27ae60;
+  color: #ffffff;
+}
+
+.admin-committee-card .course-action-btn.primary:hover {
+  background-color: #219a52;
+  transform: translateY(-1px);
+}
+
+/* Responsive Design for Administrative Committee Cards */
+@media (max-width: 768px) {
+  .admin-committee-card.course-card-style {
+    height: auto;
+    min-height: 250px;
+  }
+
+  .admin-committee-card .course-card-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .admin-committee-card .course-badge {
+    align-self: flex-start;
+  }
+
+  .admin-committee-card .course-info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .admin-committee-card .course-info-value {
+    text-align: left;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-committee-card.course-card-style {
+    padding: 1rem;
+    min-height: 220px;
+  }
+
+  .admin-committee-card .course-title {
+    font-size: 0.9rem;
+  }
+
+  .admin-committee-card .course-info-label,
+  .admin-committee-card .course-info-value {
+    font-size: 0.75rem;
+  }
+
+  .admin-committee-card .course-action-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.7rem;
+    min-height: 34px;
+    min-width: 100px;
+  }
+}
+
+/* Schedule Section - Calendar-like Interface */
 .schedule-section {
   width: 100%;
+  margin-bottom: 2rem;
 }
 
 .schedule-grid {
@@ -622,6 +1898,7 @@
   background: #dee2e6;
   border-radius: 8px;
   overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .schedule-header {
@@ -635,6 +1912,7 @@
   padding: 1rem;
   font-weight: 600;
   text-align: center;
+  font-size: 0.9rem;
 }
 
 .schedule-row {
@@ -650,15 +1928,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 0.85rem;
 }
 
 .schedule-cell {
   background: white;
   padding: 0.5rem;
-  min-height: 60px;
+  min-height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 .schedule-cell.empty {
@@ -674,26 +1954,56 @@
   border-radius: 4px;
   width: 100%;
   font-size: 0.85rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
 
 .class-item {
   background: #e3f2fd;
   border: 1px solid #2196f3;
+  color: #1976d2;
+}
+
+.class-item:hover {
+  background: #bbdefb;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(33, 150, 243, 0.2);
 }
 
 .meeting-item {
   background: #f3e5f5;
   border: 1px solid #9c27b0;
+  color: #7b1fa2;
+}
+
+.meeting-item:hover {
+  background: #e1bee7;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(156, 39, 176, 0.2);
 }
 
 .office-hours {
   background: #e8f5e8;
   border: 1px solid #4caf50;
+  color: #2e7d32;
+}
+
+.office-hours:hover {
+  background: #c8e6c8;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);
 }
 
 .committee-item {
   background: #fff3e0;
   border: 1px solid #ff9800;
+  color: #ef6c00;
+}
+
+.committee-item:hover {
+  background: #ffe0b2;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(255, 152, 0, 0.2);
 }
 
 .class-item strong,
@@ -702,392 +2012,64 @@
 .committee-item strong {
   display: block;
   margin-bottom: 0.25rem;
+  font-weight: 600;
+  font-size: 0.8rem;
 }
 
 .class-item span,
 .meeting-item span,
 .office-hours span,
 .committee-item span {
-  font-size: 0.75rem;
-  color: #666;
+  font-size: 0.7rem;
+  opacity: 0.8;
+  font-weight: 500;
 }
 
-/* Administrative Section */
-.administrative-section {
-  width: 100%;
-}
-
-.admin-subsection {
-  margin-bottom: 2rem;
-}
-
-.committee-list,
-.task-list {
-  display: grid;
-  gap: 1.5rem;
-}
-
-.committee-item,
-.task-item {
-  background: #f8f9fa;
-  border-radius: 8px;
-  padding: 1.5rem;
-  border-left: 4px solid #f39c12;
-}
-
-.task-item {
+/* Schedule Legend */
+.schedule-legend {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.task-info h5 {
-  margin: 0 0 0.5rem 0;
-  color: #2c3e50;
-}
-
-.task-info p {
-  margin: 0.25rem 0;
-  color: #6c757d;
-}
-
-.task-status {
-  flex-shrink: 0;
-}
-
-.status-progress {
-  background: #3498db;
-  color: white;
-  padding: 0.3rem 0.8rem;
-  border-radius: 15px;
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-.status-pending {
-  background: #f39c12;
-  color: white;
-  padding: 0.3rem 0.8rem;
-  border-radius: 15px;
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-.status-todo {
-  background: #e74c3c;
-  color: white;
-  padding: 0.3rem 0.8rem;
-  border-radius: 15px;
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-/* Action Buttons */
-.action-btn {
-  background: #f8f9fa;
-  color: #6c757d;
-  border: 1px solid #dee2e6;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 0.9rem;
-}
-
-.action-btn:hover {
-  background: #e9ecef;
-  transform: translateY(-1px);
-}
-
-.action-btn.primary {
-  background: #27ae60;
-  color: white;
-  border: none;
-}
-
-.action-btn.primary:hover {
-  background: #219a52;
-}
-
-.action-btn.secondary {
-  background: #6c757d;
-  color: white;
-  border: none;
-}
-
-.action-btn.secondary:hover {
-  background: #5a6268;
-}
-
-/* Quick Actions Section */
-.quick-actions-section {
-  background: white;
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.quick-actions-section h3 {
-  color: #2c3e50;
-  font-size: 1.8rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-}
-
-.section-description {
-  color: #6c757d;
-  font-size: 1rem;
-  margin-bottom: 2rem;
-  line-height: 1.5;
-}
-
-.actions-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  justify-content: center;
   gap: 2rem;
-}
-
-.action-category {
+  margin-top: 1rem;
+  padding: 1rem;
   background: #f8f9fa;
-  border-radius: 12px;
-  padding: 1.5rem;
-  border: 1px solid #e9ecef;
-  transition: all 0.3s ease;
+  border-radius: 6px;
+  flex-wrap: wrap;
 }
 
-.action-category:hover {
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
-}
-
-.action-category h4 {
-  color: #2c3e50;
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid #e9ecef;
-}
-
-.action-buttons {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1rem;
-}
-
-.quick-action-btn {
+.legend-item {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 1rem;
-  background: white;
-  border: 2px solid #e9ecef;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-align: left;
-  min-height: 80px;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #495057;
 }
 
-.quick-action-btn:hover {
-  border-color: #4a90e2;
-  background: #f8f9fa;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.15);
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.quick-action-btn:active {
-  transform: translateY(0);
+.legend-color.class {
+  background: #e3f2fd;
 }
 
-.btn-icon {
-  font-size: 1.5rem;
-  flex-shrink: 0;
+.legend-color.meeting {
+  background: #f3e5f5;
 }
 
-.btn-text {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  flex: 1;
+.legend-color.office {
+  background: #e8f5e8;
 }
 
-.btn-text strong {
-  color: #2c3e50;
-  font-size: 0.9rem;
-  font-weight: 600;
-  line-height: 1.2;
+.legend-color.committee {
+  background: #fff3e0;
 }
 
-.btn-text small {
-  color: #6c757d;
-  font-size: 0.8rem;
-  line-height: 1.3;
-}
-
-/* Category specific colors */
-.action-category:nth-child(1) h4 {
-  color: #e74c3c;
-}
-
-.action-category:nth-child(1) .quick-action-btn:hover {
-  border-color: #e74c3c;
-  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.15);
-}
-
-.action-category:nth-child(2) h4 {
-  color: #3498db;
-}
-
-.action-category:nth-child(2) .quick-action-btn:hover {
-  border-color: #3498db;
-  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.15);
-}
-
-.action-category:nth-child(3) h4 {
-  color: #9b59b6;
-}
-
-.action-category:nth-child(3) .quick-action-btn:hover {
-  border-color: #9b59b6;
-  box-shadow: 0 4px 12px rgba(155, 89, 182, 0.15);
-}
-
-.action-category:nth-child(4) h4 {
-  color: #f39c12;
-}
-
-.action-category:nth-child(4) .quick-action-btn:hover {
-  border-color: #f39c12;
-  box-shadow: 0 4px 12px rgba(243, 156, 18, 0.15);
-}
-
-.action-category:nth-child(5) h4 {
-  color: #27ae60;
-}
-
-.action-category:nth-child(5) .quick-action-btn:hover {
-  border-color: #27ae60;
-  box-shadow: 0 4px 12px rgba(39, 174, 96, 0.15);
-}
-
-/* Responsive Design for Quick Actions */
-@media (max-width: 1024px) {
-  .actions-grid {
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .action-buttons {
-    grid-template-columns: 1fr;
-  }
-}
-
+/* Responsive Design for Schedule */
 @media (max-width: 768px) {
-  .quick-actions-section {
-    padding: 1.5rem;
-  }
-
-  .actions-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .action-category {
-    padding: 1rem;
-  }
-
-  .quick-action-btn {
-    padding: 0.8rem;
-    min-height: 70px;
-  }
-
-  .btn-icon {
-    font-size: 1.3rem;
-  }
-
-  .btn-text strong {
-    font-size: 0.85rem;
-  }
-
-  .btn-text small {
-    font-size: 0.75rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .quick-actions-section {
-    padding: 1rem;
-  }
-
-  .quick-actions-section h3 {
-    font-size: 1.5rem;
-  }
-
-  .action-category h4 {
-    font-size: 1.1rem;
-  }
-
-  .quick-action-btn {
-    flex-direction: column;
-    text-align: center;
-    padding: 1rem;
-    min-height: 90px;
-  }
-
-  .btn-icon {
-    font-size: 1.8rem;
-  }
-
-  .btn-text {
-    text-align: center;
-  }
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .teacher-profile {
-    padding: 1rem 0;
-  }
-
-  .profile-container {
-    padding: 0 0.5rem;
-  }
-
-  .profile-header {
-    padding: 1.5rem;
-  }
-
-  .profile-info {
-    flex-direction: column;
-    text-align: center;
-    gap: 1rem;
-  }
-
-  .profile-actions {
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .profile-nav {
-    padding: 0.5rem;
-  }
-
-  .nav-tab {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-  }
-
-  .profile-content {
-    padding: 1.5rem;
-  }
-
-  .info-grid {
-    grid-template-columns: 1fr;
-  }
-
   .schedule-grid {
     grid-template-columns: 80px repeat(5, 1fr);
     font-size: 0.8rem;
@@ -1228,33 +2210,33 @@
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  
+
   .card-header {
     padding: 1rem 1.25rem 0.5rem;
     flex-direction: column;
     gap: 0.75rem;
     align-items: flex-start;
   }
-  
+
   .card-content {
     padding: 0 1.25rem 0.75rem;
   }
-  
+
   .card-actions {
     padding: 0 1.25rem 1rem;
     flex-direction: column;
   }
-  
+
   .info-row {
     flex-direction: column;
     gap: 0.25rem;
     margin-bottom: 0.5rem;
   }
-  
+
   .info-label {
     font-size: 0.85rem;
   }
-  
+
   .info-value {
     font-size: 0.85rem;
     padding-left: 1rem;
@@ -1265,19 +2247,19 @@
   .content-grid {
     gap: 0.75rem;
   }
-  
+
   .card-header {
     padding: 0.75rem 1rem 0.5rem;
   }
-  
+
   .card-content {
     padding: 0 1rem 0.5rem;
   }
-  
+
   .card-actions {
     padding: 0 1rem 0.75rem;
   }
-  
+
   .course-badge,
   .status-badge,
   .publication-badge,
@@ -1288,48 +2270,505 @@
   }
 }
 
-/* Administrative Cards */
-.admin-card .committee-meta h4,
-.task-card .task-meta h4 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #2c3e50;
-  margin: 0 0 0.25rem 0;
+/* Administrative Cards - Updated for grid layout */
+.admin-committee-card .meta-item,
+.admin-task-card .meta-item {
+  margin-bottom: 0.75rem;
 }
 
-.meeting-schedule,
-.task-deadline {
+.admin-committee-card .meta-label,
+.admin-task-card .meta-label {
   font-size: 0.85rem;
+  font-weight: 600;
+  color: #6c757d;
+  margin-right: 0.5rem;
+}
+
+.admin-committee-card .meta-value,
+.admin-task-card .meta-value {
+  font-size: 0.85rem;
+  color: #2c3e50;
+}
+
+/* Create Course Modal Styles - Matching TeacherProfile Theme */
+.create-course-form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(44, 62, 80, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  backdrop-filter: blur(4px);
+}
+
+.create-course-form {
+  background: #fff;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(44, 62, 80, 0.15);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.form-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #6c757d;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-btn:hover {
+  background: #f8f9fa;
+  color: #495057;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #2c3e50;
+  font-size: 0.95rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  font-family: inherit;
+  background: #fff;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #27ae60;
+  box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.1);
+}
+
+.form-group input::placeholder {
+  color: #adb5bd;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.cancel-btn {
+  padding: 0.875rem 2rem;
+  background: #f8f9fa;
+  color: #6c757d;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  min-width: fit-content;
+  white-space: nowrap;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.cancel-btn:hover {
+  background: #e9ecef;
+  color: #495057;
+  border-color: #adb5bd;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.submit-btn {
+  padding: 0.875rem 2rem;
+  background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  min-width: fit-content;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(39, 174, 96, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.submit-btn:hover {
+  background: linear-gradient(135deg, #219a52 0%, #27ae60 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(39, 174, 96, 0.4);
+}
+
+.submit-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(39, 174, 96, 0.3);
+}
+
+/* No Courses State */
+.no-courses {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  padding: 2rem;
+}
+
+.no-courses-content {
+  text-align: center;
+  max-width: 400px;
+}
+
+.no-courses-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.no-courses h3 {
+  margin-bottom: 0.5rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.no-courses p {
+  color: #adb5bd;
+  margin-bottom: 1.5rem;
+}
+
+.create-first-course-btn {
+  background: #27ae60;
+  color: white;
+  border: none;
+  padding: 0.875rem 1.75rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.create-first-course-btn:hover {
+  background: #219a52;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(39, 174, 96, 0.2);
+}
+
+/* No projects styles */
+.no-projects {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 2px dashed #e9ecef;
+  margin: 2rem 0;
+}
+
+.no-projects-content {
+  text-align: center;
+  max-width: 400px;
+  padding: 2rem;
+}
+
+.no-projects-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.no-projects-content h3 {
+  color: #6c757d;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.no-projects-content p {
+  color: #adb5bd;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.create-first-project-btn {
+  background: #27ae60;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.create-first-project-btn:hover {
+  background: #219a52;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(39, 174, 96, 0.2);
+}
+
+/* Administrative Committee Page Styles */
+.administrative-committee-page {
+  max-width: none;
+  width: 100vw;
+  padding: 2rem 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f8f9fa;
+}
+
+.administrative-committee-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  width: 100%;
+}
+
+/* Administrative Committee Header */
+.administrative-committee-header {
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+.administrative-committee-header h1 {
+  font-size: 2.5rem;
+  font-weight: 300;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.administrative-committee-header p {
+  font-size: 1rem;
   color: #6c757d;
   margin: 0;
 }
 
-.role-badge.member {
-  background-color: rgba(74, 144, 226, 0.15);
-  border: 2px solid rgba(74, 144, 226, 0.3);
-  color: #4a90e2;
+/* Administrative Committee Tabs */
+.administrative-committee-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  overflow-x: auto;
 }
 
-.role-badge.chair {
-  background-color: rgba(139, 69, 19, 0.15);
-  border: 2px solid rgba(139, 69, 19, 0.3);
-  color: #8b4513;
+.administrative-committee-tab {
+  background: none;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  color: #6c757d;
+  font-size: 0.95rem;
 }
 
-.status-badge.progress {
-  background-color: rgba(255, 193, 7, 0.15);
-  border: 2px solid rgba(255, 193, 7, 0.3);
-  color: #ffc107;
+.administrative-committee-tab:hover {
+  background: #f8f9fa;
+  color: #27ae60;
 }
 
-.status-badge.pending {
-  background-color: rgba(255, 152, 0, 0.15);
-  border: 2px solid rgba(255, 152, 0, 0.3);
-  color: #ff9800;
+.administrative-committee-tab.active {
+  background: #27ae60;
+  color: white;
 }
 
-.status-badge.todo {
-  background-color: rgba(156, 163, 175, 0.15);
-  border: 2px solid rgba(156, 163, 175, 0.3);
-  color: #9ca3af;
+/* Administrative Committee Content */
+.administrative-committee-content {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  min-height: 500px;
+  border: 1px solid #e9ecef;
+}
+
+/* Administrative Committee Card - Compact Style */
+.admin-committee-card.compact {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Administrative Committee Card - Full Width */
+.admin-committee-card.full-width {
+  grid-column: 1 / -1;
+}
+
+/* Administrative Committee Card Content */
+.admin-committee-card .card-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.admin-committee-card .card-content h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.admin-committee-card .card-content p {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin: 0;
+  flex: 1;
+}
+
+/* Administrative Committee Card Actions */
+.admin-committee-card .card-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.admin-committee-card .card-action-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 120px;
+  min-height: 36px;
+}
+
+.admin-committee-card .card-action-btn.primary {
+  background-color: #27ae60;
+  color: #ffffff;
+}
+
+.admin-committee-card .card-action-btn.primary:hover {
+  background-color: #219a52;
+  transform: translateY(-1px);
+}
+
+/* Responsive Design for Administrative Committee Page */
+@media (max-width: 768px) {
+  .administrative-committee-container {
+    padding: 0 1rem;
+  }
+
+  .administrative-committee-header {
+    text-align: center;
+  }
+
+  .administrative-committee-tabs {
+    justify-content: center;
+  }
+
+  .administrative-committee-tab {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .administrative-committee-content {
+    padding: 1.5rem;
+  }
+
+  .admin-committee-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-committee-card.compact {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .administrative-committee-header h1 {
+    font-size: 2rem;
+  }
+
+  .administrative-committee-header p {
+    font-size: 0.9rem;
+  }
+
+  .administrative-committee-tab {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .administrative-committee-content {
+    padding: 1rem;
+  }
+
+  .admin-committee-card {
+    padding: 1rem;
+  }
+
+  .admin-committee-card .card-content {
+    padding: 1rem;
+  }
+
+  .admin-committee-card .card-action-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.7rem;
+    min-height: 34px;
+    min-width: 100px;
+  }
 }

@@ -1,5 +1,6 @@
 from typing import Optional, List
 from datetime import date, datetime
+from uuid import UUID
 from pydantic import BaseModel
 
 
@@ -11,7 +12,7 @@ class AttachmentResponse(BaseModel):
 
 
 class NoticeResponse(BaseModel):
-    id: int
+    id: UUID
     title: str
     content: str
     category: Optional[str] = None

@@ -1,14 +1,15 @@
-from sqlalchemy import Column, String, Integer, Text, Boolean, Date, ForeignKey
+import uuid
+from sqlalchemy import Column, String, Text, Boolean, Date, ForeignKey
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from db import Base
 from models.base import CommonBase, AuditBase
 
-
 class Notice(Base, CommonBase, AuditBase):
     __tablename__ = "notices"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     title = Column(String(255), nullable=False, index=True)
     content = Column(Text, nullable=False)
     category = Column(String(50))

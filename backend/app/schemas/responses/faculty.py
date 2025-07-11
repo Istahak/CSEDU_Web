@@ -1,27 +1,23 @@
+from pydantic import BaseModel, EmailStr
 from typing import Optional
-from pydantic import BaseModel
-from datetime import datetime
-
+from uuid import UUID
 
 class FacultyResponse(BaseModel):
-    """Schema for faculty response data"""
-    id: int
+    id: UUID
+    user_id: UUID
+    office_room_id: Optional[UUID] = None
     full_name: str
-    email: str
+    email: EmailStr
     phone_number: Optional[str] = None
-    office_room: Optional[str] = None
     specialization: Optional[str] = None
     research_areas: Optional[str] = None
-    employment_status: str = "Active"
+    employment_status: Optional[str] = None
     designation: str
     department: str
     experience: Optional[str] = None
-    number_of_publications: int = 0
+    number_of_publications: Optional[int] = None
     qualifications: Optional[str] = None
-    profile_photo_url: Optional[str] = None
-    is_active: bool = True
-    created_at: datetime
-    updated_at: Optional[datetime] = None
+    image: Optional[str] = None  # base64 encoded user image
 
     class Config:
-        from_attributes = True  # For newer Pydantic versions
+        orm_mode = True

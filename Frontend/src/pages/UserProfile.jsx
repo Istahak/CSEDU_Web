@@ -3,6 +3,47 @@ import "./UserProfile.css";
 
 const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
   const [activeTab, setActiveTab] = useState("overview");
+  const [assignments, setAssignments] = useState([
+    {
+      id: 1,
+      title: "CSE 408 - Assignment 3",
+      course: "CSE 408",
+      courseName: "Software Development",
+      dueDate: "March 15, 2024",
+      status: "submitted",
+      submissionDate: "March 12, 2024",
+      description: "Develop a web application using React and Node.js",
+      maxMarks: 100,
+      obtainedMarks: 85,
+      submittedFile: "assignment3_submission.zip",
+    },
+    {
+      id: 2,
+      title: "CSE 410 - Lab Report 5",
+      course: "CSE 410",
+      courseName: "Computer Graphics",
+      dueDate: "March 20, 2024",
+      status: "pending",
+      description: "Implement 3D transformations and lighting in OpenGL",
+      maxMarks: 50,
+      submittedFile: null,
+    },
+    {
+      id: 3,
+      title: "CSE 412 - Assignment 2",
+      course: "CSE 412",
+      courseName: "Machine Learning",
+      dueDate: "March 25, 2024",
+      status: "pending",
+      description: "Train a neural network for image classification",
+      maxMarks: 100,
+      submittedFile: null,
+    },
+  ]);
+  const [showSubmissionModal, setShowSubmissionModal] = useState(false);
+  const [selectedAssignment, setSelectedAssignment] = useState(null);
+  const [submissionFile, setSubmissionFile] = useState(null);
+  const [submissionComments, setSubmissionComments] = useState("");
 
   const userData = propUserData || {
     name: "Istahak Islam",
@@ -132,17 +173,94 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
           <div className="tab-content">
             <div className="assignments-section">
               <h3>Assignments</h3>
+              <div className="assignments-stats">
+                <div className="stat-item">
+                  <span className="stat-number">
+                    {assignments.filter((a) => a.status === "submitted").length}
+                  </span>
+                  <span className="stat-label">Submitted</span>
+                </div>
+                <div className="stat-item">
+                  <span className="stat-number">
+                    {assignments.filter((a) => a.status === "pending").length}
+                  </span>
+                  <span className="stat-label">Pending</span>
+                </div>
+                <div className="stat-item">
+                  <span className="stat-number">
+                    {
+                      assignments.filter(
+                        (a) => isOverdue(a.dueDate) && a.status === "pending"
+                      ).length
+                    }
+                  </span>
+                  <span className="stat-label">Overdue</span>
+                </div>
+              </div>
               <div className="assignment-list">
-                <div className="assignment-item">
-                  <h4>CSE 408 - Assignment 3</h4>
-                  <p>Due: March 15, 2024</p>
-                  <p>Status: Submitted</p>
-                </div>
-                <div className="assignment-item">
-                  <h4>CSE 410 - Lab Report 5</h4>
-                  <p>Due: March 20, 2024</p>
-                  <p>Status: Pending</p>
-                </div>
+                {assignments.map((assignment) => (
+                  <div key={assignment.id} className="assignment-item">
+                    <div className="assignment-header">
+                      <h4>{assignment.title}</h4>
+                      <span
+                        className="assignment-status"
+                        style={{
+                          backgroundColor: getStatusColor(assignment.status),
+                        }}
+                      >
+                        {assignment.status.charAt(0).toUpperCase() +
+                          assignment.status.slice(1)}
+                      </span>
+                    </div>
+                    <div className="assignment-details">
+                      <p>
+                        <strong>Course:</strong> {assignment.courseName}
+                      </p>
+                      <p>
+                        <strong>Due Date:</strong> {assignment.dueDate}
+                      </p>
+                      <p>
+                        <strong>Description:</strong> {assignment.description}
+                      </p>
+                      <p>
+                        <strong>Max Marks:</strong> {assignment.maxMarks}
+                      </p>
+                      {assignment.status === "submitted" && (
+                        <>
+                          <p>
+                            <strong>Submission Date:</strong>{" "}
+                            {assignment.submissionDate}
+                          </p>
+                          <p>
+                            <strong>Submitted File:</strong>{" "}
+                            {assignment.submittedFile}
+                          </p>
+                          {assignment.obtainedMarks && (
+                            <p>
+                              <strong>Marks Obtained:</strong>{" "}
+                              {assignment.obtainedMarks}/{assignment.maxMarks}
+                            </p>
+                          )}
+                        </>
+                      )}
+                    </div>
+                    <div className="assignment-actions">
+                      {assignment.status === "pending" && (
+                        <button
+                          className="submit-btn"
+                          onClick={() => handleSubmitAssignment(assignment)}
+                        >
+                          Submit Assignment
+                        </button>
+                      )}
+                      {assignment.status === "submitted" && (
+                        <button className="view-btn" disabled>
+                          View Submission
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -217,6 +335,72 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
       default:
         return null;
     }
+  };
+
+  // Assignment submission functions
+  const handleSubmitAssignment = (assignment) => {
+    setSelectedAssignment(assignment);
+    setShowSubmissionModal(true);
+    setSubmissionFile(null);
+    setSubmissionComments("");
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setSubmissionFile(file);
+  };
+
+  const handleSubmissionSubmit = () => {
+    if (!submissionFile) {
+      alert("Please select a file to submit.");
+      return;
+    }
+
+    // Update the assignment status
+    setAssignments(
+      assignments.map((assignment) =>
+        assignment.id === selectedAssignment.id
+          ? {
+              ...assignment,
+              status: "submitted",
+              submissionDate: new Date().toLocaleDateString(),
+              submittedFile: submissionFile.name,
+            }
+          : assignment
+      )
+    );
+
+    // Close modal and reset state
+    setShowSubmissionModal(false);
+    setSelectedAssignment(null);
+    setSubmissionFile(null);
+    setSubmissionComments("");
+
+    alert("Assignment submitted successfully!");
+  };
+
+  const closeSubmissionModal = () => {
+    setShowSubmissionModal(false);
+    setSelectedAssignment(null);
+    setSubmissionFile(null);
+    setSubmissionComments("");
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "submitted":
+        return "#27ae60";
+      case "pending":
+        return "#f39c12";
+      case "overdue":
+        return "#e74c3c";
+      default:
+        return "#95a5a6";
+    }
+  };
+
+  const isOverdue = (dueDate) => {
+    return new Date(dueDate) < new Date();
   };
 
   return (
@@ -307,6 +491,78 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
           <div className="tab-content-container">{renderTabContent()}</div>
         </div>
       </div>
+
+      {/* Assignment Submission Modal */}
+      {showSubmissionModal && selectedAssignment && (
+        <div className="modal-overlay">
+          <div className="submission-modal">
+            <div className="modal-header">
+              <h3>Submit Assignment</h3>
+              <button className="close-btn" onClick={closeSubmissionModal}>
+                ×
+              </button>
+            </div>
+            <div className="modal-content">
+              <div className="assignment-info">
+                <h4>{selectedAssignment.title}</h4>
+                <p>
+                  <strong>Course:</strong> {selectedAssignment.courseName}
+                </p>
+                <p>
+                  <strong>Due Date:</strong> {selectedAssignment.dueDate}
+                </p>
+                <p>
+                  <strong>Max Marks:</strong> {selectedAssignment.maxMarks}
+                </p>
+                <p>
+                  <strong>Description:</strong> {selectedAssignment.description}
+                </p>
+              </div>
+
+              <div className="submission-form">
+                <div className="form-group">
+                  <label htmlFor="submission-file">
+                    Upload Assignment File:
+                  </label>
+                  <input
+                    type="file"
+                    id="submission-file"
+                    onChange={handleFileChange}
+                    accept=".pdf,.doc,.docx,.zip,.rar,.txt,.ppt,.pptx"
+                  />
+                  {submissionFile && (
+                    <p className="file-info">Selected: {submissionFile.name}</p>
+                  )}
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="submission-comments">
+                    Comments (Optional):
+                  </label>
+                  <textarea
+                    id="submission-comments"
+                    value={submissionComments}
+                    onChange={(e) => setSubmissionComments(e.target.value)}
+                    placeholder="Add any comments about your submission..."
+                    rows="4"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button className="cancel-btn" onClick={closeSubmissionModal}>
+                Cancel
+              </button>
+              <button
+                className="submit-final-btn"
+                onClick={handleSubmissionSubmit}
+              >
+                Submit Assignment
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
