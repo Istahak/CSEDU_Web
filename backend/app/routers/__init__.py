@@ -9,6 +9,7 @@ from routers import token, auth, img, profile, homepage, faculty, notice, classr
 from .user import router as user_router
 from .student_profile import router as student_profile_router
 from .achievement import router as achievement_router
+from .course import router as course_router
 router = APIRouter(
     prefix="/api/v1"
 )
@@ -32,3 +33,4 @@ router.include_router(office_room.router)
 router.include_router(payment.router)
 router.include_router(payment_user.router)
 router.include_router(achievement.router)
+router.include_router(course_router)
