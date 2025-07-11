@@ -17,6 +17,7 @@ from .project import router as project_router
 from .event import router as event_router
 from .event_booking import router as event_booking_router
 from .attendance import router as attendance_router
+from .grade import router as grade_router
 router = APIRouter(
     prefix="/api/v1"
 )
@@ -48,3 +49,4 @@ router.include_router(publication.router)
 router.include_router(event.router)
 router.include_router(event_booking.router)
 router.include_router(attendance.router)
+router.include_router(grade.router)
