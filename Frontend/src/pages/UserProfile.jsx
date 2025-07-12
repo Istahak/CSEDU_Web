@@ -6,6 +6,7 @@ import { getUserData } from "../api/UserProfileApi";
 import { useEffect } from "react";
 import { submitAssignment } from "../api/UserProfileApi";
 import { getCoursesBySemester } from "../api/UserProfileApi";
+import { getProjectsByAuthor } from "../api/UserProfileApi";
 
 const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
   
@@ -68,6 +69,7 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
   });
 
   const [courses, setCourses] = useState([]);
+  const [projects, setProjects] = useState([]);
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -140,15 +142,22 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
           <div className="tab-content">
             <div className="courses-section">
               <h3>Current Courses</h3>
-              <div className="course-list">
+              <div className="course-list-grid">
                 {Array.isArray(courses) && courses.length > 0 ? (
                   courses.map((course, idx) => (
-                    <div className="course-item" key={course.course_code || idx}>
-                      <h4>{course.course_title}</h4>
-                      <p><strong>Code:</strong> {course.course_code}</p>
-                      <p><strong>Intro:</strong> {course.intro}</p>
-                      <p><strong>Credit:</strong> {course.credit}</p>
-                      <p><strong>Duration:</strong> {course.duration}</p>
+                    <div className="course-card" key={course.course_code || idx}>
+                      <div className="course-card-header">
+                        <span role="img" aria-label="book" className="course-icon">📘</span>
+                        <h4>{course.course_title}</h4>
+                        <span className="course-code">({course.course_code})</span>
+                      </div>
+                      <div className="course-card-body">
+                        <p className="course-intro">{course.intro}</p>
+                        <div className="course-details-row">
+                          <span className="course-detail"><strong>Credit:</strong> {course.credit}</span>
+                          <span className="course-detail"><strong>Duration:</strong> {course.duration}</span>
+                        </div>
+                      </div>
                     </div>
                   ))
                 ) : (
@@ -163,17 +172,27 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
           <div className="tab-content">
             <div className="projects-section">
               <h3>Projects</h3>
-              <div className="project-list">
-                <div className="project-item">
-                  <h4>E-commerce Web Application</h4>
-                  <p>Status: Completed</p>
-                  <p>Technologies: React, Node.js, MongoDB</p>
-                </div>
-                <div className="project-item">
-                  <h4>Mobile Banking App</h4>
-                  <p>Status: In Progress</p>
-                  <p>Technologies: React Native, Firebase</p>
-                </div>
+              <div className="project-list-grid">
+                {Array.isArray(projects) && projects.length > 0 ? (
+                  projects.map((project, idx) => (
+                    <div className="project-card" key={project.id || idx}>
+                      <div className="project-card-header">
+                        <span role="img" aria-label="project" className="project-icon">💡</span>
+                        <h4>{project.title}</h4>
+                      </div>
+                      <div className="project-card-body">
+                        <p className="project-abstract">{project.abstract}</p>
+                        {project.link && (
+                          <a href={project.link} className="project-link" target="_blank" rel="noopener noreferrer">
+                            🔗 View Project
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p>No projects found.</p>
+                )}
               </div>
             </div>
           </div>
@@ -404,6 +423,11 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
       if (courses) {
         setCourses(courses);
         console.log(courses);
+      }
+      const projects = await getProjectsByAuthor();
+      if (projects) {
+        setProjects(projects);
+        console.log(projects);
       }
 
     };
