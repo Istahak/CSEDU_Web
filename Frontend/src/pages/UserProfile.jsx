@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 import "./UserProfile.css";
 
+import { getHardcodedUUID } from "../utils/FetchUser";
+import { getUserData } from "../api/UserProfileApi";
+import { useEffect } from "react";
+import { submitAssignment } from "../api/UserProfileApi";
+
 const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
+  
   const [activeTab, setActiveTab] = useState("overview");
   const [assignments, setAssignments] = useState([
     {
-      id: 1,
+      id: '0c30ee37-4073-4b50-8723-33a8b80c93db',
       title: "CSE 408 - Assignment 3",
       course: "CSE 408",
       courseName: "Software Development",
@@ -18,7 +24,7 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
       submittedFile: "assignment3_submission.zip",
     },
     {
-      id: 2,
+      id: '0c30ee37-4073-4b50-8723-33a8b80c93db',
       title: "CSE 410 - Lab Report 5",
       course: "CSE 410",
       courseName: "Computer Graphics",
@@ -29,7 +35,7 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
       submittedFile: null,
     },
     {
-      id: 3,
+      id: '0c30ee37-4073-4b50-8723-33a8b80c93db',
       title: "CSE 412 - Assignment 2",
       course: "CSE 412",
       courseName: "Machine Learning",
@@ -40,12 +46,15 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
       submittedFile: null,
     },
   ]);
+  
+  console.log(getHardcodedUUID());
+
   const [showSubmissionModal, setShowSubmissionModal] = useState(false);
   const [selectedAssignment, setSelectedAssignment] = useState(null);
   const [submissionFile, setSubmissionFile] = useState(null);
   const [submissionComments, setSubmissionComments] = useState("");
 
-  const userData = propUserData || {
+  const [userData, setUserData] = useState({
     name: "Istahak Islam",
     studentId: "CSE-2020-2021",
     email: "istahak.islam@csedu.ac.bd",
@@ -55,7 +64,7 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
     cgpa: "3.00",
     department: "Computer Science & Engineering",
     address: "123 University Road, Dhaka-1000",
-  };
+  });
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -350,33 +359,12 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
     setSubmissionFile(file);
   };
 
-  const handleSubmissionSubmit = () => {
-    if (!submissionFile) {
-      alert("Please select a file to submit.");
-      return;
-    }
-
-    // Update the assignment status
-    setAssignments(
-      assignments.map((assignment) =>
-        assignment.id === selectedAssignment.id
-          ? {
-              ...assignment,
-              status: "submitted",
-              submissionDate: new Date().toLocaleDateString(),
-              submittedFile: submissionFile.name,
-            }
-          : assignment
-      )
-    );
-
-    // Close modal and reset state
-    setShowSubmissionModal(false);
-    setSelectedAssignment(null);
-    setSubmissionFile(null);
-    setSubmissionComments("");
-
-    alert("Assignment submitted successfully!");
+  const handleSubmissionSubmit = async (e) => {
+    e.preventDefault();
+    console.log("ki oilo");
+    const formData = new FormData(e.target);
+    console.log(Object.fromEntries(formData.entries()));
+    await submitAssignment(formData, selectedAssignment.id, userData.id, submissionComments);
   };
 
   const closeSubmissionModal = () => {
@@ -402,6 +390,18 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
   const isOverdue = (dueDate) => {
     return new Date(dueDate) < new Date();
   };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userData = await getUserData();
+
+      if (userData) {
+        setUserData(userData);
+        console.log(userData);
+      }
+    };
+    fetchUserData();
+  }, []);
 
   return (
     <div className="user-profile">
@@ -495,7 +495,7 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
       {/* Assignment Submission Modal */}
       {showSubmissionModal && selectedAssignment && (
         <div className="modal-overlay">
-          <div className="submission-modal">
+          <form className="submission-modal" onSubmit={handleSubmissionSubmit}>
             <div className="modal-header">
               <h3>Submit Assignment</h3>
               <button className="close-btn" onClick={closeSubmissionModal}>
@@ -525,6 +525,7 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
                     Upload Assignment File:
                   </label>
                   <input
+                    name="file"
                     type="file"
                     id="submission-file"
                     onChange={handleFileChange}
@@ -540,6 +541,7 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
                     Comments (Optional):
                   </label>
                   <textarea
+                    // name="comment"
                     id="submission-comments"
                     value={submissionComments}
                     onChange={(e) => setSubmissionComments(e.target.value)}
@@ -555,12 +557,12 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
               </button>
               <button
                 className="submit-final-btn"
-                onClick={handleSubmissionSubmit}
+                type="submit"
               >
                 Submit Assignment
               </button>
             </div>
-          </div>
+          </form>
         </div>
       )}
     </div>
