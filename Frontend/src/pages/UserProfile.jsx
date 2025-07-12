@@ -5,6 +5,7 @@ import { getHardcodedUUID } from "../utils/FetchUser";
 import { getUserData } from "../api/UserProfileApi";
 import { useEffect } from "react";
 import { submitAssignment } from "../api/UserProfileApi";
+import { getCoursesBySemester } from "../api/UserProfileApi";
 
 const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
   
@@ -65,6 +66,8 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
     department: "Computer Science & Engineering",
     address: "123 University Road, Dhaka-1000",
   });
+
+  const [courses, setCourses] = useState([]);
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -138,21 +141,19 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
             <div className="courses-section">
               <h3>Current Courses</h3>
               <div className="course-list">
-                <div className="course-item">
-                  <h4>CSE 408 - Software Development</h4>
-                  <p>Instructor: Dr. Jane Smith</p>
-                  <p>Credits: 3</p>
-                </div>
-                <div className="course-item">
-                  <h4>CSE 410 - Computer Graphics</h4>
-                  <p>Instructor: Dr. Mike Johnson</p>
-                  <p>Credits: 3</p>
-                </div>
-                <div className="course-item">
-                  <h4>CSE 412 - Machine Learning</h4>
-                  <p>Instructor: Dr. Sarah Wilson</p>
-                  <p>Credits: 3</p>
-                </div>
+                {Array.isArray(courses) && courses.length > 0 ? (
+                  courses.map((course, idx) => (
+                    <div className="course-item" key={course.course_code || idx}>
+                      <h4>{course.course_title}</h4>
+                      <p><strong>Code:</strong> {course.course_code}</p>
+                      <p><strong>Intro:</strong> {course.intro}</p>
+                      <p><strong>Credit:</strong> {course.credit}</p>
+                      <p><strong>Duration:</strong> {course.duration}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p>No courses found for this semester.</p>
+                )}
               </div>
             </div>
           </div>
@@ -399,6 +400,12 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
         setUserData(userData);
         console.log(userData);
       }
+      const courses = await getCoursesBySemester(userData.semester);
+      if (courses) {
+        setCourses(courses);
+        console.log(courses);
+      }
+
     };
     fetchUserData();
   }, []);

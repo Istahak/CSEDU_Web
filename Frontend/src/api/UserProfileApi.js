@@ -34,4 +34,20 @@ export async function submitAssignment(formData, assignment_id, student_id, comm
         return null;
     }
 }
+
+// Fetch courses for a given semester
+export async function getCoursesBySemester(semester) {
+    try {
+        const response = await fetch(`${VITE_BACKEND_URL}/courses/filter/semester?semester=${encodeURIComponent(semester)}`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
     
