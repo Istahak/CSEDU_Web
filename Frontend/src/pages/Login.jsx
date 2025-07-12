@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Login.css";
+import { loginUser } from "../api/LoginApi";
 
 const Login = ({ onLogin }) => {
   const [selectedRole, setSelectedRole] = useState("");
@@ -27,16 +28,24 @@ const Login = ({ onLogin }) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
-    setTimeout(() => {
-      const roleCredentials = credentials[selectedRole];
-      if (email === roleCredentials.email && password === roleCredentials.password) {
-        onLogin(selectedRole);
-      } else {
-        setError("Invalid email or password");
-      }
-      setIsLoading(false);
-    }, 1000);
+    try {
+      // Call backend login API
+      const response = await loginUser(email, password);
+      // Store all returned fields in localStorage
+      localStorage.setItem("token", response.token);
+      localStorage.setItem("user_id", response.user_id);
+      localStorage.setItem("role", response.role);
+      localStorage.setItem("profile_id", response.profile_id);
+      // Optionally, store the full response as one object
+      localStorage.setItem("login_response", JSON.stringify(response));
+      // Call onLogin with role or user object as needed
+      onLogin(response.role);
+    } catch (err) {
+      setError(err.message || "Login failed");
+    }
+    setIsLoading(false);
   };
+
 
   const getRoleDisplayName = (role) => {
     switch (role) {
