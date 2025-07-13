@@ -84,9 +84,34 @@ export async function getAcademicRecords() {
     }
 }
 
+export async function payUserPayment(paymentId) {
+    try {
+        const userId = localStorage.getItem('user_id');
+        const response = await fetch(`${VITE_BACKEND_URL}/payment-users/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                payment_id: paymentId,
+                user_id: userId,
+                is_paid: true,
+            }),
+        });
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return await response.json();
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
 export async function getPayments() {
     try {
-        const response = await fetch(`${VITE_BACKEND_URL}/payments/`);
+        const userId = localStorage.getItem('user_id');
+        const response = await fetch(`${VITE_BACKEND_URL}/payments/by-user/${userId}`);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
