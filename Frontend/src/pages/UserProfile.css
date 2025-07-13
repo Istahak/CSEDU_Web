@@ -940,3 +940,89 @@
     min-width: 600px;
   }
 }
+
+/* academic records */
+.academic-records {
+    padding: 2rem 1.5rem;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(60, 80, 130, 0.06);
+  }
+  
+  .academic-records h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #22344c;
+    margin-bottom: 2rem;
+    letter-spacing: -1px;
+  }
+  
+  .semester-records {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  /* Modern Semester Card */
+  .semester-card {
+    background: #f8fafc;
+    border-radius: 16px;
+    padding: 2rem 1.5rem 1.5rem 1.5rem;
+    border-left: 4px solid #4f8cff;
+    box-shadow: 0 2px 16px rgba(70, 90, 150, 0.07);
+    min-width: 260px;
+    transition: box-shadow 0.18s, transform 0.18s;
+  }
+  
+  .semester-card:hover {
+    box-shadow: 0 6px 32px rgba(82, 120, 250, 0.13);
+    transform: translateY(-4px) scale(1.02);
+  }
+  
+  .semester-card h4 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #22344c;
+    margin-bottom: 1rem;
+    letter-spacing: 0.5px;
+  }
+  
+  /* GPA & Credits styling */
+  .gpa-credits {
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+  }
+  
+  .gpa strong, .credits strong {
+    color: #4f8cff;
+    font-weight: 700;
+    font-size: 1.08rem;
+    margin-right: 0.25rem;
+  }
+  
+  .gpa-value {
+    color: #4f8cff;
+    font-weight: 600;
+    font-size: 1.13rem;
+  }
+  
+  .credits strong {
+    color: #f6913d;
+  }
+  
+  .credits-value {
+    color: #f6913d;
+    font-weight: 600;
+    font-size: 1.13rem;
+  }
+  
+  @media (max-width: 600px) {
+    .academic-records, .semester-card {
+      padding: 1rem;
+    }
+    .semester-records {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }

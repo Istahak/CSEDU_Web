@@ -69,3 +69,17 @@ export async function getCoursesBySemester(semester) {
     }
 }
 
+export async function getAcademicRecords() {
+    const studentId = localStorage.getItem('profile_id');
+    try {
+        const response = await fetch(`${VITE_BACKEND_URL}/gpa/academic-records/?student_id=${studentId}`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}

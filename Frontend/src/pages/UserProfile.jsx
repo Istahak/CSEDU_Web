@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { submitAssignment } from "../api/UserProfileApi";
 import { getCoursesBySemester } from "../api/UserProfileApi";
 import { getProjectsByAuthor } from "../api/UserProfileApi";
+import { getAcademicRecords } from "../api/UserProfileApi";
 
 const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
   
@@ -70,6 +71,7 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
 
   const [courses, setCourses] = useState([]);
   const [projects, setProjects] = useState([]);
+  const [academicRecords, setAcademicRecords] = useState([]);
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -113,30 +115,63 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
                 </div>
               </div>
             </div>
-          </div>
+        </div>
         );
-      case "academic-records":
-        return (
-          <div className="tab-content">
-            <div className="academic-records">
-              <h3>Academic Records</h3>
-              <div className="semester-records">
-                <div className="semester-item">
-                  <h4>Semester 7</h4>
-                  <p>GPA: 3.8 | Credits: 18</p>
+    //   case "academic-records":
+    //     return (
+    //         <div className="tab-content">
+    //             <div className="academic-records">
+    //                 <h3>Academic Records</h3>
+    //                 <div className="semester-records">
+    //                     {academicRecords && academicRecords.length > 0 ? (
+    //                     academicRecords
+    //                         .sort((a, b) => b.semester - a.semester) // Optional: sorts by most recent semester first
+    //                         .map((record) => (
+    //                         <div className="semester-item" key={record.semester}>
+    //                             <h4>Semester {record.semester}</h4>
+    //                             <p>GPA: {record.gpa} | Credits: {record.credits}</p>
+    //                         </div>
+    //                         ))
+    //                     ) : (
+    //                     <p>No academic records available.</p>
+    //                     )}
+    //                 </div>
+    //             </div>
+    //         </div>
+    //     );
+        case "academic-records":
+            return (
+                <div className="tab-content">
+                  <div className="academic-records">
+                    <h3>Academic Records</h3>
+                    <div className="semester-records">
+                      {academicRecords && academicRecords.length > 0 ? (
+                        academicRecords
+                          .sort((a, b) => b.semester - a.semester)
+                          .map(record => (
+                            <div className="semester-card" key={record.semester}>
+                              <h4>
+                                Semester: <span>{record.semester}</span>
+                              </h4>
+                              <div className="gpa-credits">
+                                <span className="gpa">
+                                  <strong>GPA:</strong>
+                                  <span className="gpa-value"> {record.gpa}</span>
+                                </span>
+                                <span className="credits">
+                                  <strong>Credits:</strong>
+                                  <span className="credits-value"> {record.credits}</span>
+                                </span>
+                              </div>
+                            </div>
+                          ))
+                      ) : (
+                        <p>No academic records available.</p>
+                      )}
+                    </div>
+                  </div>
                 </div>
-                <div className="semester-item">
-                  <h4>Semester 6</h4>
-                  <p>GPA: 3.7 | Credits: 18</p>
-                </div>
-                <div className="semester-item">
-                  <h4>Semester 5</h4>
-                  <p>GPA: 3.6 | Credits: 18</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
+              );
       case "courses":
         return (
           <div className="tab-content">
@@ -417,19 +452,23 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
 
       if (userData) {
         setUserData(userData);
-        console.log(userData);
+        console.log("User Data:", userData);
       }
       const courses = await getCoursesBySemester(userData.semester);
       if (courses) {
         setCourses(courses);
-        console.log(courses);
+        console.log("Courses:", courses);
       }
       const projects = await getProjectsByAuthor();
       if (projects) {
         setProjects(projects);
-        console.log(projects);
+        console.log("Projects:", projects);
       }
-
+      const academicRecords = await getAcademicRecords();
+      if (academicRecords) {
+        setAcademicRecords(academicRecords);
+        console.log("Academic Records:", academicRecords);
+      }
     };
     fetchUserData();
   }, []);
