@@ -2,12 +2,14 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from uuid import UUID
 from schemas.payment import Payment, PaymentCreate, PaymentUpdate, PaymentList
+from schemas.responses.user_payment import UserPaymentsList, UserPaymentResponse
 from services.payment_service import (
     create_payment,
     get_payment_by_id,
     get_all_payments,
     update_payment,
-    delete_payment
+    delete_payment,
+    get_payments_by_user_id
 )
 from db import get_db
 
@@ -16,6 +18,11 @@ router = APIRouter(prefix="/payments", tags=["payments"])
 @router.get("/", response_model=PaymentList)
 def read_payments(db: Session = Depends(get_db)):
     payments = get_all_payments(db)
+    return {"payments": payments}
+
+@router.get("/by-user/{user_id}", response_model=UserPaymentsList)
+def get_payments_for_user(user_id: UUID, db: Session = Depends(get_db)):
+    payments = get_payments_by_user_id(db, user_id)
     return {"payments": payments}
 
 @router.get("/by-id/{payment_id}", response_model=Payment)
