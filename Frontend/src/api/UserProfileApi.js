@@ -83,3 +83,17 @@ export async function getAcademicRecords() {
         return null;
     }
 }
+
+export async function getPayments() {
+    try {
+        const response = await fetch(`${VITE_BACKEND_URL}/payments/`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        return data.payments;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}

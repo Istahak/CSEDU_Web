@@ -8,6 +8,7 @@ import { submitAssignment } from "../api/UserProfileApi";
 import { getCoursesBySemester } from "../api/UserProfileApi";
 import { getProjectsByAuthor } from "../api/UserProfileApi";
 import { getAcademicRecords } from "../api/UserProfileApi";
+import { getPayments } from "../api/UserProfileApi";
 
 const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
   
@@ -72,6 +73,7 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
   const [courses, setCourses] = useState([]);
   const [projects, setProjects] = useState([]);
   const [academicRecords, setAcademicRecords] = useState([]);
+  const [payments, setPayments] = useState([]);
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -329,45 +331,92 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
             </div>
           </div>
         );
-      case "due-payments":
-        return (
-          <div className="tab-content">
+    //   case "due-payments":
+    //     return (
+    //       <div className="tab-content">
+    //         <div className="due-payments-section">
+    //           <h3>Due Payments</h3>
+    //           <div className="payment-summary">
+    //             <div className="total-due">
+    //               <h4>Total Due Amount</h4>
+    //               <p className="amount">৳ 25,000</p>
+    //             </div>
+    //             <div className="payment-breakdown">
+    //               <div className="payment-item">
+    //                 <span className="payment-type">Semester Fee</span>
+    //                 <span className="payment-amount">৳ 20,000</span>
+    //                 <span className="payment-due">Due: April 30, 2024</span>
+    //               </div>
+    //               <div className="payment-item">
+    //                 <span className="payment-type">Library Fine</span>
+    //                 <span className="payment-amount">৳ 500</span>
+    //                 <span className="payment-due">Due: March 25, 2024</span>
+    //               </div>
+    //               <div className="payment-item">
+    //                 <span className="payment-type">Lab Fee</span>
+    //                 <span className="payment-amount">৳ 4,500</span>
+    //                 <span className="payment-due">Due: April 15, 2024</span>
+    //               </div>
+    //             </div>
+    //             <button
+    //               className="pay-now-btn"
+    //               onClick={() =>
+    //                 alert("Payment functionality will be implemented soon!")
+    //               }
+    //             >
+    //               Pay Now
+    //             </button>
+    //           </div>
+    //         </div>
+    //       </div>
+    //     );
+
+    // Example: const payments = paymentsData.payments;
+
+case "due-payments":
+    const totalDue = payments?.reduce((sum, payment) => sum + payment.amount, 0) || 0;
+    return (
+        <div className="tab-content">
             <div className="due-payments-section">
-              <h3>Due Payments</h3>
-              <div className="payment-summary">
-                <div className="total-due">
-                  <h4>Total Due Amount</h4>
-                  <p className="amount">৳ 25,000</p>
+                <h3>Due Payments</h3>
+                <div className="payment-summary">
+                    <div className="total-due">
+                    <h4>Total Due Amount</h4>
+                    <p className="amount">৳ {totalDue.toLocaleString()}</p>
+                    </div>
+                    <div className="payment-breakdown">
+                    {payments && payments.length ? (
+                        payments.map(payment => (
+                            <div className="payment-item" key={payment.id}>
+                            <div style={{ flex: 1 }}>
+                              <span style={{ fontWeight: 700, color: "#22344c" }}>{payment.description}</span>
+                              {" | "}
+                              <span style={{ color: "#eb5757", fontWeight: 700 }}>
+                                <span style={{ fontSize: "1rem", verticalAlign: "middle" }}>৳</span>{" "}
+                                {payment.amount.toLocaleString()}
+                              </span>
+                              <br />
+                              <span style={{ color: "#22344c" }}>Semester: {payment.semester}</span>
+                            </div>
+                            <div style={{ flex: 2, marginLeft: "1rem" }}>
+                              <button
+                                className="pay-now-btn"
+                                onClick={() => alert(`Pay Now clicked for ${payment.description}`)}
+                              >
+                                Pay Now
+                              </button>
+                            </div>
+                          </div>
+                        ))
+                    ) : (
+                        <div style={{ marginTop: "1rem" }}>No due payments!</div>
+                    )}
+                    </div>
                 </div>
-                <div className="payment-breakdown">
-                  <div className="payment-item">
-                    <span className="payment-type">Semester Fee</span>
-                    <span className="payment-amount">৳ 20,000</span>
-                    <span className="payment-due">Due: April 30, 2024</span>
-                  </div>
-                  <div className="payment-item">
-                    <span className="payment-type">Library Fine</span>
-                    <span className="payment-amount">৳ 500</span>
-                    <span className="payment-due">Due: March 25, 2024</span>
-                  </div>
-                  <div className="payment-item">
-                    <span className="payment-type">Lab Fee</span>
-                    <span className="payment-amount">৳ 4,500</span>
-                    <span className="payment-due">Due: April 15, 2024</span>
-                  </div>
-                </div>
-                <button
-                  className="pay-now-btn"
-                  onClick={() =>
-                    alert("Payment functionality will be implemented soon!")
-                  }
-                >
-                  Pay Now
-                </button>
-              </div>
             </div>
-          </div>
+        </div>
         );
+
       case "contact-info":
         return (
           <div className="tab-content">
@@ -468,6 +517,12 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
       if (academicRecords) {
         setAcademicRecords(academicRecords);
         console.log("Academic Records:", academicRecords);
+      }
+
+      const payments = await getPayments();
+      if (payments) {
+        setPayments(payments);
+        console.log("Payments:", payments);
       }
     };
     fetchUserData();
