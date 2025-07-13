@@ -1,7 +1,10 @@
 from typing import List, Optional
 from uuid import UUID
+import uuid
 from sqlalchemy.orm import Session
 from models.grade import Grade
+from models.course import Course
+from models.student_profile import StudentProfile
 from schemas.grade import GradeCreate, GradeUpdate
 
 def create_grade(db: Session, grade_in: GradeCreate) -> Grade:
@@ -36,3 +39,28 @@ def update_grade(db: Session, grade: Grade, grade_in: GradeUpdate) -> Grade:
 def delete_grade(db: Session, grade: Grade):
     db.delete(grade)
     db.commit()
+
+def calculate_gpa_for_semester(db: Session, student_uuid: uuid.UUID, semester: str) -> float:
+    query = db.query(Grade, Course).join(Course, Grade.course_id == Course.id)
+    query = query.filter(Grade.student_id == student_uuid, Course.semester == semester)
+    # print("hello")
+    results = query.all()
+    total_points = 0.0
+    total_credits = 0.0
+    for grade, course in results:
+        if grade.grade is not None and course.credit is not None:
+            total_points += grade.grade * course.credit
+            total_credits += course.credit
+
+    if total_credits == 0:
+        return 4.0
+    # print(total_points / total_credits)
+    return total_points / total_credits
+
+def calculate_gpa_for_semester_by_student_string_id(db: Session, student_id: uuid.UUID, semester: str) -> float:
+    student_profile = db.query(StudentProfile).filter(StudentProfile.id == student_id).first()
+    # print("hello")
+    if not student_profile:
+        return 4.0
+    # print("did not return")
+    return calculate_gpa_for_semester(db, student_profile.id, semester)

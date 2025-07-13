@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from schemas.requests.student_profile import StudentProfileCreate, StudentProfileUpdate, StudentProfileImageUpdate
 from schemas.responses.student_profile import StudentProfileResponse
 from services.student_profile_service import (
-    create_student_profile, get_student_profile, update_student_profile, update_student_image
+    create_student_profile, get_student_profile, update_student_profile, update_student_image, get_student_profile_by_user_id
 )
 from db import get_db
 
@@ -27,3 +27,7 @@ def update(profile_id: str, profile_in: StudentProfileUpdate, db: Session = Depe
 @router.put("/{profile_id}/image", response_model=StudentProfileResponse)
 def update_image(profile_id: str, image_in: StudentProfileImageUpdate, db: Session = Depends(get_db)):
     return update_student_image(db, profile_id, image_in)
+
+@router.get("/by_user/{user_id}", response_model=StudentProfileResponse)
+def get_by_user_id(user_id: str, db: Session = Depends(get_db)):
+    return get_student_profile_by_user_id(db, user_id)
