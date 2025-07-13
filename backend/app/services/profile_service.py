@@ -7,6 +7,7 @@ from schemas.requests.user import ProfileUpdateRequest
 from schemas.responses.user import ProfileResponse
 from services import image_service
 from utils.pagination import create_paginated_response
+import base64
 
 def update_profile_info(db: Session, profileInfoUpdate: ProfileUpdateRequest, user_id: str):
     profile = db.query(Profile).filter(Profile.user_id == user_id,Profile.is_deleted==False).first()
@@ -44,7 +45,10 @@ def get_profile_info(db: Session, user_id: str):
     profile = db.query(Profile).filter(Profile.user_id == user_id, Profile.is_deleted==False).first()
     if not profile:
         return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content={"message": "Profile not found"})
-    
+    # Convert user.image from bytes to base64 string if needed
+    user_obj = getattr(profile, 'user', None)
+    if user_obj and hasattr(user_obj, 'image') and isinstance(user_obj.image, bytes):
+        user_obj.image = base64.b64encode(user_obj.image).decode('utf-8')
     profile_schema = ProfileResponse.model_validate(profile)
     return profile_schema
 

@@ -9,7 +9,12 @@ def create_paginated_response(query: Query, page_no: int, page_size: int, schema
     total_item_count = query.count()
     total_page_count = (total_item_count + page_size - 1) // page_size  
     
+    import base64
     items = query.offset((page_no - 1) * page_size).limit(page_size).all()
+    for item in items:
+        if hasattr(item, "user") and item.user is not None:
+            if hasattr(item.user, "image") and isinstance(item.user.image, bytes):
+                item.user.image = base64.b64encode(item.user.image).decode("utf-8")
     item_schemas = [schema_class.model_validate(item) for item in items]  
 
     return PaginatedResponse[T](

@@ -6,6 +6,22 @@ import API_CONFIG from './config';
  */
 class ProfileService {
   /**
+   * Get all user profiles (paginated)
+   * @param {number} page_no - Page number (default 1)
+   * @param {number} page_size - Page size (default 100)
+   * @returns {Promise<Object>} Paginated profile response
+   */
+  async getAllProfiles(page_no = 1, page_size = 100) {
+    try {
+      const response = await ApiService.get(`${API_CONFIG.ENDPOINTS.PROFILE}/all`, { page_no, page_size });
+      return response;
+    } catch (error) {
+      console.error('Error fetching all profiles:', error);
+      return { data: [], total_item_count: 0 };
+    }
+  }
+
+  /**
    * Get the current user's profile
    * @returns {Promise<Object>} The user profile data
    */
@@ -260,6 +276,20 @@ class ProfileService {
       { id: 4, course_code: 'CSE-401', title: 'Artificial Intelligence', credits: 3, description: 'Introduction to AI concepts and algorithms' },
       { id: 7, course_code: 'CSE-501', title: 'Advanced Machine Learning', credits: 3, description: 'Advanced topics in machine learning and deep learning' }
     ];
+  }
+  /**
+   * Get a user profile by user id
+   * @param {string|number} userId
+   * @returns {Promise<Object>} The user profile data
+   */
+  async getProfileById(userId) {
+    try {
+      const response = await ApiService.get(`${API_CONFIG.ENDPOINTS.PROFILE}/${userId}`);
+      return response;
+    } catch (error) {
+      console.error('Error fetching profile by id:', error);
+      return null;
+    }
   }
 }
 
