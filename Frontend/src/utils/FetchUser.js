@@ -2,11 +2,13 @@
 // You can import this function in any other file
 
 export function getHardcodedUUID() {
-  return "ff23971c-fa26-412b-a4fc-a11cce8f5508";
+//   return "ff23971c-fa26-412b-a4fc-a11cce8f5508";
+    return localStorage.getItem('user_id');
 }
 
 export function getHardcodedStudentId() {
-    return "ff23971c-fa26-412b-a4fc-a11cce8f5508";
+    // return "ff23971c-fa26-412b-a4fc-a11cce8f5508";
+    return localStorage.getItem('profile_id');
   }
 
 // Alternatively, you can export a hardcoded user object

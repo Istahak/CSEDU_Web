@@ -443,7 +443,17 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
           </button>
           <div className="profile-info">
             <div className="profile-avatar">
-              <span className="avatar-icon">👩‍🎓</span>
+              {/* <span className="avatar-icon">👩‍🎓</span> */}
+              {/* <img
+                className="avatar-image"
+                src={userData.image.replace(/^dataimage\/jpegbase64\//, 'data:image/jpeg;base64,')}
+                alt="Profile Image"
+                style={{ width: "40px", height: "40px", borderRadius: "50%" }}
+              /> */}
+              <img
+                alt="alt text"
+                src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
+                />
             </div>
             <div className="profile-details">
               <h1 className="profile-name">{userData.name}</h1>
