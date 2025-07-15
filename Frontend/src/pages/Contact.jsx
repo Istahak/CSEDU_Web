@@ -125,13 +125,10 @@ const Contact = ({ onBack }) => {
             <h2>Our Location</h2>
             <div className="location-info">
               <p>
-                <strong>Computer Science & Engineering Department</strong>
+                <strong>Dhaka University</strong>
               </p>
-              <p>Science Complex, University of Dhaka</p>
-              <p>Shahbagh, Dhaka-1000, Bangladesh</p>
-              <p className="coordinates">
-                <small>📍 Plus Code: P9HX+FJ6</small>
-              </p>
+              <p>Shahbagh, Dhaka-1000</p>
+              <p>Bangladesh</p>
             </div>
 
             <div className="contact-details">
@@ -158,53 +155,21 @@ const Contact = ({ onBack }) => {
                   <p>
                     Computer Science & Engineering Department
                     <br />
-                    Science Complex, University of Dhaka
-                    <br />
-                    Shahbagh, Dhaka-1000
-                    <br />
-                    Plus Code: P9HX+FJ6
+                    Dhaka University, Shahbagh, Dhaka-1000
                   </p>
                 </div>
               </div>
             </div>
 
             <div className="map-section">
-              <h3>Find Us on Map</h3>
-              <div className="interactive-map">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3652.1865647!2d90.39678!3d23.72874!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b8ef3976bbbd%3A0x1b3140066a1d7bb8!2sDepartment%20of%20Computer%20Science%20and%20Engineering%2C%20University%20of%20Dhaka!5e0!3m2!1sen!2sbd!4v1642234567890!5m2!1sen!2sbd"
-                  width="100%"
-                  height="300"
-                  style={{ border: 0, borderRadius: "8px" }}
-                  allowFullScreen=""
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="Department of Computer Science and Engineering, University of Dhaka"
-                ></iframe>
-                <div className="map-overlay">
-                  <button
-                    className="view-in-google-maps"
-                    onClick={() =>
-                      window.open(
-                        "https://www.google.com/maps/place/Department+of+Computer+Science+and+Engineering,+University+of+Dhaka/@23.7339668,90.3744711,2503m/data=!3m1!1e3!4m10!1m2!2m1!1sdu+cse+department+google+map+location+latitude+and+longitude!3m6!1s0x3755b8ef3976bbbd:0x1b3140066a1d7bb8!8m2!3d23.7287386!4d90.3990829!15sCjxkdSBjc2UgZGVwYXJ0bWVudCBnb29nbGUgbWFwIGxvY2F0aW9uIGxhdGl0dWRlIGFuZCBsb25naXR1ZGUiA4gBAZIBFXVuaXZlcnNpdHlfZGVwYXJ0bWVudKoB0wEKDS9nLzExYzU5cDBnOG4KCS9tLzA0NWM3YgoIL20vMDRfdGIKCS9tLzA3dzVycRABKj0iOWNzZSBkZXBhcnRtZW50IGdvb2dsZSBtYXAgbG9jYXRpb24gbGF0aXR1ZGUgYW5kIGxvbmdpdHVkZSgAMh8QASIbiD2CLaSBVQ4BJWT7z_NWA5yDzzmk7iS-b2QyMkAQAiI8ZHUgY3NlIGRlcGFydG1lbnQgZ29vZ2xlIG1hcCBsb2NhdGlvbiBsYXRpdHVkZSBhbmQgbG9uZ2l0dWRl4AEA!16s%2Fg%2F11b8t85phy!5m1!1e1?entry=ttu&g_ep=EgoyMDI1MDcxMy4wIKXMDSoASAFQAw%3D%3D",
-                        "_blank"
-                      )
-                    }
-                  >
-                    🗺️ View in Google Maps
-                  </button>
+              <div className="map-placeholder">
+                <div className="map-grid">
+                  <div className="map-icon">🗺️</div>
+                  <p>Interactive Campus Map</p>
+                  <p className="map-subtitle">
+                    Click to view detailed campus location
+                  </p>
                 </div>
-              </div>
-              <div className="directions-info">
-                <p>
-                  <strong>Directions:</strong> The CSE Department is located in
-                  the Science Complex building within the University of Dhaka
-                  campus in Shahbagh area. The Science Complex houses modern
-                  computer labs, classrooms, and research facilities for the
-                  department. You can reach here by rickshaw, bus, or car from
-                  any part of Dhaka city. Use Plus Code P9HX+FJ6 for precise GPS
-                  navigation.
-                </p>
               </div>
             </div>
           </div>
