@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaPlus, FaEdit, FaTrash, FaEye } from 'react-icons/fa';
 
 const FacultyManagement = ({ 
   users, 
@@ -9,12 +10,15 @@ const FacultyManagement = ({
   return (
     <div className="user-management">
       <div className="section-header">
-        <h2>Faculty Management</h2>
+        <div className="section-header-text">
+          <h2>Faculty Management</h2>
+          <p>Manage faculty members and their information</p>
+        </div>
         <button
-          className="add-user-btn"
+          className="add-btn primary"
           onClick={() => setShowFacultyModal(true)}
         >
-          ➕ Add New Faculty
+          <FaPlus /> Add New Faculty
         </button>
       </div>
 
@@ -80,29 +84,29 @@ const FacultyManagement = ({
                   <td>{faculty.experience}</td>
                   <td>{faculty.publications} papers</td>
                   <td>
-                    <div className="action-buttons" style={{ display: 'flex', flexDirection: 'row', gap: '0.5rem', alignItems: 'center', justifyContent: 'center' }}>
+                    <div className="faculty-action-buttons">
                       <button
-                        style={{ background: 'transparent !important', color: '#1769aa', border: 'none', borderRadius: '4px', padding: '0.5rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}
+                        className="course-action-btn primary"
                         onClick={() => {
                           setEditingFaculty(faculty);
                           setShowFacultyModal(true);
                         }}
                         title="Edit Faculty"
                       >
-                        ✏️
+                        <FaEdit /> Edit
                       </button>
                       <button
-                        style={{ background: 'transparent !important', color: '#c62828', border: 'none', borderRadius: '4px', padding: '0.5rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}
+                        className="course-action-btn secondary"
+                        title="View Faculty Details"
+                      >
+                        <FaEye /> View
+                      </button>
+                      <button
+                        className="course-action-btn archive"
                         onClick={() => handleDeleteFaculty(faculty.id)}
                         title="Delete Faculty"
                       >
-                        🗑️
-                      </button>
-                      <button
-                        style={{ background: 'transparent !important', color: '#444', border: 'none', borderRadius: '4px', padding: '0.5rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}
-                        title="View Faculty Details"
-                      >
-                        👁️
+                        <FaTrash /> Delete
                       </button>
                     </div>
                   </td>

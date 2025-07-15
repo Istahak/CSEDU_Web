@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FaCheck, FaTimes, FaEye } from 'react-icons/fa';
 
 const RequestManagement = ({
   getFilteredRequests,
@@ -331,51 +332,37 @@ const RequestManagement = ({
                   </span>
                 </td>
                 <td>
-                  <button
-                    className="view-btn"
-                    onClick={() => handleViewRequest(request)}
-                    title="View Details"
-                  >
-                    👁️ View
-                  </button>
-                  {request.status === "pending" && (
-                    <>
-                      <button
-                        className="edit-btn"
-                        onClick={() =>
-                          handleRequestAction(request.id, "under_review")
-                        }
-                        title="Mark as Under Review"
-                      >
-                        👁️ Review
-                      </button>
-                      <button
-                        className="save-btn"
-                        onClick={() =>
-                          handleRequestAction(request.id, "approved")
-                        }
-                        title="Approve Request"
-                      >
-                        ✅ Approve
-                      </button>
-                      <button
-                        className="delete-btn"
-                        onClick={() =>
-                          handleRequestAction(request.id, "rejected")
-                        }
-                        title="Reject Request"
-                      >
-                        ❌ Reject
-                      </button>
-                    </>
-                  )}
-                  <button
-                    className="delete-btn"
-                    onClick={() => handleDeleteRequest(request.id)}
-                    title="Delete Request"
-                  >
-                    🗑️ Delete
-                  </button>
+                  <div className="request-action-buttons">
+                    <button
+                      className="course-action-btn secondary"
+                      onClick={() => handleViewRequest(request)}
+                      title="View Details"
+                    >
+                      <FaEye /> View
+                    </button>
+                    {request.status === "pending" && (
+                      <>
+                        <button
+                          className="course-action-btn primary"
+                          onClick={() =>
+                            handleRequestAction(request.id, "approved")
+                          }
+                          title="Approve Request"
+                        >
+                          <FaCheck /> Approve
+                        </button>
+                        <button
+                          className="course-action-btn archive"
+                          onClick={() =>
+                            handleRequestAction(request.id, "rejected")
+                          }
+                          title="Reject Request"
+                        >
+                          <FaTimes /> Reject
+                        </button>
+                      </>
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}
