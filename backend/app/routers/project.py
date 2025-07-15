@@ -5,9 +5,15 @@ from uuid import UUID
 from db import get_db
 from schemas.requests.project import ProjectCreate, ProjectUpdate
 from schemas.responses.project import ProjectResponse, ProjectAuthorOut
+from schemas.responses.supervised_student import SupervisedStudentOut
 from services import project_service
 
 router = APIRouter(prefix="/project", tags=["Project"])
+
+
+@router.get("/supervised-students/{supervisor_id}", response_model=List[SupervisedStudentOut])
+def get_supervised_students(supervisor_id: UUID, db: Session = Depends(get_db)):
+    return project_service.get_supervised_students(db, supervisor_id)
 
 @router.get("/by-supervisor/{supervisor_id}", response_model=List[ProjectResponse])
 def get_projects_by_supervisor_id(supervisor_id: UUID, db: Session = Depends(get_db)):

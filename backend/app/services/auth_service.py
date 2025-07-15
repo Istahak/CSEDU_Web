@@ -74,6 +74,7 @@ def sign_up_user(userSchema: UserSignUp, db: Session):
         db.add(student_profile)
         db.commit()
     elif role.name == "faculty":
+        print(f"User email: {user.email}")
         faculty_profile = Faculty(user_id=user.id, full_name=full_name, email=user.email)
         db.add(faculty_profile)
         db.commit()
