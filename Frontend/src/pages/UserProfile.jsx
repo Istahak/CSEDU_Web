@@ -10,49 +10,54 @@ import { getProjectsByAuthor } from "../api/UserProfileApi";
 import { getAcademicRecords } from "../api/UserProfileApi";
 import { getPayments } from "../api/UserProfileApi";
 import { payUserPayment } from "../api/UserProfileApi";
+import { getPendingAssignments } from "../api/UserProfileApi";
+import { getSubmittedAssignments } from "../api/UserProfileApi";
+import { getMissingAssignments } from "../api/UserProfileApi";
 
 const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
   
   const [activeTab, setActiveTab] = useState("overview");
-  const [assignments, setAssignments] = useState([
-    {
-      id: '0c30ee37-4073-4b50-8723-33a8b80c93db',
-      title: "CSE 408 - Assignment 3",
-      course: "CSE 408",
-      courseName: "Software Development",
-      dueDate: "March 15, 2024",
-      status: "submitted",
-      submissionDate: "March 12, 2024",
-      description: "Develop a web application using React and Node.js",
-      maxMarks: 100,
-      obtainedMarks: 85,
-      submittedFile: "assignment3_submission.zip",
-    },
-    {
-      id: '0c30ee37-4073-4b50-8723-33a8b80c93db',
-      title: "CSE 410 - Lab Report 5",
-      course: "CSE 410",
-      courseName: "Computer Graphics",
-      dueDate: "March 20, 2024",
-      status: "pending",
-      description: "Implement 3D transformations and lighting in OpenGL",
-      maxMarks: 50,
-      submittedFile: null,
-    },
-    {
-      id: '0c30ee37-4073-4b50-8723-33a8b80c93db',
-      title: "CSE 412 - Assignment 2",
-      course: "CSE 412",
-      courseName: "Machine Learning",
-      dueDate: "March 25, 2024",
-      status: "pending",
-      description: "Train a neural network for image classification",
-      maxMarks: 100,
-      submittedFile: null,
-    },
-  ]);
+  const [pendingAssignments, setPendingAssignments] = useState([]);
+  const [submittedAssignments, setSubmittedAssignments] = useState([]);
+  const [missingAssignments, setMissingAssignments] = useState([]);
+  //   {
+  //     id: '0c30ee37-4073-4b50-8723-33a8b80c93db',
+  //     title: "CSE 408 - Assignment 3",
+  //     course: "CSE 408",
+  //     courseName: "Software Development",
+  //     dueDate: "March 15, 2024",
+  //     status: "submitted",
+  //     submissionDate: "March 12, 2024",
+  //     description: "Develop a web application using React and Node.js",
+  //     maxMarks: 100,
+  //     obtainedMarks: 85,
+  //     submittedFile: "assignment3_submission.zip",
+  //   },
+  //   {
+  //     id: '0c30ee37-4073-4b50-8723-33a8b80c93db',
+  //     title: "CSE 410 - Lab Report 5",
+  //     course: "CSE 410",
+  //     courseName: "Computer Graphics",
+  //     dueDate: "March 20, 2024",
+  //     status: "pending",
+  //     description: "Implement 3D transformations and lighting in OpenGL",
+  //     maxMarks: 50,
+  //     submittedFile: null,
+  //   },
+  //   {
+  //     id: '0c30ee37-4073-4b50-8723-33a8b80c93db',
+  //     title: "CSE 412 - Assignment 2",
+  //     course: "CSE 412",
+  //     courseName: "Machine Learning",
+  //     dueDate: "March 25, 2024",
+  //     status: "pending",
+  //     description: "Train a neural network for image classification",
+  //     maxMarks: 100,
+  //     submittedFile: null,
+  //   },
+  // ]);
   
-  console.log(getHardcodedUUID());
+
 
   const [showSubmissionModal, setShowSubmissionModal] = useState(false);
   const [selectedAssignment, setSelectedAssignment] = useState(null);
@@ -181,26 +186,55 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
           <div className="tab-content">
             <div className="courses-section">
               <h3>Current Courses</h3>
-              <div className="course-list-grid">
+              <div className="courses-stats">
+                <div className="stat-item">
+                  <span className="stat-number">
+                    {Array.isArray(courses) ? courses.length : 0}
+                  </span>
+                  <span className="stat-label">Total Courses</span>
+                </div>
+                <div className="stat-item">
+                  <span className="stat-number">
+                    {Array.isArray(courses) ? courses.reduce((total, course) => total + parseInt(course.credit || 0), 0) : 0}
+                  </span>
+                  <span className="stat-label">Total Credits</span>
+                </div>
+              </div>
+              
+              <div className="course-grid-container">
                 {Array.isArray(courses) && courses.length > 0 ? (
-                  courses.map((course, idx) => (
-                    <div className="course-card" key={course.course_code || idx}>
-                      <div className="course-card-header">
-                        <span role="img" aria-label="book" className="course-icon">📘</span>
-                        <h4>{course.course_title}</h4>
-                        <span className="course-code">({course.course_code})</span>
-                      </div>
-                      <div className="course-card-body">
-                        <p className="course-intro">{course.intro}</p>
-                        <div className="course-details-row">
-                          <span className="course-detail"><strong>Credit:</strong> {course.credit}</span>
-                          <span className="course-detail"><strong>Duration:</strong> {course.duration}</span>
+                  <div className="course-grid">
+                    {courses.map((course, idx) => (
+                      <div className="course-grid-item" key={course.course_code || idx}>
+                        <div className="course-card">
+                          <div className="course-card-header">
+                            <span role="img" aria-label="book" className="course-icon">📘</span>
+                            <span className="course-code">{course.course_code}</span>
+                          </div>
+                          <div className="course-title">
+                            <h4>{course.course_title}</h4>
+                          </div>
+                          <div className="course-card-body">
+                            <p className="course-intro">{course.intro}</p>
+                            <div className="course-details">
+                              <span className="course-detail"><strong>Credit:</strong> {course.credit}</span>
+                              <span className="course-detail"><strong>Duration:</strong> {course.duration}</span>
+                            </div>
+                            {course.instructor && (
+                              <div className="course-instructor">
+                                <span><strong>Instructor:</strong> {course.instructor}</span>
+                              </div>
+                            )}
+                          </div>
+                          <div className="course-actions">
+                            <button className="view-course-btn">View Details</button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))
+                    ))}
+                  </div>
                 ) : (
-                  <p>No courses found for this semester.</p>
+                  <p className="no-courses">No courses found for this semester.</p>
                 )}
               </div>
             </div>
@@ -244,57 +278,103 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
               <div className="assignments-stats">
                 <div className="stat-item">
                   <span className="stat-number">
-                    {assignments.filter((a) => a.status === "submitted").length}
-                  </span>
-                  <span className="stat-label">Submitted</span>
-                </div>
-                <div className="stat-item">
-                  <span className="stat-number">
-                    {assignments.filter((a) => a.status === "pending").length}
+                    {pendingAssignments.length}
                   </span>
                   <span className="stat-label">Pending</span>
                 </div>
                 <div className="stat-item">
                   <span className="stat-number">
-                    {
-                      assignments.filter(
-                        (a) => isOverdue(a.dueDate) && a.status === "pending"
-                      ).length
-                    }
+                    {submittedAssignments.length}
                   </span>
-                  <span className="stat-label">Overdue</span>
+                  <span className="stat-label">Submitted</span>
+                </div>
+                <div className="stat-item">
+                  <span className="stat-number">
+                    {missingAssignments.length}
+                  </span>
+                  <span className="stat-label">Missing</span>
                 </div>
               </div>
-              <div className="assignment-list">
-                {assignments.map((assignment) => (
-                  <div key={assignment.id} className="assignment-item">
-                    <div className="assignment-header">
-                      <h4>{assignment.title}</h4>
-                      <span
-                        className="assignment-status"
-                        style={{
-                          backgroundColor: getStatusColor(assignment.status),
-                        }}
-                      >
-                        {assignment.status.charAt(0).toUpperCase() +
-                          assignment.status.slice(1)}
-                      </span>
-                    </div>
-                    <div className="assignment-details">
-                      <p>
-                        <strong>Course:</strong> {assignment.courseName}
-                      </p>
-                      <p>
-                        <strong>Due Date:</strong> {assignment.dueDate}
-                      </p>
-                      <p>
-                        <strong>Description:</strong> {assignment.description}
-                      </p>
-                      <p>
-                        <strong>Max Marks:</strong> {assignment.maxMarks}
-                      </p>
-                      {assignment.status === "submitted" && (
-                        <>
+              
+              {/* Pending Assignments Section */}
+              <div className="assignment-category">
+                <h4>Pending Assignments</h4>
+                <div className="assignment-list">
+                  {pendingAssignments.length > 0 ? (
+                    pendingAssignments.map((assignment) => (
+                      <div key={assignment.id} className="assignment-item">
+                        <div className="assignment-header">
+                          <h4>{assignment.title}</h4>
+                          <span
+                            className="assignment-status"
+                            style={{
+                              backgroundColor: getStatusColor("pending"),
+                            }}
+                          >
+                            Pending
+                          </span>
+                        </div>
+                        <div className="assignment-details">
+                          <p>
+                            <strong>Course:</strong> {assignment.courseName}
+                          </p>
+                          <p>
+                            <strong>Due Date:</strong> {assignment.dueDate}
+                          </p>
+                          <p>
+                            <strong>Description:</strong> {assignment.description}
+                          </p>
+                          <p>
+                            <strong>Max Marks:</strong> {assignment.maxMarks}
+                          </p>
+                        </div>
+                        <div className="assignment-actions">
+                          <button
+                            className="submit-btn"
+                            onClick={() => handleSubmitAssignment(assignment)}
+                          >
+                            Submit Assignment
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="no-assignments">No pending assignments</p>
+                  )}
+                </div>
+              </div>
+              
+              {/* Submitted Assignments Section */}
+              <div className="assignment-category">
+                <h4>Submitted Assignments</h4>
+                <div className="assignment-list">
+                  {submittedAssignments.length > 0 ? (
+                    submittedAssignments.map((assignment) => (
+                      <div key={assignment.id} className="assignment-item">
+                        <div className="assignment-header">
+                          <h4>{assignment.title}</h4>
+                          <span
+                            className="assignment-status"
+                            style={{
+                              backgroundColor: getStatusColor("submitted"),
+                            }}
+                          >
+                            Submitted
+                          </span>
+                        </div>
+                        <div className="assignment-details">
+                          <p>
+                            <strong>Course:</strong> {assignment.courseName}
+                          </p>
+                          <p>
+                            <strong>Due Date:</strong> {assignment.dueDate}
+                          </p>
+                          <p>
+                            <strong>Description:</strong> {assignment.description}
+                          </p>
+                          <p>
+                            <strong>Max Marks:</strong> {assignment.maxMarks}
+                          </p>
                           <p>
                             <strong>Submission Date:</strong>{" "}
                             {assignment.submissionDate}
@@ -309,26 +389,63 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
                               {assignment.obtainedMarks}/{assignment.maxMarks}
                             </p>
                           )}
-                        </>
-                      )}
-                    </div>
-                    <div className="assignment-actions">
-                      {assignment.status === "pending" && (
-                        <button
-                          className="submit-btn"
-                          onClick={() => handleSubmitAssignment(assignment)}
-                        >
-                          Submit Assignment
-                        </button>
-                      )}
-                      {assignment.status === "submitted" && (
-                        <button className="view-btn" disabled>
-                          View Submission
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                ))}
+                        </div>
+                        <div className="assignment-actions">
+                          <button className="view-btn">
+                            View Submission
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="no-assignments">No submitted assignments</p>
+                  )}
+                </div>
+              </div>
+              
+              {/* Missing Assignments Section */}
+              <div className="assignment-category">
+                <h4>Missing Assignments</h4>
+                <div className="assignment-list">
+                  {missingAssignments.length > 0 ? (
+                    missingAssignments.map((assignment) => (
+                      <div key={assignment.id} className="assignment-item">
+                        <div className="assignment-header">
+                          <h4>{assignment.title}</h4>
+                          <span
+                            className="assignment-status"
+                            style={{
+                              backgroundColor: getStatusColor("missing"),
+                            }}
+                          >
+                            Missing
+                          </span>
+                        </div>
+                        <div className="assignment-details">
+                          <p>
+                            <strong>Course:</strong> {assignment.courseName}
+                          </p>
+                          <p>
+                            <strong>Due Date:</strong> {assignment.dueDate}
+                          </p>
+                          <p>
+                            <strong>Description:</strong> {assignment.description}
+                          </p>
+                          <p>
+                            <strong>Max Marks:</strong> {assignment.maxMarks}
+                          </p>
+                        </div>
+                        <div className="assignment-actions">
+                          <button className="submit-btn" disabled>
+                            Deadline Passed
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="no-assignments">No missing assignments</p>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -499,7 +616,38 @@ case "due-payments":
     console.log("ki oilo");
     const formData = new FormData(e.target);
     console.log(Object.fromEntries(formData.entries()));
-    await submitAssignment(formData, selectedAssignment.id, userData.id, submissionComments);
+    
+    try {
+      const result = await submitAssignment(formData, selectedAssignment.id, userData.id, submissionComments);
+      
+      if (result) {
+        // Show success message
+        alert("Assignment submitted successfully!");
+        
+        // Close the modal
+        setShowSubmissionModal(false);
+        
+        // Reset form state
+        setSubmissionFile(null);
+        setSubmissionComments("");
+        
+        // Refresh assignments data
+        const pendingAssignments = await getPendingAssignments();
+        if (pendingAssignments) {
+          setPendingAssignments(pendingAssignments);
+        }
+        
+        const submittedAssignments = await getSubmittedAssignments();
+        if (submittedAssignments) {
+          setSubmittedAssignments(submittedAssignments);
+        }
+      } else {
+        alert("Failed to submit assignment. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting assignment:", error);
+      alert("An error occurred while submitting the assignment.");
+    }
   };
 
   const closeSubmissionModal = () => {
@@ -554,6 +702,21 @@ case "due-payments":
       if (payments) {
         setPayments(payments);
         console.log("Payments:", payments);
+      }
+      const pendingAssignments = await getPendingAssignments();
+      if (pendingAssignments) {
+        setPendingAssignments(pendingAssignments);
+        console.log("Pending Assignments:", pendingAssignments);
+      }
+      const submittedAssignments = await getSubmittedAssignments();
+      if (submittedAssignments) {
+        setSubmittedAssignments(submittedAssignments);
+        console.log("Submitted Assignments:", submittedAssignments);
+      }
+      const missingAssignments = await getMissingAssignments();
+      if (missingAssignments) {
+        setMissingAssignments(missingAssignments);
+        console.log("Missing Assignments:", missingAssignments);
       }
     };
     fetchUserData();
