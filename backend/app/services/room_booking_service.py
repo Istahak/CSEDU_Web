@@ -3,7 +3,8 @@ from fastapi import HTTPException, status
 from uuid import UUID
 from typing import List
 from models.classroom import RoomBooking
-from schemas.requests.room_booking import RoomBookingCreate, RoomBookingUpdate
+from schemas.requests.room_booking import RoomBookingCreate, RoomBookingUpdate 
+from datetime import datetime, timedelta
 
 class RoomBookingService:
     @staticmethod
@@ -33,7 +34,25 @@ class RoomBookingService:
         return db.query(RoomBooking).filter(RoomBooking.user_id == uuid_obj).offset(skip).limit(limit).all()
 
     @staticmethod
+    # def get_available_time_for_room(db: Session, room_id: str):
+    #     try:
+    #         uuid_obj = UUID(room_id)
+    #     except ValueError:
+    #         raise HTTPException(
+    #             status_code=status.HTTP_400_BAD_REQUEST,
+    #             detail=f"Invalid room ID format"
+    #         )
+    #     bookings = db.query(RoomBooking).filter(RoomBooking.room_id == uuid_obj).all()
+    #     # Return list of dicts with start and end time
+    #     return [{
+    #         "time_start": booking.time_start,
+    #         "time_end": booking.time_end,
+    #         "is_approved": booking.is_approved
+    #     } for booking in bookings]
+ 
+
     def get_available_time_for_room(db: Session, room_id: str):
+        # Validate UUID
         try:
             uuid_obj = UUID(room_id)
         except ValueError:
@@ -41,13 +60,37 @@ class RoomBookingService:
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail=f"Invalid room ID format"
             )
-        bookings = db.query(RoomBooking).filter(RoomBooking.room_id == uuid_obj).all()
-        # Return list of dicts with start and end time
-        return [{
-            "time_start": booking.time_start,
-            "time_end": booking.time_end,
-            "is_approved": booking.is_approved
-        } for booking in bookings]
+
+        now = datetime.now()
+        print(now)  
+
+        # Only consider approved bookings!
+        bookings = (
+            db.query(RoomBooking)
+            .filter(RoomBooking.room_id == uuid_obj, RoomBooking.is_approved == True)
+            .order_by(RoomBooking.time_start)
+            .all()
+        )
+
+        available_slots = []
+        prev_end = now
+
+        for booking in bookings:
+            # If previous end < new booking start, there's an available slot!
+            if prev_end < booking.time_start:
+                available_slots.append({
+                    "time_start": prev_end,
+                    "time_end": booking.time_start
+                })
+            prev_end = max(prev_end, booking.time_end)
+
+        # After the last booking, the room is free
+        available_slots.append({
+            "time_start": prev_end,
+            "time_end": None  # signifies "infinite"
+        })
+
+        return available_slots
 
     @staticmethod
     def get_all_room_bookings(db: Session, skip: int = 0, limit: int = 100) -> List[RoomBooking]:
