@@ -1,11 +1,7 @@
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import API_CONFIG from "../api/config";
 import "./FacultyProfile.css";
-
-
-// Edited by Tanzim
 
 // UUID validation function
 const isValidUUID = (str) => {
@@ -170,14 +166,14 @@ const staticFaculty = [
   }
 ];
 
-// Mock course and publication data (replace with API calls when available)
+// Mock course and static publication data
 const allCourses = [
   { id: "CSE101", code: "CSE 101", name: "Introduction to Programming", credits: "3.00", title: "Introduction to Programming", description: "Fundamental concepts of programming using structured and object-oriented programming paradigms.", status: "Available", image: "💻", degree: "BSc CSE", semester: "1st" },
   { id: "CSE201", code: "CSE 201", name: "Data Structures and Algorithms", credits: "3.00", title: "Data Structures and Algorithms", description: "Study of fundamental data structures and algorithms for efficient problem solving.", status: "Available", image: "📊", degree: "BSc CSE", semester: "2nd" },
   { id: "CSE301", code: "CSE 301", name: "Machine Learning", credits: "3.00", title: "Machine Learning", description: "Introduction to machine learning algorithms, neural networks, and artificial intelligence.", status: "Available", image: "🤖", degree: "MSc CSE", semester: "1st" }
 ];
 
-const publications = [
+const staticPublications = [
   {
     id: "PUB001",
     authors: "Rahman, A. et al. (2024)",
@@ -194,7 +190,9 @@ const publications = [
 
 const FacultyProfile = ({ id, onBack, onCourseSelect }) => {
   const [faculty, setFaculty] = useState(null);
+  const [publicationsData, setPublicationsData] = useState([]);
   const [error, setError] = useState(null);
+  const [publicationsError, setPublicationsError] = useState(null);
 
   useEffect(() => {
     if (!id) {
@@ -208,8 +206,14 @@ const FacultyProfile = ({ id, onBack, onCourseSelect }) => {
       console.error("FacultyProfile: Invalid UUID:", id);
       const staticMember = staticFaculty.find((f) => f.id.toString() === id);
       if (staticMember) {
+        const pubs = staticMember.number_of_publications > 0
+          ? staticMember.number_of_publications >= 2
+            ? ["PUB001", "PUB002"]
+            : ["PUB001"]
+          : [];
         setFaculty({
           id: staticMember.id,
+          user_id: staticMember.user_id,
           name: staticMember.full_name,
           role: staticMember.employment_status === "Active" ? staticMember.designation : staticMember.employment_status,
           designation: staticMember.designation,
@@ -238,12 +242,16 @@ const FacultyProfile = ({ id, onBack, onCourseSelect }) => {
             : staticMember.specialization?.includes("Software Engineering")
             ? ["CSE201"]
             : ["CSE101"],
-          publications: staticMember.number_of_publications > 0 ? ["PUB001"] : []
+          publications: pubs
         });
+        setPublicationsData(pubs.map(pubId => staticPublications.find(p => p.id === pubId)).filter(p => p));
         setError("Showing static data due to invalid ID format");
+        setPublicationsError("Using static publications due to invalid faculty ID");
       } else {
         setFaculty(null);
+        setPublicationsData([]);
         setError("Faculty not found in static data");
+        setPublicationsError("No publications available");
       }
       return;
     }
@@ -255,15 +263,20 @@ const FacultyProfile = ({ id, onBack, onCourseSelect }) => {
           `${API_CONFIG.BASE_URL}${API_CONFIG.API_VERSION}/faculty/${id}`,
           { timeout: 5000 }
         );
-        console.log("FacultyProfile: API Response:", response.data);
+        console.log("FacultyProfile: Faculty API Response:", response.data);
 
         // Handle both single object and array response
         let facultyDataRaw = Array.isArray(response.data) ? response.data[0] : response.data;
 
-        // Check if response is non-empty and valid
         if (facultyDataRaw && Object.keys(facultyDataRaw).length > 0 && facultyDataRaw.id) {
+          const pubs = facultyDataRaw.number_of_publications > 0
+            ? facultyDataRaw.number_of_publications >= 2
+              ? ["PUB001", "PUB002"]
+              : ["PUB001"]
+            : [];
           const facultyData = {
             id: facultyDataRaw.id,
+            user_id: facultyDataRaw.user_id,
             name: facultyDataRaw.full_name,
             role: facultyDataRaw.employment_status === "Active" ? facultyDataRaw.designation : facultyDataRaw.employment_status,
             designation: facultyDataRaw.designation,
@@ -292,16 +305,56 @@ const FacultyProfile = ({ id, onBack, onCourseSelect }) => {
               : facultyDataRaw.specialization?.includes("Software Engineering")
               ? ["CSE201"]
               : ["CSE101"],
-            publications: facultyDataRaw.number_of_publications > 0 ? ["PUB001"] : []
+            publications: pubs
           };
           setFaculty(facultyData);
           setError(null);
+
+          // Fetch publications
+          try {
+            const pubResponse = await axios.get(
+              `${API_CONFIG.BASE_URL}${API_CONFIG.API_VERSION}/publications/by-author/${facultyDataRaw.user_id}`,
+              { timeout: 5000 }
+            );
+            console.log("FacultyProfile: Publications API Response:", pubResponse.data);
+            if (pubResponse.data && Array.isArray(pubResponse.data) && pubResponse.data.length > 0) {
+              setPublicationsData(pubResponse.data);
+              setPublicationsError(null);
+            } else {
+              console.warn("FacultyProfile: No publications found, falling back to static data");
+              setPublicationsData(pubs.map(pubId => staticPublications.find(p => p.id === pubId)).filter(p => p));
+              // setPublicationsError("No publications found in database, using static data");
+            }
+          } catch (pubErr) {
+            console.error("FacultyProfile: Publications Fetch Error:", {
+              message: pubErr.message,
+              response: pubErr.response?.data,
+              status: pubErr.response?.status,
+              url: `${API_CONFIG.BASE_URL}${API_CONFIG.API_VERSION}/publications/by-author/${facultyDataRaw.user_id}`
+            });
+            let pubErrorMessage = "Failed to fetch publications";
+            if (pubErr.response?.status === 404) {
+              pubErrorMessage = "No publications found for this author in database";
+            } else if (pubErr.response?.status === 422) {
+              pubErrorMessage = "Invalid author ID format sent to server";
+            } else {
+              pubErrorMessage = `Failed to fetch publications: ${pubErr.message}`;
+            }
+            setPublicationsData(pubs.map(pubId => staticPublications.find(p => p.id === pubId)).filter(p => p));
+            // setPublicationsError(`Using static publications due to API error: ${pubErrorMessage}`);
+          }
         } else {
-          console.warn("FacultyProfile: Empty or invalid API response, falling back to static data");
+          console.warn("FacultyProfile: Empty or invalid faculty API response, falling back to static data");
           const staticMember = staticFaculty.find((f) => f.id.toString() === id);
           if (staticMember) {
+            const pubs = staticMember.number_of_publications > 0
+              ? staticMember.number_of_publications >= 2
+                ? ["PUB001", "PUB002"]
+                : ["PUB001"]
+              : [];
             setFaculty({
               id: staticMember.id,
+              user_id: staticMember.user_id,
               name: staticMember.full_name,
               role: staticMember.employment_status === "Active" ? staticMember.designation : staticMember.employment_status,
               designation: staticMember.designation,
@@ -330,16 +383,20 @@ const FacultyProfile = ({ id, onBack, onCourseSelect }) => {
                 : staticMember.specialization?.includes("Software Engineering")
                 ? ["CSE201"]
                 : ["CSE101"],
-              publications: staticMember.number_of_publications > 0 ? ["PUB001"] : []
+              publications: pubs
             });
+            setPublicationsData(pubs.map(pubId => staticPublications.find(p => p.id === pubId)).filter(p => p));
             setError("Showing static data due to empty or invalid API response");
+            setPublicationsError("Using static publications due to invalid faculty data");
           } else {
             setFaculty(null);
+            setPublicationsData([]);
             setError("Faculty not found in static data");
+            setPublicationsError("No publications available");
           }
         }
       } catch (err) {
-        console.error("FacultyProfile: Fetch Error:", {
+        console.error("FacultyProfile: Faculty Fetch Error:", {
           message: err.message,
           response: err.response?.data,
           status: err.response?.status,
@@ -357,8 +414,14 @@ const FacultyProfile = ({ id, onBack, onCourseSelect }) => {
 
         const staticMember = staticFaculty.find((f) => f.id.toString() === id);
         if (staticMember) {
+          const pubs = staticMember.number_of_publications > 0
+            ? staticMember.number_of_publications >= 2
+              ? ["PUB001", "PUB002"]
+              : ["PUB001"]
+            : [];
           setFaculty({
             id: staticMember.id,
+            user_id: staticMember.user_id,
             name: staticMember.full_name,
             role: staticMember.employment_status === "Active" ? staticMember.designation : staticMember.employment_status,
             designation: staticMember.designation,
@@ -387,12 +450,16 @@ const FacultyProfile = ({ id, onBack, onCourseSelect }) => {
               : staticMember.specialization?.includes("Software Engineering")
               ? ["CSE201"]
               : ["CSE101"],
-            publications: staticMember.number_of_publications > 0 ? ["PUB001"] : []
+            publications: pubs
           });
+          setPublicationsData(pubs.map(pubId => staticPublications.find(p => p.id === pubId)).filter(p => p));
           setError(`Showing static data due to API error: ${errorMessage}`);
+          setPublicationsError(`Using static publications due to faculty API error: ${errorMessage}`);
         } else {
           setFaculty(null);
+          setPublicationsData([]);
           setError("Faculty not found");
+          setPublicationsError("No publications available");
         }
       }
     };
@@ -613,9 +680,8 @@ const FacultyProfile = ({ id, onBack, onCourseSelect }) => {
             <div className="simple-info-card">
               <h3 className="simple-card-title">Publications</h3>
               <div className="simple-info-list">
-                {faculty.publications && faculty.publications.map((pubId) => {
-                  const pub = publications.find((p) => p.id === pubId);
-                  return pub ? (
+                {publicationsData.length > 0 ? (
+                  publicationsData.map((pub) => (
                     <div
                       key={pub.id}
                       className="simple-info-item"
@@ -656,9 +722,26 @@ const FacultyProfile = ({ id, onBack, onCourseSelect }) => {
                         {pub.journal}
                       </span>
                     </div>
-                  ) : null;
-                })}
+                  ))
+                ) : (
+                  <div
+                    className="simple-info-item"
+                    style={{
+                      flexDirection: "column",
+                      alignItems: "flex-start",
+                      color: "#6c757d",
+                      fontSize: "0.9rem",
+                    }}
+                  >
+                    No publications available
+                  </div>
+                )}
               </div>
+              {publicationsError && (
+                <p className="error-message" style={{ fontSize: "0.85rem", marginTop: "0.5rem" }}>
+                  {publicationsError}
+                </p>
+              )}
             </div>
 
             <div className="simple-action-card">
