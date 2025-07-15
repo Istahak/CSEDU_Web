@@ -5,9 +5,10 @@ from schemas.requests.user import (
     ProfileUpdateRequest
 )
 
-from routers import token, auth, img, profile, homepage, faculty, notice, classroom, committee, committee_member, research_assistant, equipment, equipment_booking, office_room, payment, payment_user, project, publication
+from routers import token, auth, img, profile, homepage, faculty, notice, classroom, committee, committee_member, research_assistant, equipment, equipment_booking, office_room, payment, payment_user, project, publication, admin_profile
 from .user import router as user_router
 from .room_booking import router as room_booking_router
+# from .admin_profile import router as admin_profile_router
 
 from .assignment import router as assignment_router
 from .assignment_submission import router as assignment_submission_router
@@ -54,3 +55,4 @@ router.include_router(attendance.router)
 router.include_router(grade.router)
 router.include_router(gpa.router)
 router.include_router(room_booking_router)
+router.include_router(admin_profile.router)
