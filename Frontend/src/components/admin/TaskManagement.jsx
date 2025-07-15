@@ -1,4 +1,5 @@
 import React from "react";
+import { FaEdit, FaTrash, FaEye, FaCheck } from 'react-icons/fa';
 
 const TaskManagement = ({
   tasks,
@@ -306,18 +307,18 @@ const TaskManagement = ({
                   <option value="completed">Completed</option>
                 </select>
               </div>
-              <div className="action-buttons">
+              <div className="task-action-buttons">
                 <button
-                  className="edit-btn"
+                  className="course-action-btn primary"
                   onClick={() => handleEditTask(task)}
                 >
-                  ✏️ Edit
+                  <FaEdit /> Edit
                 </button>
                 <button
-                  className="delete-btn"
+                  className="course-action-btn archive"
                   onClick={() => handleDeleteTask(task.id)}
                 >
-                  🗑️ Delete
+                  <FaTrash /> Delete
                 </button>
               </div>
             </div>

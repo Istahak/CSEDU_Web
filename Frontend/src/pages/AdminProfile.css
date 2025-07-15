@@ -430,6 +430,111 @@
   transform: translateY(-1px);
 }
 
+/* Faculty action buttons styling */
+.faculty-action-buttons {
+  display: flex !important;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  flex-wrap: nowrap;
+}
+
+.faculty-action-buttons .course-action-btn {
+  white-space: nowrap;
+  min-width: auto;
+}
+
+/* Course action buttons styling */
+.course-action-buttons {
+  display: flex !important;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  flex-wrap: nowrap;
+}
+
+.course-action-buttons .course-action-btn {
+  white-space: nowrap;
+  min-width: auto;
+}
+
+/* Notice action buttons styling */
+.notice-action-buttons {
+  display: flex !important;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  flex-wrap: nowrap;
+}
+
+.notice-action-buttons .course-action-btn {
+  white-space: nowrap;
+  min-width: auto;
+}
+
+/* Achievement action buttons styling */
+.achievement-action-buttons {
+  display: flex !important;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  flex-wrap: nowrap;
+}
+
+.achievement-action-buttons .course-action-btn {
+  white-space: nowrap;
+  min-width: auto;
+}
+
+/* Event action buttons styling */
+.event-action-buttons {
+  display: flex !important;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  flex-wrap: nowrap;
+}
+
+.event-action-buttons .course-action-btn {
+  white-space: nowrap;
+  min-width: auto;
+}
+
+/* Request action buttons styling */
+.request-action-buttons {
+  display: flex !important;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  flex-wrap: nowrap;
+}
+
+.request-action-buttons .course-action-btn {
+  white-space: nowrap;
+  min-width: auto;
+}
+
+/* Task action buttons styling */
+.task-action-buttons {
+  display: flex !important;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  flex-wrap: nowrap;
+}
+
+.task-action-buttons .course-action-btn {
+  white-space: nowrap;
+  min-width: auto;
+}
+
 /* Settings Styles */
 .system-settings {
   background: #fff;

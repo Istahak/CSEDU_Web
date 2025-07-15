@@ -14,6 +14,7 @@ import RequestManagement from "../components/admin/RequestManagement";
 import RegistrationModal from "../components/admin/RegistrationModal";
 import AdminProfileSettings from "../components/admin/AdminProfileSettings";
 import TaskManagement from "../components/admin/TaskManagement";
+import TaskAssignment from "../components/admin/TaskAssignment";
 import TaskModal from "../components/admin/TaskModal";
 
 const AdminProfile = ({ onLogout }) => {
@@ -859,6 +860,22 @@ const AdminProfile = ({ onLogout }) => {
     return { total, assigned, inProgress, completed, pending, overdue };
   };
 
+  // Request Management Helper Functions
+  const getFilteredRequests = () => {
+    if (requestFilter === "all") return requests;
+    return requests.filter((request) => request.status === requestFilter);
+  };
+
+  const getRequestStats = () => {
+    const total = requests.length;
+    const pending = requests.filter((r) => r.status === "pending").length;
+    const underReview = requests.filter((r) => r.status === "under_review").length;
+    const approved = requests.filter((r) => r.status === "approved").length;
+    const rejected = requests.filter((r) => r.status === "rejected").length;
+
+    return { total, pending, underReview, approved, rejected };
+  };
+
   // Placeholder function for Profile tab
   const renderProfile = () => (
     <AdminProfileSettings adminData={adminData} setAdminData={setAdminData} />
@@ -961,7 +978,7 @@ const AdminProfile = ({ onLogout }) => {
         );
       case "tasks":
         return (
-          <TaskManagement
+          <TaskAssignment
             tasks={tasks}
             users={users}
             getFilteredTasks={getFilteredTasks}
