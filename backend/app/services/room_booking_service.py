@@ -10,6 +10,12 @@ class RoomBookingService:
     @staticmethod
     def create_room_booking(db: Session, booking_create: RoomBookingCreate) -> RoomBooking:
         booking = RoomBooking(**booking_create.dict())
+        # order by priority idx descending
+        bookings = db.query(RoomBooking).filter(RoomBooking.room_id == booking.room_id).order_by(RoomBooking.priority_idx.desc()).first()
+        if bookings:
+            booking.priority_idx = bookings.priority_idx + 1e6
+        else:
+            booking.priority_idx = 1e6
         db.add(booking)
         try:
             db.commit()
@@ -164,4 +170,19 @@ class RoomBookingService:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail=f"Failed to approve room booking: {str(e)}"
+            )
+
+    @staticmethod
+    def update_priority_idx(db: Session, booking_id: str, priority_idx: int) -> RoomBooking:
+        booking = RoomBookingService.get_room_booking_by_id(db, booking_id)
+        booking.priority_idx = priority_idx
+        try:
+            db.commit()
+            db.refresh(booking)
+            return booking
+        except Exception as e:
+            db.rollback()
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Failed to update priority index: {str(e)}"
             )

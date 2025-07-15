@@ -117,3 +117,16 @@ def approve_room_booking(
     Approve a room booking (set is_approved=True).
     """
     return RoomBookingService.approve_room_booking(db, booking_id)
+
+from schemas.requests.room_booking import RoomBookingPriorityUpdate
+
+@router.put("/{booking_id}/priority", response_model=RoomBookingResponse)
+def update_priority_idx(
+    booking_id: str,
+    priority_update: RoomBookingPriorityUpdate,
+    db: Session = Depends(get_db),
+):
+    """
+    Update the priority index of a room booking.
+    """
+    return RoomBookingService.update_priority_idx(db, booking_id, priority_update.priority_idx)
