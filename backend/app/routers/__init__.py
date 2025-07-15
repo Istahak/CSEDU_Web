@@ -56,8 +56,3 @@ router.include_router(event_booking.router)
 router.include_router(attendance.router)
 router.include_router(grade.router)
 router.include_router(gpa.router)
-router.include_router(room_booking_router)
-router.include_router(slot_router)
-router.include_router(day_router)
-
-router.include_router(admin_profile.router)
