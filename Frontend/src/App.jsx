@@ -43,6 +43,17 @@ function App() {
   const [currentPage, setCurrentPage] = useState("home");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userRole, setUserRole] = useState(null);
+  // Added by miraj 
+  
+  // Check localStorage for login info on initial load
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const role = localStorage.getItem('role');
+    if (token && role) {
+      setIsAuthenticated(true);
+      setUserRole(role);
+    }
+  }, []);
 
   // Scroll to top whenever the page changes
   useEffect(() => {
@@ -120,6 +131,12 @@ function App() {
   };
 
   const handleLogout = () => {
+    // added by miraj 
+    localStorage.removeItem('token');
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('role');
+    localStorage.removeItem('profile_id');
+    localStorage.removeItem('login_response');
     setIsAuthenticated(false);
     setUserRole(null);
     setCurrentPage("home");
