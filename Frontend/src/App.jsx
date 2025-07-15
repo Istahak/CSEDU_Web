@@ -35,6 +35,7 @@ import ScheduleMeeting from "./pages/ScheduleMeeting";
 import ReserveRoom from "./pages/ReserveRoom";
 import LabBooking from "./pages/LabBooking";
 import LabBookingSuccess from "./pages/LabBookingSuccess";
+import EquipmentHistory from "./pages/EquipmentHistory";
 import Signup from "./pages/Signup";
 import TeacherEditProfile from "./pages/TeacherEditProfile";
 import "./styles/App.css";
@@ -426,11 +427,23 @@ function App() {
       case "lab-booking":
         return (
           <LabBooking
-            onBack={() => setCurrentPage("home")}
+            onBack={(page) => {
+              if (page === 'equipment-history') {
+                setCurrentPage("equipment-history");
+              } else {
+                setCurrentPage("home");
+              }
+            }}
             onBookingComplete={(formData) => {
               setBookingData(formData);
               setCurrentPage("lab-booking-success");
             }}
+          />
+        );
+      case "equipment-history":
+        return (
+          <EquipmentHistory
+            onBack={() => setCurrentPage("lab-booking")}
           />
         );
       case "lab-booking-success":

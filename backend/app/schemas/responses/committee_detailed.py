@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from uuid import UUID
 from typing import Optional, List
-from schemas.responses.committee_member import CommitteeMemberResponse
+from .committee_member import CommitteeMemberResponse
 
 class CommitteeDetailedResponse(BaseModel):
     id: UUID

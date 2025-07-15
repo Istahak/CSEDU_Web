@@ -1,27 +1,27 @@
-from models.base import CommonBase, AuditBase
+from .base import CommonBase, AuditBase
 
-from models.user import User, Profile, UserSession
-from models.role import Role, Permission
-from models.image import Image
-from models.homepage import Overview, Announcement, AnnouncementType, QuickLink
-from models.faculty import Faculty
-from models.office_room import OfficeRoom
-from models.notice import Notice
-from models.publication import Publication
-from models.author_publication import AuthorPublication
+from .user import User, Profile, UserSession
+from .role import Role, Permission
+from .image import Image
+from .homepage import Overview, Announcement, AnnouncementType, QuickLink
+from .faculty import Faculty
+from .office_room import OfficeRoom
+from .notice import Notice
+from .publication import Publication
+from .author_publication import AuthorPublication
 
 # Newly added models
-from models.student_profile import StudentProfile
-from models.grade import Grade
-from models.classroom import Classroom, RoomBooking
-from models.course import Course, CourseSyllabusItem, LearningOutcome, AssessmentMethod, RequiredTextbook
-from models.attendance import Attendance
-from models.research_assistant import ResearchAssistant
-from models.committee import Committee
-from models.committee_member import CommitteeMember
-from models.faculty_event_schedule import FacultyEventSchedule
-from models.event_type import EventType
-from models.payment import Payment, PaymentUser
-from models.admin_profile import AdminProfile
-from models.achievement import Achievement, AchievementWinner
-from models.equipment import Equipment, EquipmentBooking
+from .student_profile import StudentProfile
+from .grade import Grade
+from .classroom import Classroom, RoomBooking
+from .course import Course, CourseSyllabusItem, LearningOutcome, AssessmentMethod, RequiredTextbook
+from .attendance import Attendance
+from .research_assistant import ResearchAssistant
+from .committee import Committee
+from .committee_member import CommitteeMember
+from .faculty_event_schedule import FacultyEventSchedule
+from .event_type import EventType
+from .payment import Payment, PaymentUser
+from .admin_profile import AdminProfile
+from .achievement import Achievement, AchievementWinner
+from .equipment import Equipment, EquipmentBooking

@@ -1,9 +1,9 @@
-from schemas.requests.user import (
+from .user import (
     UserSignUp, UserSignIn, 
     ProfileUpdateRequest
 )
 
-from schemas.requests.homepage import (
+from .homepage import (
     OverviewCreate, OverviewUpdate,
     AnnouncementCreate, AnnouncementUpdate,
     AnnouncementTypeCreate, AnnouncementTypeUpdate,

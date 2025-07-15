@@ -1,12 +1,12 @@
-from schemas.responses.user import (
+from .user import (
     UserResponse, ProfileResponse
 )
 
-from schemas.responses.img import ImageResponse
+from .img import ImageResponse
 
-from schemas.responses.pagination import PaginatedResponse
+from .pagination import PaginatedResponse
 
-from schemas.responses.homepage import (
+from .homepage import (
     HomepageResponse, OverviewResponse,
     AnnouncementResponse, AnnouncementTypeResponse,
     QuickLinkResponse

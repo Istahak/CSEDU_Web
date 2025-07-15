@@ -216,7 +216,15 @@ const LabBooking = ({ onBack, onBookingComplete }) => {
       <div className="lab-booking-page">
         <div className="lab-booking-container">
           <div className="equipment-selection">
-            <h2>Select Laboratory</h2>
+            <div className="lab-booking-header">
+              <h2>Select Laboratory</h2>
+              <button
+                className="history-btn"
+                onClick={() => onBack && onBack('equipment-history')}
+              >
+                📋 Booking History
+              </button>
+            </div>
             
             {/* Category Filter */}
             <div className="category-filter">
