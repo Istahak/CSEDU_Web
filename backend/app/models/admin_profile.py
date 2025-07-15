@@ -8,7 +8,7 @@ class AdminProfile(Base):
     __tablename__ = "admin_profiles"
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     full_name = Column(String(100), nullable=False)
-    role = Column(String(50), nullable=False)
+    role = Column(String(50), nullable=True)
     email = Column(String(100), nullable=False, unique=True)
     dept = Column(String(100))
     phone = Column(String(20))

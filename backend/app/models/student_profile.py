@@ -8,7 +8,8 @@ class StudentProfile(Base):
     __tablename__ = "student_profiles"
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     user_id = Column(UUID(as_uuid=True), ForeignKey('users.id', ondelete='CASCADE'), unique=True, nullable=False)
-    student_id = Column(String(50), unique=True, nullable=False)
+    student_id = Column(String(50), unique=True, nullable=True)
+    full_name = Column(String(100), nullable=True)
     email = Column(String(100), nullable=False)
     phone = Column(String(20))
     batch = Column(String(20))
