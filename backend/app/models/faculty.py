@@ -19,8 +19,8 @@ class Faculty(Base):
     specialization = Column(Text)
     research_areas = Column(Text)  # Stored as comma-separated string
     employment_status = Column(String(20), default="Active")
-    designation = Column(String(50), nullable=False)
-    department = Column(String(50), nullable=False)
+    designation = Column(String(50), nullable=True)
+    department = Column(String(50), nullable=True)
     experience = Column(String(50))  # e.g., "15 years"
     number_of_publications = Column(Integer, default=0)
     qualifications = Column(Text)
