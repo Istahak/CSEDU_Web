@@ -64,9 +64,24 @@ def sign_up_user(userSchema: UserSignUp, db: Session):
     db.add(user)
     db.commit()
     db.refresh(user)
-    profile = Profile(user_id=user.id, full_name=full_name)
-    db.add(profile)
+    # profile = Profile(user_id=user.id, full_name=full_name)
+    # db.add(profile)
     db.commit()
+    print("role is ",role)
+    if role.name == "student":
+        student_profile = StudentProfile(user_id=user.id, full_name=full_name, email=user.email)
+        
+        db.add(student_profile)
+        db.commit()
+    elif role.name == "faculty":
+        faculty_profile = Faculty(user_id=user.id, full_name=full_name, email=user.email)
+        db.add(faculty_profile)
+        db.commit()
+    elif role.name == "admin":
+        print("in the admin section for signup ")
+        admin_profile = AdminProfile(user_id=user.id, full_name=full_name, role=role.name, email=user.email, joining_date=datetime.now())
+        db.add(admin_profile)
+        db.commit()
 
     return JSONResponse(status_code=status.HTTP_201_CREATED, content={"message": "User created successfully"})
 
@@ -117,6 +132,7 @@ def sign_in_user(userSchema: UserSignIn, db: Session, request: Request):
         profile = db.query(Faculty).filter(Faculty.user_id == user.id).first()
         profile_id = profile.id
     elif role_name == "admin":
+        print("in the admin section ")
         profile = db.query(AdminProfile).filter(AdminProfile.user_id == user.id).first()
         profile_id = profile.id
     return {

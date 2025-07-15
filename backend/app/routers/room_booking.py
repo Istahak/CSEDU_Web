@@ -33,6 +33,28 @@ def get_all_room_bookings(
     """
     return RoomBookingService.get_all_room_bookings(db, skip=skip, limit=limit)
 
+@router.get("/by-user/{user_id}", response_model=List[RoomBookingResponse])
+def get_bookings_by_user_id(
+    user_id: str,
+    skip: int = 0,
+    limit: int = 100,
+    db: Session = Depends(get_db),
+):
+    """
+    Get all room bookings by user ID.
+    """
+    return RoomBookingService.get_bookings_by_user_id(db, user_id, skip=skip, limit=limit)
+
+@router.get("/available-time/{room_id}")
+def get_available_time_for_room(
+    room_id: str,
+    db: Session = Depends(get_db),
+):
+    """
+    Get available time slots for a room by room ID.
+    """
+    return RoomBookingService.get_available_time_for_room(db, room_id)
+
 @router.get("/approved", response_model=List[RoomBookingResponse])
 def get_approved_room_bookings(
     skip: int = 0,

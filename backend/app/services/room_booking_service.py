@@ -22,6 +22,34 @@ class RoomBookingService:
             )
 
     @staticmethod
+    def get_bookings_by_user_id(db: Session, user_id: str, skip: int = 0, limit: int = 100):
+        try:
+            uuid_obj = UUID(user_id)
+        except ValueError:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Invalid user ID format"
+            )
+        return db.query(RoomBooking).filter(RoomBooking.user_id == uuid_obj).offset(skip).limit(limit).all()
+
+    @staticmethod
+    def get_available_time_for_room(db: Session, room_id: str):
+        try:
+            uuid_obj = UUID(room_id)
+        except ValueError:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Invalid room ID format"
+            )
+        bookings = db.query(RoomBooking).filter(RoomBooking.room_id == uuid_obj).all()
+        # Return list of dicts with start and end time
+        return [{
+            "time_start": booking.time_start,
+            "time_end": booking.time_end,
+            "is_approved": booking.is_approved
+        } for booking in bookings]
+
+    @staticmethod
     def get_all_room_bookings(db: Session, skip: int = 0, limit: int = 100) -> List[RoomBooking]:
         return db.query(RoomBooking).offset(skip).limit(limit).all()
 
