@@ -172,10 +172,66 @@ class RoomBookingService:
                 detail=f"Failed to approve room booking: {str(e)}"
             )
 
+    # @staticmethod
+    # def update_priority_idx(db: Session, booking_id: str, priority_idx: int) -> RoomBooking:
+    #     booking = RoomBookingService.get_room_booking_by_id(db, booking_id)
+    #     booking.priority_idx = priority_idx
+    #     try:
+    #         db.commit()
+    #         db.refresh(booking)
+    #         return booking
+    #     except Exception as e:
+    #         db.rollback()
+    #         raise HTTPException(
+    #             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+    #             detail=f"Failed to update priority index: {str(e)}"
+    #         )
+    
     @staticmethod
-    def update_priority_idx(db: Session, booking_id: str, priority_idx: int) -> RoomBooking:
-        booking = RoomBookingService.get_room_booking_by_id(db, booking_id)
-        booking.priority_idx = priority_idx
+    def update_priority_idx(db: Session, booking_id: str, desired_position) -> RoomBooking:
+        # Get all bookings, ordered by priority_idx ASC
+        try:
+            desired_position = int(desired_position)
+        except ValueError:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Invalid desired position"
+            )
+        all_bookings = db.query(RoomBooking).order_by(RoomBooking.priority_idx.asc()).all()
+
+
+        # Sanitize desired_position
+        if desired_position <=0:
+            return "Invalid desired position"
+
+        num_bookings = len(all_bookings)
+        if num_bookings == 0:
+            # If no bookings, set default priority_idx
+            new_priority_idx = 1e6
+        elif desired_position == 1:
+            # Insert at beginning: smaller than current first
+            first_priority = all_bookings[0].priority_idx
+            new_priority_idx = first_priority/2
+        elif desired_position >= num_bookings:
+            # Insert at end: bigger than last
+            last_priority = all_bookings[-1].priority_idx
+            new_priority_idx = last_priority + 1e6
+        else:
+            desired_position -= 1
+            # Insert between: average of prev and next
+            prev_priority = all_bookings[desired_position - 1].priority_idx
+            next_priority = all_bookings[desired_position].priority_idx
+            new_priority_idx = (prev_priority + next_priority) / 2
+
+        # Now update the specified booking with the new priority_idx
+        booking = db.query(RoomBooking).filter_by(id=booking_id).one_or_none()
+        if booking is None:
+            raise HTTPException(
+                status_code=404,
+                detail="Booking not found"
+            )
+
+        booking.priority_idx = new_priority_idx
         try:
             db.commit()
             db.refresh(booking)
@@ -183,6 +239,6 @@ class RoomBookingService:
         except Exception as e:
             db.rollback()
             raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                status_code=500,
                 detail=f"Failed to update priority index: {str(e)}"
             )
