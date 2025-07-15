@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from "react";
+import authService from "../api/AuthService"; // Adjust path based on your project structure
 import "./AdminProfile.css";
 import Dashboard from "../components/admin/Dashboard";
 import FacultyManagement from "../components/admin/FacultyManagement";
@@ -34,6 +36,7 @@ const AdminProfile = ({ onLogout }) => {
       "Database Management",
     ],
   });
+  const [error, setError] = useState(null);
 
   const [stats, setStats] = useState({
     totalUsers: 1250,
@@ -48,7 +51,7 @@ const AdminProfile = ({ onLogout }) => {
     totalRequests: 6,
   });
 
-  // Sample data - in a real app, this would come from an API
+  // Sample data (unchanged from original)
   const [users, setUsers] = useState([
     {
       id: 1,
@@ -69,7 +72,6 @@ const AdminProfile = ({ onLogout }) => {
       employeeId: "CSE-2015-001",
       profileImage: "",
     },
-    // Additional sample users would be here in a real implementation
   ]);
 
   const [courses, setCourses] = useState([
@@ -83,8 +85,7 @@ const AdminProfile = ({ onLogout }) => {
       credits: 3,
       semester: "Fall",
       year: 2024,
-      description:
-        "This course introduces fundamental programming concepts using Python language.",
+      description: "This course introduces fundamental programming concepts using Python language.",
       prerequisites: "None",
       maxStudents: 50,
       schedule: "Mon, Wed, Fri 10:00-11:00 AM",
@@ -93,15 +94,13 @@ const AdminProfile = ({ onLogout }) => {
       duration: "3 months",
       difficulty: "Beginner",
     },
-    // Additional sample courses would be here
   ]);
 
   const [notices, setNotices] = useState([
     {
       id: 1,
       title: "Semester Registration Open",
-      content:
-        "Fall 2024 semester registration is now open. Please complete your registration by July 15th.",
+      content: "Fall 2024 semester registration is now open. Please complete your registration by July 15th.",
       category: "Academic",
       priority: "high",
       publishDate: "2024-07-01",
@@ -110,15 +109,13 @@ const AdminProfile = ({ onLogout }) => {
       author: "Admin",
       attachments: [],
     },
-    // Additional notices...
   ]);
 
   const [achievements, setAchievements] = useState([
     {
       id: 1,
       title: "Best Research Paper Award",
-      description:
-        "Dr. John Smith received the Best Research Paper Award at the International Conference on AI.",
+      description: "Dr. John Smith received the Best Research Paper Award at the International Conference on AI.",
       category: "Research",
       recipientName: "Dr. John Smith",
       recipientType: "faculty",
@@ -128,15 +125,13 @@ const AdminProfile = ({ onLogout }) => {
       status: "published",
       featured: true,
     },
-    // Additional achievements...
   ]);
 
   const [events, setEvents] = useState([
     {
       id: 1,
       title: "Annual Tech Conference 2024",
-      description:
-        "Join us for the most exciting technology conference of the year.",
+      description: "Join us for the most exciting technology conference of the year.",
       category: "Conference",
       date: "2024-03-15",
       time: "09:00",
@@ -240,8 +235,7 @@ const AdminProfile = ({ onLogout }) => {
       applicantName: "Dr. Emily Johnson",
       applicantEmail: "emily.johnson@email.com",
       subject: "Application for Assistant Professor Position",
-      description:
-        "I am applying for the Assistant Professor position in Computer Science Department. I have completed my PhD in Machine Learning from Stanford University and have 5 years of industry experience at Google AI.",
+      description: "I am applying for the Assistant Professor position in Computer Science Department. I have completed my PhD in Machine Learning from Stanford University and have 5 years of industry experience at Google AI.",
       status: "pending",
       priority: "high",
       submissionDate: "2024-12-15",
@@ -265,24 +259,15 @@ const AdminProfile = ({ onLogout }) => {
       applicantName: "Ahmed Rahman",
       applicantEmail: "ahmed.rahman@student.edu.bd",
       subject: "Request for Late Course Enrollment - CSE-401",
-      description:
-        "I missed the regular enrollment deadline due to medical reasons. I have attached medical certificates and would like to enroll in Advanced Database Systems course.",
+      description: "I missed the regular enrollment deadline due to medical reasons. I have attached medical certificates and would like to enroll in Advanced Database Systems course.",
       status: "under_review",
       priority: "medium",
       submissionDate: "2024-12-14",
       department: "CSE",
       category: "Academic",
       attachments: [
-        {
-          name: "Medical_Certificate.pdf",
-          size: "800KB",
-          type: "application/pdf",
-        },
-        {
-          name: "Previous_Transcript.pdf",
-          size: "1.2MB",
-          type: "application/pdf",
-        },
+        { name: "Medical_Certificate.pdf", size: "800KB", type: "application/pdf" },
+        { name: "Previous_Transcript.pdf", size: "1.2MB", type: "application/pdf" },
       ],
       additionalInfo: {
         courseCode: "CSE-401",
@@ -297,8 +282,7 @@ const AdminProfile = ({ onLogout }) => {
       applicantName: "Sarah Wilson",
       applicantEmail: "sarah.wilson@student.edu.bd",
       subject: "Special Registration for Tech Conference 2024",
-      description:
-        "I am a final year student and would like to register for the Annual Tech Conference. I understand the registration is closed but I am willing to volunteer.",
+      description: "I am a final year student and would like to register for the Annual Tech Conference. I understand the registration is closed but I am willing to volunteer.",
       status: "approved",
       priority: "low",
       submissionDate: "2024-12-13",
@@ -322,8 +306,7 @@ const AdminProfile = ({ onLogout }) => {
       applicantName: "Michael Chen",
       applicantEmail: "michael.chen@student.edu.bd",
       subject: "Grade Appeal for CSE-305 Final Exam",
-      description:
-        "I believe there was an error in grading my final exam for Data Structures and Algorithms course. I would like to request a review of my answer sheet.",
+      description: "I believe there was an error in grading my final exam for Data Structures and Algorithms course. I would like to request a review of my answer sheet.",
       status: "rejected",
       priority: "medium",
       submissionDate: "2024-12-12",
@@ -331,11 +314,7 @@ const AdminProfile = ({ onLogout }) => {
       category: "Academic",
       attachments: [
         { name: "Exam_Copy.pdf", size: "5.2MB", type: "application/pdf" },
-        {
-          name: "Supporting_Documents.pdf",
-          size: "1.8MB",
-          type: "application/pdf",
-        },
+        { name: "Supporting_Documents.pdf", size: "1.8MB", type: "application/pdf" },
       ],
       additionalInfo: {
         courseCode: "CSE-305",
@@ -346,8 +325,7 @@ const AdminProfile = ({ onLogout }) => {
       },
       reviewedBy: "System Administrator",
       reviewedDate: "2024-12-13",
-      adminNotes:
-        "After review, the grading was found to be correct. Appeal rejected.",
+      adminNotes: "After review, the grading was found to be correct. Appeal rejected.",
     },
     {
       id: 5,
@@ -355,29 +333,16 @@ const AdminProfile = ({ onLogout }) => {
       applicantName: "Dr. Robert Taylor",
       applicantEmail: "robert.taylor@faculty.edu.bd",
       subject: "Research Grant Application - AI in Healthcare",
-      description:
-        "Submitting research proposal for AI in Healthcare project. Requesting funding approval and lab resource allocation for the next academic year.",
+      description: "Submitting research proposal for AI in Healthcare project. Requesting funding approval and lab resource allocation for the next academic year.",
       status: "pending",
       priority: "high",
       submissionDate: "2024-12-10",
       department: "CSE",
       category: "Research",
       attachments: [
-        {
-          name: "Research_Proposal.pdf",
-          size: "8.5MB",
-          type: "application/pdf",
-        },
-        {
-          name: "Budget_Plan.xlsx",
-          size: "150KB",
-          type: "application/vnd.ms-excel",
-        },
-        {
-          name: "Literature_Review.pdf",
-          size: "12.3MB",
-          type: "application/pdf",
-        },
+        { name: "Research_Proposal.pdf", size: "8.5MB", type: "application/pdf" },
+        { name: "Budget_Plan.xlsx", size: "150KB", type: "application/vnd.ms-excel" },
+        { name: "Literature_Review.pdf", size: "12.3MB", type: "application/pdf" },
       ],
       additionalInfo: {
         fundingAmount: "500,000 BDT",
@@ -392,8 +357,7 @@ const AdminProfile = ({ onLogout }) => {
       applicantName: "Student Council",
       applicantEmail: "council@student.edu.bd",
       subject: "Booking Request for Seminar Hall - Programming Contest",
-      description:
-        "We need to book the main seminar hall for organizing Inter-University Programming Contest on March 20th, 2024.",
+      description: "We need to book the main seminar hall for organizing Inter-University Programming Contest on March 20th, 2024.",
       status: "under_review",
       priority: "medium",
       submissionDate: "2024-12-11",
@@ -421,21 +385,109 @@ const AdminProfile = ({ onLogout }) => {
   const [showRegistrationModal, setShowRegistrationModal] = useState(false);
   const [showRequestModal, setShowRequestModal] = useState(false);
   const [showArchivedNotices, setShowArchivedNotices] = useState(false);
-  const [showArchivedAchievements, setShowArchivedAchievements] =
-    useState(false);
+  const [showArchivedAchievements, setShowArchivedAchievements] = useState(false);
   const [editingNotice, setEditingNotice] = useState(null);
   const [editingAchievement, setEditingAchievement] = useState(null);
   const [editingFaculty, setEditingFaculty] = useState(null);
   const [editingCourse, setEditingCourse] = useState(null);
   const [editingEvent, setEditingEvent] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const [selectedEventRegistrations, setSelectedEventRegistrations] = useState(
-    []
-  );
+  const [selectedEventRegistrations, setSelectedEventRegistrations] = useState([]);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [requestFilter, setRequestFilter] = useState("all");
 
-  // Handler functions
+  // Fetch admin profile data on mount
+  useEffect(() => {
+    const fetchAdminData = async () => {
+      try {
+        console.log("Fetching current user data...");
+        const response = await authService.getCurrentAdmin();
+        console.log("getCurrentAdmin response:", response);
+        
+        // Map API response to adminData structure
+        const fetchedAdminData = {
+          name: response.full_name || response.name || "System Administrator",
+          email: response.email || "admin@csedu.edu.bd",
+          role: response.role || "System Administrator",
+          department: response.department || "Computer Science & Engineering",
+          phone: response.phone || "+880-2-9661900",
+          joinDate: response.join_date || response.joined || "2020-01-15",
+          adminId: response.admin_id || response.user_id || "ADMIN-001",
+          profileImage: response.profile_image || "",
+          permissions: response.permissions || [
+            "Faculty Management",
+            "Content Management",
+            "Course Management",
+            "System Settings",
+            "Analytics",
+            "Database Management",
+          ],
+        };
+        setAdminData(fetchedAdminData);
+        setError(null);
+      } catch (err) {
+        console.error("Failed to fetch admin data:", err);
+        setError(err.message || "Failed to fetch profile data");
+        
+        // Fallback to demo user data
+        const demoData = authService.getDemoUserData("admin");
+        setAdminData({
+          name: demoData.full_name || "System Administrator",
+          email: demoData.email || "admin@csedu.edu.bd",
+          role: demoData.role || "System Administrator",
+          department: "Computer Science & Engineering",
+          phone: "+880-2-9661900",
+          joinDate: "2020-01-15",
+          adminId: "ADMIN-001",
+          profileImage: "",
+          permissions: [
+            "Faculty Management",
+            "Content Management",
+            "Course Management",
+            "System Settings",
+            "Analytics",
+            "Database Management",
+          ],
+        });
+        
+        // Redirect to login if unauthorized
+        if (err.status === 401) {
+          authService.logout();
+          window.location.href = "/login";
+        }
+      }
+    };
+
+    if (authService.isAuthenticated()) {
+      fetchAdminData();
+    } else {
+      console.warn("User not authenticated, redirecting to login");
+      authService.logout();
+      window.location.href = "/login";
+    }
+  }, []);
+
+  // Function to update admin profile
+  const updateProfile = async (updatedData) => {
+    try {
+      const response = await authService.apiService.put(API_CONFIG.ENDPOINTS.AUTH.ME, updatedData);
+      console.log("Profile update response:", response);
+      
+      // Update local state with new data
+      setAdminData({
+        ...adminData,
+        ...updatedData,
+      });
+      setError(null);
+      return { success: true, message: "Profile updated successfully" };
+    } catch (err) {
+      console.error("Failed to update profile:", err);
+      setError(err.message || "Failed to update profile");
+      return { success: false, message: err.message || "Failed to update profile" };
+    }
+  };
+
+  // Handler functions (unchanged from original)
   const generateEmployeeId = () => {
     const year = new Date().getFullYear();
     const count = users.filter((user) => user.role === "faculty").length + 1;
@@ -444,7 +496,7 @@ const AdminProfile = ({ onLogout }) => {
 
   const handleAddFaculty = (facultyData) => {
     const newFaculty = {
-      id: Date.now(), // Simple ID generation for demo
+      id: Date.now(),
       ...facultyData,
       employeeId: generateEmployeeId(),
     };
@@ -464,9 +516,7 @@ const AdminProfile = ({ onLogout }) => {
   };
 
   const handleDeleteFaculty = (facultyId) => {
-    if (
-      window.confirm("Are you sure you want to delete this faculty member?")
-    ) {
+    if (window.confirm("Are you sure you want to delete this faculty member?")) {
       setUsers(users.filter((user) => user.id !== facultyId));
     }
   };
@@ -477,7 +527,7 @@ const AdminProfile = ({ onLogout }) => {
 
   const handleAddCourse = (courseData) => {
     const newCourse = {
-      id: Date.now(), // Simple ID generation for demo
+      id: Date.now(),
       ...courseData,
     };
     setCourses([...courses, newCourse]);
@@ -541,7 +591,7 @@ const AdminProfile = ({ onLogout }) => {
 
   const handleAddNotice = (noticeData) => {
     const newNotice = {
-      id: Date.now(), // Simple ID generation for demo
+      id: Date.now(),
       ...noticeData,
     };
     setNotices([...notices, newNotice]);
@@ -599,7 +649,7 @@ const AdminProfile = ({ onLogout }) => {
 
   const handleAddAchievement = (achievementData) => {
     const newAchievement = {
-      id: Date.now(), // Simple ID generation for demo
+      id: Date.now(),
       ...achievementData,
     };
     setAchievements([...achievements, newAchievement]);
@@ -621,14 +671,12 @@ const AdminProfile = ({ onLogout }) => {
 
   const handleEditEvent = (eventId, eventData) => {
     if (eventId) {
-      // Edit existing event
       setEvents(
         events.map((event) =>
           event.id === eventId ? { ...event, ...eventData } : event
         )
       );
     } else {
-      // Add new event
       setEvents([...events, eventData]);
     }
   };
@@ -643,11 +691,7 @@ const AdminProfile = ({ onLogout }) => {
     // Certificate issuance logic would go here
   };
 
-  const handleUpdatePaymentStatus = (
-    eventId,
-    registrationId,
-    paymentStatus
-  ) => {
+  const handleUpdatePaymentStatus = (eventId, registrationId, paymentStatus) => {
     // Payment status update logic would go here
   };
 
@@ -721,16 +765,18 @@ const AdminProfile = ({ onLogout }) => {
     const pending = requests.filter((r) => r.status === "pending").length;
     const approved = requests.filter((r) => r.status === "approved").length;
     const rejected = requests.filter((r) => r.status === "rejected").length;
-    const underReview = requests.filter(
-      (r) => r.status === "under_review"
-    ).length;
+    const underReview = requests.filter((r) => r.status === "under_review").length;
 
     return { total, pending, approved, rejected, underReview };
   };
 
-  // Placeholder function for Profile tab
+  // Updated renderProfile to pass updateProfile function
   const renderProfile = () => (
-    <AdminProfileSettings adminData={adminData} setAdminData={setAdminData} />
+    <AdminProfileSettings
+      adminData={adminData}
+      setAdminData={setAdminData}
+      updateProfile={updateProfile}
+    />
   );
 
   const renderTabContent = () => {
@@ -841,6 +887,25 @@ const AdminProfile = ({ onLogout }) => {
     }
   };
 
+  if (error && !authService.isAuthenticated()) {
+    return (
+      <div className="admin-profile-container">
+        <div className="admin-content">
+          <p className="error-message">Error: {error}. Please log in again.</p>
+          <button
+            className="logout-btn"
+            onClick={() => {
+              authService.logout();
+              window.location.href = "/login";
+            }}
+          >
+            Go to Login
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="admin-profile-container">
       <div className="admin-content">
@@ -863,9 +928,7 @@ const AdminProfile = ({ onLogout }) => {
 
           <nav className="admin-nav">
             <button
-              className={`nav-item ${
-                activeTab === "dashboard" ? "active" : ""
-              }`}
+              className={`nav-item ${activeTab === "dashboard" ? "active" : ""}`}
               onClick={() => setActiveTab("dashboard")}
             >
               📊 Dashboard
@@ -889,9 +952,7 @@ const AdminProfile = ({ onLogout }) => {
               📢 Notice Management
             </button>
             <button
-              className={`nav-item ${
-                activeTab === "achievements" ? "active" : ""
-              }`}
+              className={`nav-item ${activeTab === "achievements" ? "active" : ""}`}
               onClick={() => setActiveTab("achievements")}
             >
               🏆 Achievement Management
@@ -914,13 +975,20 @@ const AdminProfile = ({ onLogout }) => {
             >
               👤 Profile
             </button>
-            <button className="logout-btn nav-item" onClick={onLogout}>
+            <button className="logout-btn nav-item" onClick={() => {
+              onLogout();
+              authService.logout();
+              window.location.href = "/login";
+            }}>
               🚪 Logout
             </button>
           </nav>
         </div>
 
-        <div className="admin-main">{renderTabContent()}</div>
+        <div className="admin-main">
+          {error && <p className="error-message">{error}</p>}
+          {renderTabContent()}
+        </div>
       </div>
 
       {showFacultyModal && (
@@ -966,9 +1034,7 @@ const AdminProfile = ({ onLogout }) => {
             setShowAchievementModal(false);
             setEditingAchievement(null);
           }}
-          onSave={
-            editingAchievement ? handleEditAchievement : handleAddAchievement
-          }
+          onSave={editingAchievement ? handleEditAchievement : handleAddAchievement}
           editingAchievement={editingAchievement}
         />
       )}
