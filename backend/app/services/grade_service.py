@@ -64,3 +64,28 @@ def calculate_gpa_for_semester_by_student_string_id(db: Session, student_id: uui
         return 4.0
     # print("did not return")
     return calculate_gpa_for_semester(db, student_profile.id, semester)
+
+def calculate_academic_records_by_student_id(db: Session, student_id: uuid.UUID):
+    grades = get_grades_by_student(db, student_id)
+    semester_map = {}
+    for grade in grades:
+        course = db.query(Course).filter(Course.id == grade.course_id).first()
+        if not course or grade.grade is None or course.credit is None:
+            continue
+        semester = course.semester
+        if semester not in semester_map:
+            semester_map[semester] = {"total_points": 0.0, "total_credits": 0.0}
+        semester_map[semester]["total_points"] += grade.grade * course.credit
+        semester_map[semester]["total_credits"] += course.credit
+    result = []
+    for semester, data in semester_map.items():
+        total_credits = data["total_credits"]
+        gpa = data["total_points"] / total_credits if total_credits > 0 else 0.0
+        result.append({
+            "semester": semester,
+            "gpa": round(gpa, 2),
+            "credits": total_credits
+        })
+    # Sort by semester if needed (assuming semester is a string representing a number)
+    result.sort(key=lambda x: x["semester"])
+    return result

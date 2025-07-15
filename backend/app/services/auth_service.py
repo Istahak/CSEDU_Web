@@ -6,6 +6,9 @@ from models.user import User, UserSession, Profile
 from models.role import Role
 from schemas.requests.user import UserSignUp, UserSignIn
 from utils import oauth2, agent_parse
+from models.student_profile import StudentProfile
+from models.faculty import Faculty
+from models.admin_profile import AdminProfile
 
 
 def sign_up_user(userSchema: UserSignUp, db: Session):
@@ -68,6 +71,7 @@ def sign_up_user(userSchema: UserSignUp, db: Session):
     return JSONResponse(status_code=status.HTTP_201_CREATED, content={"message": "User created successfully"})
 
 def sign_in_user(userSchema: UserSignIn, db: Session, request: Request):
+    print("in the sign in section ")
     user = db.query(User).filter(User.email == userSchema.email).first()
 
     user_agent = request.headers.get("User-Agent")
@@ -88,7 +92,7 @@ def sign_in_user(userSchema: UserSignIn, db: Session, request: Request):
         role = db.query(Role).filter(Role.id == user.role_id).first()
         if role:
             role_name = role.name
-
+    print("got the user role ",role_name)
     token = oauth2.createAccessToken({
                 "user_id":str(user.id),
                 "user_name":user.user_name,
@@ -104,11 +108,22 @@ def sign_in_user(userSchema: UserSignIn, db: Session, request: Request):
 
     db.add(user_session)
     db.commit()
-
+    profile_id = None   
+    if role_name     == "student":
+        profile = db.query(StudentProfile).filter(StudentProfile.user_id == user.id).first()
+        print("in the student section ")
+        profile_id = profile.id
+    elif role_name == "faculty":
+        profile = db.query(Faculty).filter(Faculty.user_id == user.id).first()
+        profile_id = profile.id
+    elif role_name == "admin":
+        profile = db.query(AdminProfile).filter(AdminProfile.user_id == user.id).first()
+        profile_id = profile.id
     return {
         "user_id": user.id,
         "role": role_name,
-        "token": token
+        "token": token,
+        "profile_id": profile_id
     }
 
 def get_user_sessions(db: Session, user_id: str):
