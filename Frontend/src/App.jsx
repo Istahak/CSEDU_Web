@@ -98,11 +98,14 @@ function App() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [selectedProject, setSelectedProject] = useState(null);
   const [selectedNotice, setSelectedNotice] = useState(null);
-  // Custom page switcher to support passing notice object from Home
-  const setCurrentPage = (page, payload) => {
+  // Track source page for notice-details navigation
+  const [noticeSource, setNoticeSource] = useState("home");
+  // Custom page switcher to support passing notice object and source
+  const setCurrentPage = (page, payload, source) => {
     setCurrentPageRaw(page);
     if (page === "notice-details") {
       setSelectedNotice(payload || null);
+      setNoticeSource(source || "home");
     }
   };
   const [registrationData, setRegistrationData] = useState(null);
@@ -394,7 +397,7 @@ function App() {
             onBack={() => setCurrentPage("home")}
             onNoticeSelect={(notice) => {
               setSelectedNotice(notice);
-              setCurrentPage("notice-details");
+              setCurrentPage("notice-details", notice, "notices");
             }}
           />
         );
@@ -403,7 +406,7 @@ function App() {
           <NoticeDetails
             notice={selectedNotice}
             onBack={() => {
-              setCurrentPage("home");
+              setCurrentPage(noticeSource);
               setSelectedNotice(null);
             }}
           />
@@ -481,7 +484,7 @@ function App() {
           />
         );
       default:
-        return <Home setCurrentPage={setCurrentPage} />;
+        return <Home setCurrentPage={(page, payload) => setCurrentPage(page, payload, "home")} />;
     }
   };
 
