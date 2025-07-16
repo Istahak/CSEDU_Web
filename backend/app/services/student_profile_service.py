@@ -89,3 +89,21 @@ def update_student_image(db: Session, profile_id: str, image_in: StudentProfileI
     user.image = base64.b64decode(image_in.image)
     db.commit()
     return get_student_profile(db, profile.id)
+
+def get_students_by_semester(db: Session, semester):
+    students = db.query(StudentProfile).filter(StudentProfile.semester == semester).all()
+    return [
+        {
+            "id": str(student.id),
+            "user_id": str(student.user_id),
+            "student_id": student.student_id,
+            "full_name": student.full_name,
+            "email": student.email,
+            "phone": student.phone,
+            "batch": student.batch,
+            "semester": student.semester,
+            "cgpa": student.cgpa,
+            "dept": student.dept
+        }
+        for student in students
+    ]

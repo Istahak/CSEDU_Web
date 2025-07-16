@@ -40,7 +40,7 @@ class UserSignUp(BaseModel):
     
 class UserSignIn(BaseModel):
     email: Optional[EmailStr] = Field(None)
-    password: Optional[str] = Field(None, min_length=8)
+    password: Optional[str] = Field(None)
 
     @field_validator('email')
     def email_must_not_be_empty(cls, v):

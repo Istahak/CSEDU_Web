@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaPlus, FaEdit, FaTrash, FaEye } from 'react-icons/fa';
 
 const EventManagement = ({
   events,
@@ -360,9 +361,12 @@ const EventManagement = ({
   return (
     <div className="user-management">
       <div className="section-header">
-        <h2>Event Management</h2>
-        <button className="add-user-btn" onClick={handleAddEvent}>
-          ➕ Add New Event
+        <div className="section-header-text">
+          <h2>Event Management</h2>
+          <p>Manage events and registrations</p>
+        </div>
+        <button className="add-btn primary" onClick={handleAddEvent}>
+          <FaPlus /> Add New Event
         </button>
       </div>
       <div className="user-table">
@@ -442,27 +446,27 @@ const EventManagement = ({
                   </button>
                 </td>
                 <td>
-                  <div className="action-buttons">
+                  <div className="event-action-buttons">
                     <button
-                      className="edit-btn"
+                      className="course-action-btn primary"
                       onClick={() => handleEditEventClick(event)}
                       title="Edit Event"
                     >
-                      ✏️ Edit
+                      <FaEdit /> Edit
                     </button>
                     <button
-                      className="delete-btn"
-                      onClick={() => handleDeleteEvent(event.id)}
-                      title="Delete Event"
-                    >
-                      🗑️ Delete
-                    </button>
-                    <button
-                      className="view-btn"
+                      className="course-action-btn secondary"
                       onClick={() => handleViewRegistrations(event.id)}
                       title="View Registrations"
                     >
-                      👥 Registrations ({event.registrations?.length || 0})
+                      <FaEye /> Registrations ({event.registrations?.length || 0})
+                    </button>
+                    <button
+                      className="course-action-btn archive"
+                      onClick={() => handleDeleteEvent(event.id)}
+                      title="Delete Event"
+                    >
+                      <FaTrash /> Delete
                     </button>
                   </div>
                 </td>
