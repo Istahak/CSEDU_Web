@@ -24,6 +24,7 @@ class HomepageService {
     } catch (error) {
       console.error('Failed to get homepage data:', error);
       // Return demo data if API fails
+      print('Using demo data for homepage')
       return this.getDemoHomepageData();
     }
   }

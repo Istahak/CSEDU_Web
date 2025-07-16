@@ -14,7 +14,7 @@ const Footer = ({ setCurrentPage }) => {
         <div className="footer-content">
           <div className="footer-section">
             <h3>Department of Computer Science and Engineering</h3>
-            <p>University of Dhaka</p>
+            <p className="uni-name">University of Dhaka</p>
           </div>
 
           <div className="footer-links">
@@ -86,7 +86,7 @@ const Footer = ({ setCurrentPage }) => {
                     href="/contact"
                     onClick={(e) => handleNavClick("contact", e)}
                   >
-                    Contact Us
+                    Contact Details
                   </a>
                 </li>
               </ul>

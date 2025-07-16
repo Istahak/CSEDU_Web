@@ -62,4 +62,3 @@ def root():
 
 #routing
 app.include_router(router)
-

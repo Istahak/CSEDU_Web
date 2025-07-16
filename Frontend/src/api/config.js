@@ -27,6 +27,15 @@ const API_CONFIG = {
       UPDATE: (id) => `/faculty/${id}`,
       DELETE: (id) => `/faculty/${id}`,
     },
+    EVENT: {
+      BASE: "/event",
+      GET_ALL: "/event/",                               // GET all events
+      GET_BY_ID: (id) => `/event/${id}`,                // GET event by ID
+      CREATE: "/event/",                                // POST new event
+      UPDATE: (id) => `/event/${id}`,                   // PUT update event
+      DELETE: (id) => `/event/${id}`,                   // DELETE event
+      UPDATE_IMAGE: (id) => `/event/${id}/image`,       // PUT update event image
+    },
     PROFILE: '/profile'
   },
   TIMEOUT: 10000, // 10 seconds

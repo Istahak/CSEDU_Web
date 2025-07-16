@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Events.css";
+import eventService from "../api/EventService";
 
 const Events = ({ onBack, onEventRegister }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedStatus, setSelectedStatus] = useState("All");
 
-  const events = [
+  const fallbackEvents = [
     {
       id: 1,
       title: "Annual Science Fair",
@@ -101,6 +102,24 @@ const Events = ({ onBack, onEventRegister }) => {
   ];
 
   const statuses = ["All", "FREE", "PAID/ADM required"];
+
+  const [events, setEvents] = useState([]);
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const data = await eventService.getAllEvents();
+        console.log("Fetched events:", data);
+        setEvents(data);
+      } catch (error) {
+        console.error("API failed, using fallback data:", error);
+        console.warn("Using fallback event data.");
+        setEvents(fallbackEvents); // fallback to hardcoded events
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
 
   const filteredEvents = events.filter((event) => {
     const matchesSearch =
@@ -218,7 +237,7 @@ const Events = ({ onBack, onEventRegister }) => {
             <div key={event.id} className="event-card">
               <div className="event-header">
                 <div className="event-meta">
-                  <span className={`event-type ${event.category.toLowerCase()}`}>
+                  <span className={`event-type ${(event.category || "Academic").toLowerCase()}`}>
                     {event.category}
                   </span>
                   <span className={`event-status ${event.status === "FREE" ? "free" : "paid"}`}>
@@ -251,7 +270,7 @@ const Events = ({ onBack, onEventRegister }) => {
                 </div>
 
                 <div className="event-tags">
-                  {event.tags.map((tag) => (
+                  {(event.tags || []).map((tag) => (
                     <span key={tag} className="event-tag">
                       {tag}
                     </span>

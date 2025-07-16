@@ -21,20 +21,21 @@
 .university-info {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  min-width: 280px;
 }
 
 .university-logo {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(45deg, #4a90e2, #357abd);
+  /* background: linear-gradient(45deg, #4a90e2, #357abd); */
+  background: linear-gradient(45deg, #7B2C2C, #5a1f1f);
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
   font-size: 1.2rem;
-}
+} 
 
 .university-name {
   font-size: 1.1rem;
@@ -48,6 +49,13 @@
   align-items: center;
 }
 
+.nav-link:hover,
+.nav-link.active {
+  color: #7B2C2C;
+  font-weight: 600;
+}
+
+
 .nav-link {
   color: #6c757d;
   text-decoration: none;
@@ -56,20 +64,50 @@
   transition: color 0.3s ease;
 }
 
-.nav-link:hover {
-  color: #4a90e2;
-}
-
-.nav-link.active {
-  color: #4a90e2;
-  font-weight: 600;
-}
-
 .header-actions {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
+
+/* Common button styles */
+.btn {
+  min-width: 80px;
+  padding: 0.5rem 1.2rem;
+  font-weight: 600;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Primary (Login/Signup) */
+.btn-primary {
+  background-color: #FFFFFF;
+  color: #7B2C2C;
+  border: 1px solid #7B2C2C;
+}
+
+.btn-primary:hover {
+  background-color: #7B2C2C;
+  color: #ffffff;
+}
+
+/* Danger (Logout) */
+.btn-danger {
+  background-color: #7B2C2C;
+  color: #ffffff;
+  border: none;
+}
+
+.btn-danger:hover {
+  background-color: #5a1f1f;
+  color: #ffffff;
+}
+
 
 .search-btn,
 .menu-btn {
@@ -101,7 +139,8 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: linear-gradient(45deg, #34495e, #2c3e50);
+  background: linear-gradient(45deg, #7B2C2C, #5a1f1f);
+  /* background: linear-gradient(45deg, #34495e, #2c3e50); */
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -154,6 +193,7 @@
   transition: transform 0.3s ease;
 }
 
+
 .nav-dropdown:hover .dropdown-arrow {
   transform: rotate(180deg);
 }
@@ -163,6 +203,7 @@
   top: 100%;
   left: 0;
   background-color: #ffffff;
+  /* text-decoration-color: #7B2C2C; */
   border: 1px solid #dee2e6;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -198,8 +239,9 @@
 .dropdown-item {
   display: block;
   padding: 0.75rem 1.25rem;
-  color: #6c757d;
-  text-decoration: none;
+  color: #6c757d !important;                 /* Default text color */
+  background-color: transparent !important;
+  text-decoration: none;         /* Remove underline */
   font-size: 0.9rem;
   font-weight: 500;
   transition: all 0.3s ease;
@@ -209,11 +251,20 @@
   text-align: left;
 }
 
-.dropdown-item:hover {
-  background-color: #f8f9fa;
-  color: #4a90e2;
-  padding-left: 1.5rem;
+.dropdown-item:visited,
+.dropdown-item:active,
+.dropdown-item:focus {
+  color: #7B2C2C !important;        
+  text-decoration: none;
 }
+
+.dropdown-item:hover {
+  background-color: #7B2C2C !important;
+  color: #ffffff !important;
+  padding-left: 1.5rem;
+  text-decoration: none;
+}
+
 
 .dropdown-menu::before {
   content: "";
@@ -256,10 +307,12 @@
   text-transform: capitalize;
 }
 
+
+
 .logout-btn {
   background: none;
-  border: 1px solid #dc3545;
-  color: #dc3545;
+  border: 1px solid #f8f9fa;
+  color: #f8f9fa;
   padding: 0.5rem 1rem;
   border-radius: 4px;
   cursor: pointer;
@@ -269,7 +322,7 @@
 }
 
 .logout-btn:hover {
-  background-color: #dc3545;
+  background-color: #7B2C2C;
   color: white;
 }
 
@@ -287,4 +340,32 @@
     padding: 0.4rem 0.8rem;
     font-size: 0.8rem;
   }
+}
+
+.university-logo-img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  margin-right: 0.75rem;
+}
+
+.university-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.2;
+}
+
+.dept-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #7B2C2C; /* Maroon */
+}
+
+.uni-name {
+  font-size: 1rem;
+  font-weight: 500;
+  /* color: #7B2C2C; */
+  /* color: #000000; */
+  color: #353839;
 }

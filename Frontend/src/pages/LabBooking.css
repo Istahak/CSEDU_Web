@@ -39,7 +39,7 @@
 
 /* Lab Booking Page Styles */
 .lab-booking-page {
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   background: #f8f9fa;
   padding: 2rem 0;
@@ -157,11 +157,11 @@
   border-color: #2c3e50;
 }
 
+
 .search-container {
-  margin-bottom: 2rem;
+  width: 100%;
   max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-bottom: 0;
 }
 
 .search-input {
@@ -305,12 +305,19 @@
 /* Booking Content (Two-column layout like EventRegistration) */
 .booking-content {
   display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* .booking-content {
+  display: grid;
   grid-template-columns: 1fr 1.5fr;
   gap: 1rem;
   width: 100%;
   align-items: stretch;
   min-height: 600px;
-}
+} */
 
 /* Lab Summary Section */
 .lab-summary {
@@ -1912,3 +1919,43 @@
     gap: 1rem;
   }
 }
+
+
+.equipment-header-row {
+  display: flex;
+  max-width: 1400px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0 2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap; /* ✅ allows stacking on small screens */
+}
+
+.header-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.lab-booking-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap; /* optional for small screens */
+  margin-top: 2rem;
+}
+
+.lab-summary {
+  flex: 1 1 45%;
+  max-width: 500px;
+}
+
+.booking-form-section {
+  flex: 1 1 50%;
+  max-width: 700px;
+}
+

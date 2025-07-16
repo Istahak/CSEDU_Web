@@ -1,5 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./Header.css";
+import { FaUserTie } from "react-icons/fa";
+import { MdAdminPanelSettings } from "react-icons/md";
+import { FaUserGraduate } from "react-icons/fa";
 
 const Header = ({
   currentPage,
@@ -56,9 +59,18 @@ const Header = ({
     <header className="header">
       <div className="header-container">
         <div className="university-info">
+          <img src="\src\assets\images\du logo.png" alt="University Logo" className="university-logo-img" />
+          <div className="university-text">
+            <div className="dept-name">Department of</div>
+            <div className="dept-name">Computer Science and Engineering</div>
+            <div className="uni-name">University of Dhaka</div>
+          </div>
+        </div>
+
+        {/* <div className="university-info">
           <div className="university-logo">🎓</div>
           <span className="university-name">CSEDU</span>
-        </div>
+        </div> */}
         <nav className="header-nav">
           <a
             href="/"
@@ -72,7 +84,7 @@ const Header = ({
             className={`nav-link ${isNavActive("directory") ? "active" : ""}`}
             onClick={(e) => handleNavClick("directory", e)}
           >
-            Directory
+            Faculty
           </a>
           <div
             className="nav-dropdown"
@@ -102,16 +114,62 @@ const Header = ({
                 >
                   Course List
                 </a>
+                <a
+                  href="/projects"
+                  className="dropdown-item"
+                  onClick={(e) => handleNavClick("projects", e)}
+                >
+                  Research and Projects
+                </a>
               </div>
             )}
           </div>
-          <a
+          {/* <a
             href="/projects"
             className={`nav-link ${currentPage === "projects" ? "active" : ""}`}
             onClick={(e) => handleNavClick("projects", e)}
           >
             Projects
-          </a>
+          </a> */}
+          <div
+            className="nav-dropdown"
+            onMouseEnter={() => handleDropdownMouseEnter("news")}
+            onMouseLeave={handleDropdownMouseLeave}
+          >
+            <a
+              href="/notices"
+              className={`nav-link ${["notices", "events", "achievements"].includes(currentPage) ? "active" : ""}`}
+              onClick={(e) => handleNavClick("notices", e)}
+            >
+              News <span className="dropdown-arrow">▼</span>
+            </a>
+            {openDropdown === "news" && (
+              <div className="dropdown-menu">
+                <a
+                  href="/notices"
+                  className="dropdown-item"
+                  onClick={(e) => handleNavClick("notices", e)}
+                >
+                  Notices
+                </a>
+                <a
+                  href="/events"
+                  className="dropdown-item"
+                  onClick={(e) => handleNavClick("events", e)}
+                >
+                  Events
+                </a>
+                <a
+                  href="/achievements"
+                  className="dropdown-item"
+                  onClick={(e) => handleNavClick("achievements", e)}
+                >
+                  Achievements
+                </a>
+              </div>
+            )}
+          </div>
+{/* 
           <a
             href="/notices"
             className={`nav-link ${currentPage === "notices" ? "active" : ""}`}
@@ -134,7 +192,7 @@ const Header = ({
             onClick={(e) => handleNavClick("achievements", e)}
           >
             Achievements
-          </a>
+          </a> */}
           <div
             className="nav-dropdown"
             onMouseEnter={() => handleDropdownMouseEnter("resources")}
@@ -183,8 +241,8 @@ const Header = ({
           </div>
         </nav>
         <div className="header-actions">
-          <button className="search-btn">🔍</button>
-          <button className="menu-btn">☰</button>
+          {/* <button className="search-btn">🔍</button> */}
+          {/* <button className="menu-btn">☰</button> */}
           <div className="user-section">
             {isAuthenticated ? (
               <>
@@ -201,6 +259,12 @@ const Header = ({
                   }
                 >
                   <div className="user-avatar">
+                    {userRole === "faculty" && <FaUserTie size={20} />}
+                    {userRole === "student" && <FaUserGraduate size={20} />}
+                    {userRole === "admin" && <MdAdminPanelSettings size={22} />}
+                  </div>
+
+                  {/* <div className="user-avatar">
                     {userRole === "faculty"
                       ? "�‍🏫"
                       : userRole === "student"
@@ -208,24 +272,25 @@ const Header = ({
                       : userRole === "admin"
                       ? "👨‍💼"
                       : "�👤"}
-                  </div>
+                  </div> */}
                   <span className="user-role">{userRole}</span>
                 </div>
                 <button
-                  className="logout-btn"
+                  // className="logout-btn"
+                  className="btn btn-primary"
                   onClick={() => {
                     if (typeof onLogout === "function") onLogout();
                   }}
-                  style={{
-                    minWidth: "80px",
-                    background: "#ffd6d6",
-                    color: "#a12a2a",
-                    border: "none",
-                    borderRadius: "6px",
-                    padding: "0.5rem 1.2rem",
-                    fontWeight: 600,
-                    cursor: "pointer",
-                  }}
+                  // style={{
+                  //   minWidth: "80px",
+                  //   background: "#ffd6d6",
+                  //   color: "#a12a2a",
+                  //   border: "none",
+                  //   borderRadius: "6px",
+                  //   padding: "0.5rem 1.2rem",
+                  //   fontWeight: 600,
+                  //   cursor: "pointer",
+                  // }}
                 >
                   Logout
                 </button>
@@ -236,34 +301,36 @@ const Header = ({
                 style={{ display: "flex", gap: "0.5rem" }}
               >
                 <button
-                  className="login-btn"
+                  // className="login-btn"
+                  className="btn btn-primary"
                   onClick={() => setCurrentPage("login")}
-                  style={{
-                    minWidth: "80px",
-                    background: "#b6f5c6",
-                    color: "#205c2c",
-                    border: "none",
-                    borderRadius: "6px",
-                    padding: "0.5rem 1.2rem",
-                    fontWeight: 600,
-                    cursor: "pointer",
-                  }}
+                  // style={{
+                  //   minWidth: "80px",
+                  //   background: "#b6f5c6",
+                  //   color: "#205c2c",
+                  //   border: "none",
+                  //   borderRadius: "6px",
+                  //   padding: "0.5rem 1.2rem",
+                  //   fontWeight: 600,
+                  //   cursor: "pointer",
+                  // }}
                 >
                   Login
                 </button>
                 <button
-                  className="signup-btn"
+                  // className="signup-btn"
+                  className="btn btn-primary"
                   onClick={() => setCurrentPage("signup")}
-                  style={{
-                    minWidth: "80px",
-                    background: "#b6f5c6",
-                    color: "#205c2c",
-                    border: "none",
-                    borderRadius: "6px",
-                    padding: "0.5rem 1.2rem",
-                    fontWeight: 600,
-                    cursor: "pointer",
-                  }}
+                  // style={{
+                  //   minWidth: "80px",
+                  //   background: "#b6f5c6",
+                  //   color: "#205c2c",
+                  //   border: "none",
+                  //   borderRadius: "6px",
+                  //   padding: "0.5rem 1.2rem",
+                  //   fontWeight: 600,
+                  //   cursor: "pointer",
+                  // }}
                 >
                   Sign up
                 </button>
