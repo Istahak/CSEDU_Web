@@ -61,7 +61,8 @@ const Header = ({
         <div className="university-info">
           <img src="\src\assets\images\du logo.png" alt="University Logo" className="university-logo-img" />
           <div className="university-text">
-            <div className="dept-name">Department of Computer Science and Engineering</div>
+            <div className="dept-name">Department of</div>
+            <div className="dept-name">Computer Science and Engineering</div>
             <div className="uni-name">University of Dhaka</div>
           </div>
         </div>

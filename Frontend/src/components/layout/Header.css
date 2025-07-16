@@ -365,5 +365,7 @@
 .uni-name {
   font-size: 1rem;
   font-weight: 500;
-  color: #7B2C2C;
+  /* color: #7B2C2C; */
+  /* color: #000000; */
+  color: #353839;
 }
