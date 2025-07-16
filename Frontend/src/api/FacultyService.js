@@ -4,7 +4,6 @@
  */
 import ApiService from './ApiService';
 import API_CONFIG from './config';
-import authService from './AuthService'; 
 
 class FacultyService {
   constructor() {
@@ -64,57 +63,34 @@ class FacultyService {
    * Tahsin added - This method handles multipart/form-data submission for faculty creation
    * including profile photo upload
    */
-
-async createFaculty(formData) {
-  try {
-    // Extract user-related data from formData (adjust keys as per your form)
-    const userData = {
-      user_name: formData.get('user_name'),
-      email: formData.get('email'),
-      password: formData.get('password'),
-      full_name: formData.get('name'),
-      role: 'faculty'  // or get from formData if dynamic
-    };
-
-
-console.log("userData being sent to signup:", userData);
-
-
-
-    // 1. Create the user first via signup API
-    const userResponse = await authService.signup(userData);
-    if (!userResponse || !userResponse.id) {
-      throw new Error('User creation failed: no user ID returned');
+  async createFaculty(formData) {
+    try {
+      // Tahsin added - Special handling for multipart/form-data
+      const url = `${API_CONFIG.BASE_URL}${API_CONFIG.API_VERSION}${this.endpoints.CREATE}`;
+      
+      // Get authentication token if available
+      const token = localStorage.getItem('token');
+      const headers = {};
+      
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+      
+      // Make direct fetch call for multipart/form-data
+      const response = await fetch(url, {
+        method: 'POST',
+        headers,
+        body: formData,
+        mode: 'cors'
+      });
+      
+      // Use ApiService's response handler for consistent error handling
+      return await ApiService.handleResponse(response);
+    } catch (error) {
+      console.error('Failed to create faculty:', error);
+      throw error;
     }
-
-    const userId = userResponse.id;
-
-    // 2. Append user_id to the faculty form data
-    formData.set('user_id', userId); // overwrite if exists, or add
-
-    // 3. Now create the faculty with user_id included
-    const url = `${API_CONFIG.BASE_URL}${API_CONFIG.API_VERSION}${this.endpoints.CREATE}`;
-    const token = localStorage.getItem('token');
-    const headers = {};
-
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`;
-    }
-
-    // IMPORTANT: Don't set Content-Type when using FormData
-    const response = await fetch(url, {
-      method: 'POST',
-      headers,
-      body: formData,
-      mode: 'cors'
-    });
-
-    return await ApiService.handleResponse(response);
-  } catch (error) {
-    console.error('Failed to create faculty and user:', error);
-    throw error;
   }
-}
 
   /**
    * Update an existing faculty member with multipart/form-data
