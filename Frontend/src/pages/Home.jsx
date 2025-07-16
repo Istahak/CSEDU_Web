@@ -67,9 +67,9 @@ const Home = ({ setCurrentPage }) => {
         ? response.data.map(notice => ({
             id: notice.id || notice.notice_id || `temp-${Math.random()}`,
             title: notice.title || "Untitled",
-            description: notice.description || "No description",
-            type: notice.type || "General",
-            date: notice.date || "2025-07-11",
+            description: notice.description || notice.content || "No description",
+            type: notice.category || notice.type || "General",
+            date: notice.date || notice.expiry_date || notice.created_at || "2025-07-11",
           }))
         : announcements; // Fallback to static announcements
       setNotices(fetchedNotices);
