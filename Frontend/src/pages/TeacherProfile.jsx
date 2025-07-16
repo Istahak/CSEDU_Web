@@ -136,12 +136,12 @@ const TeacherProfile = ({
         if (profile.office_room_id) {
           try {
             const room = await roomService.getRoomById(profile.office_room_id);
-            setOfficeRoomNumber(room.number || room.room_number || "");
+            setOfficeRoomNumber(room.number || room.room_number || "105");
           } catch (err) {
-            setOfficeRoomNumber("");
+            setOfficeRoomNumber("105");
           }
         } else {
-          setOfficeRoomNumber("");
+          setOfficeRoomNumber("105");
         }
       } catch (err) {
         setError("Failed to load faculty profile");
@@ -1265,14 +1265,14 @@ const TeacherProfile = ({
                   <div className="schedule-cell">
                     <div className="class-item">
                       <strong>CSE 412</strong>
-                      <span>Room 205</span>
+                      <span>Room 105</span>
                     </div>
                   </div>
                   <div className="schedule-cell empty"></div>
                   <div className="schedule-cell">
                     <div className="class-item">
                       <strong>CSE 412</strong>
-                      <span>Room 205</span>
+                      <span>Room 105</span>
                     </div>
                   </div>
                   <div className="schedule-cell empty"></div>
@@ -1550,7 +1550,7 @@ const TeacherProfile = ({
             <div className="profile-meta">
               <span className="meta-item">📧 {teacherData.email}</span>
               <span className="meta-item">📞 {teacherData.phone_number}</span>
-              <span className="meta-item">🏢 Room no. {officeRoomNumber || teacherData.office_room_id}</span>
+              <span className="meta-item">🏢 Room no. {officeRoomNumber || teacherData.office_room_id || "105"}</span>
             </div>
           </div>
           <div className="profile-actions-section">
