@@ -162,3 +162,21 @@ export async function getPendingAssignments() {
       return [];
     }
   }
+
+  export async function editProfile(profileId, updatedData) {
+    try {
+        // /api/v1/student_profile/{profile_id}
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/student_profile/${profileId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedData),
+      });
+      if (!response.ok) throw new Error('Network response was not ok');
+      return await response.json();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
