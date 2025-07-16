@@ -104,6 +104,7 @@ class AuthService {
 
   async getCurrentUser() {
     try {
+
       const profileId = localStorage.getItem('profile_id');
       if (!profileId) {
         throw new Error('No profile ID found in localStorage');
@@ -120,7 +121,8 @@ class AuthService {
 
     async getCurrentAdmin() {
     try {
-      const profileId = localStorage.getItem('profile_id');
+      console.log("Localstorage info :", localStorage.getItem('userData'));
+      const profileId = localStorage.getItem('userData') ? JSON.parse(localStorage.getItem('userData')).profile_id : null;
       if (!profileId) {
         throw new Error('No profile ID found in localStorage');
       }

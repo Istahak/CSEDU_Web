@@ -915,7 +915,6 @@ const AdminProfile = ({ onLogout }) => {
     const underReview = requests.filter((r) => r.status === "under_review").length;
     const approved = requests.filter((r) => r.status === "approved").length;
     const rejected = requests.filter((r) => r.status === "rejected").length;
-    const underReview = requests.filter((r) => r.status === "under_review").length;
 
     return { total, pending, underReview, approved, rejected };
   };

@@ -65,56 +65,73 @@ class FacultyService {
    * including profile photo upload
    */
 
-async createFaculty(formData) {
-  try {
-    // Extract user-related data from formData (adjust keys as per your form)
-    const userData = {
-      user_name: formData.get('user_name'),
-      email: formData.get('email'),
-      password: formData.get('password'),
-      full_name: formData.get('name'),
-      role: 'faculty'  // or get from formData if dynamic
-    };
+  async createFaculty(faculty) {
+    try {
+    // Step 1: Sign up the user
+      const userPayload = {
+        user_name: faculty.user_name,
+        email: faculty.email,
+        password: faculty.password,
+        full_name: faculty.name,
+        role: "faculty"
+      };
 
+      const userResponse = await authService.signup(userPayload);
 
-console.log("userData being sent to signup:", userData);
+      if (!userResponse || !userResponse.id) {
+        throw new Error("User signup failed — no user ID returned.");
+      }
 
+      const userId = userResponse.id;
 
+      console.log("User created with ID:", userId);
 
-    // 1. Create the user first via signup API
-    const userResponse = await authService.signup(userData);
-    if (!userResponse || !userResponse.id) {
-      throw new Error('User creation failed: no user ID returned');
+      // Step 2: Build JSON object for FacultyCreate
+      const facultyPayload = {
+        user_id: userId,
+        office_room_id: faculty.office_room_id || null,
+        full_name: faculty.name,
+        email: faculty.email,
+        phone_number: faculty.phone || null,
+        specialization: faculty.specialization || null,
+        research_areas: faculty.researchAreas || null,
+        employment_status: "Active",
+        designation: faculty.designation,
+        department: "CSE",
+        experience: faculty.experience || null,
+        number_of_publications: parseInt(faculty.publications) || 0,
+        qualifications: faculty.qualifications || null,
+        image: null
+      };
+
+      console.log("Faculty payload:", facultyPayload);
+
+      // Handle optional profile image (convert to base64 if it's a data URL)
+      if (faculty.profileImage?.startsWith("data:image/")) {
+        const base64 = faculty.profileImage.split(",")[1];
+        facultyPayload.image = base64;
+      }
+
+      // Step 3: Call the faculty creation API
+      const token = localStorage.getItem("token");
+      const response = await fetch("http://localhost:8000/api/v1/faculty/", {
+        method: "POST",
+        body: JSON.stringify(facultyPayload)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Faculty creation failed: ${errorData.message || response.statusText}`);
+      }
+
+      alert("Faculty created successfully!");
+      fetchAllFaculty(); // Refresh list
+
+    } catch (err) {
+      console.error("Failed to create faculty:", err);
+      alert("Failed to create faculty. Check console for details.");
     }
-
-    const userId = userResponse.id;
-
-    // 2. Append user_id to the faculty form data
-    formData.set('user_id', userId); // overwrite if exists, or add
-
-    // 3. Now create the faculty with user_id included
-    const url = `${API_CONFIG.BASE_URL}${API_CONFIG.API_VERSION}${this.endpoints.CREATE}`;
-    const token = localStorage.getItem('token');
-    const headers = {};
-
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`;
-    }
-
-    // IMPORTANT: Don't set Content-Type when using FormData
-    const response = await fetch(url, {
-      method: 'POST',
-      headers,
-      body: formData,
-      mode: 'cors'
-    });
-
-    return await ApiService.handleResponse(response);
-  } catch (error) {
-    console.error('Failed to create faculty and user:', error);
-    throw error;
   }
-}
 
   /**
    * Update an existing faculty member with multipart/form-data

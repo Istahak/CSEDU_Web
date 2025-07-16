@@ -67,6 +67,10 @@ const FacultyManagement = ({
         await FacultyService.updateFaculty(editingFaculty.id, formData);
         alert('Faculty updated successfully!');
       } else {
+
+        // print formData to console for debugging
+        console.log('FormData for new faculty:', Array.from(formData.entries()));
+        // console.log('Creating new faculty with data:', data);
         await FacultyService.createFaculty(formData);
         alert('Faculty created successfully!');
       }
