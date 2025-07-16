@@ -85,15 +85,7 @@ def sign_up_user(userSchema: UserSignUp, db: Session):
         db.add(admin_profile)
         db.commit()
 
-    return JSONResponse(
-    status_code=status.HTTP_201_CREATED,
-    content={
-        "id": str(user.id),
-        "user_name": user.user_name,
-        "email": user.email,
-        "role": role.name
-    }
-)
+    return JSONResponse(status_code=status.HTTP_201_CREATED, content={"message": "User created successfully"})
 
 def sign_in_user(userSchema: UserSignIn, db: Session, request: Request):
     print("in the sign in section ")
