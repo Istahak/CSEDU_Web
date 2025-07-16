@@ -237,7 +237,7 @@ const Events = ({ onBack, onEventRegister }) => {
             <div key={event.id} className="event-card">
               <div className="event-header">
                 <div className="event-meta">
-                  <span className={`event-type ${event.category.toLowerCase()}`}>
+                  <span className={`event-type ${(event.category || "Academic").toLowerCase()}`}>
                     {event.category}
                   </span>
                   <span className={`event-status ${event.status === "FREE" ? "free" : "paid"}`}>
@@ -270,7 +270,7 @@ const Events = ({ onBack, onEventRegister }) => {
                 </div>
 
                 <div className="event-tags">
-                  {event.tags.map((tag) => (
+                  {(event.tags || []).map((tag) => (
                     <span key={tag} className="event-tag">
                       {tag}
                     </span>
