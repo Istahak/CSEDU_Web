@@ -69,6 +69,7 @@ def sign_up_user(userSchema: UserSignUp, db: Session):
     db.commit()
     print("role is ",role)
     if role.name == "student":
+        print("in the student sign up ")
         student_profile = StudentProfile(user_id=user.id, full_name=full_name, email=user.email)
         
         db.add(student_profile)

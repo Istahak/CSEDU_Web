@@ -31,41 +31,36 @@ def create_student_profile(db: Session, profile_in: StudentProfileCreate) -> Stu
 
 
 def get_student_profile_by_user_id(db: Session, user_id: str) -> StudentProfileResponse:
+
     profile = db.query(StudentProfile).filter(StudentProfile.user_id == user_id).first()
+    print("hello")
     if not profile:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="StudentProfile not found")
     user = db.query(User).filter(User.id == profile.user_id).first()
     image_b64 = base64.b64encode(user.image).decode('utf-8') if user and user.image else None
-    return StudentProfileResponse(
-        id=profile.id,
-        user_id=profile.user_id,
-        student_id=profile.student_id,
-        email=profile.email,
-        phone=profile.phone,
-        batch=profile.batch,
-        semester=profile.semester,
-        dept=profile.dept,
-        cgpa=profile.cgpa,
-        image=image_b64
-    )
+    return get_student_profile(db,profile.id)
 
 def get_student_profile(db: Session, profile_id: str) -> StudentProfileResponse:
     profile = db.query(StudentProfile).filter(StudentProfile.id == profile_id).first()
+    print("got something ")
+    
     if not profile:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="StudentProfile not found")
     user = db.query(User).filter(User.id == profile.user_id).first()
     image_b64 = base64.b64encode(user.image).decode('utf-8') if user and user.image else None
     # Demo cgpa value
+    print("before return ")
     return StudentProfileResponse(
         id=profile.id,
         user_id=profile.user_id,
         student_id=profile.student_id,
         email=profile.email,
+        full_name=profile.full_name,
         phone=profile.phone,
         batch=profile.batch,
         semester=profile.semester,
         dept=profile.dept,
-        cgpa=3.5,
+        cgpa=profile.cgpa,
         image=image_b64
     )
 
@@ -89,3 +84,21 @@ def update_student_image(db: Session, profile_id: str, image_in: StudentProfileI
     user.image = base64.b64decode(image_in.image)
     db.commit()
     return get_student_profile(db, profile.id)
+
+def get_students_by_semester(db: Session, semester):
+    students = db.query(StudentProfile).filter(StudentProfile.semester == semester).all()
+    return [
+        {
+            "id": str(student.id),
+            "user_id": str(student.user_id),
+            "student_id": student.student_id,
+            "full_name": student.full_name,
+            "email": student.email,
+            "phone": student.phone,
+            "batch": student.batch,
+            "semester": student.semester,
+            "cgpa": student.cgpa,
+            "dept": student.dept
+        }
+        for student in students
+    ]

@@ -25,7 +25,8 @@ export async function getProjectsByAuthor() {
 
 export async function getUserData(){
     try{
-        const response = await fetch(`${VITE_BACKEND_URL}/student_profile/by_user/${getHardcodedUUID()}`);
+        const userId = localStorage.getItem('user_id');
+        const response = await fetch(`${VITE_BACKEND_URL}/student_profile/by_user/${userId}`);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }

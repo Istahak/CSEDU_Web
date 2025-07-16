@@ -18,6 +18,7 @@ def create(profile_in: StudentProfileCreate, db: Session = Depends(get_db)):
 
 @router.get("/{profile_id}", response_model=StudentProfileResponse)
 def get(profile_id: str, db: Session = Depends(get_db)):
+    print("hello in the router ")
     return get_student_profile(db, profile_id)
 
 @router.put("/{profile_id}", response_model=StudentProfileResponse)
