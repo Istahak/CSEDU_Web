@@ -17,6 +17,7 @@ class StudentProfileUpdate(BaseModel):
     batch: Optional[str] = None
     semester: Optional[str] = None
     dept: Optional[str] = None
+    student_id: Optional[str] = None
 
 class StudentProfileImageUpdate(BaseModel):
     image: str = Field(..., description="Base64 encoded user image")
