@@ -27,8 +27,8 @@
 
 .back-button:hover {
   background: #f8fafc;
-  border-color: #357abd;
-  color: #357abd;
+  border-color: #7B2C2C;
+  color: #7B2C2C;
 }
 
 .breadcrumb {
@@ -60,7 +60,7 @@
 .avatar-placeholder-large {
   width: 120px;
   height: 120px;
-  background: linear-gradient(45deg, #4a90e2, #357abd);
+  background: linear-gradient(45deg, #4a90e2, #7B2C2C);
   border-radius: 50%;
   display: flex;
   align-items: center;

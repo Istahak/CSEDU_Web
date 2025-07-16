@@ -6,12 +6,20 @@ import hero4 from "../assets/images/hero4.jpg";
 import hero5 from "../assets/images/hero5.jpg";
 import hero6 from "../assets/images/hero6.jpg";
 
-const heroImages = [hero1, hero2, hero3, hero4, hero5, hero6];
+const heroImages = [
+  { src: hero1, label: "Seminar by CSEDU Alumni on Higher Studies and Research in the US" },
+  { src: hero2, label: "A group of faculty members and wining team students of Code Samurai 2024 call on the honorable Ambassador of Japan in Bangladesh" },
+  { src: hero3, label: "CSEDU Celebrates Talent and Excellence at Cultural Program and Annual Prize Giving Ceremony-2025" },
+  { src: hero4, label: "A courtesy visit and exchange of views was held with the newly appointed Dean of Faculty of Engineering and Technology" },
+  { src: hero5, label: "CSEDU's 26th Batch Graduation Week: A Celebration of Achievement and Community" },
+  { src: hero6, label: "CSEDU warmly welcomes the UG Students of 31st Batch" },
+];
 
 import { useState, useEffect } from "react";
 import axios from "axios";
 import API_CONFIG from "../api/config";
 import "./Home.css";
+import { useNavigate } from "react-router-dom";
 
 // const BASE_URL = API_CONFIG.BASE_URL;
 
@@ -103,9 +111,21 @@ const Home = ({ setCurrentPage }) => {
     return () => clearInterval(interval); // cleanup on unmount
   }, []);
 
+  const goToNext = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
+  };
+
+  const goToPrevious = () => {
+    setCurrentImageIndex((prev) =>
+      prev === 0 ? heroImages.length - 1 : prev - 1
+    );
+  };
+
   useEffect(() => {
     fetchNotices();
   }, []);
+
+  const navigate = useNavigate();
 
   const handleNavigation = (page) => {
     if (setCurrentPage) {
@@ -118,18 +138,41 @@ const Home = ({ setCurrentPage }) => {
       {/* Hero Section */}
       <section className="hero-carousel-section">
         <div className="hero-carousel-container">
-          <img
-            src={heroImages[currentImageIndex]}
-            alt="Hero Slide"
-            className="hero-carousel-image"
-          />
+          <div className="hero-carousel-slide">
+            <img
+              src={heroImages[currentImageIndex].src}
+              alt={heroImages[currentImageIndex].label}
+              className="hero-carousel-image"
+            />
+
+            
+            <div className="hero-carousel-label">
+              {heroImages[currentImageIndex].label}
+            </div>
+            <button className="carousel-arrow left" onClick={goToPrevious}>
+              ‹
+            </button>
+            <button className="carousel-arrow right" onClick={goToNext}>
+              ›
+            </button>
+          </div>
+
           <div className="hero-overlay-content">
-            <h1 className="hero-overlay-title">Welcome to CSEDU</h1>
-            <p className="hero-overlay-subtext">
-              We provide educational excellence through a mix of tradition and
-              technology.
+            <p className="hero-tagline">
+              #1 Department in Bangladesh for CS Education
             </p>
-            <button className="hero-overlay-button">Explore Programs</button>
+            <h1 className="hero-overlay-title">Welcome to CSEDU</h1>
+
+            <p className="hero-overlay-subtext">
+              We empower future leaders through academic excellence, research,
+              and innovation in computing.
+            </p>
+            <button
+              className="hero-overlay-button"
+              onClick={() => navigate("/degree-outlines")}
+            >
+              Explore Programs
+            </button>
           </div>
         </div>
       </section>

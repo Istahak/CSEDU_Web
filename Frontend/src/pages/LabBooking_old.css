@@ -385,7 +385,7 @@
 }
 
 .equipment-grid::-webkit-scrollbar-thumb:hover {
-  background: #357abd;
+  background: #7B2C2C;
 }
 
 .equipment-card {
@@ -1299,9 +1299,9 @@
 }
 
 .category-btn.active {
-  background: linear-gradient(45deg, #4a90e2, #357abd);
+  background: linear-gradient(45deg, #4a90e2, #7B2C2C);
   color: white;
-  border-color: #357abd;
+  border-color: #7B2C2C;
 }
 
 .category-icon {

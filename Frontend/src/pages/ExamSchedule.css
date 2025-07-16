@@ -35,7 +35,7 @@
 }
 
 .back-button:hover {
-  color: #357abd;
+  color: #7B2C2C;
   text-decoration: underline;
 }
 
@@ -177,7 +177,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  background: linear-gradient(135deg, #4a90e2 0%, #7B2C2C 100%);
 }
 
 .exam-card:hover {

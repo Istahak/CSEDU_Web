@@ -3,7 +3,7 @@
 /* Lab Booking Success Page Styles */
 :root {
   --primary: #4a90e2;
-  --primary-dark: #357abd;
+  --primary-dark: #7B2C2C;
   --success: #28a745;
   --success-alt: #20c997;
   --danger: #dc3545;
@@ -384,7 +384,7 @@
 }
 
 .reference-card {
-  background: linear-gradient(45deg, #4a90e2, #357abd);
+  background: linear-gradient(45deg, #4a90e2, #7B2C2C);
   color: white;
   padding: 1.5rem;
   border-radius: 15px;
@@ -513,7 +513,7 @@
 
 .back-to-booking-btn {
   background: #4a90e2;
-  border: 2px solid #357abd;
+  border: 2px solid #7B2C2C;
   color: white;
   padding: 0.875rem 2rem;
   border-radius: 25px;
@@ -527,7 +527,7 @@
 }
 
 .back-to-booking-btn:hover {
-  background: #357abd;
+  background: #7B2C2C;
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
 }
@@ -653,14 +653,14 @@
   top: 60px;
   width: 2px;
   height: 20px;
-  background: linear-gradient(45deg, #4a90e2, #357abd);
+  background: linear-gradient(45deg, #4a90e2, #7B2C2C);
 }
 
 .step-number {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(45deg, #4a90e2, #357abd);
+  background: linear-gradient(45deg, #4a90e2, #7B2C2C);
   color: white;
   display: flex;
   align-items: center;

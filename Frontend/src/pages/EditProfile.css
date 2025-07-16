@@ -38,7 +38,7 @@
 }
 
 .back-button:hover {
-  color: #357abd;
+  color: #7B2C2C;
   text-decoration: underline;
 }
 
@@ -69,7 +69,7 @@
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #4a90e2, #357abd);
+  background: linear-gradient(135deg, #4a90e2, #7B2C2C);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -101,7 +101,7 @@
 }
 
 .change-picture-btn:hover {
-  background: #357abd;
+  background: #7B2C2C;
 }
 
 /* Navigation */

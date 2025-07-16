@@ -25,7 +25,7 @@
 }
 
 .main-back-button:hover {
-  color: #357abd;
+  color: #7B2C2C;
   text-decoration: underline;
 }
 
@@ -39,7 +39,7 @@
 
 /* View Header */
 .view-header {
-  background: linear-gradient(135deg, #4a90e2, #357abd);
+  background: linear-gradient(135deg, #4a90e2, #7B2C2C);
   color: white;
   padding: 2rem;
   display: flex;
@@ -162,7 +162,7 @@
 }
 
 .course-select-btn:hover {
-  background: #357abd;
+  background: #7B2C2C;
 }
 
 .course-select-btn:disabled {
@@ -338,7 +338,7 @@
 }
 
 .file-upload-btn:hover {
-  background: #357abd;
+  background: #7B2C2C;
 }
 
 /* File List */
@@ -462,7 +462,7 @@
 }
 
 .action-btn.primary:hover {
-  background: #357abd;
+  background: #7B2C2C;
 }
 
 .action-btn.secondary {

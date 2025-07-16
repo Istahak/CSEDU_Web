@@ -1,3 +1,9 @@
+.home-page {
+  width: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
 .hero-modern {
   background-color: #f9f5f0;
   padding: 4rem 2rem;
@@ -10,7 +16,6 @@
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  max-width: 1200px;
   width: 100%;
   gap: 2rem;
 }
@@ -96,6 +101,8 @@
   width: 100%;
   height: 70vh;
   overflow: hidden;
+  border-radius: 10px;
+  padding-top: 30px;
 }
 
 .hero-carousel-container {
@@ -109,6 +116,7 @@
   height: 100%;
   object-fit: cover;
   transition: opacity 1s ease-in-out;
+   border-radius: 10px; 
 }
 
 .hero-overlay-content {
@@ -138,15 +146,47 @@
 
 .hero-overlay-button {
   padding: 0.6rem 1.4rem;
-  background-color: #a40034; /* Maroon tone */
+  background-color: #7B2C2C; /* Maroon tone */
   color: #fff;
   font-weight: 600;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: background 0.4s ease;
 }
 
 .hero-overlay-button:hover {
-  background-color: #88002c;
+  background-color: #7B2C2C;
 }
+
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2.5rem;
+  color: #7B2C2C;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+  padding: 0;
+  transition: color 0.3s ease;
+}
+
+.carousel-arrow:hover {
+  color: #7B2C2C /* optional hover color */
+}
+
+.carousel-arrow.left {
+  left: 1rem;
+}
+
+.carousel-arrow.right {
+  right: 1rem;
+}
+
+.carousel-arrow:focus {
+  outline: none;
+  box-shadow: none;
+}
+

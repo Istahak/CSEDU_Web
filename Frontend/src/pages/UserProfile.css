@@ -25,7 +25,7 @@
   }
   
   .back-button:hover {
-    color: #357abd;
+    color: #7B2C2C;
     text-decoration: underline;
   }
   
@@ -585,11 +585,11 @@
     box-shadow: 0 1px 4px rgba(74, 144, 226, 0.07);
   }
   .payments-filter-dropdown:focus {
-    border-color: #357abd;
+    border-color: #7B2C2C;
     box-shadow: 0 2px 8px rgba(74, 144, 226, 0.15);
   }
   .payments-filter-dropdown:hover {
-    border-color: #357abd;
+    border-color: #7B2C2C;
     background: #eaf4fd;
   }
   
@@ -766,7 +766,7 @@
   }
   
   .edit-profile-btn {
-    background: linear-gradient(135deg, #4a90e2, #357abd);
+    background: linear-gradient(135deg, #4a90e2, #7B2C2C);
     color: white;
     border: none;
     padding: 0.75rem 1.5rem;
@@ -1049,7 +1049,7 @@
   }
   
   .submit-btn:hover {
-    background-color: #357abd;
+    background-color: #7B2C2C;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   }
   
