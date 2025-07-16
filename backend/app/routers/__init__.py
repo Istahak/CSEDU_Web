@@ -5,9 +5,10 @@ from schemas.requests.user import (
     ProfileUpdateRequest
 )
 
-from routers import token, auth, img, profile, homepage, faculty, notice, classroom, committee, committee_member, research_assistant, equipment, equipment_booking, office_room, payment, payment_user, project, publication, admin_profile, admin_profile
+from routers import token, auth, img, profile, homepage, faculty, notice, classroom, committee, committee_member, research_assistant, equipment, equipment_booking, office_room, payment, payment_user, project, publication, admin_profile, admin_profile, student_profile_get_all
 from .user import router as user_router
 from .room_booking import router as room_booking_router
+
 # from .admin_profile import router as admin_profile_router
 
 from .assignment import router as assignment_router
@@ -27,9 +28,11 @@ router = APIRouter(
     prefix="/api/v1"
 )
 
+router.include_router(student_profile_get_all.router)
 router.include_router(student_profile_router)
 router.include_router(assignment_router)
 router.include_router(assignment_submission_router)
+
 
 router.include_router(token.router)
 router.include_router(auth.router)
