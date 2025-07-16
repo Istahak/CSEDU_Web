@@ -214,10 +214,27 @@ const LabBooking = ({ onBack, onBookingComplete }) => {
   if (!selectedEquipment) {
     return (
       <div className="lab-booking-page">
+        <div className="equipment-header-row">
+          <h2 className="header-title">Select Laboratory</h2>
+          <div className="search-container">
+            <input
+              type="text"
+              placeholder="Search laboratories..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input"
+            />
+          </div>
+        </div>
+
+
         <div className="lab-booking-container">
           <div className="equipment-selection">
-            <h2>Select Laboratory</h2>
-            
+            {/* <h2>Select Lab</h2> */}
+            {/* <h2>Select Laboratory</h2> */}
+            {/* <div className="equipment-header-block">
+              <h2 className="header-title">Select Laboratory</h2>
+            </div> */}
             {/* Category Filter */}
             <div className="category-filter">
               {categories.map((category) => (
@@ -235,7 +252,7 @@ const LabBooking = ({ onBack, onBookingComplete }) => {
             </div>
 
             {/* Search */}
-            <div className="search-container">
+            {/* <div className="search-container">
               <input
                 type="text"
                 placeholder="Search laboratories..."
@@ -243,7 +260,7 @@ const LabBooking = ({ onBack, onBookingComplete }) => {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="search-input"
               />
-            </div>
+            </div> */}
 
             {/* Equipment Grid */}
             <div className="equipment-grid">
@@ -464,7 +481,8 @@ const LabBooking = ({ onBack, onBookingComplete }) => {
                     checked={formData.acceptTerms}
                     onChange={handleInputChange}
                   />
-                  <span className="checkmark"></span>I accept the terms and
+                  {/* <span className="checkmark"></span> */}
+                  I accept the terms and
                   conditions and lab safety regulations
                 </label>
               </div>

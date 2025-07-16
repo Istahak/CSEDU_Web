@@ -102,11 +102,11 @@
   border-color: #2c3e50;
 }
 
+
 .search-container {
-  margin-bottom: 2rem;
+  width: 100%;
   max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-bottom: 0;
 }
 
 .search-input {
@@ -250,12 +250,19 @@
 /* Booking Content (Two-column layout like EventRegistration) */
 .booking-content {
   display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* .booking-content {
+  display: grid;
   grid-template-columns: 1fr 1.5fr;
   gap: 1rem;
   width: 100%;
   align-items: stretch;
   min-height: 600px;
-}
+} */
 
 /* Lab Summary Section */
 .lab-summary {
@@ -1866,4 +1873,23 @@
     grid-template-columns: 1fr;
     gap: 1rem;
   }
+}
+
+
+.equipment-header-row {
+  display: flex;
+  max-width: 1400px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0 2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap; /* ✅ allows stacking on small screens */
+}
+
+.header-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
 }
