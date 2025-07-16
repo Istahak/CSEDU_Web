@@ -744,9 +744,9 @@ case "due-payments":
                 />
             </div>
             <div className="profile-details">
-              <h1 className="profile-name">{userData.name}</h1>
-              <p className="profile-id">Student ID: {userData.studentId}</p>
-              <p className="profile-department">{userData.department}</p>
+              <h1 className="profile-name">{userData.full_name}</h1>
+              <p className="profile-id">Student ID: {userData.student_id}</p>
+              <p className="profile-department">{userData.dept}</p>
             </div>
             <button
               className="edit-profile-header-btn"
