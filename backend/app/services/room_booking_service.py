@@ -3,12 +3,19 @@ from fastapi import HTTPException, status
 from uuid import UUID
 from typing import List
 from models.classroom import RoomBooking
-from schemas.requests.room_booking import RoomBookingCreate, RoomBookingUpdate
+from schemas.requests.room_booking import RoomBookingCreate, RoomBookingUpdate 
+from datetime import datetime, timedelta
 
 class RoomBookingService:
     @staticmethod
     def create_room_booking(db: Session, booking_create: RoomBookingCreate) -> RoomBooking:
         booking = RoomBooking(**booking_create.dict())
+        # order by priority idx descending
+        bookings = db.query(RoomBooking).filter(RoomBooking.room_id == booking.room_id).order_by(RoomBooking.priority_idx.desc()).first()
+        if bookings:
+            booking.priority_idx = bookings.priority_idx + 1e6
+        else:
+            booking.priority_idx = 1e6
         db.add(booking)
         try:
             db.commit()
@@ -33,7 +40,29 @@ class RoomBookingService:
         return db.query(RoomBooking).filter(RoomBooking.user_id == uuid_obj).offset(skip).limit(limit).all()
 
     @staticmethod
+<<<<<<< HEAD
     def get_available_time_for_room(db: Session, room_id: str):
+=======
+    # def get_available_time_for_room(db: Session, room_id: str):
+    #     try:
+    #         uuid_obj = UUID(room_id)
+    #     except ValueError:
+    #         raise HTTPException(
+    #             status_code=status.HTTP_400_BAD_REQUEST,
+    #             detail=f"Invalid room ID format"
+    #         )
+    #     bookings = db.query(RoomBooking).filter(RoomBooking.room_id == uuid_obj).all()
+    #     # Return list of dicts with start and end time
+    #     return [{
+    #         "time_start": booking.time_start,
+    #         "time_end": booking.time_end,
+    #         "is_approved": booking.is_approved
+    #     } for booking in bookings]
+ 
+
+    def get_available_time_for_room(db: Session, room_id: str):
+        # Validate UUID
+>>>>>>> 675af92bc0918ade8e27fd27a7ed6a5851141893
         try:
             uuid_obj = UUID(room_id)
         except ValueError:
@@ -41,6 +70,7 @@ class RoomBookingService:
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail=f"Invalid room ID format"
             )
+<<<<<<< HEAD
         bookings = db.query(RoomBooking).filter(RoomBooking.room_id == uuid_obj).all()
         # Return list of dicts with start and end time
         return [{
@@ -48,6 +78,39 @@ class RoomBookingService:
             "time_end": booking.time_end,
             "is_approved": booking.is_approved
         } for booking in bookings]
+=======
+
+        now = datetime.now()
+        print(now)  
+
+        # Only consider approved bookings!
+        bookings = (
+            db.query(RoomBooking)
+            .filter(RoomBooking.room_id == uuid_obj, RoomBooking.is_approved == True)
+            .order_by(RoomBooking.time_start)
+            .all()
+        )
+
+        available_slots = []
+        prev_end = now
+
+        for booking in bookings:
+            # If previous end < new booking start, there's an available slot!
+            if prev_end < booking.time_start:
+                available_slots.append({
+                    "time_start": prev_end,
+                    "time_end": booking.time_start
+                })
+            prev_end = max(prev_end, booking.time_end)
+
+        # After the last booking, the room is free
+        available_slots.append({
+            "time_start": prev_end,
+            "time_end": None  # signifies "infinite"
+        })
+
+        return available_slots
+>>>>>>> 675af92bc0918ade8e27fd27a7ed6a5851141893
 
     @staticmethod
     def get_all_room_bookings(db: Session, skip: int = 0, limit: int = 100) -> List[RoomBooking]:
@@ -121,4 +184,75 @@ class RoomBookingService:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail=f"Failed to approve room booking: {str(e)}"
+            )
+
+    # @staticmethod
+    # def update_priority_idx(db: Session, booking_id: str, priority_idx: int) -> RoomBooking:
+    #     booking = RoomBookingService.get_room_booking_by_id(db, booking_id)
+    #     booking.priority_idx = priority_idx
+    #     try:
+    #         db.commit()
+    #         db.refresh(booking)
+    #         return booking
+    #     except Exception as e:
+    #         db.rollback()
+    #         raise HTTPException(
+    #             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+    #             detail=f"Failed to update priority index: {str(e)}"
+    #         )
+    
+    @staticmethod
+    def update_priority_idx(db: Session, booking_id: str, desired_position) -> RoomBooking:
+        # Get all bookings, ordered by priority_idx ASC
+        try:
+            desired_position = int(desired_position)
+        except ValueError:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Invalid desired position"
+            )
+        all_bookings = db.query(RoomBooking).order_by(RoomBooking.priority_idx.asc()).all()
+
+
+        # Sanitize desired_position
+        if desired_position <=0:
+            return "Invalid desired position"
+
+        num_bookings = len(all_bookings)
+        if num_bookings == 0:
+            # If no bookings, set default priority_idx
+            new_priority_idx = 1e6
+        elif desired_position == 1:
+            # Insert at beginning: smaller than current first
+            first_priority = all_bookings[0].priority_idx
+            new_priority_idx = first_priority/2
+        elif desired_position >= num_bookings:
+            # Insert at end: bigger than last
+            last_priority = all_bookings[-1].priority_idx
+            new_priority_idx = last_priority + 1e6
+        else:
+            desired_position -= 1
+            # Insert between: average of prev and next
+            prev_priority = all_bookings[desired_position - 1].priority_idx
+            next_priority = all_bookings[desired_position].priority_idx
+            new_priority_idx = (prev_priority + next_priority) / 2
+
+        # Now update the specified booking with the new priority_idx
+        booking = db.query(RoomBooking).filter_by(id=booking_id).one_or_none()
+        if booking is None:
+            raise HTTPException(
+                status_code=404,
+                detail="Booking not found"
+            )
+
+        booking.priority_idx = new_priority_idx
+        try:
+            db.commit()
+            db.refresh(booking)
+            return booking
+        except Exception as e:
+            db.rollback()
+            raise HTTPException(
+                status_code=500,
+                detail=f"Failed to update priority index: {str(e)}"
             )
