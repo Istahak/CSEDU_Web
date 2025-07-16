@@ -6,7 +6,7 @@ from schemas.responses.admin_profile import AdminProfileResponse
 from services.admin_profile_service import AdminProfileService
 from db import get_db
 
-router = APIRouter(prefix="/api/v1/admin-profiles", tags=["Admin Profiles"])
+router = APIRouter(prefix="/admin-profiles", tags=["Admin Profiles"])
 
 @router.get("/{admin_profile_id}", response_model=AdminProfileResponse)
 def get_admin_profile(admin_profile_id: UUID, db: Session = Depends(get_db)):
