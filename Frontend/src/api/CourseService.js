@@ -20,12 +20,16 @@ const CourseService = {
 
   // Filter courses by instructor
   async filterByInstructor(instructor_id, params = {}) {
-    return apiService.get(`${BASE_PATH}/filter/instructor`, { params: { instructor_id, ...params } });
+    return apiService.get(`${BASE_PATH}/filter/instructor`, { instructor_id, ...params });
   },
 
   // Filter courses by classroom
   async filterByClassroom(classroom_id, params = {}) {
     return apiService.get(`${BASE_PATH}/filter/classroom`, { params: { classroom_id, ...params } });
+  },
+  // Create a new course
+  async create(courseData) {
+    return apiService.post(`${BASE_PATH}`, courseData);
   },
 };
 

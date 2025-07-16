@@ -22,6 +22,20 @@ const ProjectsService = {
   async getByAuthorId(authorId) {
     return ApiService.get(`${ENDPOINT}/by-author/${authorId}`);
   },
+  // Create a new project
+  async create(projectData) {
+    return ApiService.post(`${ENDPOINT}`, projectData);
+  },
+
+  // Update a project
+  async update(projectId, projectData) {
+    return ApiService.put(`${ENDPOINT}/${projectId}`, projectData);
+  },
+
+  // Delete a project
+  async delete(projectId) {
+    return ApiService.delete(`${ENDPOINT}/${projectId}`);
+  },
 };
 
 export default ProjectsService;

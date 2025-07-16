@@ -13,7 +13,7 @@ class ProfileService {
    */
   async getAllProfiles(page_no = 1, page_size = 100) {
     try {
-      const response = await ApiService.get(`${API_CONFIG.ENDPOINTS.PROFILE}/all`, { page_no, page_size });
+      const response = await ApiService.get(`/profile/all`, { page_no, page_size });
       return response;
     } catch (error) {
       console.error('Error fetching all profiles:', error);

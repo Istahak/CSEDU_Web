@@ -1,65 +1,54 @@
-import os
+"""
+Main FastAPI application
+"""
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-from starlette.middleware.base import BaseHTTPMiddleware
-from db import Base, engine, SessionLocal
-from routers import router
-from middleware import log_middleware
-from models.role import Role
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
 
-app = FastAPI()
+from app.api.api import api_router
+from app.core.config import settings
+from app.core.database import Base, engine
+from app.middleware.logging import LoggingMiddleware
 
-# Base.metadata.drop_all(bind=engine)
+# Create database tables
 Base.metadata.create_all(bind=engine)
 
-# Initialize roles
-def initialize_roles():
-    db = SessionLocal()
-    try:
-        # Check if roles already exist
-        existing_roles = db.query(Role).all()
-        role_names = [role.name for role in existing_roles]
-        
-        # Define required roles
-        required_roles = ["student", "faculty", "admin"]
-        
-        # Add any missing roles
-        for role_name in required_roles:
-            if role_name not in role_names:
-                new_role = Role(name=role_name)
-                db.add(new_role)
-                print(f"Created role: {role_name}")
-        
-        db.commit()
-    except Exception as e:
-        print(f"Error initializing roles: {e}")
-        db.rollback()
-    finally:
-        db.close()
+# Create FastAPI app
+app = FastAPI(
+    title=settings.PROJECT_NAME,
+    version=settings.VERSION,
+    description=settings.DESCRIPTION,
+    openapi_url=f"{settings.API_V1_STR}/openapi.json",
+)
 
-# Run role initialization
-initialize_roles()
-
+# Add middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=settings.BACKEND_CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-app.add_middleware(BaseHTTPMiddleware,dispatch=log_middleware)
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=["*"])
+app.add_middleware(LoggingMiddleware)
 
-os.makedirs("media", exist_ok=True)
-app.mount("/media", StaticFiles(directory="media"), name="media")
+# Include API router
+app.include_router(api_router, prefix=settings.API_V1_STR)
+
 
 @app.get("/")
-def root():
-        return{
-                "Intro":"Welcome to CSEDU Web backend"
-        }
+async def root():
+    """Root endpoint"""
+    return {
+        "message": "Welcome to CSEDU Web API",
+        "version": settings.VERSION,
+        "docs": "/docs",
+        "health": "/health"
+    }
 
-#routing
-app.include_router(router)
 
+@app.get("/health")
+async def health_check():
+    """Health check endpoint"""
+    return {"status": "healthy", "message": "CSEDU Web API is running"}
