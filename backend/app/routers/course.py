@@ -57,3 +57,16 @@ def delete_course(course_id: UUID, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Course not found")
     course_service.delete_course(db, course)
     return None
+
+from services.student_profile_service import get_students_by_semester
+from models.course import Course
+from schemas.responses.student_profile import StudentProfileResponse
+
+@router.get("/{course_id}/students", response_model=List[StudentProfileResponse])
+def get_students_in_course(course_id: UUID, db: Session = Depends(get_db)):
+    course = db.query(Course).filter(Course.id == course_id).first()
+    if not course:
+        raise HTTPException(status_code=404, detail="Course not found")
+    semester = course.semester
+    students = get_students_by_semester(db, semester)
+    return students
