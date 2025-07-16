@@ -16,7 +16,7 @@
 
 /* Back Button */
 .back-button {
-  background-color: #2c3e50;
+  background-color: #353839;
   border: none;
   color: white;
   padding: 0.75rem 1.5rem;
@@ -46,7 +46,7 @@
 .events-title {
   font-size: 2.5rem;
   font-weight: 300;
-  color: #2c3e50;
+  color: #353839;
   margin-bottom: 0.5rem;
 }
 
@@ -86,7 +86,7 @@
 }
 
 .search-input:focus {
-  border-color: #2c3e50;
+  border-color: #353839;
   box-shadow: 0 0 0 2px rgba(44, 62, 80, 0.1);
 }
 
@@ -137,7 +137,7 @@
 .filter-label {
   font-size: 0.9rem;
   font-weight: 500;
-  color: #2c3e50;
+  color: #353839;
 }
 
 .filter-select {
@@ -146,7 +146,7 @@
   border-radius: 4px;
   background-color: #fff;
   font-size: 0.9rem;
-  color: #2c3e50;
+  color: #353839;
   cursor: pointer;
   transition: border-color 0.2s ease;
   min-width: 150px;
@@ -154,7 +154,7 @@
 
 .filter-select:focus {
   outline: none;
-  border-color: #2c3e50;
+  border-color: #353839;
   box-shadow: 0 0 0 2px rgba(44, 62, 80, 0.1);
 }
 
@@ -203,7 +203,7 @@
 }
 
 .event-card:hover {
-  border-color: #2c3e50;
+  border-color: #353839;
   box-shadow: 0 4px 12px rgba(44, 62, 80, 0.1);
   transform: translateY(-2px);
 }
@@ -259,7 +259,7 @@
   font-size: 0.7rem;
   font-weight: 500;
   background: rgba(44, 62, 80, 0.07);
-  color: #2c3e50;
+  color: #353839;
   border: 1px solid #e9ecef;
 }
 
@@ -285,7 +285,7 @@
 .event-title {
   font-size: 1.1rem;
   font-weight: 500;
-  color: #2c3e50;
+  color: #353839;
   margin-bottom: 0.75rem;
   line-height: 1.3;
   overflow: hidden;
@@ -319,7 +319,7 @@
 }
 
 .detail-label {
-  color: #2c3e50;
+  color: #353839;
   font-weight: 500;
 }
 
@@ -353,7 +353,7 @@
 
 .register-button {
   width: 100%;
-  background-color: #2c3e50;
+  background-color: #353839;
   border: none;
   color: white;
   padding: 0.75rem 1rem;
@@ -382,7 +382,7 @@
 }
 
 .no-events-message h3 {
-  color: #2c3e50;
+  color: #353839;
   margin-bottom: 1rem;
   font-size: 1.5rem;
   font-weight: 500;

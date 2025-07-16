@@ -118,8 +118,8 @@
 
 .announcement-item {
   display: flex;
-  gap: 2rem;
-  margin-bottom: 2rem;
+  gap: 1rem;
+  margin-bottom: 1rem;
   padding: 1.5rem;
   background: #f8f9fa;
   border-radius: 8px;
@@ -139,7 +139,7 @@
 .announcement-title {
   color: #212529;
   margin: 0 0 1rem 0;
-  font-size: 1.3rem;
+  font-size: 1rem;
   font-weight: 600;
 }
 

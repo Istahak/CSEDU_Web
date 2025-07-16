@@ -81,7 +81,7 @@
 .login-title {
   font-size: 2rem;
   font-weight: 300;
-  color: #2c3e50;
+  color: #353839;
   margin-bottom: 0.5rem;
 }
 
@@ -100,7 +100,7 @@
 .role-title {
   font-size: 1.5rem;
   font-weight: 400;
-  color: #2c3e50;
+  color: #353839;
   margin-bottom: 2rem;
 }
 
@@ -142,7 +142,7 @@
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(5px);
-  color: #2c3e50;
+  color: #353839;
   font-weight: 600;
   border: 1px solid rgba(255, 255, 255, 0.4);
 }
@@ -150,7 +150,7 @@
 .role-label {
   font-size: 1.2rem;
   font-weight: 500;
-  color: #2c3e50;
+  color: #353839;
 }
 
 /* Login Form */
@@ -190,7 +190,7 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.4);
-  color: #2c3e50;
+  color: #353839;
   font-size: 1.2rem;
   cursor: pointer;
   padding: 0;
@@ -214,7 +214,7 @@
 .form-title {
   font-size: 1.5rem;
   font-weight: 400;
-  color: #2c3e50;
+  color: #353839;
   margin-left: 3rem;
   text-align: center;
 }
@@ -252,7 +252,7 @@
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  color: #2c3e50;
+  color: #353839;
 }
 
 .form-input:focus {
@@ -293,7 +293,7 @@
 }
 
 .login-button {
-  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  background: linear-gradient(135deg, #353839 0%, #34495e 100%);
   color: white;
   border: none;
   padding: 0.875rem 2rem;
@@ -307,7 +307,7 @@
 }
 
 .login-button:hover:not(:disabled) {
-  background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+  background: linear-gradient(135deg, #34495e 0%, #353839 100%);
   /* transform: translateY(-2px); */
   box-shadow: 0 8px 25px rgba(44, 62, 80, 0.3);
 }
@@ -336,7 +336,7 @@
 
 .login-help p:first-child {
   font-weight: 500;
-  color: #2c3e50;
+  color: #353839;
 }
 
 /* Modern login layout additions */
@@ -354,7 +354,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #2c3e50 0%, #4a90e2 100%);
+  background: linear-gradient(135deg, #353839 0%, #4a90e2 100%);
   color: #fff;
   min-width: 340px;
   max-width: 400px;
@@ -449,7 +449,7 @@
   padding: 1.1rem 1.2rem;
   border: 1px solid #e8f4fd;
   box-shadow: 0 2px 8px rgba(44,62,80,0.04);
-  color: #2c3e50;
+  color: #353839;
   font-size: 1rem;
 }
 .demo-credentials-title {

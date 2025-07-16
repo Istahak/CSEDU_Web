@@ -74,7 +74,7 @@
 }
 
 .success-header h1 {
-  color: #2c3e50;
+  color: #353839;
   font-size: 2rem;
   font-weight: 500;
   margin-bottom: 1rem;
@@ -98,7 +98,7 @@
 }
 
 .event-details-card h2 {
-  color: #2c3e50;
+  color: #353839;
   font-size: 1.2rem;
   font-weight: 500;
   margin-bottom: 1.2rem;
@@ -140,7 +140,7 @@
 }
 
 .info-value {
-  color: #2c3e50;
+  color: #353839;
   font-size: 1.05rem;
   font-weight: 500;
 }
@@ -155,7 +155,7 @@
 }
 
 .registration-info-card h3 {
-  color: #2c3e50;
+  color: #353839;
   font-size: 1.2rem;
   font-weight: 500;
   margin-bottom: 1.2rem;
@@ -186,7 +186,7 @@
 }
 
 .detail-value {
-  color: #2c3e50;
+  color: #353839;
   font-weight: 500;
 }
 
@@ -212,7 +212,7 @@
 }
 
 .back-to-events-btn {
-  background: #2c3e50;
+  background: #353839;
   border: none;
   color: #fff;
   padding: 0.75rem 1.5rem;

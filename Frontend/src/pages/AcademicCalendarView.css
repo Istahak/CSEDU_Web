@@ -44,7 +44,7 @@
 .calendar-title {
   font-size: 1.8rem;
   font-weight: 700;
-  color: #2c3e50;
+  color: #353839;
   margin: 0;
 }
 
@@ -66,7 +66,7 @@
 }
 
 .filter-select:focus {
-  border-color: #2c3e50;
+  border-color: #353839;
 }
 
 /* Calendar Grid */
@@ -95,7 +95,7 @@
 .day-header,
 .month-header,
 .holidays-header {
-  background: #2c3e50;
+  background: #353839;
   color: #fff;
   padding: 0.75rem 0.5rem;
   font-weight: 600;
@@ -237,7 +237,7 @@
 .legends-title {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: #353839;
   margin-bottom: 1.5rem;
   text-align: center;
 }
@@ -497,7 +497,7 @@ input:checked + .toggle-slider:before {
   margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: #353839;
 }
 
 .close-btn {
@@ -540,7 +540,7 @@ input:checked + .toggle-slider:before {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
-  color: #2c3e50;
+  color: #353839;
 }
 
 .form-group input,

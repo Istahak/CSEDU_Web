@@ -27,7 +27,7 @@ export const colors = {
     600: "#6c7b7d",
     700: "#596a6b",
     800: "#34495e", // Footer background
-    900: "#2c3e50", // Main footer color
+    900: "#353839", // Main footer color
   },
 
   // Accent Colors
@@ -67,7 +67,7 @@ export const colors = {
     primary: "#ffffff",
     secondary: "#f8f9fa",
     tertiary: "#f1f3f4",
-    dark: "#2c3e50",
+    dark: "#353839",
     darker: "#1a252f",
   },
 

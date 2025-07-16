@@ -57,13 +57,13 @@
 .lab-booking-header h2 {
   font-size: 2.5rem;
   font-weight: 300;
-  color: #2c3e50;
+  color: #353839;
   margin: 0;
 }
 
 .history-btn {
   background: #fff;
-  color: #2c3e50;
+  color: #353839;
   border: 2px solid #e9ecef;
   border-radius: 6px;
   padding: 0.75rem 1.5rem;
@@ -77,9 +77,9 @@
 }
 
 .history-btn:hover {
-  background: #2c3e50;
+  background: #353839;
   color: #fff;
-  border-color: #2c3e50;
+  border-color: #353839;
   transform: translateY(-1px);
 }
 
@@ -115,7 +115,7 @@
 }
 
 .equipment-selection h2 {
-  color: #2c3e50;
+  color: #353839;
   font-size: 2rem;
   margin-bottom: 2rem;
   text-align: center;
@@ -146,15 +146,15 @@
 }
 
 .category-btn:hover {
-  border-color: #2c3e50;
-  color: #2c3e50;
+  border-color: #353839;
+  color: #353839;
   box-shadow: 0 2px 4px rgba(44, 62, 80, 0.1);
 }
 
 .category-btn.active {
-  background: #2c3e50;
+  background: #353839;
   color: white;
-  border-color: #2c3e50;
+  border-color: #353839;
 }
 
 
@@ -171,12 +171,12 @@
   border-radius: 8px;
   font-size: 1rem;
   background: #fff;
-  color: #2c3e50;
+  color: #353839;
   transition: all 0.2s ease;
 }
 
 .search-input:focus {
-  border-color: #2c3e50;
+  border-color: #353839;
   box-shadow: 0 2px 4px rgba(44, 62, 80, 0.1);
   outline: none;
 }
@@ -221,7 +221,7 @@
 
 .equipment-icon {
   font-size: 2rem;
-  color: #2c3e50;
+  color: #353839;
 }
 
 .availability-badge {
@@ -252,7 +252,7 @@
 }
 
 .equipment-content h3 {
-  color: #2c3e50;
+  color: #353839;
   font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
@@ -282,7 +282,7 @@
 }
 
 .detail-icon {
-  color: #2c3e50;
+  color: #353839;
   font-size: 0.9rem;
 }
 
@@ -348,7 +348,7 @@
   align-items: center;
   justify-content: center;
   font-size: 4rem;
-  color: #2c3e50;
+  color: #353839;
 }
 
 .lab-summary-badge {
@@ -385,7 +385,7 @@
 }
 
 .lab-summary-title {
-  color: #2c3e50;
+  color: #353839;
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 1rem;
@@ -423,11 +423,11 @@
   font-size: 1.2rem;
   margin-right: 0.75rem;
   margin-top: 0.2rem;
-  color: #2c3e50;
+  color: #353839;
 }
 
 .summary-info-item strong {
-  color: #2c3e50;
+  color: #353839;
   font-size: 0.9rem;
   display: block;
   margin-bottom: 0.2rem;
@@ -446,7 +446,7 @@
 }
 
 .lab-features h3 {
-  color: #2c3e50;
+  color: #353839;
   font-size: 1.1rem;
   margin-bottom: 1rem;
   font-weight: 600;
@@ -482,7 +482,7 @@
 }
 
 .lab-specifications h3 {
-  color: #2c3e50;
+  color: #353839;
   font-size: 1.1rem;
   margin-bottom: 1rem;
   font-weight: 600;
@@ -508,7 +508,7 @@
 }
 
 .booking-form-section h2 {
-  color: #2c3e50;
+  color: #353839;
   font-size: 1.8rem;
   margin-bottom: 1.5rem;
   font-weight: 600;
@@ -527,7 +527,7 @@
 }
 
 .form-group label {
-  color: #2c3e50;
+  color: #353839;
   font-weight: 600;
   margin-bottom: 0.25rem;
   font-size: 0.95rem;
@@ -541,7 +541,7 @@
   padding: 0.75rem 1rem;
   border: 1px solid #e9ecef;
   background: #fff;
-  color: #2c3e50;
+  color: #353839;
   font-size: 1rem;
   transition: all 0.3s ease;
   box-shadow: none;
@@ -556,7 +556,7 @@
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-  border-color: #2c3e50;
+  border-color: #353839;
   box-shadow: 0 2px 4px rgba(44, 62, 80, 0.05);
   outline: none;
 }
@@ -581,7 +581,7 @@
 }
 
 .requirements-section h3 {
-  color: #2c3e50;
+  color: #353839;
   font-size: 1.1rem;
   margin-bottom: 1rem;
   font-weight: 600;
@@ -613,7 +613,7 @@
   align-items: flex-start;
   gap: 0.75rem;
   cursor: pointer;
-  color: #2c3e50;
+  color: #353839;
   font-size: 0.9rem;
   line-height: 1.4;
 }
@@ -637,7 +637,7 @@
 }
 
 .booking-submit-btn {
-  background: #2c3e50;
+  background: #353839;
   color: white;
   border: none;
   padding: 1rem 2rem;
@@ -876,7 +876,7 @@
 .equipment-info h3 {
   font-size: 1.3rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: #353839;
   margin-bottom: 0.75rem;
   text-align: center;
 }
@@ -962,7 +962,7 @@
 .date-selection-header h3 {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: #353839;
   margin: 0;
 }
 
@@ -1013,7 +1013,7 @@
   border-radius: 8px;
   font-size: 1rem;
   font-weight: 500;
-  color: #2c3e50;
+  color: #353839;
   background: white;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -1059,7 +1059,7 @@
 .calendar-header h3 {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: #353839;
   margin: 0;
 }
 
@@ -1126,7 +1126,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #2c3e50;
+  color: #353839;
   border-radius: 6px;
   border: 1px solid #e9ecef;
   line-height: 1;
@@ -1173,7 +1173,7 @@
 .time-slots-container h3 {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: #353839;
   margin-bottom: 1rem;
 }
 
@@ -1215,7 +1215,7 @@
 .time-range {
   display: block;
   font-size: 0.9rem;
-  color: #2c3e50;
+  color: #353839;
   font-weight: 600;
 }
 
@@ -1227,7 +1227,7 @@
 .booking-summary h3 {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: #353839;
   margin-bottom: 1rem;
 }
 
@@ -1255,7 +1255,7 @@
 
 .value {
   font-weight: 600;
-  color: #2c3e50;
+  color: #353839;
   font-size: 0.9rem;
 }
 
@@ -1319,7 +1319,7 @@
 
 .table-header span {
   font-weight: 600;
-  color: #2c3e50;
+  color: #353839;
   font-size: 0.9rem;
 }
 
@@ -1935,7 +1935,7 @@
 .header-title {
   font-size: 2rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: #353839;
   margin: 0;
 }
 

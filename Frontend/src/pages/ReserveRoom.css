@@ -88,7 +88,7 @@
 .room-selection h3 {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: #353839;
   margin: 0 0 1.5rem 0;
   display: flex;
   align-items: center;
@@ -151,7 +151,7 @@
 .room-header h4 {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: #353839;
   margin: 0;
 }
 
@@ -201,7 +201,7 @@
 .booking-form h3 {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: #353839;
   margin: 0 0 2rem 0;
   display: flex;
   align-items: center;
@@ -215,7 +215,7 @@
 .section-title {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: #353839;
   margin: 0 0 1rem 0;
   display: flex;
   align-items: center;
@@ -270,7 +270,7 @@
 
 .purpose-option .label {
   font-weight: 500;
-  color: #2c3e50;
+  color: #353839;
 }
 
 /* Form Grid */
@@ -292,7 +292,7 @@
 
 .form-group label {
   font-weight: 500;
-  color: #2c3e50;
+  color: #353839;
   font-size: 0.95rem;
 }
 
@@ -375,7 +375,7 @@
 
 .equipment-option label {
   font-weight: 500;
-  color: #2c3e50;
+  color: #353839;
   font-size: 0.95rem;
   cursor: pointer;
   margin: 0;
@@ -401,7 +401,7 @@
 
 .checkbox-group label {
   font-weight: 500;
-  color: #2c3e50;
+  color: #353839;
   font-size: 0.95rem;
   cursor: pointer;
   margin: 0;
@@ -419,7 +419,7 @@
 .booking-summary h4 {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: #353839;
   margin: 0 0 1rem 0;
   display: flex;
   align-items: center;
@@ -440,7 +440,7 @@
 }
 
 .summary-item strong {
-  color: #2c3e50;
+  color: #353839;
   min-width: 120px;
   font-weight: 600;
 }

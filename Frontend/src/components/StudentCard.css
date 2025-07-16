@@ -27,7 +27,7 @@
 .course-title {
   font-size: 0.95rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: #353839;
   margin: 0;
   flex: 1;
   line-height: 1.3;
@@ -95,7 +95,7 @@
 }
 .course-info-value {
   font-weight: 500;
-  color: #2c3e50;
+  color: #353839;
   font-size: 0.8rem;
   text-align: right;
   flex: 1;

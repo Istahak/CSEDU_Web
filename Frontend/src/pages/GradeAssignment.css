@@ -114,7 +114,7 @@
 }
 
 .filter-select option {
-  background: #2c3e50;
+  background: #353839;
   color: white;
 }
 
@@ -169,7 +169,7 @@
 .course-info h3 {
   font-size: 1.3rem;
   font-weight: 700;
-  color: #2c3e50;
+  color: #353839;
   margin: 0 0 0.5rem 0;
 }
 
@@ -241,7 +241,7 @@
 .progress-value {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: #353839;
 }
 
 /* Course Actions */
@@ -327,7 +327,7 @@
 .assignment-title h4 {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: #353839;
   margin: 0;
 }
 
@@ -506,7 +506,7 @@
 .student-details h4 {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: #353839;
   margin: 0 0 0.25rem 0;
 }
 
@@ -538,7 +538,7 @@
 
 .grade-input-group label {
   font-weight: 600;
-  color: #2c3e50;
+  color: #353839;
   font-size: 0.9rem;
 }
 
@@ -576,7 +576,7 @@
 
 .feedback-group label {
   font-weight: 600;
-  color: #2c3e50;
+  color: #353839;
   font-size: 0.9rem;
 }
 
@@ -820,7 +820,7 @@
 .student-info h3 {
   margin: 0 0 0.25rem 0;
   font-size: 1.1rem;
-  color: #2c3e50;
+  color: #353839;
 }
 
 .student-id {
@@ -880,7 +880,7 @@
 .stat-item .stat-value {
   font-size: 1rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: #353839;
 }
 
 @media (max-width: 768px) {

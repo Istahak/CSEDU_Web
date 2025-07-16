@@ -22,7 +22,7 @@
 .edit-profile-header h1 {
   font-size: 2rem;
   font-weight: 700;
-  color: #2c3e50;
+  color: #353839;
   margin: 0;
 }
 
@@ -126,7 +126,7 @@
 
 .nav-button:hover {
   background: #e9ecef;
-  color: #2c3e50;
+  color: #353839;
 }
 
 .nav-button.active {
@@ -149,7 +149,7 @@
 .form-section h3 {
   font-size: 1.3rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: #353839;
   margin-bottom: 1.5rem;
   border-bottom: 2px solid #4a90e2;
   padding-bottom: 0.5rem;

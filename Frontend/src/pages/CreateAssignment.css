@@ -114,7 +114,7 @@
 .course-info h3 {
   font-size: 1.3rem;
   font-weight: 700;
-  color: #2c3e50;
+  color: #353839;
   margin: 0 0 0.5rem 0;
 }
 
@@ -173,7 +173,7 @@
 }
 
 .detail-value {
-  color: #2c3e50;
+  color: #353839;
 }
 
 /* Course Actions */
@@ -234,7 +234,7 @@
 }
 
 .form-section h3 {
-  color: #2c3e50;
+  color: #353839;
   font-size: 1.3rem;
   font-weight: 600;
   margin: 0 0 1.5rem 0;
@@ -255,7 +255,7 @@
 .form-group label {
   display: block;
   font-weight: 500;
-  color: #2c3e50;
+  color: #353839;
   margin-bottom: 0.5rem;
   font-size: 0.9rem;
 }
@@ -337,7 +337,7 @@
 
 .attachments-list h4 {
   margin: 0 0 1rem 0;
-  color: #2c3e50;
+  color: #353839;
   font-size: 1rem;
 }
 

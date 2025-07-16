@@ -67,7 +67,7 @@
   .profile-name {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #2c3e50;
+    color: #353839;
     margin: 0 0 0.5rem 0;
   }
   
@@ -127,7 +127,7 @@
   
   .tab-button:hover {
     background: #f8f9fa;
-    color: #2c3e50;
+    color: #353839;
   }
   
   .tab-button.active {
@@ -155,7 +155,7 @@
   .tab-content h3 {
     font-size: 1.5rem;
     font-weight: 600;
-    color: #2c3e50;
+    color: #353839;
     margin-bottom: 1.5rem;
   }
   
@@ -169,7 +169,7 @@
   
   .overview-section h3 {
     font-size: 1.3rem;
-    color: #2c3e50;
+    color: #353839;
     margin-bottom: 1.5rem;
     border-bottom: 2px solid #2d3e50;
     padding-bottom: 0.5rem;
@@ -198,7 +198,7 @@
   
   .info-item .value {
     font-weight: 500;
-    color: #2c3e50;
+    color: #353839;
   }
   
   .info-item {
@@ -219,7 +219,7 @@
   }
   
   .info-item span:last-child {
-    color: #2c3e50;
+    color: #353839;
     font-weight: 600;
   }
   
@@ -341,7 +341,7 @@
   .course-title h4 {
     font-size: 1.2rem;
     font-weight: 600;
-    color: #2c3e50;
+    color: #353839;
     margin: 0;
     line-height: 1.4;
   }
@@ -466,7 +466,7 @@
   .course-title {
     font-size: 1.1rem;
     font-weight: 600;
-    color: #2c3e50;
+    color: #353839;
     margin: 0 0 0.5rem 0;
   }
   
@@ -499,7 +499,7 @@
   }
   
   .project-header h4 {
-    color: #2c3e50;
+    color: #353839;
     font-weight: 600;
     margin: 0;
   }
@@ -640,7 +640,7 @@
   
   .total-due h4 {
     margin: 0 0 0.5rem 0;
-    color: #2c3e50;
+    color: #353839;
   }
   
   .total-due .amount {
@@ -667,7 +667,7 @@
   
   .payment-type {
     font-weight: 600;
-    color: #2c3e50;
+    color: #353839;
   }
   
   .payment-amount {
@@ -805,7 +805,7 @@
   
   .contact-item label {
     font-weight: 600;
-    color: #2c3e50;
+    color: #353839;
   }
   
   .contact-item span {
@@ -834,7 +834,7 @@
     border: 1px solid #e9ecef;
     background-color: white;
     font-size: 1rem;
-    color: #2c3e50;
+    color: #353839;
     cursor: pointer;
     appearance: none;
     -webkit-appearance: none;
@@ -928,7 +928,7 @@
   
   .assignment-category h4 {
     font-size: 1.2rem;
-    color: #2c3e50;
+    color: #353839;
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
     border-bottom: 2px solid #e9ecef;
@@ -986,7 +986,7 @@
   
   .assignment-header h4 {
     font-size: 1.1rem;
-    color: #2c3e50;
+    color: #353839;
     margin: 0;
     font-weight: 600;
     line-height: 1.4;

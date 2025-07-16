@@ -7,11 +7,30 @@ import hero5 from "../assets/images/hero5.jpg";
 import hero6 from "../assets/images/hero6.jpg";
 
 const heroImages = [
-  { src: hero1, label: "Seminar by CSEDU Alumni on Higher Studies and Research in the US" },
-  { src: hero2, label: "A group of faculty members and wining team students of Code Samurai 2024 call on the honorable Ambassador of Japan in Bangladesh" },
-  { src: hero3, label: "CSEDU Celebrates Talent and Excellence at Cultural Program and Annual Prize Giving Ceremony-2025" },
-  { src: hero4, label: "A courtesy visit and exchange of views was held with the newly appointed Dean of Faculty of Engineering and Technology" },
-  { src: hero5, label: "CSEDU's 26th Batch Graduation Week: A Celebration of Achievement and Community" },
+  {
+    src: hero1,
+    label: "Seminar by CSEDU Alumni on Higher Studies and Research in the US",
+  },
+  {
+    src: hero2,
+    label:
+      "A group of faculty members and wining team students of Code Samurai 2024 call on the honorable Ambassador of Japan in Bangladesh",
+  },
+  {
+    src: hero3,
+    label:
+      "CSEDU Celebrates Talent and Excellence at Cultural Program and Annual Prize Giving Ceremony-2025",
+  },
+  {
+    src: hero4,
+    label:
+      "A courtesy visit and exchange of views was held with the newly appointed Dean of Faculty of Engineering and Technology",
+  },
+  {
+    src: hero5,
+    label:
+      "CSEDU's 26th Batch Graduation Week: A Celebration of Achievement and Community",
+  },
   { src: hero6, label: "CSEDU warmly welcomes the UG Students of 31st Batch" },
 ];
 
@@ -19,7 +38,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import API_CONFIG from "../api/config";
 import "./Home.css";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 // const BASE_URL = API_CONFIG.BASE_URL;
 
@@ -125,7 +144,7 @@ const Home = ({ setCurrentPage }) => {
     fetchNotices();
   }, []);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleNavigation = (page) => {
     if (setCurrentPage) {
@@ -145,7 +164,6 @@ const Home = ({ setCurrentPage }) => {
               className="hero-carousel-image"
             />
 
-            
             <div className="hero-carousel-label">
               {heroImages[currentImageIndex].label}
             </div>
@@ -169,7 +187,7 @@ const Home = ({ setCurrentPage }) => {
             </p>
             <button
               className="hero-overlay-button"
-              onClick={() => navigate("/degree-outlines")}
+              onClick={() => handleNavigation("degree-outlines")}
             >
               Explore Programs
             </button>
@@ -218,25 +236,34 @@ const Home = ({ setCurrentPage }) => {
       </section> */}
 
       {/* Announcements Section */}
+
       <section className="announcements-section">
         <h2 className="section-title">Announcements</h2>
+        {/* <div className="section-underline"></div> */}
         <div className="notices-grid">
           {announcements.map((a) => (
             <div className="notice-card" key={a.id}>
               <div className="notice-card-header">
                 <h3 className="notice-title">{a.title}</h3>
-                <span className={`notice-badge ${getNoticeTypeColor(a.type)}`}>
-                  {a.type}
-                </span>
+                <div className="notice-type-and-date">
+                  <span
+                    className={`notice-badge ${getNoticeTypeColor(a.type)}`}
+                  >
+                    {a.type}
+                  </span>
+                  <span className="notice-date">
+                    {new Date(a.date).toLocaleDateString()}
+                  </span>
+                </div>
               </div>
               <p className="notice-description">{a.description}</p>
-              <div className="notice-footer">
-                <span className="notice-date">
-                  {new Date(a.date).toLocaleDateString()}
-                </span>
-              </div>
             </div>
           ))}
+        </div>
+        <div className="announcement-cta">
+          <button onClick={() => handleNavigation("notices")}>
+            Read All
+          </button>
         </div>
       </section>
 
@@ -254,7 +281,7 @@ const Home = ({ setCurrentPage }) => {
                 height="32"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="#2c3e50"
+                stroke="#353839"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -275,7 +302,7 @@ const Home = ({ setCurrentPage }) => {
                 height="32"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="#2c3e50"
+                stroke="#353839"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -297,7 +324,7 @@ const Home = ({ setCurrentPage }) => {
                 height="32"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="#2c3e50"
+                stroke="#353839"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -318,7 +345,7 @@ const Home = ({ setCurrentPage }) => {
                 height="32"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="#2c3e50"
+                stroke="#353839"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"

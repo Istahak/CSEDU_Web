@@ -18,7 +18,7 @@
 
 .admin-title h1 {
   margin: 0;
-  color: #2c3e50;
+  color: #353839;
   font-size: 2.5rem;
   font-weight: 300;
 }
@@ -89,7 +89,7 @@
 
 .admin-info h3 {
   margin: 0 0 0.5rem 0;
-  color: #2c3e50;
+  color: #353839;
   font-weight: 600;
 }
 
@@ -120,14 +120,14 @@
 
 .nav-item:hover {
   background: #f8f9fa;
-  color: #2c3e50;
+  color: #353839;
   border-color: #e9ecef;
 }
 
 .nav-item.active {
-  background: #2c3e50;
+  background: #353839;
   color: white;
-  border-color: #2c3e50;
+  border-color: #353839;
 }
 
 .admin-main {
@@ -146,7 +146,7 @@
 }
 
 .dashboard-header h2 {
-  color: #2c3e50;
+  color: #353839;
   margin: 0 0 0.5rem 0;
   font-size: 2rem;
   font-weight: 300;
@@ -193,12 +193,12 @@
   background: #f8f9fa;
   border: 2px solid #e9ecef;
   border-radius: 50%;
-  color: #2c3e50;
+  color: #353839;
 }
 
 .stat-info h3 {
   margin: 0 0 0.5rem 0;
-  color: #2c3e50;
+  color: #353839;
   font-size: 2rem;
   font-weight: 700;
 }
@@ -219,7 +219,7 @@
 
 .quick-actions h3 {
   margin: 0 0 1.5rem 0;
-  color: #2c3e50;
+  color: #353839;
   font-size: 1.5rem;
   font-weight: 600;
 }
@@ -231,7 +231,7 @@
 }
 
 .action-btn {
-  background: #2c3e50;
+  background: #353839;
   color: white;
   border: none;
   padding: 1rem 1.5rem;
@@ -264,7 +264,7 @@
 
 .section-header h2 {
   margin: 0;
-  color: #2c3e50;
+  color: #353839;
   font-size: 1.8rem;
   font-weight: 300;
 }
@@ -304,7 +304,7 @@
 
 .user-table th {
   background: #f8f9fa;
-  color: #2c3e50;
+  color: #353839;
   font-weight: 600;
 }
 
@@ -546,7 +546,7 @@
 
 .system-settings h2 {
   margin: 0 0 2rem 0;
-  color: #2c3e50;
+  color: #353839;
   font-size: 1.8rem;
   font-weight: 300;
 }
@@ -567,7 +567,7 @@
 
 .setting-card h3 {
   margin: 0 0 1rem 0;
-  color: #2c3e50;
+  color: #353839;
   font-size: 1.2rem;
   font-weight: 600;
 }
@@ -644,7 +644,7 @@
 
 .admin-profile-info h2 {
   margin: 0 0 2rem 0;
-  color: #2c3e50;
+  color: #353839;
   font-size: 1.8rem;
   font-weight: 300;
 }
@@ -671,12 +671,12 @@
   justify-content: center;
   font-size: 3rem;
   margin: 0 auto 1rem;
-  color: #2c3e50;
+  color: #353839;
 }
 
 .change-avatar-btn {
   background: #f8f9fa;
-  color: #2c3e50;
+  color: #353839;
   border: 1px solid #e9ecef;
   padding: 0.5rem 1rem;
   border-radius: 6px;
@@ -707,7 +707,7 @@
   border-radius: 6px;
   border: 1px solid #e9ecef;
   background: #f8f9fa;
-  color: #2c3e50;
+  color: #353839;
 }
 
 .permissions-section {
@@ -717,7 +717,7 @@
 
 .permissions-section h3 {
   margin: 0 0 1rem 0;
-  color: #2c3e50;
+  color: #353839;
   font-size: 1.2rem;
   font-weight: 600;
 }
@@ -729,7 +729,7 @@
 }
 
 .permission-badge {
-  background: #2c3e50;
+  background: #353839;
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 20px;
@@ -757,13 +757,13 @@
 
 .filter-btn:hover {
   background: #e9ecef;
-  color: #2c3e50;
+  color: #353839;
 }
 
 .filter-btn.active {
-  background: #2c3e50;
+  background: #353839;
   color: white;
-  border-color: #2c3e50;
+  border-color: #353839;
 }
 
 .archive-btn {
@@ -876,7 +876,7 @@
 }
 
 .file-input:hover {
-  border-color: #2c3e50;
+  border-color: #353839;
   background: #ffffff;
 }
 
@@ -900,7 +900,7 @@
 .selected-files h4,
 .existing-files h4 {
   margin: 0 0 0.5rem 0;
-  color: #2c3e50;
+  color: #353839;
   font-size: 0.9rem;
 }
 
@@ -923,7 +923,7 @@
 .file-name {
   flex: 1;
   font-weight: 500;
-  color: #2c3e50;
+  color: #353839;
 }
 
 .file-size {
@@ -1033,7 +1033,7 @@
 .modal-header h2,
 .modal-header h3 {
   margin: 0;
-  color: #2c3e50;
+  color: #353839;
   font-weight: 600;
 }
 
@@ -1067,7 +1067,7 @@
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: #353839;
 }
 
 .form-group input,
@@ -1083,7 +1083,7 @@
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #2c3e50;
+  border-color: #353839;
   box-shadow: 0 0 0 2px rgba(44, 62, 80, 0.1);
 }
 
@@ -1377,7 +1377,7 @@
 
 .faculty-quick-assign h3 {
   margin: 0 0 1rem 0;
-  color: #2c3e50;
+  color: #353839;
   font-size: 1.3rem;
   font-weight: 600;
 }
@@ -1407,7 +1407,7 @@
 
 .faculty-info h4 {
   margin: 0;
-  color: #2c3e50;
+  color: #353839;
   font-size: 1.1rem;
   font-weight: 600;
 }
@@ -1489,7 +1489,7 @@
 
 .task-title {
   margin: 0;
-  color: #2c3e50;
+  color: #353839;
   font-size: 1.3rem;
   font-weight: 600;
   flex: 1;
