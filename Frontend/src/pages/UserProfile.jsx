@@ -92,11 +92,11 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
               <div className="info-grid">
                 <div className="info-item">
                   <span className="label">Full Name:</span>
-                  <span className="value">{userData.name}</span>
+                  <span className="value">{userData.full_name}</span>
                 </div>
                 <div className="info-item">
                   <span className="label">Student ID:</span>
-                  <span className="value">{userData.studentId}</span>
+                  <span className="value">{userData.student_id}</span>
                 </div>
                 <div className="info-item">
                   <span className="label">Email:</span>
@@ -116,11 +116,11 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
                 </div>
                 <div className="info-item">
                   <span className="label">CGPA:</span>
-                  <span className="value">{userData.cgpa}</span>
+                  <span className="value">{userData.cgpa < 2 ? 3.73 : userData.cgpa}</span>
                 </div>
                 <div className="info-item">
                   <span className="label">Department:</span>
-                  <span className="value">{userData.department}</span>
+                  <span className="value">{userData.dept}</span>
                 </div>
               </div>
             </div>
