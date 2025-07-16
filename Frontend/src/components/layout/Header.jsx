@@ -183,8 +183,8 @@ const Header = ({
           </div>
         </nav>
         <div className="header-actions">
-          <button className="search-btn">🔍</button>
-          <button className="menu-btn">☰</button>
+          {/* <button className="search-btn">🔍</button> */}
+          {/* <button className="menu-btn">☰</button> */}
           <div className="user-section">
             {isAuthenticated ? (
               <>
@@ -212,20 +212,21 @@ const Header = ({
                   <span className="user-role">{userRole}</span>
                 </div>
                 <button
-                  className="logout-btn"
+                  // className="logout-btn"
+                  className="btn btn-danger"
                   onClick={() => {
                     if (typeof onLogout === "function") onLogout();
                   }}
-                  style={{
-                    minWidth: "80px",
-                    background: "#ffd6d6",
-                    color: "#a12a2a",
-                    border: "none",
-                    borderRadius: "6px",
-                    padding: "0.5rem 1.2rem",
-                    fontWeight: 600,
-                    cursor: "pointer",
-                  }}
+                  // style={{
+                  //   minWidth: "80px",
+                  //   background: "#ffd6d6",
+                  //   color: "#a12a2a",
+                  //   border: "none",
+                  //   borderRadius: "6px",
+                  //   padding: "0.5rem 1.2rem",
+                  //   fontWeight: 600,
+                  //   cursor: "pointer",
+                  // }}
                 >
                   Logout
                 </button>
@@ -236,34 +237,36 @@ const Header = ({
                 style={{ display: "flex", gap: "0.5rem" }}
               >
                 <button
-                  className="login-btn"
+                  // className="login-btn"
+                  className="btn btn-primary"
                   onClick={() => setCurrentPage("login")}
-                  style={{
-                    minWidth: "80px",
-                    background: "#b6f5c6",
-                    color: "#205c2c",
-                    border: "none",
-                    borderRadius: "6px",
-                    padding: "0.5rem 1.2rem",
-                    fontWeight: 600,
-                    cursor: "pointer",
-                  }}
+                  // style={{
+                  //   minWidth: "80px",
+                  //   background: "#b6f5c6",
+                  //   color: "#205c2c",
+                  //   border: "none",
+                  //   borderRadius: "6px",
+                  //   padding: "0.5rem 1.2rem",
+                  //   fontWeight: 600,
+                  //   cursor: "pointer",
+                  // }}
                 >
                   Login
                 </button>
                 <button
-                  className="signup-btn"
+                  // className="signup-btn"
+                  className="btn btn-primary"
                   onClick={() => setCurrentPage("signup")}
-                  style={{
-                    minWidth: "80px",
-                    background: "#b6f5c6",
-                    color: "#205c2c",
-                    border: "none",
-                    borderRadius: "6px",
-                    padding: "0.5rem 1.2rem",
-                    fontWeight: 600,
-                    cursor: "pointer",
-                  }}
+                  // style={{
+                  //   minWidth: "80px",
+                  //   background: "#b6f5c6",
+                  //   color: "#205c2c",
+                  //   border: "none",
+                  //   borderRadius: "6px",
+                  //   padding: "0.5rem 1.2rem",
+                  //   fontWeight: 600,
+                  //   cursor: "pointer",
+                  // }}
                 >
                   Sign up
                 </button>

@@ -14,12 +14,13 @@ class Settings(BaseSettings):
     DESCRIPTION: str = "CSEDU Web Application API"
     
     # Security
-    SECRET_KEY: str
-    ALGORITHM: str = "HS256"
+    JWT_SECRET: str
+    ALGO: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     
     # Database
-    DATABASE_URL: str
+    DB_URL: str
+    BASE_URL: str
     
     # CORS
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
