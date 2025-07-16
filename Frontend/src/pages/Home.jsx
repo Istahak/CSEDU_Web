@@ -118,7 +118,7 @@ const Home = ({ setCurrentPage }) => {
             <div 
               className="notice-card" 
               key={a.id}
-              onClick={() => setCurrentPage && setCurrentPage("notice-details", a.id)}
+              onClick={() => setCurrentPage && setCurrentPage("notice-details", a)}
               style={{ cursor: "pointer" }}
             >
               <div className="notice-card-header">

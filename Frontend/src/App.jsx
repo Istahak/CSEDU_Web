@@ -41,7 +41,7 @@ import TeacherEditProfile from "./pages/TeacherEditProfile";
 import "./styles/App.css";
 
 function App() {
-  const [currentPage, setCurrentPage] = useState("home");
+  const [currentPage, setCurrentPageRaw] = useState("home");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userRole, setUserRole] = useState(null);
   // Added by miraj 
@@ -98,6 +98,13 @@ function App() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [selectedProject, setSelectedProject] = useState(null);
   const [selectedNotice, setSelectedNotice] = useState(null);
+  // Custom page switcher to support passing notice object from Home
+  const setCurrentPage = (page, payload) => {
+    setCurrentPageRaw(page);
+    if (page === "notice-details") {
+      setSelectedNotice(payload || null);
+    }
+  };
   const [registrationData, setRegistrationData] = useState(null);
   const [bookingData, setBookingData] = useState(null);
   const [userData, setUserData] = useState({
@@ -396,7 +403,7 @@ function App() {
           <NoticeDetails
             notice={selectedNotice}
             onBack={() => {
-              setCurrentPage("notices");
+              setCurrentPage("home");
               setSelectedNotice(null);
             }}
           />
