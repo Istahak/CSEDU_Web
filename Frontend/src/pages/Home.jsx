@@ -1,8 +1,17 @@
 import React from "react";
-import cseduImg from "../assets/images/csedu.jpg";
+import hero1 from "../assets/images/hero1.jpg";
+import hero2 from "../assets/images/hero2.jpg";
+import hero3 from "../assets/images/hero3.jpg";
+import hero4 from "../assets/images/hero4.jpg";
+import hero5 from "../assets/images/hero5.jpg";
+import hero6 from "../assets/images/hero6.jpg";
+
+const heroImages = [hero1, hero2, hero3, hero4, hero5, hero6];
+
 import { useState, useEffect } from "react";
 import axios from "axios";
 import API_CONFIG from "../api/config";
+import "./Home.css";
 
 // const BASE_URL = API_CONFIG.BASE_URL;
 
@@ -46,7 +55,6 @@ const getNoticeTypeColor = (type) => {
   }
 };
 
-
 // Added By Tanzim (Date : 2025-07-11)
 
 const Home = ({ setCurrentPage }) => {
@@ -61,26 +69,39 @@ const Home = ({ setCurrentPage }) => {
       const response = await axios.get(
         `${API_CONFIG.BASE_URL}${API_CONFIG.API_VERSION}/notices`,
         { params: { skip: 0, limit: 3 } }
-    );
+      );
       console.log("API Response:", response.data); // Debug response
-      const fetchedNotices = response.data.length > 0
-        ? response.data.map(notice => ({
-            id: notice.id || notice.notice_id || `temp-${Math.random()}`,
-            title: notice.title || "Untitled",
-            description: notice.description || "No description",
-            type: notice.type || "General",
-            date: notice.date || "2025-07-11",
-          }))
-        : announcements; // Fallback to static announcements
+      const fetchedNotices =
+        response.data.length > 0
+          ? response.data.map((notice) => ({
+              id: notice.id || notice.notice_id || `temp-${Math.random()}`,
+              title: notice.title || "Untitled",
+              description: notice.description || "No description",
+              type: notice.type || "General",
+              date: notice.date || "2025-07-11",
+            }))
+          : announcements; // Fallback to static announcements
       setNotices(fetchedNotices);
       setLoading(false);
     } catch (err) {
       console.error("Fetch Error:", err.message, err.response?.data); // Detailed error
-      setError(`Failed to fetch notices: ${err.message}. Using static announcements.`);
+      setError(
+        `Failed to fetch notices: ${err.message}. Using static announcements.`
+      );
       setNotices(announcements); // Fallback to static on error
       setLoading(false);
     }
   };
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
+    }, 4000); // changes every 2 seconds
+
+    return () => clearInterval(interval); // cleanup on unmount
+  }, []);
 
   useEffect(() => {
     fetchNotices();
@@ -95,7 +116,50 @@ const Home = ({ setCurrentPage }) => {
   return (
     <div className="home-page">
       {/* Hero Section */}
-      <section className="hero-section">
+      <section className="hero-carousel-section">
+        <div className="hero-carousel-container">
+          <img
+            src={heroImages[currentImageIndex]}
+            alt="Hero Slide"
+            className="hero-carousel-image"
+          />
+          <div className="hero-overlay-content">
+            <h1 className="hero-overlay-title">Welcome to CSEDU</h1>
+            <p className="hero-overlay-subtext">
+              We provide educational excellence through a mix of tradition and
+              technology.
+            </p>
+            <button className="hero-overlay-button">Explore Programs</button>
+          </div>
+        </div>
+      </section>
+
+      {/* <section className="hero-modern">
+        <div className="hero-modern-content">
+          <div className="hero-text-area">
+            <p className="hero-tagline">
+              #1 Department in Bangladesh for CS Education
+            </p>
+            <h1 className="hero-title">Welcome to CSEDU</h1>
+            <p className="hero-subtext">
+              We empower future leaders through academic excellence, research,
+              and innovation in computing.
+            </p>
+            <button className="btn btn-primary">Explore Programs</button>
+          </div>
+          <div className="hero-image-wrapper">
+            <div className="hero-image-brush">
+              <img
+                src={heroImages[currentImageIndex]}
+                alt="CSEDU Building"
+                className="hero-img-rounded fade-transition"
+              />
+            </div>
+          </div>
+        </div>
+      </section> */}
+
+      {/* <section className="hero-section">
         <div className="hero-image">
           <img src={cseduImg} alt="CSEDU Building" className="hero-img-actual" />
         </div>
@@ -108,7 +172,7 @@ const Home = ({ setCurrentPage }) => {
             industry.
           </p>
         </div>
-      </section>
+      </section> */}
 
       {/* Announcements Section */}
       <section className="announcements-section">
@@ -118,11 +182,15 @@ const Home = ({ setCurrentPage }) => {
             <div className="notice-card" key={a.id}>
               <div className="notice-card-header">
                 <h3 className="notice-title">{a.title}</h3>
-                <span className={`notice-badge ${getNoticeTypeColor(a.type)}`}>{a.type}</span>
+                <span className={`notice-badge ${getNoticeTypeColor(a.type)}`}>
+                  {a.type}
+                </span>
               </div>
               <p className="notice-description">{a.description}</p>
               <div className="notice-footer">
-                <span className="notice-date">{new Date(a.date).toLocaleDateString()}</span>
+                <span className="notice-date">
+                  {new Date(a.date).toLocaleDateString()}
+                </span>
               </div>
             </div>
           ))}
@@ -133,27 +201,90 @@ const Home = ({ setCurrentPage }) => {
       <section className="quick-links-section">
         <h2 className="section-title">Quick Links</h2>
         <div className="quick-links-grid">
-          <div className="quick-link-card" onClick={() => handleNavigation("degree-outlines")}>
+          <div
+            className="quick-link-card"
+            onClick={() => handleNavigation("degree-outlines")}
+          >
             <div className="card-icon">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12l-10-7-10 7 10 7 10-7z"/><path d="M2 12v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-7"/></svg>
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#2c3e50"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M22 12l-10-7-10 7 10 7 10-7z" />
+                <path d="M2 12v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-7" />
+              </svg>
             </div>
             <h3>Academic Programs</h3>
           </div>
-          <div className="quick-link-card" onClick={() => handleNavigation("projects")}>
+          <div
+            className="quick-link-card"
+            onClick={() => handleNavigation("projects")}
+          >
             <div className="card-icon">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#2c3e50"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 16v-4" />
+                <path d="M12 8h.01" />
+              </svg>
             </div>
             <h3>Research Areas</h3>
           </div>
-          <div className="quick-link-card" onClick={() => handleNavigation("directory")}>
+          <div
+            className="quick-link-card"
+            onClick={() => handleNavigation("directory")}
+          >
             <div className="card-icon">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a7.5 7.5 0 0 1 13 0"/></svg>
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#2c3e50"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="7" r="4" />
+                <path d="M5.5 21a7.5 7.5 0 0 1 13 0" />
+              </svg>
             </div>
             <h3>Faculty Directory</h3>
           </div>
-          <div className="quick-link-card" onClick={() => handleNavigation("course-list")}>
+          <div
+            className="quick-link-card"
+            onClick={() => handleNavigation("course-list")}
+          >
             <div className="card-icon">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#2c3e50"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <rect x="3" y="4" width="18" height="16" rx="2" />
+                <path d="M16 2v4" />
+                <path d="M8 2v4" />
+                <path d="M3 10h18" />
+              </svg>
             </div>
             <h3>Course Catalog</h3>
           </div>
