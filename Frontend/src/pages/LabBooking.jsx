@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import "./LabBooking.css";
-import { FaCalendarAlt, FaMapMarkerAlt, FaClock, FaDesktop, FaMicrochip, FaCog } from "react-icons/fa";
+import {
+  FaCalendarAlt,
+  FaMapMarkerAlt,
+  FaClock,
+  FaDesktop,
+  FaMicrochip,
+  FaCog,
+} from "react-icons/fa";
 
 const LabBooking = ({ onBack, onBookingComplete }) => {
   const [selectedEquipment, setSelectedEquipment] = useState(null);
@@ -22,53 +29,77 @@ const LabBooking = ({ onBack, onBookingComplete }) => {
       id: 1,
       name: "High-Performance GPU Lab",
       category: "gpu",
-      description: "High-performance graphics processing unit for machine learning and computational tasks",
+      description:
+        "High-performance graphics processing unit for machine learning and computational tasks",
       availability: "available",
       specifications: "NVIDIA RTX 4090, 24GB VRAM",
       location: "CSE Lab 101",
       capacity: "8 Students",
       supervisor: "Dr. Ahmed Rahman",
       icon: <FaDesktop />,
-      features: ["CUDA Support", "Deep Learning", "Parallel Computing", "Research Projects"],
+      features: [
+        "CUDA Support",
+        "Deep Learning",
+        "Parallel Computing",
+        "Research Projects",
+      ],
     },
     {
       id: 2,
       name: "IoT Sensor Laboratory",
       category: "sensor",
-      description: "IoT sensors for environmental monitoring and data collection",
+      description:
+        "IoT sensors for environmental monitoring and data collection",
       availability: "available",
       specifications: "Temperature, Humidity, Light, Motion sensors",
       location: "CSE Lab 102",
       capacity: "12 Students",
       supervisor: "Dr. Sara Khan",
       icon: <FaMicrochip />,
-      features: ["Arduino Integration", "Real-time Data", "Wireless Connectivity", "Environmental Monitoring"],
+      features: [
+        "Arduino Integration",
+        "Real-time Data",
+        "Wireless Connectivity",
+        "Environmental Monitoring",
+      ],
     },
     {
       id: 3,
       name: "Computer Vision Lab",
       category: "camera",
-      description: "High-resolution cameras for computer vision and image processing projects",
+      description:
+        "High-resolution cameras for computer vision and image processing projects",
       availability: "booked",
       specifications: "4K Resolution, 60fps, USB 3.0",
       location: "CSE Lab 103",
       capacity: "10 Students",
       supervisor: "Dr. John Smith",
       icon: <FaCog />,
-      features: ["Image Processing", "Object Detection", "Video Analysis", "Pattern Recognition"],
+      features: [
+        "Image Processing",
+        "Object Detection",
+        "Video Analysis",
+        "Pattern Recognition",
+      ],
     },
     {
       id: 4,
       name: "Digital Analysis Lab",
       category: "microscope",
-      description: "Digital microscope for detailed component analysis and research",
+      description:
+        "Digital microscope for detailed component analysis and research",
       availability: "available",
       specifications: "1000x magnification, Digital display",
       location: "CSE Lab 104",
       capacity: "6 Students",
       supervisor: "Dr. Emily Chen",
       icon: <FaCog />,
-      features: ["Digital Imaging", "Component Analysis", "Research Support", "High Magnification"],
+      features: [
+        "Digital Imaging",
+        "Component Analysis",
+        "Research Support",
+        "High Magnification",
+      ],
     },
     {
       id: 5,
@@ -81,7 +112,12 @@ const LabBooking = ({ onBack, onBookingComplete }) => {
       capacity: "15 Students",
       supervisor: "Dr. Michael Brown",
       icon: <FaCog />,
-      features: ["Signal Analysis", "Circuit Testing", "Electronics Projects", "Measurements"],
+      features: [
+        "Signal Analysis",
+        "Circuit Testing",
+        "Electronics Projects",
+        "Measurements",
+      ],
     },
     {
       id: 6,
@@ -94,7 +130,12 @@ const LabBooking = ({ onBack, onBookingComplete }) => {
       capacity: "8 Students",
       supervisor: "Dr. Lisa Wong",
       icon: <FaCog />,
-      features: ["3D Printing", "Rapid Prototyping", "Design Iteration", "Material Testing"],
+      features: [
+        "3D Printing",
+        "Rapid Prototyping",
+        "Design Iteration",
+        "Material Testing",
+      ],
     },
   ];
 
@@ -132,7 +173,7 @@ const LabBooking = ({ onBack, onBookingComplete }) => {
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
-    
+
     if (hasSubmitted && type !== "checkbox") {
       // Allow users to clear validation errors by typing
     }
@@ -143,8 +184,9 @@ const LabBooking = ({ onBack, onBookingComplete }) => {
     setHasSubmitted(true);
 
     // Check for validation errors
-    const hasRequiredFieldErrors = !selectedEquipment || !selectedDate || !selectedTime || !formData.purpose;
-    
+    const hasRequiredFieldErrors =
+      !selectedEquipment || !selectedDate || !selectedTime || !formData.purpose;
+
     if (hasRequiredFieldErrors) {
       alert("Please fill in all required fields and make your selections.");
       return;
@@ -187,25 +229,25 @@ const LabBooking = ({ onBack, onBookingComplete }) => {
   const generateAvailableDates = () => {
     const dates = [];
     const today = new Date();
-    
+
     for (let i = 1; i < 31; i++) {
       const date = new Date(today);
       date.setDate(today.getDate() + i);
-      
+
       // Skip weekends (Saturday = 6, Sunday = 0)
       if (date.getDay() !== 0 && date.getDay() !== 6) {
         dates.push({
-          value: date.toISOString().split('T')[0],
-          label: date.toLocaleDateString('en-US', { 
-            weekday: 'long', 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
+          value: date.toISOString().split("T")[0],
+          label: date.toLocaleDateString("en-US", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
           }),
         });
       }
     }
-    
+
     return dates;
   };
 
@@ -226,19 +268,16 @@ const LabBooking = ({ onBack, onBookingComplete }) => {
             />
           </div>
 
-          
           <button
-                className="history-btn"
-                onClick={() => onBack && onBack('equipment-history')}
-              >
-                📋 Booking History
+            className="history-btn"
+            onClick={() => onBack && onBack("equipment-history")}
+          >
+            📋 Booking History
           </button>
         </div>
 
-
         <div className="lab-booking-container">
           <div className="equipment-selection">
-            
             {/* Category Filter */}
             <div className="category-filter">
               {categories.map((category) => (
@@ -287,11 +326,11 @@ const LabBooking = ({ onBack, onBookingComplete }) => {
                       {item.availability === "maintenance" && "Maintenance"}
                     </div>
                   </div>
-                  
+
                   <div className="equipment-content">
                     <h3>{item.name}</h3>
                     <p className="equipment-description">{item.description}</p>
-                    
+
                     <div className="equipment-details">
                       <div className="detail-item">
                         <FaMapMarkerAlt className="detail-icon" />
@@ -305,7 +344,9 @@ const LabBooking = ({ onBack, onBookingComplete }) => {
 
                     <div className="equipment-features">
                       {item.features.slice(0, 2).map((feature, index) => (
-                        <span key={index} className="feature-tag">{feature}</span>
+                        <span key={index} className="feature-tag">
+                          {feature}
+                        </span>
                       ))}
                     </div>
                   </div>
@@ -320,17 +361,22 @@ const LabBooking = ({ onBack, onBookingComplete }) => {
   return (
     <div className="lab-booking-page">
       <div className="lab-booking-container">
-        <div className="booking-content">
-          {/* Lab Details Section */}
+        <div className="lab-booking-layout">
+          {/* Lab Summary Section */}
           <div className="lab-summary">
             <div className="lab-summary-image">
               <div className="lab-summary-placeholder">
                 {selectedEquipment.icon}
               </div>
               <div className="lab-summary-badge">
-                <span className={`status-badge ${selectedEquipment.availability}`}>
-                  {selectedEquipment.availability === "available" ? "Available" : 
-                   selectedEquipment.availability === "booked" ? "Busy" : "Maintenance"}
+                <span
+                  className={`status-badge ${selectedEquipment.availability}`}
+                >
+                  {selectedEquipment.availability === "available"
+                    ? "Available"
+                    : selectedEquipment.availability === "booked"
+                    ? "Busy"
+                    : "Maintenance"}
                 </span>
               </div>
             </div>
@@ -339,7 +385,11 @@ const LabBooking = ({ onBack, onBookingComplete }) => {
               <h2 className="lab-summary-title">{selectedEquipment.name}</h2>
               <div className="lab-summary-category">
                 <span className="category-tag">
-                  {categories.find(cat => cat.id === selectedEquipment.category)?.name}
+                  {
+                    categories.find(
+                      (cat) => cat.id === selectedEquipment.category
+                    )?.name
+                  }
                 </span>
               </div>
 
@@ -369,7 +419,6 @@ const LabBooking = ({ onBack, onBookingComplete }) => {
                 </div>
               </div>
 
-              {/* Lab Features */}
               <div className="lab-features">
                 <h3>Lab Features</h3>
                 {selectedEquipment.features.map((feature, index) => (
@@ -379,7 +428,6 @@ const LabBooking = ({ onBack, onBookingComplete }) => {
                 ))}
               </div>
 
-              {/* Specifications */}
               <div className="lab-specifications">
                 <h3>Equipment Specifications</h3>
                 <p>{selectedEquipment.specifications}</p>
@@ -485,9 +533,7 @@ const LabBooking = ({ onBack, onBookingComplete }) => {
                     checked={formData.acceptTerms}
                     onChange={handleInputChange}
                   />
-                  {/* <span className="checkmark"></span> */}
-                  I accept the terms and
-                  conditions and lab safety regulations
+                  I accept the terms and conditions and lab safety regulations
                 </label>
               </div>
 
@@ -504,6 +550,206 @@ const LabBooking = ({ onBack, onBookingComplete }) => {
       </div>
     </div>
   );
+
+  // return (
+  //   <div className="lab-booking-page">
+  //     <div className="lab-booking-container">
+  //       <div className="booking-content">
+  //         {/* Lab Details Section */}
+  //         <div className="lab-booking-layout">
+  //         <div className="lab-summary">
+  //           <div className="lab-summary-image">
+  //             <div className="lab-summary-placeholder">
+  //               {selectedEquipment.icon}
+  //             </div>
+  //             <div className="lab-summary-badge">
+  //               <span
+  //                 className={`status-badge ${selectedEquipment.availability}`}
+  //               >
+  //                 {selectedEquipment.availability === "available"
+  //                   ? "Available"
+  //                   : selectedEquipment.availability === "booked"
+  //                   ? "Busy"
+  //                   : "Maintenance"}
+  //               </span>
+  //             </div>
+  //           </div>
+
+  //             <div className="lab-summary-details">
+  //               <h2 className="lab-summary-title">{selectedEquipment.name}</h2>
+  //               <div className="lab-summary-category">
+  //                 <span className="category-tag">
+  //                   {
+  //                     categories.find(
+  //                       (cat) => cat.id === selectedEquipment.category
+  //                     )?.name
+  //                   }
+  //                 </span>
+  //               </div>
+
+  //               <div className="lab-summary-info">
+  //                 <div className="summary-info-item">
+  //                   <FaMapMarkerAlt className="info-icon" />
+  //                   <div>
+  //                     <strong>Location</strong>
+  //                     <p>{selectedEquipment.location}</p>
+  //                   </div>
+  //                 </div>
+
+  //                 <div className="summary-info-item">
+  //                   <FaClock className="info-icon" />
+  //                   <div>
+  //                     <strong>Capacity</strong>
+  //                     <p>{selectedEquipment.capacity}</p>
+  //                   </div>
+  //                 </div>
+
+  //                 <div className="summary-info-item">
+  //                   <FaDesktop className="info-icon" />
+  //                   <div>
+  //                     <strong>Supervisor</strong>
+  //                     <p>{selectedEquipment.supervisor}</p>
+  //                   </div>
+  //                 </div>
+  //               </div>
+
+  //               {/* Lab Features */}
+  //               <div className="lab-features">
+  //                 <h3>Lab Features</h3>
+  //                 {selectedEquipment.features.map((feature, index) => (
+  //                   <div key={index} className="feature-item">
+  //                     <span className="feature-text">{feature}</span>
+  //                   </div>
+  //                 ))}
+  //               </div>
+
+  //               {/* Specifications */}
+  //               <div className="lab-specifications">
+  //                 <h3>Equipment Specifications</h3>
+  //                 <p>{selectedEquipment.specifications}</p>
+  //               </div>
+  //             </div>
+
+  //           {/* Booking Form Section */}
+  //             <div className="booking-form-section">
+  //               <h2>Lab Booking Request</h2>
+  //               <form onSubmit={handleSubmit} className="booking-form" noValidate>
+  //                 <div className="form-group">
+  //                   <label htmlFor="selectedDate">Select Date *</label>
+  //                   <select
+  //                     id="selectedDate"
+  //                     name="selectedDate"
+  //                     value={selectedDate}
+  //                     onChange={(e) => setSelectedDate(e.target.value)}
+  //                     className={hasSubmitted && !selectedDate ? "invalid" : ""}
+  //                   >
+  //                     <option value="">Choose a date...</option>
+  //                     {availableDates.map((date) => (
+  //                       <option key={date.value} value={date.value}>
+  //                         {date.label}
+  //                       </option>
+  //                     ))}
+  //                   </select>
+  //                 </div>
+
+  //                 <div className="form-group">
+  //                   <label htmlFor="selectedTime">Select Time Slot *</label>
+  //                   <select
+  //                     id="selectedTime"
+  //                     name="selectedTime"
+  //                     value={selectedTime}
+  //                     onChange={(e) => setSelectedTime(e.target.value)}
+  //                     className={hasSubmitted && !selectedTime ? "invalid" : ""}
+  //                   >
+  //                     <option value="">Choose a time slot...</option>
+  //                     {timeSlots.map((slot) => (
+  //                       <option key={slot.id} value={slot.time}>
+  //                         {slot.time} ({slot.period})
+  //                       </option>
+  //                     ))}
+  //                   </select>
+  //                 </div>
+
+  //                 <div className="form-group">
+  //                   <label htmlFor="purpose">Purpose of Booking *</label>
+  //                   <textarea
+  //                     id="purpose"
+  //                     name="purpose"
+  //                     value={formData.purpose}
+  //                     onChange={handleInputChange}
+  //                     placeholder="Describe the purpose of your lab booking (research project, assignment, etc.)"
+  //                     rows="4"
+  //                     className={
+  //                       hasSubmitted && !formData.purpose ? "invalid" : ""
+  //                     }
+  //                   />
+  //                 </div>
+
+  //                 <div className="form-group">
+  //                   <label htmlFor="supervisorEmail">Supervisor Email</label>
+  //                   <input
+  //                     type="email"
+  //                     id="supervisorEmail"
+  //                     name="supervisorEmail"
+  //                     value={formData.supervisorEmail}
+  //                     onChange={handleInputChange}
+  //                     placeholder="supervisor@csedu.ac.bd"
+  //                   />
+  //                 </div>
+
+  //                 <div className="form-group">
+  //                   <label htmlFor="specialRequests">Special Requirements</label>
+  //                   <textarea
+  //                     id="specialRequests"
+  //                     name="specialRequests"
+  //                     value={formData.specialRequests}
+  //                     onChange={handleInputChange}
+  //                     placeholder="Any special requirements or accommodations needed"
+  //                     rows="3"
+  //                   />
+  //                 </div>
+
+  //                 <div className="requirements-section">
+  //                   <h3>Booking Requirements</h3>
+  //                   <div className="requirement-item">
+  //                     <span>Valid student ID required</span>
+  //                   </div>
+  //                   <div className="requirement-item">
+  //                     <span>Lab safety guidelines must be followed</span>
+  //                   </div>
+  //                   <div className="requirement-item">
+  //                     <span>Supervisor approval may be required</span>
+  //                   </div>
+  //                 </div>
+
+  //                 <div className="terms-section">
+  //                   <label className="checkbox-label">
+  //                     <input
+  //                       type="checkbox"
+  //                       name="acceptTerms"
+  //                       checked={formData.acceptTerms}
+  //                       onChange={handleInputChange}
+  //                     />
+  //                     {/* <span className="checkmark"></span> */}I accept the
+  //                     terms and conditions and lab safety regulations
+  //                   </label>
+  //                 </div>
+
+  //                 <button
+  //                   type="submit"
+  //                   className="booking-submit-btn"
+  //                   disabled={isSubmitting}
+  //                 >
+  //                   {isSubmitting ? "Processing..." : "Submit Booking Request"}
+  //                 </button>
+  //               </form>
+  //             </div>
+  //             </div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
 };
 
 export default LabBooking;
