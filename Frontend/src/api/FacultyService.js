@@ -100,10 +100,10 @@ class FacultyService {
       let experienceValue = null;
       if (faculty.experience) {
         const match = faculty.experience.match(/\d+/);
-        if (match && !isNaN(parseInt(match[0]))) {
-          experienceValue = parseInt(match[0]);
+        if (match) {
+          experienceValue = match[0] + " years";
         } else {
-          experienceValue = null;
+          experienceValue = faculty.experience.toString();
         }
       }
 
@@ -114,18 +114,18 @@ class FacultyService {
 
       const facultyPayload = {
         user_id: userId,
-        office_room_id: faculty.office_room_id || null,
+        office_room_id: null,
         full_name: faculty.name,
         email: faculty.email,
-        phone_number: faculty.phone || null,
-        specialization: faculty.specialization || null,
-        research_areas: faculty.researchAreas || null,
+        phone_number: faculty.phone || "",
+          specialization: faculty.specialization || "",
+          research_areas: faculty.researchAreas || "",
         employment_status: "Active",
         designation: faculty.designation,
         department: "CSE",
         experience: experienceValue,
         number_of_publications: publicationsValue,
-        qualifications: faculty.qualifications || null,
+        qualifications: faculty.qualifications || "",
         image: null
       };
 

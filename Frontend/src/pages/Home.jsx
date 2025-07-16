@@ -60,7 +60,7 @@ const Home = ({ setCurrentPage }) => {
     try {
       const response = await axios.get(
         `${API_CONFIG.BASE_URL}${API_CONFIG.API_VERSION}/notices`,
-        { params: { skip: 0, limit: 3 } }
+        { params: { skip: 0, limit: 5 } }
     );
       console.log("API Response:", response.data); // Debug response
       const fetchedNotices = response.data.length > 0
@@ -114,8 +114,13 @@ const Home = ({ setCurrentPage }) => {
       <section className="announcements-section">
         <h2 className="section-title">Announcements</h2>
         <div className="notices-grid">
-          {announcements.map((a) => (
-            <div className="notice-card" key={a.id}>
+          {notices.map((a) => (
+            <div 
+              className="notice-card" 
+              key={a.id}
+              onClick={() => setCurrentPage && setCurrentPage("notice-details", a.id)}
+              style={{ cursor: "pointer" }}
+            >
               <div className="notice-card-header">
                 <h3 className="notice-title">{a.title}</h3>
                 <span className={`notice-badge ${getNoticeTypeColor(a.type)}`}>{a.type}</span>
@@ -133,25 +138,25 @@ const Home = ({ setCurrentPage }) => {
       <section className="quick-links-section">
         <h2 className="section-title">Quick Links</h2>
         <div className="quick-links-grid">
-          <div className="quick-link-card" onClick={() => handleNavigation("degree-outlines")}>
+          <div className="quick-link-card" onClick={() => handleNavigation("degree-outlines")}> 
             <div className="card-icon">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12l-10-7-10 7 10 7 10-7z"/><path d="M2 12v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-7"/></svg>
             </div>
             <h3>Academic Programs</h3>
           </div>
-          <div className="quick-link-card" onClick={() => handleNavigation("projects")}>
+          <div className="quick-link-card" onClick={() => handleNavigation("projects")}> 
             <div className="card-icon">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
             </div>
             <h3>Research Areas</h3>
           </div>
-          <div className="quick-link-card" onClick={() => handleNavigation("directory")}>
+          <div className="quick-link-card" onClick={() => handleNavigation("directory")}> 
             <div className="card-icon">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a7.5 7.5 0 0 1 13 0"/></svg>
             </div>
             <h3>Faculty Directory</h3>
           </div>
-          <div className="quick-link-card" onClick={() => handleNavigation("course-list")}>
+          <div className="quick-link-card" onClick={() => handleNavigation("course-list")}> 
             <div className="card-icon">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
             </div>
