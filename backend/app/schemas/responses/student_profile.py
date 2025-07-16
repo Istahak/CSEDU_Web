@@ -3,15 +3,16 @@ from typing import Optional
 from uuid import UUID
 
 class StudentProfileResponse(BaseModel):
-    id: UUID
-    user_id: UUID
-    student_id: str
-    email: EmailStr
+    id: Optional[UUID]
+    user_id: Optional[UUID]
+    student_id: Optional[str]
+    email: Optional[str]
+    full_name: Optional[str]
     phone: Optional[str] = None
     batch: Optional[str] = None
     semester: Optional[str] = None
     dept: Optional[str] = None
-    cgpa: float
+    cgpa: Optional[float] = None
     image: Optional[str] = None  # base64 encoded user image
 
     class Config:

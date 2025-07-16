@@ -36,6 +36,12 @@ const Login = ({ onLogin }) => {
       if (response.token) {
         authService.setToken(response.token);
       }
+      localStorage.setItem("token", response.token);
+      localStorage.setItem("user_id", response.user_id);
+      localStorage.setItem("role", response.role);
+      localStorage.setItem("profile_id", response.profile_id);
+      // Optionally, store the full response as one object
+      localStorage.setItem("login_response", JSON.stringify(response));
       const userData = {
         user_id: response.user_id,
         email: response.email || email,
