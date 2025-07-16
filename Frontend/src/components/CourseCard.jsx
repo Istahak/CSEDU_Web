@@ -37,7 +37,9 @@ const CourseCard = ({ course, onViewStudents, onManageGrades, onAttendance, onAr
     fetchRoom();
     return () => { isMounted = false; };
   }, [course.classroom_id]);
+  console.log('[hello]coursesinfo:', course);
   return (
+    
     <div className="course-card">
       <div className="course-card-header">
         <h3 className="course-title">{course.course_code} - {course.course_title}</h3>

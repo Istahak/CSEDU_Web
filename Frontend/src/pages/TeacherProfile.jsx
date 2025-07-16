@@ -988,8 +988,8 @@ useEffect(() => {
         );
       case "courses":
         console.log('[DEBUG][Courses Tab] Rendering courses tab. courses:', courses);
-        const activeCourses = courses.filter(course => course.status === "active");
-        const archivedCourses = courses.filter(course => course.status === "archived");
+        const activeCourses = courses.filter(course => course.is_active === "true");
+        const archivedCourses = courses.filter(course => course.is_active=== "false");
         return (
           <div className="tab-content">
             <div className="courses-section">
