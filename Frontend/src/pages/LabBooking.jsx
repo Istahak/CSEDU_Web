@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
+import { useAppContext } from "../context/AppContext";
+import bookingService from "../api/BookingService";
 import "./LabBooking.css";
 import {
   FaCalendarAlt,
@@ -157,6 +160,10 @@ const LabBooking = ({ onBack, onBookingComplete }) => {
     { id: "evening", time: "06:00 PM - 08:00 PM", period: "Evening" },
   ];
 
+  const {
+    state: { user },
+  } = useAppContext();
+
   const filteredEquipment = equipment.filter((item) => {
     const matchesCategory =
       selectedCategory === "all" || item.category === selectedCategory;
@@ -179,11 +186,56 @@ const LabBooking = ({ onBack, onBookingComplete }) => {
     }
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setHasSubmitted(true);
+
+  //   // Check for validation errors
+  //   const hasRequiredFieldErrors =
+  //     !selectedEquipment || !selectedDate || !selectedTime || !formData.purpose;
+
+  //   if (hasRequiredFieldErrors) {
+  //     alert("Please fill in all required fields and make your selections.");
+  //     return;
+  //   }
+
+  //   if (!formData.acceptTerms) {
+  //     alert("Please accept the terms and conditions to proceed.");
+  //     return;
+  //   }
+
+  //   setIsSubmitting(true);
+
+  //   // Simulate API call
+  //   await new Promise((resolve) => setTimeout(resolve, 2000));
+
+  //   // Generate booking reference
+  //   const bookingRef = `LAB${Date.now().toString().slice(-6)}`;
+
+  //   // Create booking data
+  //   const bookingData = {
+  //     bookingReference: bookingRef,
+  //     equipment: selectedEquipment,
+  //     date: selectedDate,
+  //     time: selectedTime,
+  //     purpose: formData.purpose,
+  //     specialRequests: formData.specialRequests,
+  //     supervisorEmail: formData.supervisorEmail,
+  //     status: "Confirmed",
+  //     submittedAt: new Date().toISOString(),
+  //   };
+
+  //   setIsSubmitting(false);
+
+  //   if (onBookingComplete) {
+  //     onBookingComplete(bookingData);
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setHasSubmitted(true);
 
-    // Check for validation errors
     const hasRequiredFieldErrors =
       !selectedEquipment || !selectedDate || !selectedTime || !formData.purpose;
 
@@ -199,29 +251,52 @@ const LabBooking = ({ onBack, onBookingComplete }) => {
 
     setIsSubmitting(true);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    const convertTo24Hour = (time12h) => {
+    const [time, modifier] = time12h.trim().split(" ");
+    let [hours, minutes] = time.split(":");
 
-    // Generate booking reference
-    const bookingRef = `LAB${Date.now().toString().slice(-6)}`;
+    if (modifier === "PM" && hours !== "12") {
+      hours = String(parseInt(hours, 10) + 12);
+    }
+    if (modifier === "AM" && hours === "12") {
+      hours = "00";
+    }
 
-    // Create booking data
-    const bookingData = {
-      bookingReference: bookingRef,
-      equipment: selectedEquipment,
-      date: selectedDate,
-      time: selectedTime,
-      purpose: formData.purpose,
-      specialRequests: formData.specialRequests,
-      supervisorEmail: formData.supervisorEmail,
-      status: "Confirmed",
-      submittedAt: new Date().toISOString(),
-    };
+    return `${hours.padStart(2, "0")}:${minutes}`;
+  };
 
-    setIsSubmitting(false);
+    try {
+      // Prepare the API payload
+      const bookingPayload = {
+        equipment_id: "371071d9-087e-46cb-ae3d-75ce37654a22",
+        // equipment_id: selectedEquipment.id, // Make sure this is a UUID from backend
+        // user_id: user?.id, // Ensure 'user' from context has an 'id' field
+        user_id: "4096b92b-2b64-488f-8210-bccb2ab7617a",
+        time_start: new Date(
+          `${selectedDate}T${convertTo24Hour(selectedTime.split(" - ")[0])}:00`
+        ).toISOString(),
+        time_end: new Date(
+          `${selectedDate}T${convertTo24Hour(selectedTime.split(" - ")[1])}:00`
+        ).toISOString(),
 
-    if (onBookingComplete) {
-      onBookingComplete(bookingData);
+        is_approved: false,
+        priority_idx: 0,
+      };
+
+      console.log("Payload being sent to API:", bookingPayload);
+
+      await bookingService.createBooking(bookingPayload);
+
+      setIsSubmitting(false);
+      alert("Booking submitted successfully!");
+
+      if (onBookingComplete) {
+        onBookingComplete(bookingPayload); // Or refresh UI
+      }
+    } catch (error) {
+      console.error("Booking submission failed:", error);
+      alert("Failed to submit booking. Please try again later.");
+      setIsSubmitting(false);
     }
   };
 
