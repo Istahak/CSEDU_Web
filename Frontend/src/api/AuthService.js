@@ -40,11 +40,15 @@ class AuthService {
         const userData = {
           user_id: response.user_id,
           email: email,
-          role: response.role
+          role: response.role,
+          profile_id: response.profile_id // <-- Save profile_id too
         };
         
         // Store user data in localStorage
         this.setUserData(userData);
+        // Debug: Immediately read back and log what was just saved
+        const savedUserData = localStorage.getItem('userData');
+        console.log('[DEBUG] userData just saved to localStorage:', savedUserData);
         return { user: userData, token: response.token };
       } else {
         throw new Error('No token received');
@@ -129,7 +133,11 @@ class AuthService {
    * @param {Object} userData - User data to store
    */
   setUserData(userData) {
+    console.log('[DEBUG] setUserData called with:', userData);
     localStorage.setItem('userData', JSON.stringify(userData));
+    // Debug: Immediately verify what was saved
+    const verify = localStorage.getItem('userData');
+    console.log('[DEBUG] userData in localStorage after setUserData:', verify);
   }
 
   /**

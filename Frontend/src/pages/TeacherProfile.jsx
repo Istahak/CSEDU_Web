@@ -1,128 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CourseCard from "../components/CourseCard";
 import ResearchCard from "../components/ResearchCard";
 import StudentCard from "../components/StudentCard";
+import CourseService from "../api/CourseService";
+import ProjectsService from "../api/ProjectsService";
+import ProfileService from "../api/ProfileService";
+import ResearchAssistantService from "../api/ResearchAssistantService";
 import "./TeacherProfile.css";
 
-// Sample courses data - only academic courses (moved outside component)
-const initialCoursesData = [
-  {
-    id: 1,
-    code: "CSE 408",
-    title: "Software Development",
-    section: "Batch 20",
-    schedule: "Sunday, Tuesday - 10:00 AM - 11:30 AM",
-    studentsEnrolled: 45,
-    room: "Room 301",
-    semester: "Fall 2024",
-    status: "active"
-  },
-  {
-    id: 2,
-    code: "CSE 412",
-    title: "Machine Learning",
-    section: "Batch 19",
-    schedule: "Monday, Wednesday - 2:00 PM - 3:30 PM",
-    studentsEnrolled: 38,
-    room: "Room 205",
-    semester: "Fall 2024",
-    status: "active"
-  },
-  {
-    id: 3,
-    code: "CSE 410",
-    title: "Computer Graphics",
-    section: "Batch 20",
-    schedule: "Thursday - 9:00 AM - 12:00 PM",
-    studentsEnrolled: 32,
-    room: "Lab 104",
-    semester: "Fall 2024",
-    status: "active"
-  },
-  {
-    id: 4,
-    code: "CSE 414",
-    title: "Database Systems",
-    section: "Batch 18",
-    schedule: "Sunday, Wednesday - 1:00 PM - 2:30 PM",
-    studentsEnrolled: 42,
-    room: "Room 203",
-    semester: "Fall 2024",
-    status: "active"
-  },
-  {
-    id: 5,
-    code: "CSE 416",
-    title: "Artificial Intelligence",
-    section: "Batch 19",
-    schedule: "Tuesday, Thursday - 11:00 AM - 12:30 PM",
-    studentsEnrolled: 28,
-    room: "Room 305",
-    semester: "Fall 2024",
-    status: "active"
-  }
-];
 
-// Sample students data
-const initialThesisStudents = [
-  {
-    id: "CSE-2020-1001",
-    name: "Mohammad Rahman",
-    email: "mohammad.rahman@student.csedu.ac.bd",
-    thesisTopic: "Machine Learning for Stock Price Prediction",
-    startDate: "Jan 2023",
-    year: "Final",
-    level: "Undergraduate"
-  },
-  {
-    id: "CSE-2020-1015",
-    name: "Fatima Khan",
-    email: "fatima.khan@student.csedu.ac.bd",
-    thesisTopic: "Natural Language Processing for Bengali",
-    startDate: "Feb 2023",
-    year: "Final",
-    level: "Undergraduate"
-  },
-  {
-    id: "CSE-2019-1008",
-    name: "Ali Hassan",
-    email: "ali.hassan@student.csedu.ac.bd",
-    thesisTopic: "Blockchain Technology in Healthcare",
-    startDate: "Sep 2022",
-    year: "Final",
-    level: "Undergraduate"
-  }
-];
-
-const initialResearchAssistants = [
-  {
-    id: "CSE-2021-1025",
-    name: "Ahmed Hassan",
-    email: "ahmed.hassan@student.csedu.ac.bd",
-    researchArea: "Deep Learning",
-    duration: "6 months",
-    joinDate: "Aug 2024",
-    level: "Undergraduate"
-  },
-  {
-    id: "CSE-2022-1030",
-    name: "Samira Ahmed",
-    email: "samira.ahmed@student.csedu.ac.bd",
-    researchArea: "Computer Vision",
-    duration: "8 months",
-    joinDate: "Jun 2024",
-    level: "Graduate"
-  },
-  {
-    id: "CSE-2021-1042",
-    name: "Nadia Islam",
-    email: "nadia.islam@student.csedu.ac.bd",
-    researchArea: "Natural Language Processing",
-    duration: "4 months",
-    joinDate: "Oct 2024",
-    level: "Undergraduate"
-  }
-];
+import authService from "../api/AuthService";
+import FacultyService from "../api/FacultyService";
+import roomService from "../api/RoomService";
 
 const TeacherProfile = ({
   onBack,
@@ -131,74 +20,161 @@ const TeacherProfile = ({
   onNavigate,
 }) => {
   const [activeTab, setActiveTab] = useState("overview");
-  const [courses, setCourses] = useState(initialCoursesData);
-  const [thesisStudents, setThesisStudents] = useState(initialThesisStudents);
-  const [researchAssistants, setResearchAssistants] = useState(initialResearchAssistants);
+
+  const [courses, setCourses] = useState([]);
+  const [coursesLoading, setCoursesLoading] = useState(true);
+  const [coursesError, setCoursesError] = useState(null);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      setCoursesLoading(true);
+      setCoursesError(null);
+      try {
+        const userData = authService.getUserData();
+        console.log('[DEBUG][Courses] userData:', userData);
+        if (!userData || !userData.profile_id) {
+          setCoursesError("User not authenticated");
+          setCoursesLoading(false);
+          return;
+        }
+        const result = await CourseService.filterByInstructor(userData.profile_id, { skip: 0, limit: 100 });
+        console.log('[DEBUG][Courses] API result:', result);
+        setCourses(result || []);
+        console.log('[DEBUG][Courses] setCourses:', result || []);
+      } catch (err) {
+        setCoursesError("Failed to load courses");
+        console.error('[DEBUG][Courses] Error fetching courses:', err);
+      } finally {
+        setCoursesLoading(false);
+      }
+    };
+    fetchCourses();
+  }, []);
+
+  // Thesis students are now derived from thesis projects' authors
+  const [researchAssistants, setResearchAssistants] = useState([]);
+
+useEffect(() => {
+  async function fetchResearchAssistants() {
+    try {
+      const userData = authService.getUserData();
+      console.log('[RA] userData', userData);
+      if (!userData || !userData.user_id) {
+        setResearchAssistants([]);
+        console.log('[RA] No user_id, skipping fetch');
+        return;
+      }
+      const response = await ResearchAssistantService.getBySupervisorId(userData.profile_id);
+      console.log('[RA] API response:', response);
+      if (Array.isArray(response)) {
+        setResearchAssistants(response);
+        console.log('[RA] Set researchAssistants:', response);
+      } else {
+        setResearchAssistants([]);
+        console.log('[RA] No array in response');
+      }
+    } catch (err) {
+      setResearchAssistants([]);
+      console.error('[RA] Error fetching research assistants:', err);
+    }
+  }
+  fetchResearchAssistants();
+}, []);
   const [showCreateCourseForm, setShowCreateCourseForm] = useState(false);
   const [showCreateResearchForm, setShowCreateResearchForm] = useState(false);
+  const [officeRoomNumber, setOfficeRoomNumber] = useState("");
   const [showAddThesisStudentForm, setShowAddThesisStudentForm] = useState(false);
   const [showAddResearchAssistantForm, setShowAddResearchAssistantForm] = useState(false);
 
-  const teacherData = propTeacherData || {
-    name: "Dr. Sarah Wilson",
-    facultyId: "CSEDU-FAC-001",
-    email: "sarah.wilson@csedu.ac.bd",
-    phone: "+880 1987 654321",
-    designation: "Associate Professor",
-    department: "Computer Science & Engineering",
-    specialization: "Machine Learning, Artificial Intelligence",
-    officeRoom: "Room 402, CSEDU Building",
-    officeHours: "Sunday-Thursday: 10:00 AM - 12:00 PM",
-    joiningDate: "January 15, 2018",
-    education: "PhD in Computer Science, Stanford University",
-    experience: "8 years",
-    researchInterests:
-      "Deep Learning, Natural Language Processing, Computer Vision",
+  const [researchProjects, setResearchProjects] = useState([]);
+  const [researchLoading, setResearchLoading] = useState(true);
+  const [researchError, setResearchError] = useState(null);
+
+  const fetchResearchProjects = async () => {
+    setResearchLoading(true);
+    setResearchError(null);
+    try {
+      const userData = authService.getUserData();
+      if (!userData || !userData.user_id) {
+        setResearchError("User not authenticated");
+        setResearchLoading(false);
+        return;
+      }
+      const projects = await ProjectsService.getBySupervisorId(userData.user_id);
+      setResearchProjects(projects || []);
+    } catch (err) {
+      setResearchError("Failed to load research projects");
+    } finally {
+      setResearchLoading(false);
+    }
   };
 
-  // Research projects state (reactive)
-  const [researchProjects, setResearchProjects] = useState([
-    {
-      id: 1,
-      title: "Deep Learning for Medical Image Analysis",
-      year: "2023",
-      tags: ["Medical Imaging", "Deep Learning"],
-      authors: "Dr. Sarah Wilson, Dr. John Smith",
-      supervisor: "Dr. Jane Doe",
-      abstract: "This project explores deep learning techniques for medical image analysis, aiming to improve diagnostic accuracy.",
-      status: "active"
-    },
-    {
-      id: 2,
-      title: "Natural Language Processing for Bengali Text",
-      year: "2024",
-      tags: ["NLP", "Bengali Language"],
-      authors: "Dr. Sarah Wilson",
-      supervisor: "Dr. Jane Doe",
-      abstract: "Developing NLP tools and datasets for Bengali text to advance language technology research.",
-      status: "active"
-    },
-    {
-      id: 3,
-      title: "Computer Vision for Autonomous Vehicles",
-      year: "2022",
-      tags: ["Computer Vision", "AI"],
-      authors: "Dr. Sarah Wilson, Dr. Mike Johnson",
-      supervisor: "Dr. Jane Doe",
-      abstract: "Research on improving computer vision algorithms for autonomous vehicle navigation systems.",
-      status: "active"
-    },
-    {
-      id: 4,
-      title: "Blockchain Security in IoT Networks",
-      year: "2021",
-      tags: ["Blockchain", "IoT", "Security"],
-      authors: "Dr. Sarah Wilson",
-      supervisor: "Dr. Jane Doe",
-      abstract: "Investigating blockchain-based security solutions for Internet of Things network architectures.",
-      status: "completed"
+  useEffect(() => {
+    fetchResearchProjects();
+  }, []);
+
+  const [teacherData, setTeacherData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const userData = authService.getUserData();
+        console.log('[DEBUG] userData from AuthService.getUserData():', userData);
+        if (!userData || !userData.profile_id) {
+          setError("User not authenticated");
+          setLoading(false);
+          return;
+        }
+        const facultyId = userData.profile_id;
+        const profile = await FacultyService.getFacultyById(facultyId);
+        setTeacherData(profile);
+        // Fetch office room number if office_room_id exists
+        if (profile.office_room_id) {
+          try {
+            const room = await roomService.getRoomById(profile.office_room_id);
+            setOfficeRoomNumber(room.number || room.room_number || "");
+          } catch (err) {
+            setOfficeRoomNumber("");
+          }
+        } else {
+          setOfficeRoomNumber("");
+        }
+      } catch (err) {
+        setError("Failed to load faculty profile");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProfile();
+  }, []);
+
+  // User profile map for author name lookup
+  const [userIdToName, setUserIdToName] = useState({});
+
+  useEffect(() => {
+    async function fetchAllProfiles() {
+      try {
+        const response = await ProfileService.getAllProfiles(1, 100);
+        if (response && Array.isArray(response.data)) {
+          // Map user_id or id to name
+          const map = {};
+          response.data.forEach(profile => {
+            if (profile.user && profile.user.id && profile.full_name) {
+              map[profile.user.id] = profile.full_name;
+            }
+          });
+          setUserIdToName(map);
+        }
+      } catch (err) {
+        setUserIdToName({});
+      }
     }
-  ]);
+    fetchAllProfiles();
+  }, []);
 
   // Course action handlers
   const handleViewStudents = (course) => {
@@ -434,30 +410,100 @@ const TeacherProfile = ({
     }
   };
 
-  const CreateResearchForm = () => {
+  const CreateResearchForm = ({ fetchResearchProjects }) => {
     const [formData, setFormData] = useState({
       title: '',
-      year: '',
-      tags: '', // comma separated
-      authors: '',
-      supervisor: '',
-      abstract: ''
+      abstract: '',
+      keywords: '',
+      link: '',
+      is_thesis: false,
+      authors: [], // Array of {user_id, ownership_rank}
     });
+    const [authorIds, setAuthorIds] = useState([]); // Array of selected user_ids
+    const [users, setUsers] = useState([]); // All users for dropdown
+    const [loadingUsers, setLoadingUsers] = useState(true);
+    const [errorUsers, setErrorUsers] = useState(null);
+
+    useEffect(() => {
+      console.log('[DEBUG] CreateResearchForm mounted');
+      async function fetchUsers() {
+        setLoadingUsers(true);
+        setErrorUsers(null);
+        try {
+          const response = await ProfileService.getAllProfiles(1, 100);
+          console.log('[DEBUG] getAllProfiles response:', response);
+          if (response && Array.isArray(response.data)) {
+            setUsers(response.data);
+          } else {
+            setErrorUsers('User data format error');
+            setUsers([]);
+          }
+        } catch (err) {
+          setErrorUsers('Failed to load users');
+          setUsers([]);
+          console.error('[ERROR] Failed to load users:', err);
+        } finally {
+          setLoadingUsers(false);
+        }
+      }
+      fetchUsers();
+    }, []);
+
     const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setFormData(prev => ({ ...prev, [name]: value }));
+      const { name, value, type, checked } = e.target;
+      setFormData(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
     };
-    const handleSubmit = (e) => {
+
+    const handleAuthorChange = (idx, userId) => {
+      setAuthorIds(prev => {
+        const newArr = [...prev];
+        newArr[idx] = userId;
+        return newArr;
+      });
+    };
+
+    const addAuthorField = () => setAuthorIds(prev => [...prev, '']);
+    const removeAuthorField = (idx) => setAuthorIds(prev => prev.filter((_, i) => i !== idx));
+
+    const handleSubmit = async (e) => {
       e.preventDefault();
-      if (formData.title && formData.year && formData.tags && formData.authors && formData.supervisor && formData.abstract) {
-        handleCreateResearchSubmit({
-          ...formData,
-          tags: formData.tags.split(',').map(t => t.trim()).filter(Boolean)
-        });
-      } else {
-        alert("Please fill in all required fields");
+      const userData = authService.getUserData();
+      console.log('[DEBUG] userData from AuthService.getUserData():', userData);
+      if (!formData.title || !formData.abstract) {
+        alert('Please fill in all required fields');
+        return;
+      }
+      if (!userData || !userData.user_id) {
+        alert('User ID not found in authentication data. Cannot create project.');
+        return;
+      }
+      // Build authors array with ownership_rank as string
+      const authors = authorIds.filter(Boolean).map((user_id, idx) => ({ user_id, ownership_rank: String(idx + 1) }));
+      if (authors.length === 0) {
+        alert('Please select at least one author');
+        return;
+      }
+      const payload = {
+        title: formData.title,
+        abstract: formData.abstract,
+        keywords: formData.keywords,
+        link: formData.link,
+        is_thesis: formData.is_thesis,
+        supervisor_id: userData.user_id, // Use user_id from auth data
+        authors,
+      };
+      console.log('[DEBUG] Project creation payload:', payload);
+      try {
+        await ProjectsService.create(payload);
+        setShowCreateResearchForm(false);
+        if (typeof fetchResearchProjects === 'function') {
+          fetchResearchProjects();
+        }
+      } catch (err) {
+        alert('Failed to create project');
       }
     };
+
     return (
       <div className="create-course-form-overlay">
         <div className="create-course-form">
@@ -472,28 +518,57 @@ const TeacherProfile = ({
                 <input type="text" name="title" value={formData.title} onChange={handleInputChange} required />
               </div>
               <div className="form-group">
-                <label>Year *</label>
-                <input type="text" name="year" value={formData.year} onChange={handleInputChange} required />
-              </div>
-            </div>
-            <div className="form-row">
-              <div className="form-group">
-                <label>Research Areas (comma separated) *</label>
-                <input type="text" name="tags" value={formData.tags} onChange={handleInputChange} required placeholder="e.g., NLP, Deep Learning" />
-              </div>
-              <div className="form-group">
-                <label>Authors *</label>
-                <input type="text" name="authors" value={formData.authors} onChange={handleInputChange} required />
-              </div>
-            </div>
-            <div className="form-row">
-              <div className="form-group">
-                <label>Supervisor *</label>
-                <input type="text" name="supervisor" value={formData.supervisor} onChange={handleInputChange} required />
-              </div>
-              <div className="form-group">
-                <label>Short Abstract *</label>
+                <label>Abstract *</label>
                 <textarea name="abstract" value={formData.abstract} onChange={handleInputChange} required maxLength={200} placeholder="Brief summary (max 200 chars)" />
+              </div>
+            </div>
+            <div className="form-row">
+              <div className="form-group">
+                <label>Keywords (comma separated)</label>
+                <input type="text" name="keywords" value={formData.keywords} onChange={handleInputChange} placeholder="e.g., NLP, Deep Learning" />
+              </div>
+              <div className="form-group">
+                <label>Project Link</label>
+                <input type="url" name="link" value={formData.link} onChange={handleInputChange} placeholder="e.g., http://project-link.com" />
+              </div>
+            </div>
+            <div className="form-row">
+              <div className="form-group">
+                <label>
+                  <input type="checkbox" name="is_thesis" checked={formData.is_thesis} onChange={handleInputChange} /> Thesis Project
+                </label>
+              </div>
+            </div>
+            <div className="form-row">
+              <div className="form-group full-width">
+                <label>Authors *</label>
+                {loadingUsers ? (
+                  <div>Loading users...</div>
+                ) : errorUsers ? (
+                  <div style={{ color: 'red' }}>{errorUsers}</div>
+                ) : (
+                  <>
+                    {authorIds.map((authorId, idx) => (
+                      <div key={idx} style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}>
+                        <select
+                          value={authorId}
+                          onChange={e => handleAuthorChange(idx, e.target.value)}
+                          required
+                        >
+                          <option value="">Select author</option>
+                          {users.map(user => (
+                            <option key={user.user?.id} value={user.user?.id}>
+                              {user.full_name} ({user.user?.user_name})
+                            </option>
+                          ))}
+                        </select>
+                        <span style={{ marginLeft: 8 }}>Ownership Rank: {String(idx + 1)}</span>
+                        <button type="button" style={{ marginLeft: 8 }} onClick={() => removeAuthorField(idx)} disabled={authorIds.length === 1}>Remove</button>
+                      </div>
+                    ))}
+                    <button type="button" onClick={addAuthorField} style={{ marginTop: 8 }}>Add Author</button>
+                  </>
+                )}
               </div>
             </div>
             <div className="form-actions">
@@ -542,13 +617,13 @@ const TeacherProfile = ({
             <div className="form-row">
               <div className="form-group">
                 <label>Student Name *</label>
-                <input 
-                  type="text" 
-                  name="name" 
-                  value={formData.name} 
-                  onChange={handleInputChange} 
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
                   placeholder="e.g., Mohammad Rahman"
-                  required 
+                  required
                 />
               </div>
               <div className="form-group">
@@ -572,36 +647,36 @@ const TeacherProfile = ({
               </div>
               <div className="form-group">
                 <label>Start Date *</label>
-                <input 
-                  type="text" 
-                  name="startDate" 
-                  value={formData.startDate} 
-                  onChange={handleInputChange} 
+                <input
+                  type="text"
+                  name="startDate"
+                  value={formData.startDate}
+                  onChange={handleInputChange}
                   placeholder="e.g., Jan 2024"
-                  required 
+                  required
                 />
               </div>
             </div>
             <div className="form-group full-width">
               <label>Student Email *</label>
-              <input 
-                type="email" 
-                name="email" 
-                value={formData.email} 
-                onChange={handleInputChange} 
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
                 placeholder="e.g., student@example.com"
-                required 
+                required
               />
             </div>
             <div className="form-group full-width">
               <label>Thesis Topic *</label>
-              <input 
-                type="text" 
-                name="thesisTopic" 
-                value={formData.thesisTopic} 
-                onChange={handleInputChange} 
+              <input
+                type="text"
+                name="thesisTopic"
+                value={formData.thesisTopic}
+                onChange={handleInputChange}
                 placeholder="e.g., Machine Learning for Stock Price Prediction"
-                required 
+                required
               />
             </div>
             <div className="form-actions">
@@ -650,24 +725,24 @@ const TeacherProfile = ({
             <div className="form-row">
               <div className="form-group">
                 <label>Student Name *</label>
-                <input 
-                  type="text" 
-                  name="name" 
-                  value={formData.name} 
-                  onChange={handleInputChange} 
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
                   placeholder="e.g., Ahmed Hassan"
-                  required 
+                  required
                 />
               </div>
               <div className="form-group">
                 <label>Student Email *</label>
-                <input 
-                  type="email" 
-                  name="email" 
-                  value={formData.email} 
-                  onChange={handleInputChange} 
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
                   placeholder="e.g., student@example.com"
-                  required 
+                  required
                 />
               </div>
             </div>
@@ -682,37 +757,37 @@ const TeacherProfile = ({
               </div>
               <div className="form-group">
                 <label>Duration *</label>
-                <input 
-                  type="text" 
-                  name="duration" 
-                  value={formData.duration} 
-                  onChange={handleInputChange} 
+                <input
+                  type="text"
+                  name="duration"
+                  value={formData.duration}
+                  onChange={handleInputChange}
                   placeholder="e.g., 6 months"
-                  required 
+                  required
                 />
               </div>
             </div>
             <div className="form-row">
               <div className="form-group">
                 <label>Research Area *</label>
-                <input 
-                  type="text" 
-                  name="researchArea" 
-                  value={formData.researchArea} 
-                  onChange={handleInputChange} 
+                <input
+                  type="text"
+                  name="researchArea"
+                  value={formData.researchArea}
+                  onChange={handleInputChange}
                   placeholder="e.g., Deep Learning"
-                  required 
+                  required
                 />
               </div>
               <div className="form-group">
                 <label>Join Date *</label>
-                <input 
-                  type="text" 
-                  name="joinDate" 
-                  value={formData.joinDate} 
-                  onChange={handleInputChange} 
+                <input
+                  type="text"
+                  name="joinDate"
+                  value={formData.joinDate}
+                  onChange={handleInputChange}
                   placeholder="e.g., Aug 2024"
-                  required 
+                  required
                 />
               </div>
             </div>
@@ -857,11 +932,11 @@ const TeacherProfile = ({
               <div className="info-grid">
                 <div className="info-item">
                   <span className="label">Full Name:</span>
-                  <span className="value">{teacherData.name}</span>
+                  <span className="value">{teacherData.full_name}</span>
                 </div>
                 <div className="info-item">
                   <span className="label">Faculty ID:</span>
-                  <span className="value">{teacherData.facultyId}</span>
+                  <span className="value">{teacherData.id}</span>
                 </div>
                 <div className="info-item">
                   <span className="label">Email:</span>
@@ -869,7 +944,7 @@ const TeacherProfile = ({
                 </div>
                 <div className="info-item">
                   <span className="label">Phone:</span>
-                  <span className="value">{teacherData.phone}</span>
+                  <span className="value">{teacherData.phone_number}</span>
                 </div>
                 <div className="info-item">
                   <span className="label">Designation:</span>
@@ -885,7 +960,7 @@ const TeacherProfile = ({
                 </div>
                 <div className="info-item">
                   <span className="label">Office Room:</span>
-                  <span className="value">{teacherData.officeRoom}</span>
+                  <span className="value">{officeRoomNumber || teacherData.office_room_id}</span>
                 </div>
                 <div className="info-item">
                   <span className="label">Office Hours:</span>
@@ -905,13 +980,14 @@ const TeacherProfile = ({
                 </div>
                 <div className="info-item">
                   <span className="label">Research Interests:</span>
-                  <span className="value">{teacherData.researchInterests}</span>
+                  <span className="value">{teacherData.research_areas}</span>
                 </div>
               </div>
             </div>
           </div>
         );
       case "courses":
+        console.log('[DEBUG][Courses Tab] Rendering courses tab. courses:', courses);
         const activeCourses = courses.filter(course => course.status === "active");
         const archivedCourses = courses.filter(course => course.status === "archived");
         return (
@@ -922,36 +998,29 @@ const TeacherProfile = ({
                   <h3>Current Courses</h3>
                   <p className="section-subtitle">Manage your course assignments and track student progress</p>
                 </div>
-                <button
-                  className="create-course-btn"
-                  onClick={() => {
-                    handleCreateCourse();
-                  }}
-                >
-                  + Create Course
-                </button>
+                
               </div>
               <div className="notices-grid">
-                {activeCourses.map((course) => (
-                  <CourseCard
-                    key={course.id}
-                    course={course}
-                    onViewStudents={handleViewStudents}
-                    onManageGrades={handleManageGrades}
-                    onAttendance={handleAttendance}
-                    onArchive={handleArchive}
-                  />
-                ))}
+                {courses.map((course) => {
+                  console.log('[DEBUG][Courses Tab] Rendering course:', course);
+                  return (
+                    <CourseCard
+                      key={course.id}
+                      course={course}
+                      onViewStudents={handleViewStudents}
+                      onManageGrades={handleManageGrades}
+                      onAttendance={handleAttendance}
+                      onArchive={handleArchive}
+                    />
+                  );
+                })}
               </div>
-              {activeCourses.length === 0 && (
+              {courses.length === 0 && (
                 <div className="no-courses">
                   <div className="no-courses-content">
                     <span className="no-courses-icon">📚</span>
-                    <h3>No active courses</h3>
-                    <p>You don't have any active courses. Create your first course to get started!</p>
-                    <button className="create-first-course-btn" onClick={handleCreateCourse}>
-                      Create Your First Course
-                    </button>
+                    <h3>No courses found</h3>
+                    <p>This faculty is not assigned to any courses.</p>
                   </div>
                 </div>
               )}
@@ -974,14 +1043,16 @@ const TeacherProfile = ({
                 </div>
               )}
             </div>
-            {showCreateCourseForm && <CreateCourseForm />}
+            
           </div>
         );
       case "research":
-        const activeProjects = researchProjects.filter(project => project.status === "active");
-        const completedProjects = researchProjects.filter(project => project.status === "completed");
-        const archivedProjects = researchProjects.filter(project => project.status === "archived");
-
+        if (researchLoading) {
+          return <div className="tab-content"><div>Loading research projects...</div></div>;
+        }
+        if (researchError) {
+          return <div className="tab-content"><div style={{ color: 'red' }}>{researchError}</div></div>;
+        }
         return (
           <div className="tab-content">
             <div className="research-section">
@@ -990,8 +1061,8 @@ const TeacherProfile = ({
                   <h3>Research Activities</h3>
                   <p className="section-subtitle">Manage your research projects and track progress</p>
                 </div>
-                <button 
-                  className="create-course-btn" 
+                <button
+                  className="create-course-btn"
                   onClick={handleCreateResearchProject}
                 >
                   + Create Project
@@ -999,10 +1070,11 @@ const TeacherProfile = ({
               </div>
 
               <div className="notices-grid">
-                {activeProjects.map((project) => (
-                  <ResearchCard 
-                    key={project.id} 
-                    project={project} 
+                {researchProjects.map((project) => (
+                  <ResearchCard
+                    key={project.id}
+                    project={project}
+                    userIdToName={userIdToName}
                     onMarkFinished={handleMarkProjectFinished}
                     onEdit={handleEditResearch}
                     onArchive={handleArchiveResearch}
@@ -1011,12 +1083,12 @@ const TeacherProfile = ({
                 ))}
               </div>
 
-              {activeProjects.length === 0 && (
+              {researchProjects.length === 0 && (
                 <div className="no-courses">
                   <div className="no-courses-content">
                     <span className="no-courses-icon">🔬</span>
-                    <h3>No active research projects</h3>
-                    <p>You don't have any active research projects. Create your first project to get started!</p>
+                    <h3>No research projects</h3>
+                    <p>You don't have any research projects. Create your first project to get started!</p>
                     <button className="create-first-course-btn" onClick={handleCreateResearchProject}>
                       Create Your First Project
                     </button>
@@ -1024,122 +1096,93 @@ const TeacherProfile = ({
                 </div>
               )}
 
-              {completedProjects.length > 0 && (
-                <div className="completed-projects-section">
-                  <div className="section-header" style={{ marginTop: '2.5rem' }}>
-                    <h3 style={{ color: '#28a745' }}>Completed Projects</h3>
-                    <p className="section-subtitle">These projects have been successfully completed</p>
-                  </div>
-                  <div className="notices-grid">
-                    {completedProjects.map((project) => (
-                      <ResearchCard 
-                        key={project.id} 
-                        project={project} 
-                        completed={true}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {archivedProjects.length > 0 && (
-                <div className="archived-projects-section">
-                  <div className="section-header" style={{ marginTop: '2.5rem' }}>
-                    <h3 style={{ color: '#6c757d' }}>Archived Projects</h3>
-                    <p className="section-subtitle">These projects have been archived and are no longer active</p>
-                  </div>
-                  <div className="notices-grid">
-                    {archivedProjects.map((project) => (
-                      <ResearchCard 
-                        key={project.id} 
-                        project={project} 
-                        archived={true}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {showCreateResearchForm && <CreateResearchForm />}
+              {showCreateResearchForm && <CreateResearchForm fetchResearchProjects={fetchResearchProjects} />}
             </div>
           </div>
         );
       case "students":
         return (
           <div className="tab-content">
-      <div className="students-section">
-        <div className="section-header">
-          <div className="section-header-text">
-            <h3>Student Management</h3>
-            <p className="section-subtitle">Track thesis progress and manage research assistants</p>
-          </div>
-        </div>
+            <div className="students-section">
+              <div className="section-header">
+                <div className="section-header-text">
+                  <h3>Student Management</h3>
+                  <p className="section-subtitle">Track thesis progress and manage research assistants</p>
+                </div>
+              </div>
 
-        <div className="students-subsection">
-          <div className="students-subsection-header">
-            <h4>Thesis Students</h4>
-            <button
-              className="create-course-btn"
-              onClick={handleAddThesisStudent}
-            >
-              + Add Student
-            </button>
-          </div>
-          <div className="notices-grid">
-            {thesisStudents.map((student) => (
-              <StudentCard
-                key={student.id}
-                student={student}
-                type="thesis"
-                onScheduleMeeting={handleScheduleMeeting}
-                onRemove={(student) => handleRemoveStudent(student, "thesis")}
-              />
-            ))}
-          </div>
-          {thesisStudents.length === 0 && (
-            <div className="no-students">
-              <div className="no-students-content">
-                <span className="no-students-icon">🎓</span>
-                <h3>No thesis students</h3>
-                <p>You don't have any thesis students assigned yet.</p>
+              <div className="students-subsection">
+                <div className="students-subsection-header">
+                  <h4>Thesis Students</h4>
+                </div>
+                <div className="notices-grid">
+                  {researchProjects
+                    .filter((project) => project.is_thesis)
+                    .flatMap((project) =>
+                      Array.isArray(project.authors)
+                        ? project.authors.map((author, idx) => {
+                            const userId = typeof author === 'object' && author !== null ? author.user_id : author;
+                            const name = userIdToName[userId] || userId || 'Unknown Author';
+                            return {
+                              id: userId,
+                              name,
+                              projectTitle: project.title,
+                              projectId: project.id,
+                            };
+                          })
+                        : []
+                    )
+                    .map((student) => (
+                      <StudentCard
+                        key={student.id + '-' + student.projectId}
+                        student={{ id: student.id, name: student.name, thesisTopic: student.projectTitle }}
+                        type="thesis"
+                        onScheduleMeeting={handleScheduleMeeting}
+                      />
+                    ))}
+                </div>
+                {researchProjects.filter((project) => project.is_thesis).length === 0 && (
+                  <div className="no-students">
+                    <div className="no-students-content">
+                      <span className="no-students-icon">🎓</span>
+                      <h3>No thesis students</h3>
+                      <p>You don't have any thesis students assigned yet.</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="students-subsection">
+                <div className="students-subsection-header">
+                  <h4>Research Assistants</h4>
+                </div>
+                <div className="notices-grid">
+                  {researchAssistants.map((assistant) => (
+                    <StudentCard
+                      key={assistant.id}
+                      student={{
+                        id: assistant.id,
+                        name: assistant.name || userIdToName[assistant.id] || 'Unknown',
+                        researchArea: assistant.area || '',
+                        duration: assistant.duration || ''
+                      }}
+                      type="assistant"
+                      onViewDetails={handleViewDetails}
+                      onAssignTasks={handleAssignTasks}
+                    />
+                  ))}
+                </div>
+                {researchAssistants.length === 0 && (
+                  <div className="no-students">
+                    <div className="no-students-content">
+                      <span className="no-students-icon">🧑‍🔬</span>
+                      <h3>No research assistants</h3>
+                      <p>You don't have any research assistants assigned yet.</p>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
-          )}
-        </div>
-
-        <div className="students-subsection">
-          <div className="students-subsection-header">
-            <h4>Research Assistants</h4>
-            <button
-              className="create-course-btn"
-              onClick={handleAddResearchAssistant}
-            >
-              + Add Research Assistant
-            </button>
-          </div>
-          <div className="notices-grid">
-            {researchAssistants.map((student) => (
-              <StudentCard
-                key={student.id}
-                student={student}
-                type="assistant"
-                onViewDetails={handleViewDetails}
-                onAssignTasks={handleAssignTasks}
-                onRemove={(student) => handleRemoveStudent(student, "assistant")}
-              />
-            ))}
-          </div>
-          {researchAssistants.length === 0 && (
-            <div className="no-students">
-              <div className="no-students-content">
-                <span className="no-students-icon">🔬</span>
-                <h3>No research assistants</h3>
-                <p>You don't have any research assistants assigned yet.</p>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
             {showAddThesisStudentForm && <AddThesisStudentForm />}
             {showAddResearchAssistantForm && <AddResearchAssistantForm />}
           </div>
@@ -1463,12 +1506,22 @@ const TeacherProfile = ({
     }
   };
 
+  if (loading) {
+    return <div className="teacher-profile-page"><div className="teacher-profile-container"><p>Loading profile...</p></div></div>;
+  }
+  if (error) {
+    return <div className="teacher-profile-page"><div className="teacher-profile-container"><p style={{ color: 'red' }}>{error}</p></div></div>;
+  }
+  if (!teacherData) {
+    return <div className="teacher-profile-page"><div className="teacher-profile-container"><p>No profile data found.</p></div></div>;
+  }
+
   return (
     <div className="teacher-profile-page">
       <div className="teacher-profile-container">
         {/* Header Section - Consistent with Notices */}
         <div className="teacher-profile-header">
-          <h1 className="profile-title">{teacherData.name}</h1>
+          <h1 className="profile-title">{teacherData.full_name}</h1>
           <p className="profile-subtitle">
             {teacherData.designation} • {teacherData.department}
           </p>
@@ -1479,24 +1532,24 @@ const TeacherProfile = ({
           <div className="profile-avatar-section">
             <div className="profile-avatar">
               <img
-                src="/api/placeholder/120/120"
+                src={teacherData.image && teacherData.image !== "null" ? teacherData.image : "/api/placeholder/120/120"}
                 alt="Profile"
                 onError={(e) => {
                   e.target.style.display = "none";
-                  e.target.nextSibling.style.display = "flex";
+                  if (e.target.nextSibling) e.target.nextSibling.style.display = "flex";
                 }}
               />
               <div className="avatar-placeholder">👩‍🏫</div>
             </div>
           </div>
           <div className="profile-details-section">
-            <h2 className="teacher-name">{teacherData.name}</h2>
+            <h2 className="teacher-name">{teacherData.full_name}</h2>
             <p className="teacher-designation">{teacherData.designation}</p>
             <p className="teacher-department">{teacherData.department}</p>
             <div className="profile-meta">
               <span className="meta-item">📧 {teacherData.email}</span>
-              <span className="meta-item">📞 {teacherData.phone}</span>
-              <span className="meta-item">🏢 {teacherData.officeRoom}</span>
+              <span className="meta-item">📞 {teacherData.phone_number}</span>
+              <span className="meta-item">🏢 Room no. {officeRoomNumber || teacherData.office_room_id}</span>
             </div>
           </div>
           <div className="profile-actions-section">

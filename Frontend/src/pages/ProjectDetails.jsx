@@ -1,12 +1,62 @@
 import React, { useState } from "react";
 import "./ProjectDetails.css";
 
-const ProjectDetails = ({ project, onBack }) => {
+import ProfileService from "../api/ProfileService";
+
+const ProjectDetails = ({ project, onBack, userMap = {} }) => {
   const [expandedSections, setExpandedSections] = useState({
     abstract: false,
     methodology: false,
     outcomes: false
   });
+
+  // Local map for fetched user names
+  const [fetchedNames, setFetchedNames] = useState({});
+
+  React.useEffect(() => {
+    if (!project) return;
+    const idsToFetch = new Set();
+    // Collect author IDs
+    if (project.authors && Array.isArray(project.authors)) {
+      project.authors.forEach(a => {
+        if (a.user_id && !userMap[a.user_id] && !fetchedNames[a.user_id]) {
+          idsToFetch.add(a.user_id);
+        }
+      });
+    }
+    // Collect team IDs
+    if (project.team && Array.isArray(project.team)) {
+      project.team.forEach(t => {
+        if (t && !userMap[t] && !fetchedNames[t]) {
+          idsToFetch.add(t);
+        }
+      });
+    } else if (typeof project.team === "string" && project.team && !userMap[project.team] && !fetchedNames[project.team]) {
+      idsToFetch.add(project.team);
+    }
+    // Supervisor
+    if (project.supervisor_id && !userMap[project.supervisor_id] && !fetchedNames[project.supervisor_id]) {
+      idsToFetch.add(project.supervisor_id);
+    }
+    if (idsToFetch.size === 0) return;
+    // Fetch all missing profiles
+    Promise.all(Array.from(idsToFetch).map(id =>
+      ProfileService.getProfileById(id).then(profile => {
+        if (profile && (profile.full_name || profile.name)) {
+          return { id, name: profile.full_name || profile.name };
+        }
+        return { id, name: id };
+      })
+    )).then(results => {
+      setFetchedNames(prev => {
+        const updated = { ...prev };
+        results.forEach(({ id, name }) => {
+          updated[id] = name;
+        });
+        return updated;
+      });
+    });
+  }, [project, userMap]);
 
   const toggleSection = (section) => {
     setExpandedSections(prev => ({
@@ -57,11 +107,17 @@ const ProjectDetails = ({ project, onBack }) => {
               </div>
               <div className="hero-meta-item">
                 <span className="meta-icon">👥</span>
-                <span className="meta-text">{project.authors || project.team}</span>
+                <span className="meta-text">{project.authors && Array.isArray(project.authors) && project.authors.length > 0
+  ? project.authors.map(a => userMap[a.user_id] || fetchedNames[a.user_id] || a.name || a.user_id).join(", ")
+  : (project.team && Array.isArray(project.team) && project.team.length > 0
+      ? project.team.map(t => userMap[t] || fetchedNames[t] || t).join(", ")
+      : (typeof project.team === "string" ? userMap[project.team] || fetchedNames[project.team] || project.team : "N/A"))}</span>
               </div>
               <div className="hero-meta-item">
                 <span className="meta-icon">🎓</span>
-                <span className="meta-text">{project.supervisor || project.team}</span>
+                <span className="meta-text">{(project.supervisor_id && (userMap[project.supervisor_id] || fetchedNames[project.supervisor_id] || project.supervisor_name || project.supervisor_id)) || (project.team && Array.isArray(project.team) && project.team.length > 0
+      ? project.team.map(t => userMap[t] || fetchedNames[t] || t).join(", ")
+      : (typeof project.team === "string" ? userMap[project.team] || fetchedNames[project.team] || project.team : "N/A"))}</span>
               </div>
             </div>
           </div>
@@ -78,10 +134,16 @@ const ProjectDetails = ({ project, onBack }) => {
             <strong>Year:</strong> {project.year || "2023"}
           </span>
           <span className="project-meta-item">
-            <strong>Authors:</strong> {project.authors || project.team}
+            <strong>Authors:</strong> {project.authors && Array.isArray(project.authors) && project.authors.length > 0
+  ? project.authors.map(a => userMap[a.user_id] || fetchedNames[a.user_id] || a.name || a.user_id).join(", ")
+  : (project.team && Array.isArray(project.team) && project.team.length > 0
+      ? project.team.map(t => userMap[t] || fetchedNames[t] || t).join(", ")
+      : (typeof project.team === "string" ? userMap[project.team] || fetchedNames[project.team] || project.team : "N/A"))}
           </span>
           <span className="project-meta-item">
-            <strong>Supervisor:</strong> {project.supervisor || project.team}
+            <strong>Supervisor:</strong> {(project.supervisor_id && (userMap[project.supervisor_id] || fetchedNames[project.supervisor_id] || project.supervisor_name || project.supervisor_id)) || (project.team && Array.isArray(project.team) && project.team.length > 0
+      ? project.team.map(t => userMap[t] || fetchedNames[t] || t).join(", ")
+      : (typeof project.team === "string" ? userMap[project.team] || fetchedNames[project.team] || project.team : "N/A"))}
           </span>
           {project.tags && (
             <span className="project-meta-item">
@@ -165,12 +227,18 @@ const ProjectDetails = ({ project, onBack }) => {
                 
                 <div className="simple-info-item">
                   <span className="simple-info-label">Team:</span>
-                  <span className="simple-info-value">{project.authors || project.team}</span>
+                  <span className="simple-info-value">{project.authors && Array.isArray(project.authors) && project.authors.length > 0
+  ? project.authors.map(a => userMap[a.user_id] || fetchedNames[a.user_id] || a.name || a.user_id).join(", ")
+  : (project.team && Array.isArray(project.team) && project.team.length > 0
+      ? project.team.map(t => userMap[t] || fetchedNames[t] || t).join(", ")
+      : (typeof project.team === "string" ? userMap[project.team] || fetchedNames[project.team] || project.team : "N/A"))}</span>
                 </div>
                 
                 <div className="simple-info-item">
                   <span className="simple-info-label">Supervisor:</span>
-                  <span className="simple-info-value">{project.supervisor || project.team}</span>
+                  <span className="simple-info-value">{(project.supervisor_id && (userMap[project.supervisor_id] || fetchedNames[project.supervisor_id] || project.supervisor_name || project.supervisor_id)) || (project.team && Array.isArray(project.team) && project.team.length > 0
+      ? project.team.map(t => userMap[t] || fetchedNames[t] || t).join(", ")
+      : (typeof project.team === "string" ? userMap[project.team] || fetchedNames[project.team] || project.team : "N/A"))}</span>
                 </div>
                 
                 <div className="simple-info-item">

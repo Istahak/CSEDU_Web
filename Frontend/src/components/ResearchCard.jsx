@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./ResearchCard.css";
 
-const ResearchCard = ({ project, onMarkFinished, onViewDetails, onEdit, onArchive, onComplete, completed, archived }) => {
+const ResearchCard = ({ project, onMarkFinished, onViewDetails, onEdit, onArchive, onComplete, completed, archived, userIdToName = {} }) => {
   const [showCompletionForm, setShowCompletionForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
 
@@ -349,7 +349,19 @@ const ResearchCard = ({ project, onMarkFinished, onViewDetails, onEdit, onArchiv
           {project.authors && (
             <div className="course-info-row">
               <span className="course-info-label">👥 Authors:</span>
-              <span className="course-info-value">{project.authors}</span>
+              <span className="course-info-value">
+                {Array.isArray(project.authors)
+                  ? project.authors.map((a, i) => {
+                      let name = '';
+                      if (typeof a === 'object' && a !== null) {
+                        name = userIdToName[a.user_id] || a.name || a.user_id || 'Unknown Author';
+                      } else {
+                        name = userIdToName[a] || a || 'Unknown Author';
+                      }
+                      return name + (i < project.authors.length - 1 ? ', ' : '');
+                    })
+                  : (userIdToName[project.authors] || project.authors)}
+              </span>
             </div>
           )}
           {project.supervisor && (

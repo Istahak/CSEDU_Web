@@ -1,29 +1,63 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import authService from "../api/AuthService";
+import facultyService from "../api/FacultyService";
+import roomService from "../api/RoomService";
 import "./TeacherProfile.css";
 
 const TeacherEditProfile = ({
   onBack,
-  teacherData: initialTeacherData,
   onSave,
 }) => {
-  const [formData, setFormData] = useState({
-    name: initialTeacherData?.name || "Dr. Sarah Wilson",
-    email: initialTeacherData?.email || "sarah.wilson@csedu.ac.bd",
-    phone: initialTeacherData?.phone || "+880 1987 654321",
-    officeRoom: initialTeacherData?.officeRoom || "Room 402, CSEDU Building",
-    officeHours: initialTeacherData?.officeHours || "Sunday-Thursday: 10:00 AM - 12:00 PM",
-    dateOfBirth: initialTeacherData?.dateOfBirth || "1985-03-20",
-    bloodGroup: initialTeacherData?.bloodGroup || "O+",
-    emergencyContact: initialTeacherData?.emergencyContact || "+880 1234 567890",
-    nationality: initialTeacherData?.nationality || "Bangladeshi",
-    religion: initialTeacherData?.religion || "Islam",
-    maritalStatus: initialTeacherData?.maritalStatus || "Married",
-    spouseName: initialTeacherData?.spouseName || "Dr. John Wilson",
-    currentAddress: initialTeacherData?.currentAddress || "456 Faculty Quarter, Dhaka-1000",
-    permanentAddress: initialTeacherData?.permanentAddress || "123 University Road, Dhaka-1000",
-  });
+  const [formData, setFormData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    const fetchProfile = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const userData = authService.getUserData();
+        if (!userData || !userData.profile_id) {
+          setError("User not authenticated");
+          setIsLoading(false);
+          return;
+        }
+        const profile = await facultyService.getFacultyById(userData.profile_id);
+        let officeRoomNumber = "";
+        if (profile.office_room_id) {
+          try {
+            const room = await roomService.getRoomById(profile.office_room_id);
+            officeRoomNumber = room.number || room.room_number || profile.office_room_id || "";
+          } catch (e) {
+            officeRoomNumber = profile.office_room_id || "";
+          }
+        }
+        setFormData({
+          name: profile.full_name || "",
+          email: profile.email || "",
+          phone: profile.phone_number || "",
+          officeRoom: officeRoomNumber,
+          officeHours: profile.office_hours || "",
+          dateOfBirth: profile.date_of_birth || "",
+          bloodGroup: profile.blood_group || "",
+          emergencyContact: profile.emergency_contact || "",
+          nationality: profile.nationality || "",
+          religion: profile.religion || "",
+          maritalStatus: profile.marital_status || "",
+          spouseName: profile.spouse_name || "",
+          currentAddress: profile.current_address || "",
+          permanentAddress: profile.permanent_address || "",
+        });
+      } catch (err) {
+        setError("Failed to load faculty profile");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchProfile();
+  }, []);
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -32,6 +66,13 @@ const TeacherEditProfile = ({
       [name]: value,
     }));
   };
+
+  if (isLoading || !formData) {
+    return <div className="teacher-profile-page"><div className="teacher-profile-container"><p>Loading profile data...</p></div></div>;
+  }
+  if (error) {
+    return <div className="teacher-profile-page"><div className="teacher-profile-container"><p style={{color:'red'}}>{error}</p></div></div>;
+  }
 
   const handleSave = async () => {
     setIsLoading(true);
@@ -92,8 +133,8 @@ const TeacherEditProfile = ({
           </div>
           <div className="profile-details-section">
             <h2 className="teacher-name">{formData.name}</h2>
-            <p className="teacher-designation">{initialTeacherData?.designation || "Associate Professor"}</p>
-            <p className="teacher-department">{initialTeacherData?.department || "Computer Science & Engineering"}</p>
+            <p className="teacher-designation">{formData.designation || "Associate Professor"}</p>
+            <p className="teacher-department">{formData.department || "Computer Science & Engineering"}</p>
             <div className="profile-meta">
               <span className="meta-item">📧 {formData.email}</span>
               <span className="meta-item">📞 {formData.phone}</span>
