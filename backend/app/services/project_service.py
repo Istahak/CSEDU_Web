@@ -3,12 +3,35 @@ from uuid import UUID
 from typing import List, Optional
 from models.project import Project
 from models.author_project import AuthorProject
+from models.student_profile import StudentProfile
 from schemas.requests.project import ProjectCreate, ProjectUpdate, ProjectAuthorIn
+from schemas.responses.supervised_student import SupervisedStudentOut
+from sqlalchemy import or_
 
 
 def get_projects_by_supervisor_id(db: Session, supervisor_id: UUID) -> List[Project]:
     return db.query(Project).filter(Project.supervisor_id == supervisor_id).all()
 
+
+def get_supervised_students(db: Session, supervisor_id: UUID):
+    # Get all projects supervised by supervisor_id
+    projects = db.query(Project).filter(Project.supervisor_id == supervisor_id).all()
+    result = []
+    for project in projects:
+        # For each project, get all author user_ids
+        author_links = db.query(AuthorProject).filter(AuthorProject.project_id == project.id).all()
+        for author in author_links:
+            # For each author, get the student profile
+            student_profile = db.query(StudentProfile).filter(StudentProfile.user_id == author.user_id).first()
+            if student_profile:
+                result.append(SupervisedStudentOut(
+                    name=student_profile.full_name,
+                    project_title=project.title,
+                    batch=student_profile.batch,
+                    email=student_profile.email,
+                    phone=student_profile.phone
+                ))
+    return result
 
 def get_projects_by_author_id(db: Session, author_id: UUID) -> List[Project]:
     project_ids = db.query(AuthorProject.project_id).filter(AuthorProject.user_id == author_id).all()

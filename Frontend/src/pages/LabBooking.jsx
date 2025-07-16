@@ -230,10 +230,18 @@ const LabBooking = ({ onBack, onBookingComplete }) => {
 
         <div className="lab-booking-container">
           <div className="equipment-selection">
-            {/* <h2>Select Lab</h2> */}
+            <div className="lab-booking-header">
+              {/* <h2>Select Lab</h2> */}
             {/* <h2>Select Laboratory</h2> */}
             {/* <div className="equipment-header-block">
               <h2 className="header-title">Select Laboratory</h2>
+              <button
+                className="history-btn"
+                onClick={() => onBack && onBack('equipment-history')}
+              >
+                📋 Booking History
+              </button>
+            </div>
             </div> */}
             {/* Category Filter */}
             <div className="category-filter">
