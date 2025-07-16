@@ -67,6 +67,7 @@ const FacultyModal = ({
     // Process research areas and specialization
     const processedData = {
       ...formData,
+      office_room_id: formData.officeRoom,
       researchAreas: formData.researchAreas.split(',').map(area => area.trim()).filter(area => area),
       specialization: formData.specialization,
       publications: parseInt(formData.publications) || 0,
@@ -74,6 +75,8 @@ const FacultyModal = ({
       status: "active",
       department: "CSE"
     };
+    // Remove officeRoom from processedData to avoid duplicate/conflicting field
+    delete processedData.officeRoom;
 
     onSave(processedData);
     onClose();

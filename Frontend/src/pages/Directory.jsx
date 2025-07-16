@@ -180,32 +180,32 @@ const Directory = ({ onFacultySelect }) => {
         if (Array.isArray(response.data)) {
           if (response.data.length === 0) {
             setFacultyMembers(staticFaculty.map((f) => ({
-              id: f.id,
-              name: f.full_name,
-              role: f.employment_status === "Active" ? f.designation : f.employment_status,
-              designation: f.designation,
-              department: f.department,
-              email: f.email,
+              id: f.id || "",
+              name: f.full_name || "Unknown Name",
+              role: f.employment_status === "Active" ? (f.designation || "Faculty") : (f.employment_status || "Unknown"),
+              designation: f.designation || "Faculty",
+              department: f.department || "Computer Science & Engineering",
+              email: f.email || "No email",
               phone: f.phone_number || "+880 2-9661920 Ext: 7456",
               office: f.office_room_id ? `Room ${f.office_room_id}` : "Room 304, New Science Complex",
-              specialization: f.specialization ? f.specialization.split(", ") : [],
-              experience: f.experience,
-              education: f.qualifications
+              specialization: typeof f.specialization === "string" && f.specialization.length > 0 ? f.specialization.split(/,\s*/) : ["No specialization"],
+              experience: f.experience || "N/A",
+              education: f.qualifications || "N/A"
             })));
             setError("No faculty found in database; showing static data");
           } else {
             const mappedFaculty = response.data.map((faculty) => ({
-              id: faculty.id,
-              name: faculty.full_name,
-              role: faculty.employment_status === "Active" ? faculty.designation : faculty.employment_status,
-              designation: faculty.designation,
+              id: faculty.id || "",
+              name: faculty.full_name || "Unknown Name",
+              role: faculty.employment_status === "Active" ? (faculty.designation || "Faculty") : (faculty.employment_status || "Unknown"),
+              designation: faculty.designation || "Faculty",
               department: faculty.department || "Computer Science & Engineering",
-              email: faculty.email,
+              email: faculty.email || "No email",
               phone: faculty.phone_number || "+880 2-9661920 Ext: 7456",
               office: faculty.office_room_id ? `Room ${faculty.office_room_id}` : "Room 304, New Science Complex",
-              specialization: faculty.specialization ? faculty.specialization.split(", ") : [],
-              experience: faculty.experience,
-              education: faculty.qualifications
+              specialization: typeof faculty.specialization === "string" && faculty.specialization.length > 0 ? faculty.specialization.split(/,\s*/) : ["No specialization"],
+              experience: faculty.experience || "N/A",
+              education: faculty.qualifications || "N/A"
             }));
             setFacultyMembers(mappedFaculty);
             setError(null);
@@ -213,34 +213,34 @@ const Directory = ({ onFacultySelect }) => {
         } else {
           setError("Invalid response format from server");
           setFacultyMembers(staticFaculty.map((f) => ({
-            id: f.id,
-            name: f.full_name,
-            role: f.employment_status === "Active" ? f.designation : f.employment_status,
-            designation: f.designation,
-            department: f.department,
-            email: f.email,
+            id: f.id || "",
+            name: f.full_name || "Unknown Name",
+            role: f.employment_status === "Active" ? (f.designation || "Faculty") : (f.employment_status || "Unknown"),
+            designation: f.designation || "Faculty",
+            department: f.department || "Computer Science & Engineering",
+            email: f.email || "No email",
             phone: f.phone_number || "+880 2-9661920 Ext: 7456",
             office: f.office_room_id ? `Room ${f.office_room_id}` : "Room 304, New Science Complex",
-            specialization: f.specialization ? f.specialization.split(", ") : [],
-            experience: f.experience,
-            education: f.qualifications
+            specialization: typeof f.specialization === "string" && f.specialization.length > 0 ? f.specialization.split(/,\s*/) : ["No specialization"],
+            experience: f.experience || "N/A",
+            education: f.qualifications || "N/A"
           })));
         }
       } catch (err) {
         console.error("Directory Fetch Error:", err.message, err.response?.data);
         setError(`Failed to fetch faculty: ${err.message}`);
         setFacultyMembers(staticFaculty.map((f) => ({
-          id: f.id,
-          name: f.full_name,
-          role: f.employment_status === "Active" ? f.designation : f.employment_status,
-          designation: f.designation,
-          department: f.department,
-          email: f.email,
+          id: f.id || "",
+          name: f.full_name || "Unknown Name",
+          role: f.employment_status === "Active" ? (f.designation || "Faculty") : (f.employment_status || "Unknown"),
+          designation: f.designation || "Faculty",
+          department: f.department || "Computer Science & Engineering",
+          email: f.email || "No email",
           phone: f.phone_number || "+880 2-9661920 Ext: 7456",
           office: f.office_room_id ? `Room ${f.office_room_id}` : "Room 304, New Science Complex",
-          specialization: f.specialization ? f.specialization.split(", ") : [],
-          experience: f.experience,
-          education: f.qualifications
+          specialization: typeof f.specialization === "string" && f.specialization.length > 0 ? f.specialization.split(/,\s*/) : ["No specialization"],
+          experience: f.experience || "N/A",
+          education: f.qualifications || "N/A"
         })));
       }
     };
