@@ -21,7 +21,7 @@
 .university-info {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  min-width: 280px;
 }
 
 .university-logo {
@@ -340,4 +340,30 @@
     padding: 0.4rem 0.8rem;
     font-size: 0.8rem;
   }
+}
+
+.university-logo-img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  margin-right: 0.75rem;
+}
+
+.university-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.2;
+}
+
+.dept-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #7B2C2C; /* Maroon */
+}
+
+.uni-name {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #7B2C2C;
 }
