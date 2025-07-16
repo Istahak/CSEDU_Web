@@ -122,3 +122,42 @@ export async function getPayments() {
         return null;
     }
 }
+
+// Fetch pending assignments for the logged-in student
+export async function getPendingAssignments() {
+    try {
+      const studentId = localStorage.getItem('profile_id');
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/assignments/student/${studentId}/pending`);
+      if (!response.ok) throw new Error('Network response was not ok');
+      return await response.json();
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  }
+  
+  // Fetch submitted assignments for the logged-in student
+  export async function getSubmittedAssignments() {
+    try {
+      const studentId = localStorage.getItem('profile_id');
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/assignments/student/${studentId}/submitted`);
+      if (!response.ok) throw new Error('Network response was not ok');
+      return await response.json();
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  }
+  
+  // Fetch missing assignments for the logged-in student
+  export async function getMissingAssignments() {
+    try {
+      const studentId = localStorage.getItem('profile_id');
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/assignments/student/${studentId}/missing`);
+      if (!response.ok) throw new Error('Network response was not ok');
+      return await response.json();
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  }

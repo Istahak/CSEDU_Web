@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaPlus, FaEdit, FaTrash, FaEye, FaArchive, FaUndo } from 'react-icons/fa';
 
 const NoticeManagement = ({ 
   notices, 
@@ -18,7 +19,10 @@ const NoticeManagement = ({
   return (
     <div className="user-management">
       <div className="section-header">
-        <h2>Notice Management</h2>
+        <div className="section-header-text">
+          <h2>Notice Management</h2>
+          <p>Manage notices and announcements</p>
+        </div>
         <div className="header-actions">
           <button
             className={`filter-btn ${!showArchivedNotices ? "active" : ""}`}
@@ -33,10 +37,10 @@ const NoticeManagement = ({
             📦 Archived Notices
           </button>
           <button
-            className="add-user-btn"
+            className="add-btn primary"
             onClick={() => setShowNoticeModal(true)}
           >
-            ➕ Add New Notice
+            <FaPlus /> Add New Notice
           </button>
         </div>
       </div>
@@ -102,47 +106,47 @@ const NoticeManagement = ({
                 </td>
                 <td>
                   {!showArchivedNotices ? (
-                    <div className="action-buttons" style={{ display: 'flex', flexDirection: 'row', gap: '0.5rem', alignItems: 'center', justifyContent: 'center' }}>
+                    <div className="notice-action-buttons">
                       <button
-                        style={{ background: 'transparent !important', color: '#1769aa', border: 'none', borderRadius: '4px', padding: '0.5rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}
+                        className="course-action-btn primary"
                         onClick={() => {
                           setEditingNotice(notice);
                           setShowNoticeModal(true);
                         }}
                         title="Edit Notice"
                       >
-                        ✏️
+                        <FaEdit /> Edit
                       </button>
                       <button
-                        style={{ background: 'transparent !important', color: '#ff9800', border: 'none', borderRadius: '4px', padding: '0.5rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}
+                        className="course-action-btn secondary"
                         onClick={() => handleArchiveNotice(notice.id)}
                         title="Archive Notice"
                       >
-                        📦
+                        <FaArchive /> Archive
                       </button>
                       <button
-                        style={{ background: 'transparent !important', color: '#c62828', border: 'none', borderRadius: '4px', padding: '0.5rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}
+                        className="course-action-btn archive"
                         onClick={() => handleDeleteNotice(notice.id)}
                         title="Delete Notice"
                       >
-                        🗑️
+                        <FaTrash /> Delete
                       </button>
                     </div>
                   ) : (
-                    <div className="action-buttons" style={{ display: 'flex', flexDirection: 'row', gap: '0.5rem', alignItems: 'center', justifyContent: 'center' }}>
+                    <div className="notice-action-buttons">
                       <button
-                        style={{ background: 'transparent !important', color: '#4caf50', border: 'none', borderRadius: '4px', padding: '0.5rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}
+                        className="course-action-btn primary"
                         onClick={() => handleRestoreNotice(notice.id)}
                         title="Restore Notice"
                       >
-                        🔄
+                        <FaUndo /> Restore
                       </button>
                       <button
-                        style={{ background: 'transparent !important', color: '#c62828', border: 'none', borderRadius: '4px', padding: '0.5rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}
+                        className="course-action-btn archive"
                         onClick={() => handleDeleteNotice(notice.id)}
                         title="Delete Notice"
                       >
-                        🗑️
+                        <FaTrash /> Delete
                       </button>
                     </div>
                   )}

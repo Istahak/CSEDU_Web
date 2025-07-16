@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaPlus, FaEdit, FaTrash, FaEye, FaArchive, FaUndo } from 'react-icons/fa';
 
 const AchievementManagement = ({ 
   achievements, 
@@ -18,7 +19,10 @@ const AchievementManagement = ({
   return (
     <div className="user-management">
       <div className="section-header">
-        <h2>Achievement Management</h2>
+        <div className="section-header-text">
+          <h2>Achievement Management</h2>
+          <p>Manage achievements and recognitions</p>
+        </div>
         <div className="header-actions">
           <button
             className={`filter-btn ${
@@ -37,10 +41,10 @@ const AchievementManagement = ({
             📦 Archived Achievements
           </button>
           <button
-            className="add-user-btn"
+            className="add-btn primary"
             onClick={() => setShowAchievementModal(true)}
           >
-            ➕ Add New Achievement
+            <FaPlus /> Add New Achievement
           </button>
         </div>
       </div>
@@ -116,55 +120,55 @@ const AchievementManagement = ({
                 </td>
                 <td>
                   {!showArchivedAchievements ? (
-                    <div className="action-buttons" style={{ display: 'flex', flexDirection: 'row', gap: '0.5rem', alignItems: 'center', justifyContent: 'center' }}>
+                    <div className="achievement-action-buttons">
                       <button
-                        style={{ background: 'transparent !important', color: '#1769aa', border: 'none', borderRadius: '4px', padding: '0.5rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}
+                        className="course-action-btn primary"
                         onClick={() => {
                           setEditingAchievement(achievement);
                           setShowAchievementModal(true);
                         }}
                         title="Edit Achievement"
                       >
-                        ✏️
+                        <FaEdit /> Edit
                       </button>
                       <button
-                        style={{ background: 'transparent !important', color: '#ff9800', border: 'none', borderRadius: '4px', padding: '0.5rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}
+                        className="course-action-btn secondary"
                         onClick={() =>
                           handleArchiveAchievement(achievement.id)
                         }
                         title="Archive Achievement"
                       >
-                        📦
+                        <FaArchive /> Archive
                       </button>
                       <button
-                        style={{ background: 'transparent !important', color: '#c62828', border: 'none', borderRadius: '4px', padding: '0.5rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}
+                        className="course-action-btn archive"
                         onClick={() =>
                           handleDeleteAchievement(achievement.id)
                         }
                         title="Delete Achievement"
                       >
-                        🗑️
+                        <FaTrash /> Delete
                       </button>
                     </div>
                   ) : (
-                    <div className="action-buttons" style={{ display: 'flex', flexDirection: 'row', gap: '0.5rem', alignItems: 'center', justifyContent: 'center' }}>
+                    <div className="achievement-action-buttons">
                       <button
-                        style={{ background: 'transparent !important', color: '#4caf50', border: 'none', borderRadius: '4px', padding: '0.5rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}
+                        className="course-action-btn primary"
                         onClick={() =>
                           handleRestoreAchievement(achievement.id)
                         }
                         title="Restore Achievement"
                       >
-                        🔄
+                        <FaUndo /> Restore
                       </button>
                       <button
-                        style={{ background: 'transparent !important', color: '#c62828', border: 'none', borderRadius: '4px', padding: '0.5rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}
+                        className="course-action-btn archive"
                         onClick={() =>
                           handleDeleteAchievement(achievement.id)
                         }
                         title="Delete Achievement"
                       >
-                        🗑️
+                        <FaTrash /> Delete
                       </button>
                     </div>
                   )}

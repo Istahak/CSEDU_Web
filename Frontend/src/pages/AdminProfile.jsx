@@ -13,6 +13,9 @@ import EventManagement from "../components/admin/EventManagement";
 import RequestManagement from "../components/admin/RequestManagement";
 import RegistrationModal from "../components/admin/RegistrationModal";
 import AdminProfileSettings from "../components/admin/AdminProfileSettings";
+import TaskManagement from "../components/admin/TaskManagement";
+import TaskAssignment from "../components/admin/TaskAssignment";
+import TaskModal from "../components/admin/TaskModal";
 
 const AdminProfile = ({ onLogout }) => {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -413,7 +416,79 @@ const AdminProfile = ({ onLogout }) => {
     },
   ]);
 
-  // Modal states
+  // Task Assignment Management
+  const [tasks, setTasks] = useState([
+    {
+      id: 1,
+      title: "Update Course Curriculum",
+      description:
+        "Review and update the CSE-101 course curriculum according to new industry standards",
+      assignedTo: "Dr. John Smith",
+      facultyId: 1,
+      category: "Academic",
+      priority: "high",
+      status: "assigned",
+      assignedDate: "2024-12-10",
+      dueDate: "2024-12-25",
+      estimatedHours: 15,
+      progress: 30,
+      notes: "Initial review completed, waiting for feedback from industry partners",
+      assignedBy: "System Administrator",
+    },
+    {
+      id: 2,
+      title: "Organize Research Seminar",
+      description:
+        "Plan and organize the quarterly research seminar for faculty and graduate students",
+      assignedTo: "Dr. Sarah Davis",
+      facultyId: 2,
+      category: "Administrative",
+      priority: "medium",
+      status: "in_progress",
+      assignedDate: "2024-12-05",
+      dueDate: "2024-12-30",
+      estimatedHours: 20,
+      progress: 60,
+      notes: "Venue booked, speakers confirmed, working on promotional materials",
+      assignedBy: "System Administrator",
+    },
+    {
+      id: 3,
+      title: "Review Graduate Applications",
+      description:
+        "Review and evaluate graduate school applications for Spring 2025 semester",
+      assignedTo: "Dr. John Smith",
+      facultyId: 1,
+      category: "Administrative",
+      priority: "high",
+      status: "completed",
+      assignedDate: "2024-11-15",
+      dueDate: "2024-12-01",
+      estimatedHours: 25,
+      progress: 100,
+      notes: "All applications reviewed and recommendations submitted",
+      assignedBy: "System Administrator",
+      completedDate: "2024-11-28",
+    },
+    {
+      id: 4,
+      title: "Equipment Maintenance Supervision",
+      description:
+        "Supervise the annual maintenance of computer lab equipment",
+      assignedTo: "Dr. Robert Taylor",
+      facultyId: 3,
+      category: "Technical",
+      priority: "medium",
+      status: "pending",
+      assignedDate: "2024-12-12",
+      dueDate: "2025-01-15",
+      estimatedHours: 10,
+      progress: 0,
+      notes: "Waiting for maintenance schedule confirmation",
+      assignedBy: "System Administrator",
+    },
+  ]);
+
   const [showNoticeModal, setShowNoticeModal] = useState(false);
   const [showAchievementModal, setShowAchievementModal] = useState(false);
   const [showFacultyModal, setShowFacultyModal] = useState(false);
@@ -433,7 +508,11 @@ const AdminProfile = ({ onLogout }) => {
     []
   );
   const [selectedRequest, setSelectedRequest] = useState(null);
+  const [showTaskModal, setShowTaskModal] = useState(false);
+  const [editingTask, setEditingTask] = useState(null);
+  const [selectedFacultyForTask, setSelectedFacultyForTask] = useState(null);
   const [requestFilter, setRequestFilter] = useState("all");
+  const [taskFilter, setTaskFilter] = useState("all");
 
   // Handler functions
   const generateEmployeeId = () => {
@@ -711,6 +790,77 @@ const AdminProfile = ({ onLogout }) => {
     }
   };
 
+  // Task Management Functions
+  const handleAssignTask = (taskData) => {
+    const newTask = {
+      id: Date.now(),
+      ...taskData,
+      assignedDate: new Date().toISOString().split("T")[0],
+      assignedBy: adminData.name,
+      status: "assigned",
+      progress: 0,
+    };
+    setTasks([...tasks, newTask]);
+    setShowTaskModal(false);
+    setEditingTask(null);
+    setSelectedFacultyForTask(null);
+  };
+
+  const handleEditTask = (taskData) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === editingTask.id ? { ...task, ...taskData } : task
+      )
+    );
+    setShowTaskModal(false);
+    setEditingTask(null);
+    setSelectedFacultyForTask(null);
+  };
+
+  const handleTaskStatusChange = (taskId, newStatus, additionalData = {}) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === taskId
+          ? {
+              ...task,
+              status: newStatus,
+              ...(newStatus === "completed" && {
+                completedDate: new Date().toISOString().split("T")[0],
+              }),
+              ...additionalData,
+            }
+          : task
+      )
+    );
+  };
+
+  const handleDeleteTask = (taskId) => {
+    if (window.confirm("Are you sure you want to delete this task?")) {
+      setTasks(tasks.filter((task) => task.id !== taskId));
+    }
+  };
+
+  const getFilteredTasks = () => {
+    if (taskFilter === "all") return tasks;
+    return tasks.filter((task) => task.status === taskFilter);
+  };
+
+  const getTaskStats = () => {
+    const total = tasks.length;
+    const assigned = tasks.filter((t) => t.status === "assigned").length;
+    const inProgress = tasks.filter((t) => t.status === "in_progress").length;
+    const completed = tasks.filter((t) => t.status === "completed").length;
+    const pending = tasks.filter((t) => t.status === "pending").length;
+    const overdue = tasks.filter((t) => {
+      const dueDate = new Date(t.dueDate);
+      const today = new Date();
+      return dueDate < today && t.status !== "completed";
+    }).length;
+
+    return { total, assigned, inProgress, completed, pending, overdue };
+  };
+
+  // Request Management Helper Functions
   const getFilteredRequests = () => {
     if (requestFilter === "all") return requests;
     return requests.filter((request) => request.status === requestFilter);
@@ -719,13 +869,11 @@ const AdminProfile = ({ onLogout }) => {
   const getRequestStats = () => {
     const total = requests.length;
     const pending = requests.filter((r) => r.status === "pending").length;
+    const underReview = requests.filter((r) => r.status === "under_review").length;
     const approved = requests.filter((r) => r.status === "approved").length;
     const rejected = requests.filter((r) => r.status === "rejected").length;
-    const underReview = requests.filter(
-      (r) => r.status === "under_review"
-    ).length;
 
-    return { total, pending, approved, rejected, underReview };
+    return { total, pending, underReview, approved, rejected };
   };
 
   // Placeholder function for Profile tab
@@ -828,6 +976,23 @@ const AdminProfile = ({ onLogout }) => {
             adminData={adminData}
           />
         );
+      case "tasks":
+        return (
+          <TaskAssignment
+            tasks={tasks}
+            users={users}
+            getFilteredTasks={getFilteredTasks}
+            getTaskStats={getTaskStats}
+            taskFilter={taskFilter}
+            setTaskFilter={setTaskFilter}
+            setShowTaskModal={setShowTaskModal}
+            setEditingTask={setEditingTask}
+            setSelectedFacultyForTask={setSelectedFacultyForTask}
+            handleTaskStatusChange={handleTaskStatusChange}
+            handleDeleteTask={handleDeleteTask}
+            adminData={adminData}
+          />
+        );
       case "profile":
         return renderProfile();
       default:
@@ -909,6 +1074,12 @@ const AdminProfile = ({ onLogout }) => {
               📋 Request Management
             </button>
             <button
+              className={`nav-item ${activeTab === "tasks" ? "active" : ""}`}
+              onClick={() => setActiveTab("tasks")}
+            >
+              ✅ Task Assignment
+            </button>
+            <button
               className={`nav-item ${activeTab === "profile" ? "active" : ""}`}
               onClick={() => setActiveTab("profile")}
             >
@@ -983,6 +1154,21 @@ const AdminProfile = ({ onLogout }) => {
           handleIssueCertificate={handleIssueCertificate}
           handleUpdatePaymentStatus={handleUpdatePaymentStatus}
           handleMarkAttendance={handleMarkAttendance}
+        />
+      )}
+
+      {showTaskModal && (
+        <TaskModal
+          isOpen={showTaskModal}
+          onClose={() => {
+            setShowTaskModal(false);
+            setEditingTask(null);
+            setSelectedFacultyForTask(null);
+          }}
+          onSave={editingTask ? handleEditTask : handleAssignTask}
+          editingTask={editingTask}
+          selectedFaculty={selectedFacultyForTask}
+          facultyList={users.filter((user) => user.role === "faculty")}
         />
       )}
     </div>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Login.css";
+import authService from "../api/AuthService";
 
 const Signup = ({ onSignup, onBack }) => {
   const [selectedRole, setSelectedRole] = useState("");
@@ -32,10 +33,26 @@ const Signup = ({ onSignup, onBack }) => {
       return;
     }
     setIsLoading(true);
-    setTimeout(() => {
+    
+    try {
+      const userData = {
+        user_name: email.split('@')[0], // Generate username from email
+        email: email,
+        password: password,
+        full_name: name,
+        role: selectedRole
+      };
+      
+      const response = await authService.signup(userData);
+      console.log('Signup successful:', response);
       setIsLoading(false);
+      
       if (onSignup) onSignup({ name, email, role: selectedRole });
-    }, 1200);
+    } catch (error) {
+      console.error('Signup error:', error);
+      setIsLoading(false);
+      setError(error.message || 'Failed to sign up. Please try again.');
+    }
   };
 
   const getRoleDisplayName = (role) => {
