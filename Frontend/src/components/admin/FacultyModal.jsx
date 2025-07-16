@@ -7,29 +7,34 @@ const FacultyModal = ({
   editingFaculty 
 }) => {
   const [formData, setFormData] = useState(
-    editingFaculty || {
-      name: "",
-      email: "",
-      phone: "",
-      designation: "Assistant Professor",
-      specialization: "",
-      qualifications: "",
-      officeRoom: "",
-      researchAreas: "",
-      publications: 0,
-      experience: "",
-      profileImage: "",
-      bio: "",
-      education: "",
-      joinDate: new Date().toISOString().split('T')[0]
-    }
-  );
+  editingFaculty || {
+    user_name: "",       
+    password: "",          
+    name: "",
+    email: "",
+    phone: "",
+    designation: "Assistant Professor",
+    specialization: "",
+    qualifications: "",
+    officeRoom: "",
+    researchAreas: "",
+    publications: 0,
+    experience: "",
+    profileImage: "",
+    bio: "",
+    education: "",
+    joinDate: new Date().toISOString().split('T')[0]
+  }
+);
+
 
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {
     const newErrors = {};
     
+    if (!formData.user_name.trim()) newErrors.user_name = "Username is required";
+    if (!formData.password.trim()) newErrors.password = "Password is required";
     if (!formData.name.trim()) newErrors.name = "Name is required";
     if (!formData.email.trim()) newErrors.email = "Email is required";
     if (!formData.phone.trim()) newErrors.phone = "Phone is required";
@@ -62,6 +67,7 @@ const FacultyModal = ({
     // Process research areas and specialization
     const processedData = {
       ...formData,
+      office_room_id: formData.officeRoom,
       researchAreas: formData.researchAreas.split(',').map(area => area.trim()).filter(area => area),
       specialization: formData.specialization,
       publications: parseInt(formData.publications) || 0,
@@ -69,6 +75,8 @@ const FacultyModal = ({
       status: "active",
       department: "CSE"
     };
+    // Remove officeRoom from processedData to avoid duplicate/conflicting field
+    delete processedData.officeRoom;
 
     onSave(processedData);
     onClose();
@@ -106,6 +114,35 @@ const FacultyModal = ({
             <div className="form-section">
               <h3>Basic Information</h3>
               
+              <div className="form-group">
+                <label htmlFor="user_name">Username *</label>
+                <input
+                  type="text"
+                  id="user_name"
+                  name="user_name"
+                  value={formData.user_name}
+                  onChange={handleChange}
+                  className={errors.user_name ? 'error' : ''}
+                  placeholder="e.g., johndoe"
+                />
+                {errors.user_name && <span className="error-text">{errors.user_name}</span>}
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="password">Password *</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className={errors.password ? 'error' : ''}
+                  placeholder="Enter a strong password"
+                />
+                {errors.password && <span className="error-text">{errors.password}</span>}
+              </div>
+
+
               <div className="form-group">
                 <label htmlFor="name">Full Name *</label>
                 <input

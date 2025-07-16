@@ -1,190 +1,91 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./GradeAssignment.css";
 
-const GradeAssignment = ({ onBack, courseData: propCourseData }) => {
+import CourseService from "../api/CourseService";
+import AuthService from "../api/AuthService";
+import AssignmentService from "../api/AssignmentService";
+import AssignmentSubmissionService from "../api/AssignmentSubmissionService";
+
+const GradeAssignment = ({ onBack }) => {
   const [activeView, setActiveView] = useState("courses");
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [selectedAssignment, setSelectedAssignment] = useState(null);
+  const [submissions, setSubmissions] = useState([]);
+  const [submissionsLoading, setSubmissionsLoading] = useState(false);
+  const [marks, setMarks] = useState({}); // {submissionId: mark}
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("all");
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [assignments, setAssignments] = useState([]);
+  const [assignmentsLoading, setAssignmentsLoading] = useState(false);
 
-  // Sample course data
-  const courseData = propCourseData || [
-    {
-      id: 1,
-      code: "CSE 408",
-      title: "Software Development",
-      section: "A",
-      studentsEnrolled: 45,
-      assignments: [
-        {
-          id: 1,
-          title: "Assignment 1: System Analysis",
-          type: "assignment",
-          totalMarks: 20,
-          dueDate: "2024-03-15",
-          submissions: 42,
-          graded: 38,
-          status: "grading",
-        },
-        {
-          id: 2,
-          title: "Mid Term Exam",
-          type: "exam",
-          totalMarks: 50,
-          dueDate: "2024-03-20",
-          submissions: 45,
-          graded: 45,
-          status: "completed",
-        },
-        {
-          id: 3,
-          title: "Assignment 2: Database Design",
-          type: "assignment",
-          totalMarks: 25,
-          dueDate: "2024-04-01",
-          submissions: 40,
-          graded: 0,
-          status: "pending",
-        },
-        {
-          id: 4,
-          title: "Final Project",
-          type: "project",
-          totalMarks: 100,
-          dueDate: "2024-04-30",
-          submissions: 0,
-          graded: 0,
-          status: "upcoming",
-        },
-      ],
-    },
-    {
-      id: 2,
-      code: "CSE 412",
-      title: "Machine Learning",
-      section: "B",
-      studentsEnrolled: 38,
-      assignments: [
-        {
-          id: 5,
-          title: "Assignment 1: Linear Regression",
-          type: "assignment",
-          totalMarks: 30,
-          dueDate: "2024-03-18",
-          submissions: 36,
-          graded: 36,
-          status: "completed",
-        },
-        {
-          id: 6,
-          title: "Mid Term Exam",
-          type: "exam",
-          totalMarks: 60,
-          dueDate: "2024-03-25",
-          submissions: 38,
-          graded: 20,
-          status: "grading",
-        },
-        {
-          id: 7,
-          title: "Assignment 2: Neural Networks",
-          type: "assignment",
-          totalMarks: 35,
-          dueDate: "2024-04-05",
-          submissions: 0,
-          graded: 0,
-          status: "upcoming",
-        },
-      ],
-    },
-    {
-      id: 3,
-      code: "CSE 498",
-      title: "Thesis Supervision",
-      section: "Research",
-      studentsEnrolled: 8,
-      assignments: [
-        {
-          id: 8,
-          title: "Proposal Defense",
-          type: "presentation",
-          totalMarks: 40,
-          dueDate: "2024-03-12",
-          submissions: 8,
-          graded: 8,
-          status: "completed",
-        },
-        {
-          id: 9,
-          title: "Progress Report 1",
-          type: "report",
-          totalMarks: 30,
-          dueDate: "2024-04-10",
-          submissions: 6,
-          graded: 2,
-          status: "grading",
-        },
-      ],
-    },
-  ];
+  useEffect(() => {
+    const fetchCourses = async () => {
+      setLoading(true);
+      try {
+        const userData = AuthService.getUserData();
+        const facultyId = userData?.profile_id || userData?.user_id;
+        const response = await CourseService.filterByInstructor(facultyId);
+        console.log('API response from filterByInstructor:', response);
+        setCourses(Array.isArray(response) ? response : []);
+        console.log('Setting courses to:', response);
+      } catch (error) {
+        console.error("Failed to fetch courses:", error);
+        setCourses([]);
+      }
+      setLoading(false);
+    };
+    fetchCourses();
+  }, []);
 
-  // Sample student data for selected assignment
-  const [studentGrades, setStudentGrades] = useState({
-    1: [
-      {
-        id: 1,
-        name: "Ahmed Hassan",
-        studentId: "CSE-2020-001",
-        submissionDate: "2024-03-14",
-        grade: 18,
-        maxGrade: 20,
-        status: "graded",
-        feedback:
-          "Excellent work with minor improvements needed in documentation.",
-      },
-      {
-        id: 2,
-        name: "Fatima Khan",
-        studentId: "CSE-2020-002",
-        submissionDate: "2024-03-15",
-        grade: 16,
-        maxGrade: 20,
-        status: "graded",
-        feedback: "Good analysis but missing some edge cases.",
-      },
-      {
-        id: 3,
-        name: "Mohammad Rahman",
-        studentId: "CSE-2020-003",
-        submissionDate: "2024-03-13",
-        grade: 19,
-        maxGrade: 20,
-        status: "graded",
-        feedback: "Outstanding work with comprehensive analysis.",
-      },
-      {
-        id: 4,
-        name: "Ayesha Begum",
-        studentId: "CSE-2020-004",
-        submissionDate: "2024-03-15",
-        grade: null,
-        maxGrade: 20,
-        status: "pending",
-        feedback: "",
-      },
-      {
-        id: 5,
-        name: "Rakib Ahmed",
-        studentId: "CSE-2020-005",
-        submissionDate: "2024-03-14",
-        grade: null,
-        maxGrade: 20,
-        status: "pending",
-        feedback: "",
-      },
-    ],
-  });
+  useEffect(() => {
+    const fetchAssignments = async () => {
+      if (!selectedCourse) {
+        setAssignments([]);
+        return;
+      }
+      setAssignmentsLoading(true);
+      try {
+        console.log("selected course was", selectedCourse.id)
+        const response = await AssignmentService.getByCourse(selectedCourse.id);
+        console.log("AssignmentService.getByCourse response:", response);
+        setAssignments(Array.isArray(response) ? response : []);
+      } catch (error) {
+        console.error("Failed to fetch assignments:", error);
+        setAssignments([]);
+      }
+      setAssignmentsLoading(false);
+    };
+
+    fetchAssignments();
+  }, [selectedCourse]);
+
+  useEffect(() => {
+    const fetchSubmissions = async () => {
+      if (!selectedAssignment || !selectedAssignment.id) {
+        setSubmissions([]);
+        return;
+      }
+      setSubmissionsLoading(true);
+      try {
+        const res = await AssignmentSubmissionService.getByAssignment(selectedAssignment.id);
+        // If API response is {submissions: [...]}, extract the array
+        const submissionsArray = Array.isArray(res) ? res : (res && Array.isArray(res.submissions) ? res.submissions : []);
+        console.log('Fetched submissions:', submissionsArray);
+        setSubmissions(submissionsArray);
+        const initialMarks = {};
+        submissionsArray.forEach(sub => {
+          initialMarks[sub.id] = sub.grade ?? "";
+        });
+        setMarks(initialMarks);
+      } catch (e) {
+        setSubmissions([]);
+      }
+      setSubmissionsLoading(false);
+    };
+    fetchSubmissions();
+  }, [selectedAssignment]);
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -220,317 +121,79 @@ const GradeAssignment = ({ onBack, courseData: propCourseData }) => {
 
   const handleGradeChange = (studentId, newGrade) => {
     const assignmentId = selectedAssignment.id;
-    setStudentGrades((prev) => ({
-      ...prev,
-      [assignmentId]:
-        prev[assignmentId]?.map((student) =>
-          student.id === studentId
-            ? {
-                ...student,
-                grade: newGrade,
-                status: newGrade !== null ? "graded" : "pending",
-              }
-            : student
-        ) || [],
-    }));
+    setMarks(m => ({ ...m, [studentId]: newGrade }));
   };
 
-  const handleFeedbackChange = (studentId, newFeedback) => {
-    const assignmentId = selectedAssignment.id;
-    setStudentGrades((prev) => ({
-      ...prev,
-      [assignmentId]:
-        prev[assignmentId]?.map((student) =>
-          student.id === studentId
-            ? { ...student, feedback: newFeedback }
-            : student
-        ) || [],
-    }));
-  };
-
-  const handleExportGrades = (assignment) => {
-    // Get students for this assignment
-    const students = studentGrades[assignment.id] || [];
-
-    // If no students data, create sample data based on the assignment
-    let exportData = [];
-    if (students.length === 0) {
-      // Generate sample data for assignments with no grading data
-      exportData = Array.from(
-        { length: selectedCourse.studentsEnrolled },
-        (_, index) => ({
-          studentId: `CSE${2020 + (index % 4)}${String(index + 1).padStart(
-            3,
-            "0"
-          )}`,
-          name: `Student ${index + 1}`,
-          email: `student${index + 1}@csedu.ac.bd`,
-          grade: "",
-          maxGrade: assignment.totalMarks,
-          status: "Not Graded",
-          feedback: "",
-        })
-      );
-    } else {
-      // Use actual grading data
-      exportData = students.map((student) => ({
-        studentId: student.studentId,
-        name: student.name,
-        email:
-          student.studentId.toLowerCase().replace("-", "") + "@csedu.ac.bd",
-        grade: student.grade || "",
-        maxGrade: assignment.totalMarks,
-        status: student.status === "graded" ? "Graded" : "Pending",
-        feedback: student.feedback || "",
-      }));
-    }
-
-    // Create CSV content
-    const csvHeaders = [
-      "Student ID",
-      "Name",
-      "Email",
-      "Grade",
-      "Max Grade",
-      "Status",
-      "Feedback",
-    ];
-    const csvRows = exportData.map((student) => [
-      student.studentId,
-      student.name,
-      student.email,
-      student.grade,
-      student.maxGrade,
-      student.status,
-      `"${student.feedback.replace(/"/g, '""')}"`, // Escape quotes in feedback
-    ]);
-
-    const csvContent = [
-      csvHeaders.join(","),
-      ...csvRows.map((row) => row.join(",")),
-    ].join("\n");
-
-    // Create and download file
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const link = document.createElement("a");
-
-    if (link.download !== undefined) {
-      const url = URL.createObjectURL(blob);
-      link.setAttribute("href", url);
-      link.setAttribute(
-        "download",
-        `${selectedCourse.code}_${assignment.title.replace(
-          /[^a-zA-Z0-9]/g,
-          "_"
-        )}_grades.csv`
-      );
-      link.style.visibility = "hidden";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-    }
-  };
-
-  const handleExportAllGrades = () => {
-    // Export grades for all assignments in the current course
-    const allGradesData = [];
-
-    selectedCourse.assignments.forEach((assignment) => {
-      const students = studentGrades[assignment.id] || [];
-
-      if (students.length === 0) {
-        // Generate sample data for assignments with no grading data
-        Array.from({ length: selectedCourse.studentsEnrolled }, (_, index) => {
-          allGradesData.push({
-            assignmentTitle: assignment.title,
-            assignmentType: assignment.type,
-            maxMarks: assignment.totalMarks,
-            studentId: `CSE${2020 + (index % 4)}${String(index + 1).padStart(
-              3,
-              "0"
-            )}`,
-            name: `Student ${index + 1}`,
-            email: `student${index + 1}@csedu.ac.bd`,
-            grade: "",
-            status: "Not Graded",
-            feedback: "",
-          });
-        });
-      } else {
-        // Use actual grading data
-        students.forEach((student) => {
-          allGradesData.push({
-            assignmentTitle: assignment.title,
-            assignmentType: assignment.type,
-            maxMarks: assignment.totalMarks,
-            studentId: student.studentId,
-            name: student.name,
-            email:
-              student.studentId.toLowerCase().replace("-", "") + "@csedu.ac.bd",
-            grade: student.grade || "",
-            status: student.status === "graded" ? "Graded" : "Pending",
-            feedback: student.feedback || "",
-          });
-        });
-      }
-    });
-
-    // Create CSV content
-    const csvHeaders = [
-      "Assignment",
-      "Type",
-      "Max Marks",
-      "Student ID",
-      "Name",
-      "Email",
-      "Grade",
-      "Status",
-      "Feedback",
-    ];
-    const csvRows = allGradesData.map((row) => [
-      row.assignmentTitle,
-      row.assignmentType,
-      row.maxMarks,
-      row.studentId,
-      row.name,
-      row.email,
-      row.grade,
-      row.status,
-      `"${row.feedback.replace(/"/g, '""')}"`, // Escape quotes in feedback
-    ]);
-
-    const csvContent = [
-      csvHeaders.join(","),
-      ...csvRows.map((row) => row.join(",")),
-    ].join("\n");
-
-    // Create and download file
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const link = document.createElement("a");
-
-    if (link.download !== undefined) {
-      const url = URL.createObjectURL(blob);
-      link.setAttribute("href", url);
-      link.setAttribute(
-        "download",
-        `${selectedCourse.code}_All_Assignments_Grades.csv`
-      );
-      link.style.visibility = "hidden";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-    }
-  };
-
-  const filteredCourses = courseData.filter(
+  const filteredCourses = courses.filter(
     (course) =>
-      course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      course.code.toLowerCase().includes(searchTerm.toLowerCase())
+      course.course_title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      course.course_code.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const renderCoursesView = () => (
-    <div className="courses-view">
-      <div className="view-header">
-        <div className="header-content">
-          <h2>📚 Course Management</h2>
-          <p>Select a course to manage assignments and grades</p>
-        </div>
-        <div className="header-actions">
-          <div className="search-box">
-            <input
-              type="text"
-              placeholder="Search courses..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="search-input"
-            />
-            <span className="search-icon">🔍</span>
+  const renderCoursesView = () => {
+    console.log('All courses:', courses);
+    console.log('Filtered courses:', filteredCourses);
+    return (
+      <div className="courses-view">
+        <div className="view-header">
+          <div className="header-content">
+            <h2>📚 Course Management</h2>
+            <p>Select a course to manage assignments and grades</p>
+          </div>
+          <div className="header-actions">
+            <div className="search-box">
+              <input
+                type="text"
+                placeholder="Search courses..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="search-input"
+              />
+              <span className="search-icon">🔍</span>
+            </div>
           </div>
         </div>
+
+        <div className="courses-grid">
+          {courses.map((course) => {
+            return (
+              <div key={course.id} className="course-card">
+                <div className="course-header">
+                  <div className="course-info">
+                    <h3>{course.course_code}</h3>
+                    <p className="course-title">{course.course_title}</p>
+                    <span className="course-section">Semester {course.semester}</span>
+                    <span className="course-section">Credit: {course.credit}</span>
+                    <span className="course-section">Schedule: {course.schedule}</span>
+                  </div>
+                </div>
+                <div className="course-actions">
+                  <button
+                    className="action-btn primary"
+                    onClick={() => {
+                      setSelectedCourse(course);
+                      setActiveView("assignments");
+                    }}
+                  >
+                    Manage Grades
+                  </button>
+                  <button
+                    className="action-btn secondary"
+                    onClick={() => {
+                      setSelectedCourse(course);
+                      setActiveView("students");
+                    }}
+                  >
+                    View Students
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
-
-      <div className="courses-grid">
-        {filteredCourses.map((course) => (
-          <div key={course.id} className="course-card">
-            <div className="course-header">
-              <div className="course-info">
-                <h3>{course.code}</h3>
-                <p className="course-title">{course.title}</p>
-                <span className="course-section">Section {course.section}</span>
-              </div>
-              <div className="course-stats">
-                <div className="stat-item">
-                  <span className="stat-number">{course.studentsEnrolled}</span>
-                  <span className="stat-label">Students</span>
-                </div>
-                <div className="stat-item">
-                  <span className="stat-number">
-                    {course.assignments.length}
-                  </span>
-                  <span className="stat-label">Assignments</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="course-progress">
-              <div className="progress-stats">
-                <div className="progress-item">
-                  <span className="progress-label">Completed</span>
-                  <span className="progress-value">
-                    {
-                      course.assignments.filter((a) => a.status === "completed")
-                        .length
-                    }
-                  </span>
-                </div>
-                <div className="progress-item">
-                  <span className="progress-label">Grading</span>
-                  <span className="progress-value">
-                    {
-                      course.assignments.filter((a) => a.status === "grading")
-                        .length
-                    }
-                  </span>
-                </div>
-                <div className="progress-item">
-                  <span className="progress-label">Pending</span>
-                  <span className="progress-value">
-                    {
-                      course.assignments.filter((a) => a.status === "pending")
-                        .length
-                    }
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="course-actions">
-              <button
-                className="action-btn primary"
-                onClick={() => {
-                  setSelectedCourse(course);
-                  setActiveView("assignments");
-                }}
-              >
-                Manage Grades
-              </button>
-              <button
-                className="action-btn secondary"
-                onClick={() => {
-                  setSelectedCourse(course);
-                  setActiveView("students");
-                }}
-              >
-                View Students
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+    );
+  }
 
   const renderAssignmentsView = () => (
     <div className="assignments-view">
@@ -540,7 +203,7 @@ const GradeAssignment = ({ onBack, courseData: propCourseData }) => {
             ← Back to Courses
           </button>
           <h2>
-            📝 {selectedCourse.code} - {selectedCourse.title}
+            📝 {selectedCourse.course_code} - {selectedCourse.course_title}
           </h2>
           <p>
             Section {selectedCourse.section} • {selectedCourse.studentsEnrolled}{" "}
@@ -562,229 +225,176 @@ const GradeAssignment = ({ onBack, courseData: propCourseData }) => {
       </div>
 
       <div className="assignments-list">
-        {selectedCourse.assignments
-          .filter(
-            (assignment) =>
-              filterType === "all" || assignment.status === filterType
-          )
-          .map((assignment) => (
-            <div key={assignment.id} className="assignment-card">
-              <div className="assignment-header">
-                <div className="assignment-info">
-                  <div className="assignment-title">
-                    <span className="assignment-icon">
-                      {getTypeIcon(assignment.type)}
-                    </span>
-                    <div>
-                      <h4>{assignment.title}</h4>
-                      <span className="assignment-type">
-                        {assignment.type.toUpperCase()}
-                      </span>
+        {assignmentsLoading ? (
+          <div className="loading-message">Loading assignments...</div>
+        ) : assignments && assignments.length > 0 ? (
+          <div>
+            {assignments.map((assignment) => (
+              <div key={assignment.id} className="assignment-card">
+                <div className="assignment-header">
+                  <div className="assignment-info">
+                    <div className="assignment-title">
+                      <span className="assignment-icon">{getTypeIcon(assignment.type)}</span>
+                      <div>
+                        <h4>{assignment.title}</h4>
+                        <span className="assignment-type">Assignment</span>
+                      </div>
+                    </div>
+                    <div className="assignment-details">
+                      <span className="detail-item">📅 Due: {assignment.due_date ? new Date(assignment.due_date).toLocaleString() : 'N/A'}</span>
+                      <span className="detail-item">📊 Marks: {assignment.max_marks ?? 'N/A'}</span>
+                      <span className="detail-item">📥 Submissions: {assignment.submissions ?? 'N/A'}</span>
+                      <span className="detail-item">✅ Graded: {assignment.graded ?? 'N/A'}</span>
                     </div>
                   </div>
-                  <div className="assignment-details">
-                    <span className="detail-item">
-                      📅 Due: {assignment.dueDate}
-                    </span>
-                    <span className="detail-item">
-                      📊 Marks: {assignment.totalMarks}
-                    </span>
-                    <span className="detail-item">
-                      📥 Submissions: {assignment.submissions}
-                    </span>
-                    <span className="detail-item">
-                      ✅ Graded: {assignment.graded}
-                    </span>
+                  <div className="assignment-status">
+                    <span className="status-badge" style={{backgroundColor: getStatusColor(assignment.status)}}>{assignment.status?.toUpperCase() || 'PENDING'}</span>
                   </div>
                 </div>
-                <div className="assignment-status">
-                  <span
-                    className="status-badge"
-                    style={{
-                      backgroundColor: getStatusColor(assignment.status),
+                <div className="assignment-actions">
+                  <button
+                    className="action-btn primary"
+                    onClick={() => {
+                      setSelectedAssignment(assignment);
+                      setActiveView("grading");
                     }}
                   >
-                    {assignment.status.toUpperCase()}
-                  </span>
+                    Grade Submissions
+                  </button>
                 </div>
               </div>
-
-              <div className="assignment-progress">
-                <div className="progress-bar">
-                  <div
-                    className="progress-fill"
-                    style={{
-                      width: `${
-                        assignment.submissions > 0
-                          ? (assignment.graded / assignment.submissions) * 100
-                          : 0
-                      }%`,
-                      backgroundColor: getStatusColor(assignment.status),
-                    }}
-                  ></div>
+            ))}
+          </div>
+        ) : (
+          <div className="assignment-card">
+            <div className="assignment-header">
+              <div className="assignment-info">
+                <div className="assignment-title">
+                  <span className="assignment-icon">📝</span>
+                  <div>
+                    <h4>No Assignments</h4>
+                    <span className="assignment-type">N/A</span>
+                  </div>
                 </div>
-                <span className="progress-text">
-                  {assignment.graded} of {assignment.submissions} graded
-                </span>
+                <div className="assignment-details">
+                  <span className="detail-item">No assignments found for this course.</span>
+                  <span className="detail-item">Selected Course: {selectedCourse?.course_code} - {selectedCourse?.course_title}</span>
+                </div>
               </div>
-
-              <div className="assignment-actions">
-                <button
-                  className="action-btn primary"
-                  onClick={() => {
-                    setSelectedAssignment(assignment);
-                    setActiveView("grading");
-                  }}
-                  disabled={assignment.submissions === 0}
-                >
-                  Grade Submissions
-                </button>
-                <button
-                  className="action-btn secondary"
-                  onClick={() => handleExportGrades(assignment)}
-                >
-                  📊 Export Grades
-                </button>
+              <div className="assignment-status">
+                <span className="status-badge" style={{backgroundColor: getStatusColor('pending')}}>PENDING</span>
               </div>
             </div>
-          ))}
+            <div className="assignment-actions">
+              <button
+                className="action-btn primary"
+                onClick={() => {
+                  setSelectedAssignment({id: 1, title: 'N/A', totalMarks: 100, course: selectedCourse});
+                  setActiveView("grading");
+                }}
+              >
+                Go to Grading Page
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
 
-  const renderGradingView = () => {
-    const students = studentGrades[selectedAssignment.id] || [];
-    const pendingCount = students.filter((s) => s.status === "pending").length;
-    const gradedCount = students.filter((s) => s.status === "graded").length;
+  const [studentNames, setStudentNames] = useState({}); // {studentId: fullName}
 
+  // Fetch missing student names when submissions change
+  useEffect(() => {
+    const fetchNames = async () => {
+      const missingIds = submissions
+        .map((s) => s.student_id)
+        .filter((id) => id && !studentNames[id]);
+      if (missingIds.length === 0) return;
+      const updates = {};
+      for (const id of missingIds) {
+        try {
+          const profile = await StudentProfileService.getStudentProfile(id);
+          updates[id] = profile?.full_name || profile?.name || "Unknown Student";
+        } catch (e) {
+          updates[id] = "Unknown Student";
+        }
+      }
+      setStudentNames((prev) => ({ ...prev, ...updates }));
+    };
+    if (submissions && submissions.length > 0) fetchNames();
+    // eslint-disable-next-line
+  }, [submissions]);
+
+  const renderGradingView = () => {
     return (
       <div className="grading-view">
         <div className="view-header">
           <div className="header-content">
-            <button
-              className="back-btn"
-              onClick={() => setActiveView("assignments")}
-            >
+            <button className="back-btn" onClick={() => setActiveView("assignments")}>
               ← Back to Assignments
             </button>
             <h2>✏️ Grade Assignment</h2>
-            <p>
-              {selectedAssignment.title} • {selectedCourse.code}
-            </p>
-          </div>
-          <div className="grading-stats">
-            <div className="stat-card">
-              <span className="stat-number">{gradedCount}</span>
-              <span className="stat-label">Graded</span>
-            </div>
-            <div className="stat-card">
-              <span className="stat-number">{pendingCount}</span>
-              <span className="stat-label">Pending</span>
-            </div>
-            <div className="stat-card">
-              <span className="stat-number">
-                {selectedAssignment.totalMarks}
-              </span>
-              <span className="stat-label">Max Marks</span>
-            </div>
+            <p>{selectedAssignment?.title} • {selectedCourse?.code}</p>
           </div>
         </div>
-
-        <div className="grading-controls">
-          <div className="control-group">
-            <button className="control-btn">📤 Import Grades</button>
-            <button className="control-btn">📋 Grade All</button>
-            <button className="control-btn">💾 Save Progress</button>
-            <button className="control-btn" onClick={handleExportAllGrades}>
-              📊 Export All Grades
-            </button>
-            <button className="control-btn primary">✅ Publish Grades</button>
-          </div>
-        </div>
-
         <div className="students-grading-list">
-          {students.map((student) => (
-            <div key={student.id} className="student-grading-card">
-              <div className="student-info">
-                <div className="student-avatar">
-                  {student.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")
-                    .toUpperCase()}
-                </div>
-                <div className="student-details">
-                  <h4>{student.name}</h4>
-                  <p>{student.studentId}</p>
-                  <span className="submission-date">
-                    📅 Submitted: {student.submissionDate}
-                  </span>
-                </div>
-              </div>
+          {submissionsLoading ? (
+            <div className="loading-message">Loading submissions...</div>
+          ) : submissions.length === 0 ? (
+            <div className="no-submissions">No submissions found for this assignment.</div>
+          ) : (
+            submissions.map((submission) => {
+              const fullName = studentNames[submission.student_id] || "Unknown Student";
+              return (
+                <div key={submission.id} className="student-grading-card">
+                  <div className="student-info">
+                    <div className="student-avatar">
+                      {fullName.split(" ").map((n) => n[0]).join("")}
+                    </div>
+                    <div className="student-details">
+                      <h4>{fullName}</h4>
+                      <p>{submission.student_id || "-"}</p>
+                      <span className="submission-date">📅 Submitted: {submission.submission_time ? new Date(submission.submission_time).toLocaleString() : "N/A"}</span>
 
-              <div className="grading-section">
-                <div className="grade-input-group">
-                  <label>Grade</label>
-                  <div className="grade-input-wrapper">
-                    <input
-                      type="number"
-                      min="0"
-                      max={selectedAssignment.totalMarks}
-                      value={student.grade || ""}
-                      onChange={(e) =>
-                        handleGradeChange(
-                          student.id,
-                          e.target.value ? parseFloat(e.target.value) : null
-                        )
-                      }
-                      className="grade-input"
-                      placeholder="0"
-                    />
-                    <span className="grade-max">
-                      / {selectedAssignment.totalMarks}
-                    </span>
+                      <span className="grade-max">
+                        / {selectedAssignment?.max_marks || 100}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="grading-section">
+                    <div className="grade-input-group">
+                      <label>Grade</label>
+                      <div className="grade-input-wrapper">
+                        <input
+                          type="number"
+                          min="0"
+                          max={selectedAssignment?.max_marks || 100}
+                          value={marks[submission.id] ?? ""}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            setMarks((m) => ({ ...m, [submission.id]: value }));
+                          }}
+                          className="grade-input"
+                          placeholder="0"
+                        />
+                        <span className="grade-max">
+                          / {selectedAssignment?.max_marks || 100}
+                        </span>
+                      </div>
+                    </div>
+                    <div style={{marginTop:8}}>
+                      <a href={submission.attached_file} target="_blank" rel="noopener noreferrer" className="action-btn secondary">📄 View Submission</a>
+                    </div>
                   </div>
                 </div>
-
-                <div className="feedback-group">
-                  <label>Feedback</label>
-                  <textarea
-                    value={student.feedback}
-                    onChange={(e) =>
-                      handleFeedbackChange(student.id, e.target.value)
-                    }
-                    className="feedback-input"
-                    placeholder="Add feedback for the student..."
-                    rows="3"
-                  />
-                </div>
-
-                <div className="grading-actions">
-                  <button
-                    className="action-btn secondary"
-                    onClick={() =>
-                      window.open(`/submission/${student.id}`, "_blank")
-                    }
-                  >
-                    📄 View Submission
-                  </button>
-                  <span className={`status-indicator ${student.status}`}>
-                    {student.status === "graded" ? "✅ Graded" : "⏳ Pending"}
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="grading-footer">
-          <button className="action-btn secondary">💾 Save as Draft</button>
-          <button className="action-btn primary">✅ Publish All Grades</button>
+              );
+            })
+          )}
         </div>
       </div>
     );
   };
-
   const renderStudentsView = () => (
     <div className="students-view">
       <div className="view-header">

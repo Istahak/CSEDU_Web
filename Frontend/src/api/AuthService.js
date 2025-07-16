@@ -93,11 +93,45 @@ class AuthService {
    * Get current user profile
    * @returns {Promise} - Promise with user data
    */
+  // async getCurrentUser() {
+  //   try {
+  //     const response = await ApiService.get(API_CONFIG.ENDPOINTS.AUTH.ME);
+  //     return response;
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
+
   async getCurrentUser() {
     try {
-      const response = await ApiService.get(API_CONFIG.ENDPOINTS.AUTH.ME);
+
+      const profileId = localStorage.getItem('profile_id');
+      if (!profileId) {
+        throw new Error('No profile ID found in localStorage');
+      }
+      console.log('Fetching User profile with profile_id:', profileId);
+      const response = await ApiService.get(`/profile/${profileId}`);
+      console.log('getCurrentUser response:', response);
       return response;
     } catch (error) {
+      console.error('Get User profile error:', error);
+      throw error;
+    }
+  }
+
+    async getCurrentAdmin() {
+    try {
+      console.log("Localstorage info :", localStorage.getItem('userData'));
+      const profileId = localStorage.getItem('userData') ? JSON.parse(localStorage.getItem('userData')).profile_id : null;
+      if (!profileId) {
+        throw new Error('No profile ID found in localStorage');
+      }
+      console.log('Fetching Admin profile with profile_id:', profileId);
+      const response = await ApiService.get(`/admin-profiles/${profileId}`);
+      console.log('getCurrentAdmin response:', response);
+      return response;
+    } catch (error) {
+      console.error('Get User profile error:', error);
       throw error;
     }
   }

@@ -1,154 +1,269 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import API_CONFIG from "../api/config";
 import "./Directory.css";
+
+// Edited by Tanzim (Date: 15/07/2025)
 
 const Directory = ({ onFacultySelect }) => {
   const [selectedRole, setSelectedRole] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [facultyMembers, setFacultyMembers] = useState([]);
+  const [error, setError] = useState(null);
 
-  // Clear all filters function
+  const roles = ["All", "Professor", "Associate Professor", "Assistant Professor", "Lecturer", "System Administrator"];
+
+  const staticFaculty = [
+    {
+      id: "b738b418-a6ae-495d-9b91-9bf3c2b09e2a",
+      user_id: "4e9d8937-c2ab-4ca7-a9cf-708e74cf4cb7",
+      full_name: "Dr. Abdul Razzaque",
+      email: "abdul.razzaque@csedu.ac.bd",
+      phone_number: "+880 1712 345601",
+      specialization: "Machine Learning, Distributed Systems",
+      research_areas: "Machine Learning, Distributed Systems",
+      employment_status: "Active",
+      designation: "Faculty",
+      department: "Computer Science & Engineering",
+      experience: "19 years",
+      number_of_publications: 2,
+      qualifications: "PhD in Computer Science, Kyushu University, Japan, MSc in Computer Science, University of Dhaka",
+      office_room_id: null,
+      is_active: true
+    },
+    {
+      id: "550e8400-e29b-41d4-a716-446655440002",
+      user_id: "123e4567-e89b-12d3-a456-426614174002",
+      full_name: "Dr. Mosaddek Khan",
+      email: "mosaddek.khan@csedu.ac.bd",
+      phone_number: "+880 1712 345602",
+      specialization: "Machine Learning, Networking",
+      research_areas: "Machine Learning, Networking",
+      employment_status: "Active",
+      designation: "Professor",
+      department: "Computer Science & Engineering",
+      experience: "12 years",
+      number_of_publications: 1,
+      qualifications: "PhD in Computer Science, MIT, MSc in Computer Science, University of Dhaka",
+      office_room_id: null,
+      is_active: true
+    },
+    {
+      id: "550e8400-e29b-41d4-a716-446655440003",
+      user_id: "123e4567-e89b-12d3-a456-426614174003",
+      full_name: "Dr. Farhan Ahmed",
+      email: "farhan.ahmed@csedu.ac.bd",
+      phone_number: "+880 1712 345603",
+      specialization: "Machine Learning, Data Mining",
+      research_areas: "Machine Learning, Data Mining",
+      employment_status: "Active",
+      designation: "Associate Professor",
+      department: "Computer Science & Engineering",
+      experience: "10 years",
+      number_of_publications: 1,
+      qualifications: "PhD in Data Mining, NUS, Singapore, MSc in Computer Science, University of Dhaka",
+      office_room_id: null,
+      is_active: true
+    },
+    {
+      id: "550e8400-e29b-41d4-a716-446655440004",
+      user_id: "123e4567-e89b-12d3-a456-426614174004",
+      full_name: "Dr. Sarah Wilson",
+      email: "sarah.wilson@csedu.ac.bd",
+      phone_number: "+880 1712 345604",
+      specialization: "Multi Agent Systems, Artificial Intelligence",
+      research_areas: "Multi Agent Systems, Artificial Intelligence",
+      employment_status: "Active",
+      designation: "Associate Professor",
+      department: "Computer Science & Engineering",
+      experience: "8 years",
+      number_of_publications: 3,
+      qualifications: "PhD in Computer Science, Carnegie Mellon University, MSc in Computer Science, University of Dhaka",
+      office_room_id: null,
+      is_active: true
+    },
+    {
+      id: "550e8400-e29b-41d4-a716-446655440005",
+      user_id: "123e4567-e89b-12d3-a456-426614174005",
+      full_name: "Dr. Ahmed Hassan",
+      email: "ahmed.hassan@csedu.ac.bd",
+      phone_number: "+880 1712 345605",
+      specialization: "Software Engineering, Database Systems",
+      research_areas: "Software Engineering, Database Systems",
+      employment_status: "Active",
+      designation: "Assistant Professor",
+      department: "Computer Science & Engineering",
+      experience: "6 years",
+      number_of_publications: 2,
+      qualifications: "PhD in Computer Science, University of British Columbia, MSc in Computer Science, University of Dhaka",
+      office_room_id: null,
+      is_active: true
+    },
+    {
+      id: "550e8400-e29b-41d4-a716-446655440006",
+      user_id: "123e4567-e89b-12d3-a456-426614174006",
+      full_name: "Dr. Fatima Rahman",
+      email: "fatima@csedu.ac.bd",
+      phone_number: "+880 1712 345606",
+      specialization: "Computer Vision, Deep Learning",
+      research_areas: "Computer Vision, Deep Learning",
+      employment_status: "Active",
+      designation: "Assistant Professor",
+      department: "Computer Science & Engineering",
+      experience: "5 years",
+      number_of_publications: 2,
+      qualifications: "PhD in Computer Science, University of Waterloo, MSc in Computer Science, University of Dhaka",
+      office_room_id: null,
+      is_active: true
+    },
+    {
+      id: "550e8400-e29b-41d4-a716-446655440007",
+      user_id: "123e4567-e89b-12d3-a456-426614174007",
+      full_name: "Dr. Mohammad Ali",
+      email: "mohammad.ali@csedu.ac.bd",
+      phone_number: "+880 1712 345607",
+      specialization: "Web Development, Human-Computer Interaction",
+      research_areas: "Web Development, Human-Computer Interaction",
+      employment_status: "Active",
+      designation: "Lecturer",
+      department: "Computer Science & Engineering",
+      experience: "4 years",
+      number_of_publications: 1,
+      qualifications: "PhD in Computer Science, University of Calgary, MSc in Computer Science, University of Dhaka",
+      office_room_id: null,
+      is_active: true
+    },
+    {
+      id: "550e8400-e29b-41d4-a716-446655440008",
+      user_id: "123e4567-e89b-12d3-a456-426614174008",
+      full_name: "Dr. Nadia Islam",
+      email: "nadia@csedu.ac.bd",
+      phone_number: "+880 1712 345608",
+      specialization: "Cybersecurity, Network Security",
+      research_areas: "Cybersecurity, Network Security",
+      employment_status: "Active",
+      designation: "Lecturer",
+      department: "Computer Science & Engineering",
+      experience: "3 years",
+      number_of_publications: 1,
+      qualifications: "PhD in Computer Science, Concordia University, MSc in Computer Science, University of Dhaka",
+      office_room_id: null,
+      is_active: true
+    },
+    {
+      id: "550e8400-e29b-41d4-a716-446655440009",
+      user_id: "123e4567-e89b-12d3-a456-426614174009",
+      full_name: "Md. Karim Uddin",
+      email: "karim@csedu.ac.bd",
+      phone_number: "+880 1712 345609",
+      specialization: "System Administration, Network Management",
+      research_areas: "System Administration, Network Management",
+      employment_status: "Active",
+      designation: "System Administrator",
+      department: "Computer Science & Engineering",
+      experience: "8 years",
+      number_of_publications: 0,
+      qualifications: "MSc in Computer Science, University of Dhaka",
+      office_room_id: null,
+      is_active: true
+    }
+  ];
+
+  // Fetch faculty data
+  useEffect(() => {
+    const fetchFaculty = async () => {
+      try {
+        const response = await axios.get(
+          `${API_CONFIG.BASE_URL}${API_CONFIG.API_VERSION}/faculty`
+        );
+        console.log("Directory API Response:", response.data);
+        if (Array.isArray(response.data)) {
+          if (response.data.length === 0) {
+            setFacultyMembers(staticFaculty.map((f) => ({
+              id: f.id || "",
+              name: f.full_name || "Unknown Name",
+              role: f.employment_status === "Active" ? (f.designation || "Faculty") : (f.employment_status || "Unknown"),
+              designation: f.designation || "Faculty",
+              department: f.department || "Computer Science & Engineering",
+              email: f.email || "No email",
+              phone: f.phone_number || "+880 2-9661920 Ext: 7456",
+              office: f.office_room_id ? `Room ${f.office_room_id}` : "Room 304, New Science Complex",
+              specialization: typeof f.specialization === "string" && f.specialization.length > 0 ? f.specialization.split(/,\s*/) : ["No specialization"],
+              experience: f.experience || "N/A",
+              education: f.qualifications || "N/A"
+            })));
+            setError("No faculty found in database; showing static data");
+          } else {
+            const mappedFaculty = response.data.map((faculty) => ({
+              id: faculty.id || "",
+              name: faculty.full_name || "Unknown Name",
+              role: faculty.employment_status === "Active" ? (faculty.designation || "Faculty") : (faculty.employment_status || "Unknown"),
+              designation: faculty.designation || "Faculty",
+              department: faculty.department || "Computer Science & Engineering",
+              email: faculty.email || "No email",
+              phone: faculty.phone_number || "+880 2-9661920 Ext: 7456",
+              office: faculty.office_room_id ? `Room ${faculty.office_room_id}` : "Room 304, New Science Complex",
+              specialization: typeof faculty.specialization === "string" && faculty.specialization.length > 0 ? faculty.specialization.split(/,\s*/) : ["No specialization"],
+              experience: faculty.experience || "N/A",
+              education: faculty.qualifications || "N/A"
+            }));
+            setFacultyMembers(mappedFaculty);
+            setError(null);
+          }
+        } else {
+          setError("Invalid response format from server");
+          setFacultyMembers(staticFaculty.map((f) => ({
+            id: f.id || "",
+            name: f.full_name || "Unknown Name",
+            role: f.employment_status === "Active" ? (f.designation || "Faculty") : (f.employment_status || "Unknown"),
+            designation: f.designation || "Faculty",
+            department: f.department || "Computer Science & Engineering",
+            email: f.email || "No email",
+            phone: f.phone_number || "+880 2-9661920 Ext: 7456",
+            office: f.office_room_id ? `Room ${f.office_room_id}` : "Room 304, New Science Complex",
+            specialization: typeof f.specialization === "string" && f.specialization.length > 0 ? f.specialization.split(/,\s*/) : ["No specialization"],
+            experience: f.experience || "N/A",
+            education: f.qualifications || "N/A"
+          })));
+        }
+      } catch (err) {
+        console.error("Directory Fetch Error:", err.message, err.response?.data);
+        setError(`Failed to fetch faculty: ${err.message}`);
+        setFacultyMembers(staticFaculty.map((f) => ({
+          id: f.id || "",
+          name: f.full_name || "Unknown Name",
+          role: f.employment_status === "Active" ? (f.designation || "Faculty") : (f.employment_status || "Unknown"),
+          designation: f.designation || "Faculty",
+          department: f.department || "Computer Science & Engineering",
+          email: f.email || "No email",
+          phone: f.phone_number || "+880 2-9661920 Ext: 7456",
+          office: f.office_room_id ? `Room ${f.office_room_id}` : "Room 304, New Science Complex",
+          specialization: typeof f.specialization === "string" && f.specialization.length > 0 ? f.specialization.split(/,\s*/) : ["No specialization"],
+          experience: f.experience || "N/A",
+          education: f.qualifications || "N/A"
+        })));
+      }
+    };
+    fetchFaculty();
+  }, []);
+
   const clearAllFilters = () => {
     setSelectedRole("All");
     setSearchQuery("");
   };
 
-  // Check if any filters are active
   const hasActiveFilters = selectedRole !== "All" || searchQuery.trim() !== "";
 
-  // Sample faculty data
-  const facultyMembers = [
-    {
-      id: 1,
-      name: "Dr. Abdul Razzaque",
-      role: "Professor",
-      designation: "Professor & Head",
-      department: "Computer Science & Engineering",
-      email: "razzaque@csedu.ac.bd",
-      phone: "+880 1712 345678",
-      office: "Room 401, CSEDU Building",
-      specialization: ["Machine Learning", "Distributed Systems"],
-      experience: "15 years",
-      education: "PhD in Computer Science, University of Toronto"
-    },
-    {
-      id: 2,
-      name: "Dr. Mosaddek Khan",
-      role: "Professor",
-      designation: "Professor",
-      department: "Computer Science & Engineering",
-      email: "mosaddek@csedu.ac.bd",
-      phone: "+880 1712 345679",
-      office: "Room 402, CSEDU Building",
-      specialization: ["Machine Learning", "Networking"],
-      experience: "12 years",
-      education: "PhD in Computer Science, MIT"
-    },
-    {
-      id: 3,
-      name: "Dr. Farhan Ahmed",
-      role: "Associate Professor",
-      designation: "Associate Professor",
-      department: "Computer Science & Engineering",
-      email: "farhan@csedu.ac.bd",
-      phone: "+880 1712 345680",
-      office: "Room 403, CSEDU Building",
-      specialization: ["Machine Learning", "Data Mining"],
-      experience: "10 years",
-      education: "PhD in Computer Science, Stanford University"
-    },
-    {
-      id: 4,
-      name: "Dr. Sarah Wilson",
-      role: "Associate Professor",
-      designation: "Associate Professor",
-      department: "Computer Science & Engineering",
-      email: "sarah.wilson@csedu.ac.bd",
-      phone: "+880 1712 345681",
-      office: "Room 404, CSEDU Building",
-      specialization: ["Multi Agent Systems", "Artificial Intelligence"],
-      experience: "8 years",
-      education: "PhD in Computer Science, Carnegie Mellon University"
-    },
-    {
-      id: 5,
-      name: "Dr. Ahmed Hassan",
-      role: "Assistant Professor",
-      designation: "Assistant Professor",
-      department: "Computer Science & Engineering",
-      email: "ahmed.hassan@csedu.ac.bd",
-      phone: "+880 1712 345682",
-      office: "Room 405, CSEDU Building",
-      specialization: ["Software Engineering", "Database Systems"],
-      experience: "6 years",
-      education: "PhD in Computer Science, University of British Columbia"
-    },
-    {
-      id: 6,
-      name: "Dr. Fatima Rahman",
-      role: "Assistant Professor",
-      designation: "Assistant Professor",
-      department: "Computer Science & Engineering",
-      email: "fatima@csedu.ac.bd",
-      phone: "+880 1712 345683",
-      office: "Room 406, CSEDU Building",
-      specialization: ["Computer Vision", "Deep Learning"],
-      experience: "5 years",
-      education: "PhD in Computer Science, University of Waterloo"
-    },
-    {
-      id: 7,
-      name: "Dr. Mohammad Ali",
-      role: "Lecturer",
-      designation: "Lecturer",
-      department: "Computer Science & Engineering",
-      email: "mohammad.ali@csedu.ac.bd",
-      phone: "+880 1712 345684",
-      office: "Room 407, CSEDU Building",
-      specialization: ["Web Development", "Human-Computer Interaction"],
-      experience: "4 years",
-      education: "PhD in Computer Science, University of Calgary"
-    },
-    {
-      id: 8,
-      name: "Dr. Nadia Islam",
-      role: "Lecturer",
-      designation: "Lecturer",
-      department: "Computer Science & Engineering",
-      email: "nadia@csedu.ac.bd",
-      phone: "+880 1712 345685",
-      office: "Room 408, CSEDU Building",
-      specialization: ["Cybersecurity", "Network Security"],
-      experience: "3 years",
-      education: "PhD in Computer Science, Concordia University"
-    },
-    {
-      id: 9,
-      name: "Md. Karim Uddin",
-      role: "Staff",
-      designation: "System Administrator",
-      department: "Computer Science & Engineering",
-      email: "karim@csedu.ac.bd",
-      phone: "+880 1712 345686",
-      office: "Room 101, CSEDU Building",
-      specialization: ["System Administration", "Network Management"],
-      experience: "8 years",
-      education: "MSc in Computer Science, University of Dhaka"
-    }
-  ];
-
-  const roles = ["All", "Professor", "Associate Professor", "Assistant Professor", "Lecturer", "Staff"];
-
-  const filteredMembers = facultyMembers.filter(member => {
+  const filteredMembers = facultyMembers.filter((member) => {
     const matchesRole = selectedRole === "All" || member.role === selectedRole;
-    
-    // Search by name, email, specialization
     const searchTerm = searchQuery.toLowerCase().trim();
-    const matchesSearch = searchTerm === "" || 
-                         member.name.toLowerCase().includes(searchTerm) ||
-                         member.email.toLowerCase().includes(searchTerm) ||
-                         member.specialization.some(spec => 
-                           spec.toLowerCase().includes(searchTerm)
-                         );
-    
+    const matchesSearch =
+      searchTerm === "" ||
+      member.name.toLowerCase().includes(searchTerm) ||
+      member.email.toLowerCase().includes(searchTerm) ||
+      member.specialization.some((spec) =>
+        spec.toLowerCase().includes(searchTerm)
+      );
     return matchesRole && matchesSearch;
   });
 
@@ -160,6 +275,7 @@ const Directory = ({ onFacultySelect }) => {
           <p className="events-subtitle">
             Find Faculty Members, Students and Staff
           </p>
+          {error && <p className="error-message">{error}</p>}
         </div>
 
         <div className="directory-controls">

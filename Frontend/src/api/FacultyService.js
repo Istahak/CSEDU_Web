@@ -4,6 +4,7 @@
  */
 import ApiService from './ApiService';
 import API_CONFIG from './config';
+import authService from './AuthService'; 
 
 class FacultyService {
   constructor() {
@@ -63,32 +64,97 @@ class FacultyService {
    * Tahsin added - This method handles multipart/form-data submission for faculty creation
    * including profile photo upload
    */
+
   async createFaculty(formData) {
+
+  //  console.log('FormData for new faculty:', Array.from(faculty.entries()));
+
     try {
-      // Tahsin added - Special handling for multipart/form-data
-      const url = `${API_CONFIG.BASE_URL}${API_CONFIG.API_VERSION}${this.endpoints.CREATE}`;
-      
-      // Get authentication token if available
-      const token = localStorage.getItem('token');
-      const headers = {};
-      
-      if (token) {
-        headers['Authorization'] = `Bearer ${token}`;
+    // Step 1: Sign up the user
+      const faculty = {};
+      for (const [key, value] of formData.entries()) {
+        faculty[key] = value;
       }
-      
-      // Make direct fetch call for multipart/form-data
-      const response = await fetch(url, {
-        method: 'POST',
-        headers,
-        body: formData,
-        mode: 'cors'
+      console.log('Creating new faculty with data:', faculty);  
+
+      const userPayload = {
+        user_name: faculty.user_name,
+        email: faculty.email,
+        password: faculty.password,
+        full_name: faculty.name,
+        role: "faculty"
+      };
+
+      const userResponse = await authService.signup(userPayload);
+
+      if (!userResponse || !userResponse.id) {
+        throw new Error("User signup failed — no user ID returned.");
+      }
+
+      const userId = userResponse.id;
+
+      console.log("User created with ID:", userId);
+
+      // Step 2: Build JSON object for FacultyCreate
+      // Robust extraction for experience and publications
+      let experienceValue = null;
+      if (faculty.experience) {
+        const match = faculty.experience.match(/\d+/);
+        if (match && !isNaN(parseInt(match[0]))) {
+          experienceValue = parseInt(match[0]);
+        } else {
+          experienceValue = null;
+        }
+      }
+
+      let publicationsValue = 0;
+      if (faculty.publications && !isNaN(parseInt(faculty.publications))) {
+        publicationsValue = parseInt(faculty.publications);
+      }
+
+      const facultyPayload = {
+        user_id: userId,
+        office_room_id: faculty.office_room_id || null,
+        full_name: faculty.name,
+        email: faculty.email,
+        phone_number: faculty.phone || null,
+        specialization: faculty.specialization || null,
+        research_areas: faculty.researchAreas || null,
+        employment_status: "Active",
+        designation: faculty.designation,
+        department: "CSE",
+        experience: experienceValue,
+        number_of_publications: publicationsValue,
+        qualifications: faculty.qualifications || null,
+        image: null
+      };
+
+      console.log("Faculty payload:", facultyPayload);
+
+      // Handle optional profile image (convert to base64 if it's a data URL)
+      if (faculty.profileImage?.startsWith("data:image/")) {
+        const base64 = faculty.profileImage.split(",")[1];
+        facultyPayload.image = base64;
+      }
+
+      // Step 3: Call the faculty creation API
+      const token = localStorage.getItem("token");
+      const response = await fetch("http://localhost:8000/api/v1/faculty/", {
+        method: "POST",
+        body: JSON.stringify(facultyPayload)
       });
-      
-      // Use ApiService's response handler for consistent error handling
-      return await ApiService.handleResponse(response);
-    } catch (error) {
-      console.error('Failed to create faculty:', error);
-      throw error;
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Faculty creation failed: ${errorData.message || response.statusText}`);
+      }
+
+      alert("Faculty created successfully!");
+      fetchAllFaculty(); // Refresh list
+
+    } catch (err) {
+      // console.error("Failed to create faculty:", err);
+      // alert("Failed to create faculty. Check console for details.");
     }
   }
 
@@ -102,33 +168,45 @@ class FacultyService {
    * including profile photo upload
    */
   async updateFaculty(id, formData) {
-    try {
-      // Tahsin added - Special handling for multipart/form-data
-      const url = `${API_CONFIG.BASE_URL}${API_CONFIG.API_VERSION}${this.endpoints.UPDATE(id)}`;
-      
-      // Get authentication token if available
-      const token = localStorage.getItem('token');
-      const headers = {};
-      
-      if (token) {
-        headers['Authorization'] = `Bearer ${token}`;
+  try {
+        const url = `${API_CONFIG.BASE_URL}${API_CONFIG.API_VERSION}${this.endpoints.UPDATE(id)}`;
+
+        // Convert FormData to plain object
+        const plainData = {};
+        for (const [key, value] of formData.entries()) {
+          plainData[key] = value;
+        }
+
+        console.log('Updating faculty with data:', plainData);
+        // If research_areas came as comma-separated string from UI, make sure it's just a string (not array) since backend expects string
+        if (Array.isArray(plainData.research_areas)) {
+          plainData.research_areas = plainData.research_areas.join(", ");
+        }
+
+        // Convert profileImage (if any) to base64 and assign to 'image'
+        if (plainData.profileImage?.startsWith("data:image/")) {
+          plainData.image = plainData.profileImage.split(",")[1];
+        }
+
+        // Remove profileImage key (not needed in backend)
+        delete plainData.profileImage;
+
+        // Prepare headers
+        const token = localStorage.getItem("token");
+
+        // Send JSON payload
+        const response = await fetch(url, {
+          method: "PUT",
+          body: JSON.stringify(plainData),
+          mode: "cors"
+        });
+
+        return await ApiService.handleResponse(response);
+      } catch (error) {
+        console.error(`Failed to update faculty with ID ${id}:`, error);
+        throw error;
       }
-      
-      // Make direct fetch call for multipart/form-data
-      const response = await fetch(url, {
-        method: 'PUT',
-        headers,
-        body: formData,
-        mode: 'cors'
-      });
-      
-      // Use ApiService's response handler for consistent error handling
-      return await ApiService.handleResponse(response);
-    } catch (error) {
-      console.error(`Failed to update faculty with ID ${id}:`, error);
-      throw error;
-    }
-  }
+}
 
   /**
    * Delete a faculty member

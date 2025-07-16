@@ -2,7 +2,7 @@
 // Provides frontend API calls for assignment management, mirroring backend assignment_service.py logic
 
 import apiClient from './ApiService'; // Use the correct shared axios instance or fetch wrapper
-import React, { useState, useEffect } from "react";
+
 
 
 const AssignmentService = {
@@ -38,8 +38,7 @@ const AssignmentService = {
 
   // Get assignments for a specific course
   getByCourse: async (courseId, skip = 0, limit = 100) => {
-    const res = await apiClient.get(`/assignments/by-course/${courseId}`, { params: { skip, limit } });
-    return res.data;
+    return await apiClient.get(`/assignments/by-course/${courseId}`, { params: { skip, limit } });
   },
 
   // Get active assignments for a specific course
