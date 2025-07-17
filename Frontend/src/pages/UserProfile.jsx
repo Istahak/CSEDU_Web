@@ -207,13 +207,14 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
                     {courses.map((course, idx) => (
                       <div className="course-grid-item" key={course.course_code || idx}>
                         <div className="course-card">
-                          <div className="course-card-header">
+                          {/* <div className="course-card-header">
                             <span role="img" aria-label="book" className="course-icon">📘</span>
                             <span className="course-code">{course.course_code}</span>
-                          </div>
-                          <div className="course-title">
+                          </div> */}
+                          <span className="course-code">{course.course_code}</span>
+                          {/* <div className="course-title">
                             <h4>{course.course_title}</h4>
-                          </div>
+                          </div> */}
                           <div className="course-card-body">
                             <p className="course-intro">{course.intro}</p>
                             <div className="course-details">
@@ -436,7 +437,7 @@ const UserProfile = ({ onBack, userData: propUserData, onEditProfile }) => {
                           </p>
                         </div>
                         <div className="assignment-actions">
-                          <button className="submit-btn" disabled>
+                          <button className="deadline-btn" disabled>
                             Deadline Passed
                           </button>
                         </div>

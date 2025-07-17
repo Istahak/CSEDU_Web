@@ -91,6 +91,27 @@
     margin: 0;
     line-height: 1.4;
   }
+
+  .deadline-btn{
+    background: transparent;
+    color: #7B2C2C;
+    border-color: #7B2C2C;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    justify-items: center;
+    align-items: center;
+  }
+
+  .deadline-btn:hover {
+    transform: translateY(-2px);
+    background: #7B2C2C;
+    color: white;
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+  }
+
   .edit-contact-btn {
     background: transparent;
     color: #7B2C2C;
@@ -161,6 +182,11 @@
   .tab-button.active {
     background: #7B2C2C;
     color: white;
+  }
+  .tab-button:focus {
+    background: #7B2C2C;
+    border-color: #7B2C2C;
+  
   }
   
   /* Tab Content */
@@ -278,7 +304,7 @@
   .records-table th,
   .assignments-table th,
   .payments-table th {
-    background: #4a90e2;
+    background: #7B2C2C;
     color: white;
     padding: 1rem;
     text-align: left;
@@ -299,7 +325,7 @@
   }
   
   .running {
-    color: #ffc107 !important;
+    color: #f0f9ff !important;
     font-weight: 600 !important;
   }
   
@@ -335,11 +361,11 @@
   }
   
   .course-card:hover {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 24px pink;
   }
   
   .course-card-header {
-    background: #2d3e50;
+    background: transparent;
     color: white;
     padding: 1.2rem;
     display: flex;
@@ -356,7 +382,7 @@
     font-weight: 600;
     letter-spacing: 0.5px;
     font-size: 1rem;
-    background: rgba(255, 255, 255, 0.2);
+    background: pink;
     padding: 0.3rem 0.8rem;
     border-radius: 6px;
   }
@@ -369,7 +395,7 @@
   .course-title h4 {
     font-size: 1.2rem;
     font-weight: 600;
-    color: #353839;
+    color: pink;
     margin: 0;
     line-height: 1.4;
   }
@@ -402,7 +428,7 @@
   }
   
   .course-detail strong {
-    color: #2d3e50;
+    color: #2d3e50; /*not this*/
   }
   
   .course-instructor {
@@ -419,9 +445,9 @@
   }
   
   .view-course-btn {
-    background: #2d3e50;
-    color: white;
-    border: none;
+    background: transparent;
+    color: #7B2C2C;
+    border-color:#7B2C2C;
     padding: 0.6rem 1.5rem;
     border-radius: 6px;
     font-weight: 500;
@@ -431,7 +457,8 @@
   }
   
   .view-course-btn:hover {
-    background: #3a4f66;
+    background: #7B2C2C;
+    color: white;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(45, 62, 80, 0.3);
   }
@@ -494,7 +521,7 @@
   .course-title {
     font-size: 1.1rem;
     font-weight: 600;
-    color: #353839;
+    color: #e3f2fd;
     margin: 0 0 0.5rem 0;
   }
   
@@ -586,7 +613,7 @@
   
   .status.in-progress {
     background: #fff3cd;
-    color: #856404;
+    color: #7B2C2C;
   }
   
   .status.paid {
@@ -648,7 +675,7 @@
   
   .total-due-modern h4 {
     margin: 0 0 0.6rem 0;
-    color: #19c274;
+    color: #7B2C2C;
     font-size: 1.22rem;
     font-weight: 700;
     letter-spacing: 0.2px;
@@ -768,8 +795,8 @@
   }
   
   .submit-btn {
-    background: #2d3e50;
-    color: white;
+    background: transparent;
+    color: #7B2C2C;
     border: none;
     padding: 0.5rem 1rem;
     border-radius: 4px;
