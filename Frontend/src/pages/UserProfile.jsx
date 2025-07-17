@@ -747,7 +747,7 @@ case "due-payments":
             <div className="profile-header-info">
             <div className="profile-details">
               {/* <h1 className="profile-name">{userData.full_name}</h1> */}
-              <h1 className="profile-name">Tasnia Iffat</h1>
+              <h1 className="profile-name">{userData.full_name}</h1>
               <p className="profile-id">Student ID: {userData.student_id}</p>
               <p className="profile-department">{userData.dept}</p>
             </div>

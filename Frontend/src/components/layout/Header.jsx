@@ -317,7 +317,7 @@ const Header = ({
                 >
                   Login
                 </button>
-                <button
+                {/* <button
                   // className="signup-btn"
                   className="btn btn-primary"
                   onClick={() => setCurrentPage("signup")}
@@ -333,7 +333,7 @@ const Header = ({
                   // }}
                 >
                   Sign up
-                </button>
+                </button> */}
               </div>
             )}
           </div>

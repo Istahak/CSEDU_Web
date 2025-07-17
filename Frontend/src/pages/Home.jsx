@@ -6,26 +6,54 @@ import hero4 from "../assets/images/hero4.jpg";
 import hero5 from "../assets/images/hero5.jpg";
 import hero6 from "../assets/images/hero6.jpg";
 
+// const heroImages = [
+//   {
+//     src: hero1,
+//     label: "Seminar by CSEDU Alumni on Higher Studies and Research in the US",
+//   },
+//   {
+//     src: hero2,
+//     label:
+//       "A group of faculty members and wining team students of Code Samurai 2024 call on the honorable Ambassador of Japan in Bangladesh",
+//   },
+//   {
+//     src: hero3,
+//     label:
+//       "CSEDU Celebrates Talent and Excellence at Cultural Program and Annual Prize Giving Ceremony-2025",
+//   },
+//   {
+//     src: hero4,
+//     label:
+//       "A courtesy visit and exchange of views was held with the newly appointed Dean of Faculty of Engineering and Technology",
+//   },
+//   {
+//     src: hero5,
+//     label:
+//       "CSEDU's 26th Batch Graduation Week: A Celebration of Achievement and Community",
+//   },
+//   { src: hero6, label: "CSEDU warmly welcomes the UG Students of 31st Batch" },
+// ];
+
 const heroImages = [
   {
     src: hero1,
     label: "Seminar by CSEDU Alumni on Higher Studies and Research in the US",
   },
-  {
-    src: hero2,
-    label:
-      "A group of faculty members and wining team students of Code Samurai 2024 call on the honorable Ambassador of Japan in Bangladesh",
-  },
-  {
-    src: hero3,
-    label:
-      "CSEDU Celebrates Talent and Excellence at Cultural Program and Annual Prize Giving Ceremony-2025",
-  },
-  {
-    src: hero4,
-    label:
-      "A courtesy visit and exchange of views was held with the newly appointed Dean of Faculty of Engineering and Technology",
-  },
+  // {
+  //   src: hero2,
+  //   label:
+  //     "A group of faculty members and wining team students of Code Samurai 2024 call on the honorable Ambassador of Japan in Bangladesh",
+  // },
+  // {
+  //   src: hero3,
+  //   label:
+  //     "CSEDU Celebrates Talent and Excellence at Cultural Program and Annual Prize Giving Ceremony-2025",
+  // },
+  // {
+  //   src: hero4,
+  //   label:
+  //     "A courtesy visit and exchange of views was held with the newly appointed Dean of Faculty of Engineering and Technology",
+  // },
   {
     src: hero5,
     label:
