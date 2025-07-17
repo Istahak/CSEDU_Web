@@ -95,19 +95,18 @@ const Home = ({ setCurrentPage }) => {
     try {
       const response = await axios.get(
         `${API_CONFIG.BASE_URL}${API_CONFIG.API_VERSION}/notices`,
-        { params: { skip: 0, limit: 3 } }
-      );
+        { params: { skip: 0, limit: 5 } }
+    );
       console.log("API Response:", response.data); // Debug response
-      const fetchedNotices =
-        response.data.length > 0
-          ? response.data.map((notice) => ({
-              id: notice.id || notice.notice_id || `temp-${Math.random()}`,
-              title: notice.title || "Untitled",
-              description: notice.description || "No description",
-              type: notice.type || "General",
-              date: notice.date || "2025-07-11",
-            }))
-          : announcements; // Fallback to static announcements
+      const fetchedNotices = response.data.length > 0
+        ? response.data.map(notice => ({
+            id: notice.id || notice.notice_id || `temp-${Math.random()}`,
+            title: notice.title || "Untitled",
+            description: notice.description || notice.content || "No description",
+            type: notice.category || notice.type || "General",
+            date: notice.date || notice.expiry_date || notice.created_at || "2025-07-11",
+          }))
+        : announcements; // Fallback to static announcements
       setNotices(fetchedNotices);
       setLoading(false);
     } catch (err) {
@@ -241,8 +240,13 @@ const Home = ({ setCurrentPage }) => {
         <h2 className="section-title">Announcements</h2>
         {/* <div className="section-underline"></div> */}
         <div className="notices-grid">
-          {announcements.map((a) => (
-            <div className="notice-card" key={a.id}>
+          {notices.map((a) => (
+            <div 
+              className="notice-card" 
+              key={a.id}
+              onClick={() => setCurrentPage && setCurrentPage("notice-details", a)}
+              style={{ cursor: "pointer" }}
+            >
               <div className="notice-card-header">
                 <h3 className="notice-title">{a.title}</h3>
                 <div className="notice-type-and-date">
@@ -271,10 +275,7 @@ const Home = ({ setCurrentPage }) => {
       <section className="quick-links-section">
         <h2 className="section-title">Quick Links</h2>
         <div className="quick-links-grid">
-          <div
-            className="quick-link-card"
-            onClick={() => handleNavigation("degree-outlines")}
-          >
+          <div className="quick-link-card" onClick={() => handleNavigation("degree-outlines")}> 
             <div className="card-icon">
               <svg
                 width="32"
@@ -292,10 +293,7 @@ const Home = ({ setCurrentPage }) => {
             </div>
             <h3>Academic Programs</h3>
           </div>
-          <div
-            className="quick-link-card"
-            onClick={() => handleNavigation("projects")}
-          >
+          <div className="quick-link-card" onClick={() => handleNavigation("projects")}> 
             <div className="card-icon">
               <svg
                 width="32"
@@ -314,10 +312,7 @@ const Home = ({ setCurrentPage }) => {
             </div>
             <h3>Research Areas</h3>
           </div>
-          <div
-            className="quick-link-card"
-            onClick={() => handleNavigation("directory")}
-          >
+          <div className="quick-link-card" onClick={() => handleNavigation("directory")}> 
             <div className="card-icon">
               <svg
                 width="32"
@@ -335,10 +330,7 @@ const Home = ({ setCurrentPage }) => {
             </div>
             <h3>Faculty Directory</h3>
           </div>
-          <div
-            className="quick-link-card"
-            onClick={() => handleNavigation("course-list")}
-          >
+          <div className="quick-link-card" onClick={() => handleNavigation("course-list")}> 
             <div className="card-icon">
               <svg
                 width="32"

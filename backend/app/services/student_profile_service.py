@@ -5,6 +5,7 @@ from models.student_profile import StudentProfile
 from models.user import User
 from schemas.requests.student_profile import StudentProfileCreate, StudentProfileUpdate, StudentProfileImageUpdate
 from schemas.responses.student_profile import StudentProfileResponse
+from typing import List
 
 def create_student_profile(db: Session, profile_in: StudentProfileCreate) -> StudentProfileResponse:
     # Create StudentProfile (cgpa is ignored)
@@ -101,4 +102,24 @@ def get_students_by_semester(db: Session, semester):
             "dept": student.dept
         }
         for student in students
+    ]
+
+def get_all_student_profiles(db: Session) -> List[StudentProfileResponse]:
+    print("get_all_student_profiles")
+    profiles = db.query(StudentProfile).all()
+    # return None
+    return [
+        {
+            "id": str(profile.id),
+            "user_id": str(profile.user_id),
+            "student_id": profile.student_id,
+            "full_name": profile.full_name,
+            "email": profile.email,
+            "phone": profile.phone,
+            "batch": profile.batch,
+            "semester": profile.semester,
+            "cgpa": profile.cgpa,
+            "dept": profile.dept
+        }
+        for profile in profiles
     ]

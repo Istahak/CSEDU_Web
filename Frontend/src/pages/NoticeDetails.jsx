@@ -7,7 +7,7 @@ const NoticeDetails = ({ notice, onBack }) => {
       <div className="notice-details-container">
         <div className="notice-details-header">
           <button className="back-btn" onClick={onBack}>
-            ← Back to Notices
+            ← Back
           </button>
         </div>
         <div className="notice-not-found">
@@ -207,7 +207,7 @@ const NoticeDetails = ({ notice, onBack }) => {
     <div className="notice-details-container">
       <div className="notice-details-header">
         <button className="back-btn" onClick={onBack}>
-          ← Back to Notices
+          ← Back
         </button>
         <div className="notice-actions">
           <button className="action-btn print-btn" onClick={handlePrint}>

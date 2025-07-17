@@ -4,7 +4,7 @@ import ResearchCard from "../components/ResearchCard";
 import StudentCard from "../components/StudentCard";
 import CourseService from "../api/CourseService";
 import ProjectsService from "../api/ProjectsService";
-import ProfileService from "../api/ProfileService";
+import StudentProfileService from "../api/StudentProfileService";
 import ResearchAssistantService from "../api/ResearchAssistantService";
 import "./TeacherProfile.css";
 
@@ -54,32 +54,32 @@ const TeacherProfile = ({
   // Thesis students are now derived from thesis projects' authors
   const [researchAssistants, setResearchAssistants] = useState([]);
 
-useEffect(() => {
-  async function fetchResearchAssistants() {
-    try {
-      const userData = authService.getUserData();
-      console.log('[RA] userData', userData);
-      if (!userData || !userData.user_id) {
+  useEffect(() => {
+    async function fetchResearchAssistants() {
+      try {
+        const userData = authService.getUserData();
+        console.log('[RA] userData', userData);
+        if (!userData || !userData.user_id) {
+          setResearchAssistants([]);
+          console.log('[RA] No user_id, skipping fetch');
+          return;
+        }
+        const response = await ResearchAssistantService.getBySupervisorId(userData.profile_id);
+        console.log('[RA] API response:', response);
+        if (Array.isArray(response)) {
+          setResearchAssistants(response);
+          console.log('[RA] Set researchAssistants:', response);
+        } else {
+          setResearchAssistants([]);
+          console.log('[RA] No array in response');
+        }
+      } catch (err) {
         setResearchAssistants([]);
-        console.log('[RA] No user_id, skipping fetch');
-        return;
+        console.error('[RA] Error fetching research assistants:', err);
       }
-      const response = await ResearchAssistantService.getBySupervisorId(userData.profile_id);
-      console.log('[RA] API response:', response);
-      if (Array.isArray(response)) {
-        setResearchAssistants(response);
-        console.log('[RA] Set researchAssistants:', response);
-      } else {
-        setResearchAssistants([]);
-        console.log('[RA] No array in response');
-      }
-    } catch (err) {
-      setResearchAssistants([]);
-      console.error('[RA] Error fetching research assistants:', err);
     }
-  }
-  fetchResearchAssistants();
-}, []);
+    fetchResearchAssistants();
+  }, []);
   const [showCreateCourseForm, setShowCreateCourseForm] = useState(false);
   const [showCreateResearchForm, setShowCreateResearchForm] = useState(false);
   const [officeRoomNumber, setOfficeRoomNumber] = useState("");
@@ -103,7 +103,7 @@ useEffect(() => {
       const projects = await ProjectsService.getBySupervisorId(userData.user_id);
       setResearchProjects(projects || []);
     } catch (err) {
-      setResearchError("Failed to load research projects");
+      setResearchError("Failed to load thesis/project");
     } finally {
       setResearchLoading(false);
     }
@@ -136,12 +136,12 @@ useEffect(() => {
         if (profile.office_room_id) {
           try {
             const room = await roomService.getRoomById(profile.office_room_id);
-            setOfficeRoomNumber(room.number || room.room_number || "");
+            setOfficeRoomNumber(room.number || room.room_number || "105");
           } catch (err) {
-            setOfficeRoomNumber("");
+            setOfficeRoomNumber("105");
           }
         } else {
-          setOfficeRoomNumber("");
+          setOfficeRoomNumber("105");
         }
       } catch (err) {
         setError("Failed to load faculty profile");
@@ -156,24 +156,24 @@ useEffect(() => {
   const [userIdToName, setUserIdToName] = useState({});
 
   useEffect(() => {
-    async function fetchAllProfiles() {
+    async function fetchAllStudentProfiles() {
       try {
-        const response = await ProfileService.getAllProfiles(1, 100);
-        if (response && Array.isArray(response.data)) {
-          // Map user_id or id to name
-          const map = {};
-          response.data.forEach(profile => {
-            if (profile.user && profile.user.id && profile.full_name) {
-              map[profile.user.id] = profile.full_name;
-            }
-          });
-          setUserIdToName(map);
-        }
+        const response = await StudentProfileService.getAllStudentProfiles();
+        // Adjust if your backend wraps data in .data or returns array directly
+        const students = Array.isArray(response.data) ? response.data : response;
+        const map = {};
+        students.forEach(student => {
+          // Assuming student.user_id and student.full_name are present
+          if (student.user_id && student.full_name) {
+            map[student.user_id] = student.full_name;
+          }
+        });
+        setUserIdToName(map);
       } catch (err) {
         setUserIdToName({});
       }
     }
-    fetchAllProfiles();
+    fetchAllStudentProfiles();
   }, []);
 
   // Course action handlers
@@ -377,7 +377,7 @@ useEffect(() => {
     };
     setResearchProjects(prev => [...prev, newProject]);
     setShowCreateResearchForm(false);
-    console.log("New research project created:", newProject);
+    console.log("New thesis/project created:", newProject);
   };
 
   // Handler to mark a project as finished
@@ -430,12 +430,13 @@ useEffect(() => {
         setLoadingUsers(true);
         setErrorUsers(null);
         try {
-          const response = await ProfileService.getAllProfiles(1, 100);
-          console.log('[DEBUG] getAllProfiles response:', response);
-          if (response && Array.isArray(response.data)) {
-            setUsers(response.data);
+          const response = await StudentProfileService.getAllStudentProfiles();
+          console.log('[DEBUG] getAllStudentProfiles response:', response);
+          let students = Array.isArray(response) ? response : response?.data;
+          if (Array.isArray(students)) {
+            setUsers(students);
           } else {
-            setErrorUsers('User data format error');
+            setErrorUsers('Student data format error');
             setUsers([]);
           }
         } catch (err) {
@@ -508,7 +509,7 @@ useEffect(() => {
       <div className="create-course-form-overlay">
         <div className="create-course-form">
           <div className="form-header">
-            <h3>Create New Research Project</h3>
+            <h3>Create New Thesis/Project</h3>
             <button className="close-btn" onClick={() => setShowCreateResearchForm(false)}>×</button>
           </div>
           <form onSubmit={handleSubmit}>
@@ -557,8 +558,8 @@ useEffect(() => {
                         >
                           <option value="">Select author</option>
                           {users.map(user => (
-                            <option key={user.user?.id} value={user.user?.id}>
-                              {user.full_name} ({user.user?.user_name})
+                            <option key={user.user_id} value={user.user_id}>
+                              {user.full_name}
                             </option>
                           ))}
                         </select>
@@ -573,7 +574,7 @@ useEffect(() => {
             </div>
             <div className="form-actions">
               <button type="button" className="secondary-action-btn" onClick={() => setShowCreateResearchForm(false)}>Cancel</button>
-              <button type="submit" className="primary-action-btn">Create Project</button>
+              <button type="submit" className="primary-action-btn">Create Thesis/Project</button>
             </div>
           </form>
         </div>
@@ -882,10 +883,10 @@ useEffect(() => {
           p.id === projectId ? { ...p, ...editData } : p
         )
       );
-      console.log("Research project updated:", editData);
+      console.log("Thesis/Project updated:", editData);
     } else {
       // Fallback to navigation (for external edit page if needed)
-      console.log("Editing research project:", projectId);
+      console.log("Editing Thesis/Project:", projectId);
       if (onNavigate) {
         onNavigate("edit-project", { projectId });
       }
@@ -903,7 +904,7 @@ useEffect(() => {
           p.id === project.id ? { ...p, status: "archived" } : p
         )
       );
-      console.log("Research project archived:", project.title);
+      console.log("Thesis/Project archived:", project.title);
     }
   };
 
@@ -918,7 +919,7 @@ useEffect(() => {
           p.id === project.id ? { ...p, status: "completed" } : p
         )
       );
-      console.log("Research project completed:", project.title);
+      // console.log("thesis project completed:", project.title);
     }
   };
 
@@ -932,55 +933,55 @@ useEffect(() => {
               <div className="info-grid">
                 <div className="info-item">
                   <span className="label">Full Name:</span>
-                  <span className="value">{teacherData.full_name}</span>
+                  <span className="value">{teacherData.full_name || "N/A"}</span>
                 </div>
                 <div className="info-item">
                   <span className="label">Faculty ID:</span>
-                  <span className="value">{teacherData.id}</span>
+                  <span className="value">{teacherData.id || "N/A"}</span>
                 </div>
                 <div className="info-item">
                   <span className="label">Email:</span>
-                  <span className="value">{teacherData.email}</span>
+                  <span className="value">{teacherData.email || "N/A"}</span>
                 </div>
                 <div className="info-item">
                   <span className="label">Phone:</span>
-                  <span className="value">{teacherData.phone_number}</span>
+                  <span className="value">{teacherData.phone_number || "N/A"}</span>
                 </div>
                 <div className="info-item">
                   <span className="label">Designation:</span>
-                  <span className="value">{teacherData.designation}</span>
+                  <span className="value">{teacherData.designation || "N/A"}</span>
                 </div>
                 <div className="info-item">
                   <span className="label">Department:</span>
-                  <span className="value">{teacherData.department}</span>
+                  <span className="value">{teacherData.department || "N/A"}</span>
                 </div>
                 <div className="info-item">
                   <span className="label">Specialization:</span>
-                  <span className="value">{teacherData.specialization}</span>
+                  <span className="value">{teacherData.specialization || "N/A"}</span>
                 </div>
                 <div className="info-item">
                   <span className="label">Office Room:</span>
-                  <span className="value">{officeRoomNumber || teacherData.office_room_id}</span>
+                  <span className="value">{officeRoomNumber || teacherData.office_room_id || "105"}</span>
                 </div>
                 <div className="info-item">
                   <span className="label">Office Hours:</span>
-                  <span className="value">{teacherData.officeHours}</span>
+                  <span className="value">{teacherData.officeHours || "Sunday to Thursday 9:00 AM to 5:00 PM"}</span>
                 </div>
                 <div className="info-item">
                   <span className="label">Joining Date:</span>
-                  <span className="value">{teacherData.joiningDate}</span>
+                  <span className="value">{teacherData.joiningDate || "20 August, 2020"}</span>
                 </div>
                 <div className="info-item">
                   <span className="label">Education:</span>
-                  <span className="value">{teacherData.education}</span>
+                  <span className="value">{teacherData.education || "Bsc, Msc in Computer Science"}</span>
                 </div>
                 <div className="info-item">
                   <span className="label">Experience:</span>
-                  <span className="value">{teacherData.experience}</span>
+                  <span className="value">{teacherData.experience || "10 years"}</span>
                 </div>
                 <div className="info-item">
                   <span className="label">Research Interests:</span>
-                  <span className="value">{teacherData.research_areas}</span>
+                  <span className="value">{teacherData.research_areas || "N/A"}</span>
                 </div>
               </div>
             </div>
@@ -989,7 +990,7 @@ useEffect(() => {
       case "courses":
         console.log('[DEBUG][Courses Tab] Rendering courses tab. courses:', courses);
         const activeCourses = courses.filter(course => course.is_active === "true");
-        const archivedCourses = courses.filter(course => course.is_active=== "false");
+        const archivedCourses = courses.filter(course => course.is_active === "false");
         return (
           <div className="tab-content">
             <div className="courses-section">
@@ -998,7 +999,7 @@ useEffect(() => {
                   <h3>Current Courses</h3>
                   <p className="section-subtitle">Manage your course assignments and track student progress</p>
                 </div>
-                
+
               </div>
               <div className="notices-grid">
                 {courses.map((course) => {
@@ -1043,12 +1044,12 @@ useEffect(() => {
                 </div>
               )}
             </div>
-            
+
           </div>
         );
       case "research":
         if (researchLoading) {
-          return <div className="tab-content"><div>Loading research projects...</div></div>;
+          return <div className="tab-content"><div>Loading thesis/projects...</div></div>;
         }
         if (researchError) {
           return <div className="tab-content"><div style={{ color: 'red' }}>{researchError}</div></div>;
@@ -1058,14 +1059,14 @@ useEffect(() => {
             <div className="research-section">
               <div className="section-header">
                 <div className="section-header-text">
-                  <h3>Research Activities</h3>
-                  <p className="section-subtitle">Manage your research projects and track progress</p>
+                  <h3>Thesis/Projects Activities</h3>
+                  <p className="section-subtitle">Manage your thesis/projects and track progress</p>
                 </div>
                 <button
                   className="create-course-btn"
                   onClick={handleCreateResearchProject}
                 >
-                  + Create Project
+                  + Create Thesis/Project
                 </button>
               </div>
 
@@ -1087,10 +1088,10 @@ useEffect(() => {
                 <div className="no-courses">
                   <div className="no-courses-content">
                     <span className="no-courses-icon">🔬</span>
-                    <h3>No research projects</h3>
-                    <p>You don't have any research projects. Create your first project to get started!</p>
+                    <h3>No thesis/projects</h3>
+                    <p>You don't have any thesis/projects. Create your first thesis/project to get started!</p>
                     <button className="create-first-course-btn" onClick={handleCreateResearchProject}>
-                      Create Your First Project
+                      Create Your First Thesis/Project
                     </button>
                   </div>
                 </div>
@@ -1121,15 +1122,15 @@ useEffect(() => {
                     .flatMap((project) =>
                       Array.isArray(project.authors)
                         ? project.authors.map((author, idx) => {
-                            const userId = typeof author === 'object' && author !== null ? author.user_id : author;
-                            const name = userIdToName[userId] || userId || 'Unknown Author';
-                            return {
-                              id: userId,
-                              name,
-                              projectTitle: project.title,
-                              projectId: project.id,
-                            };
-                          })
+                          const userId = typeof author === 'object' && author !== null ? author.user_id : author;
+                          const name = userIdToName[userId] || userId || 'Unknown Author';
+                          return {
+                            id: userId,
+                            name,
+                            projectTitle: project.title,
+                            projectId: project.id,
+                          };
+                        })
                         : []
                     )
                     .map((student) => (
@@ -1264,14 +1265,14 @@ useEffect(() => {
                   <div className="schedule-cell">
                     <div className="class-item">
                       <strong>CSE 412</strong>
-                      <span>Room 205</span>
+                      <span>Room 105</span>
                     </div>
                   </div>
                   <div className="schedule-cell empty"></div>
                   <div className="schedule-cell">
                     <div className="class-item">
                       <strong>CSE 412</strong>
-                      <span>Room 205</span>
+                      <span>Room 105</span>
                     </div>
                   </div>
                   <div className="schedule-cell empty"></div>
@@ -1549,7 +1550,7 @@ useEffect(() => {
             <div className="profile-meta">
               <span className="meta-item">📧 {teacherData.email}</span>
               <span className="meta-item">📞 {teacherData.phone_number}</span>
-              <span className="meta-item">🏢 Room no. {officeRoomNumber || teacherData.office_room_id}</span>
+              <span className="meta-item">🏢 Room no. {officeRoomNumber || teacherData.office_room_id || "105"}</span>
             </div>
           </div>
           <div className="profile-actions-section">
