@@ -46,7 +46,7 @@
 }
 
 .save-btn {
-  background: #27ae60;
+  background: #7B2C2C;
   color: white;
 }
 
@@ -286,7 +286,7 @@
 }
 
 .permission-badge.active {
-  color: #27ae60;
+  color: #7B2C2C;
 }
 
 .permission-badge.inactive {

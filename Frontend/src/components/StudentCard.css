@@ -136,7 +136,7 @@
   min-height: 36px;
 }
 .course-action-btn.primary, .student-action-btn.primary {
-  background-color: #27ae60;
+  background-color: #7B2C2C;
   color: #ffffff;
 }
 .course-action-btn.primary:hover, .student-action-btn.primary:hover {
@@ -145,13 +145,13 @@
 }
 .course-action-btn.secondary, .student-action-btn.secondary {
   background-color: #f8f9fa;
-  color: #27ae60;
-  border: 1px solid #27ae60;
+  color: #7B2C2C;
+  border: 1px solid #7B2C2C;
 }
 .course-action-btn.secondary:hover, .student-action-btn.secondary:hover {
-  background-color: #27ae60;
+  background-color: #7B2C2C;
   color: #ffffff;
-  border-color: #27ae60;
+  border-color: #7B2C2C;
   transform: translateY(-1px);
 }
 .course-action-btn.archive {

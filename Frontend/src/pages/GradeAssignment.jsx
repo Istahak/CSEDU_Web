@@ -27,9 +27,9 @@ const GradeAssignment = ({ onBack }) => {
         const userData = AuthService.getUserData();
         const facultyId = userData?.profile_id || userData?.user_id;
         const response = await CourseService.filterByInstructor(facultyId);
-        console.log('API response from filterByInstructor:', response);
+        console.log("API response from filterByInstructor:", response);
         setCourses(Array.isArray(response) ? response : []);
-        console.log('Setting courses to:', response);
+        console.log("Setting courses to:", response);
       } catch (error) {
         console.error("Failed to fetch courses:", error);
         setCourses([]);
@@ -47,7 +47,7 @@ const GradeAssignment = ({ onBack }) => {
       }
       setAssignmentsLoading(true);
       try {
-        console.log("selected course was", selectedCourse.id)
+        console.log("selected course was", selectedCourse.id);
         const response = await AssignmentService.getByCourse(selectedCourse.id);
         console.log("AssignmentService.getByCourse response:", response);
         setAssignments(Array.isArray(response) ? response : []);
@@ -69,13 +69,19 @@ const GradeAssignment = ({ onBack }) => {
       }
       setSubmissionsLoading(true);
       try {
-        const res = await AssignmentSubmissionService.getByAssignment(selectedAssignment.id);
+        const res = await AssignmentSubmissionService.getByAssignment(
+          selectedAssignment.id
+        );
         // If API response is {submissions: [...]}, extract the array
-        const submissionsArray = Array.isArray(res) ? res : (res && Array.isArray(res.submissions) ? res.submissions : []);
-        console.log('Fetched submissions:', submissionsArray);
+        const submissionsArray = Array.isArray(res)
+          ? res
+          : res && Array.isArray(res.submissions)
+          ? res.submissions
+          : [];
+        console.log("Fetched submissions:", submissionsArray);
         setSubmissions(submissionsArray);
         const initialMarks = {};
-        submissionsArray.forEach(sub => {
+        submissionsArray.forEach((sub) => {
           initialMarks[sub.id] = sub.grade ?? "";
         });
         setMarks(initialMarks);
@@ -90,7 +96,7 @@ const GradeAssignment = ({ onBack }) => {
   const getStatusColor = (status) => {
     switch (status) {
       case "completed":
-        return "#27ae60";
+        return "#7B2C2C";
       case "grading":
         return "#f39c12";
       case "pending":
@@ -121,7 +127,7 @@ const GradeAssignment = ({ onBack }) => {
 
   const handleGradeChange = (studentId, newGrade) => {
     const assignmentId = selectedAssignment.id;
-    setMarks(m => ({ ...m, [studentId]: newGrade }));
+    setMarks((m) => ({ ...m, [studentId]: newGrade }));
   };
 
   const filteredCourses = courses.filter(
@@ -131,8 +137,8 @@ const GradeAssignment = ({ onBack }) => {
   );
 
   const renderCoursesView = () => {
-    console.log('All courses:', courses);
-    console.log('Filtered courses:', filteredCourses);
+    console.log("All courses:", courses);
+    console.log("Filtered courses:", filteredCourses);
     return (
       <div className="courses-view">
         <div className="view-header">
@@ -162,9 +168,15 @@ const GradeAssignment = ({ onBack }) => {
                   <div className="course-info">
                     <h3>{course.course_code}</h3>
                     <p className="course-title">{course.course_title}</p>
-                    <span className="course-section">Semester {course.semester}</span>
-                    <span className="course-section">Credit: {course.credit}</span>
-                    <span className="course-section">Schedule: {course.schedule}</span>
+                    <span className="course-section">
+                      Semester {course.semester}
+                    </span>
+                    <span className="course-section">
+                      Credit: {course.credit}
+                    </span>
+                    <span className="course-section">
+                      Schedule: {course.schedule}
+                    </span>
                   </div>
                 </div>
                 <div className="course-actions">
@@ -193,7 +205,7 @@ const GradeAssignment = ({ onBack }) => {
         </div>
       </div>
     );
-  }
+  };
 
   const renderAssignmentsView = () => (
     <div className="assignments-view">
@@ -234,21 +246,41 @@ const GradeAssignment = ({ onBack }) => {
                 <div className="assignment-header">
                   <div className="assignment-info">
                     <div className="assignment-title">
-                      <span className="assignment-icon">{getTypeIcon(assignment.type)}</span>
+                      <span className="assignment-icon">
+                        {getTypeIcon(assignment.type)}
+                      </span>
                       <div>
                         <h4>{assignment.title}</h4>
                         <span className="assignment-type">Assignment</span>
                       </div>
                     </div>
                     <div className="assignment-details">
-                      <span className="detail-item">📅 Due: {assignment.due_date ? new Date(assignment.due_date).toLocaleString() : 'N/A'}</span>
-                      <span className="detail-item">📊 Marks: {assignment.max_marks ?? 'N/A'}</span>
-                      <span className="detail-item">📥 Submissions: {assignment.submissions ?? 'N/A'}</span>
-                      <span className="detail-item">✅ Graded: {assignment.graded ?? 'N/A'}</span>
+                      <span className="detail-item">
+                        📅 Due:{" "}
+                        {assignment.due_date
+                          ? new Date(assignment.due_date).toLocaleString()
+                          : "N/A"}
+                      </span>
+                      <span className="detail-item">
+                        📊 Marks: {assignment.max_marks ?? "N/A"}
+                      </span>
+                      <span className="detail-item">
+                        📥 Submissions: {assignment.submissions ?? "N/A"}
+                      </span>
+                      <span className="detail-item">
+                        ✅ Graded: {assignment.graded ?? "N/A"}
+                      </span>
                     </div>
                   </div>
                   <div className="assignment-status">
-                    <span className="status-badge" style={{backgroundColor: getStatusColor(assignment.status)}}>{assignment.status?.toUpperCase() || 'PENDING'}</span>
+                    <span
+                      className="status-badge"
+                      style={{
+                        backgroundColor: getStatusColor(assignment.status),
+                      }}
+                    >
+                      {assignment.status?.toUpperCase() || "PENDING"}
+                    </span>
                   </div>
                 </div>
                 <div className="assignment-actions">
@@ -277,19 +309,34 @@ const GradeAssignment = ({ onBack }) => {
                   </div>
                 </div>
                 <div className="assignment-details">
-                  <span className="detail-item">No assignments found for this course.</span>
-                  <span className="detail-item">Selected Course: {selectedCourse?.course_code} - {selectedCourse?.course_title}</span>
+                  <span className="detail-item">
+                    No assignments found for this course.
+                  </span>
+                  <span className="detail-item">
+                    Selected Course: {selectedCourse?.course_code} -{" "}
+                    {selectedCourse?.course_title}
+                  </span>
                 </div>
               </div>
               <div className="assignment-status">
-                <span className="status-badge" style={{backgroundColor: getStatusColor('pending')}}>PENDING</span>
+                <span
+                  className="status-badge"
+                  style={{ backgroundColor: getStatusColor("pending") }}
+                >
+                  PENDING
+                </span>
               </div>
             </div>
             <div className="assignment-actions">
               <button
                 className="action-btn primary"
                 onClick={() => {
-                  setSelectedAssignment({id: 1, title: 'N/A', totalMarks: 100, course: selectedCourse});
+                  setSelectedAssignment({
+                    id: 1,
+                    title: "N/A",
+                    totalMarks: 100,
+                    course: selectedCourse,
+                  });
                   setActiveView("grading");
                 }}
               >
@@ -315,7 +362,8 @@ const GradeAssignment = ({ onBack }) => {
       for (const id of missingIds) {
         try {
           const profile = await StudentProfileService.getStudentProfile(id);
-          updates[id] = profile?.full_name || profile?.name || "Unknown Student";
+          updates[id] =
+            profile?.full_name || profile?.name || "Unknown Student";
         } catch (e) {
           updates[id] = "Unknown Student";
         }
@@ -331,31 +379,49 @@ const GradeAssignment = ({ onBack }) => {
       <div className="grading-view">
         <div className="view-header">
           <div className="header-content">
-            <button className="back-btn" onClick={() => setActiveView("assignments")}>
+            <button
+              className="back-btn"
+              onClick={() => setActiveView("assignments")}
+            >
               ← Back to Assignments
             </button>
             <h2>✏️ Grade Assignment</h2>
-            <p>{selectedAssignment?.title} • {selectedCourse?.code}</p>
+            <p>
+              {selectedAssignment?.title} • {selectedCourse?.code}
+            </p>
           </div>
         </div>
         <div className="students-grading-list">
           {submissionsLoading ? (
             <div className="loading-message">Loading submissions...</div>
           ) : submissions.length === 0 ? (
-            <div className="no-submissions">No submissions found for this assignment.</div>
+            <div className="no-submissions">
+              No submissions found for this assignment.
+            </div>
           ) : (
             submissions.map((submission) => {
-              const fullName = studentNames[submission.student_id] || "Unknown Student";
+              const fullName =
+                studentNames[submission.student_id] || "Unknown Student";
               return (
                 <div key={submission.id} className="student-grading-card">
                   <div className="student-info">
                     <div className="student-avatar">
-                      {fullName.split(" ").map((n) => n[0]).join("")}
+                      {fullName
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")}
                     </div>
                     <div className="student-details">
                       <h4>{fullName}</h4>
                       <p>{submission.student_id || "-"}</p>
-                      <span className="submission-date">📅 Submitted: {submission.submission_time ? new Date(submission.submission_time).toLocaleString() : "N/A"}</span>
+                      <span className="submission-date">
+                        📅 Submitted:{" "}
+                        {submission.submission_time
+                          ? new Date(
+                              submission.submission_time
+                            ).toLocaleString()
+                          : "N/A"}
+                      </span>
 
                       <span className="grade-max">
                         / {selectedAssignment?.max_marks || 100}
@@ -383,8 +449,15 @@ const GradeAssignment = ({ onBack }) => {
                         </span>
                       </div>
                     </div>
-                    <div style={{marginTop:8}}>
-                      <a href={submission.attached_file} target="_blank" rel="noopener noreferrer" className="action-btn secondary">📄 View Submission</a>
+                    <div style={{ marginTop: 8 }}>
+                      <a
+                        href={submission.attached_file}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="action-btn secondary"
+                      >
+                        📄 View Submission
+                      </a>
                     </div>
                   </div>
                 </div>

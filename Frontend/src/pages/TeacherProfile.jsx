@@ -1561,7 +1561,7 @@ const TeacherProfile = ({
               className="secondary-action-btn"
               onClick={() => onNavigate("schedule-meeting")}
             >
-              Schedule Meeting
+              Schedule Meeting 
             </button>
           </div>
         </div>

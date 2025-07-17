@@ -10,8 +10,8 @@
 .teacher-profile-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 2rem;
-  width: 100%;
+  padding: 0 2rem; 
+  width: 100%; 
 }
 
 /* Header Section - Consistent with Notices */
@@ -125,8 +125,8 @@
 
 .primary-action-btn {
   padding: 0.75rem 1.5rem;
-  background: #27ae60;
-  color: white;
+  background: white;
+  color: #7B2C2C;
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -136,15 +136,16 @@
 }
 
 .primary-action-btn:hover {
-  background: #219a52;
+  background: white !important;
+  color: #7B2C2C;
   transform: translateY(-1px);
 }
 
 .secondary-action-btn {
   padding: 0.75rem 1.5rem;
   background: #fff;
-  color: #27ae60;
-  border: 1px solid #27ae60;
+  color: #7B2C2C;
+  border: 1px solid #7B2C2C;
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.9rem;
@@ -153,7 +154,7 @@
 }
 
 .secondary-action-btn:hover {
-  background: #27ae60;
+  background: #7B2C2C;
   color: white;
   transform: translateY(-1px);
 }
@@ -223,11 +224,11 @@
 
 .profile-nav-tab:hover {
   background: #f8f9fa;
-  color: #27ae60;
+  color: #7B2C2C;
 }
 
 .profile-nav-tab.active {
-  background: #27ae60;
+  background: #7B2C2C;
   color: white;
 }
 
@@ -276,13 +277,13 @@
 
 .section-subtitle {
   font-size: 1rem;
-  color: #6c757d;
+  color: white;
   margin: 0;
 }
 
 .create-course-btn {
   padding: 0.75rem 1.5rem;
-  background: #27ae60;
+  background: #7B2C2C;
   color: white;
   border: none;
   border-radius: 6px;
@@ -329,7 +330,7 @@
 }
 
 .content-card:hover {
-  border-color: #27ae60;
+  border-color: #7B2C2C;
   box-shadow: 0 4px 12px rgba(39, 174, 96, 0.15);
   transform: translateY(-2px);
 }
@@ -472,7 +473,7 @@
 }
 
 .admin-committee-card .course-action-btn.primary {
-  background-color: #27ae60;
+  background-color: #7B2C2C;
   color: #ffffff;
 }
 
@@ -561,11 +562,11 @@
 
 .profile-nav-tab:hover {
   background: #f8f9fa;
-  color: #27ae60;
+  color: #7B2C2C;
 }
 
 .profile-nav-tab.active {
-  background: #27ae60;
+  background: #7B2C2C;
   color: white;
 }
 
@@ -620,7 +621,7 @@
 
 .create-course-btn {
   padding: 0.75rem 1.5rem;
-  background: #27ae60;
+  background: #7B2C2C;
   color: white;
   border: none;
   border-radius: 6px;
@@ -667,7 +668,7 @@
 }
 
 .content-card:hover {
-  border-color: #27ae60;
+  border-color: #7B2C2C;
   box-shadow: 0 4px 12px rgba(39, 174, 96, 0.15);
   transform: translateY(-2px);
 }
@@ -810,7 +811,7 @@
 }
 
 .admin-committee-card .course-action-btn.primary {
-  background-color: #27ae60;
+  background-color: #7B2C2C;
   color: #ffffff;
 }
 
@@ -899,11 +900,11 @@
 
 .profile-nav-tab:hover {
   background: #f8f9fa;
-  color: #27ae60;
+  color: #7B2C2C;
 }
 
 .profile-nav-tab.active {
-  background: #27ae60;
+  background: #7B2C2C;
   color: white;
 }
 
@@ -958,7 +959,7 @@
 
 .create-course-btn {
   padding: 0.75rem 1.5rem;
-  background: #27ae60;
+  background: #7B2C2C;
   color: white;
   border: none;
   border-radius: 6px;
@@ -1005,7 +1006,7 @@
 }
 
 .content-card:hover {
-  border-color: #27ae60;
+  border-color: #7B2C2C;
   box-shadow: 0 4px 12px rgba(39, 174, 96, 0.15);
   transform: translateY(-2px);
 }
@@ -1148,7 +1149,7 @@
 }
 
 .admin-committee-card .course-action-btn.primary {
-  background-color: #27ae60;
+  background-color: #7B2C2C;
   color: #ffffff;
 }
 
@@ -1237,11 +1238,11 @@
 
 .profile-nav-tab:hover {
   background: #f8f9fa;
-  color: #27ae60;
+  color: #7B2C2C;
 }
 
 .profile-nav-tab.active {
-  background: #27ae60;
+  background: #7B2C2C;
   color: white;
 }
 
@@ -1296,7 +1297,7 @@
 
 .create-course-btn {
   padding: 0.75rem 1.5rem;
-  background: #27ae60;
+  background: #7B2C2C;
   color: white;
   border: none;
   border-radius: 6px;
@@ -1343,7 +1344,7 @@
 }
 
 .content-card:hover {
-  border-color: #27ae60;
+  border-color: #7B2C2C;
   box-shadow: 0 4px 12px rgba(39, 174, 96, 0.15);
   transform: translateY(-2px);
 }
@@ -1486,7 +1487,7 @@
 }
 
 .admin-committee-card .course-action-btn.primary {
-  background-color: #27ae60;
+  background-color: #7B2C2C;
   color: #ffffff;
 }
 
@@ -1575,11 +1576,11 @@
 
 .profile-nav-tab:hover {
   background: #f8f9fa;
-  color: #27ae60;
+  color: #7B2C2C;
 }
 
 .profile-nav-tab.active {
-  background: #27ae60;
+  background: #7B2C2C;
   color: white;
 }
 
@@ -1634,7 +1635,7 @@
 
 .create-course-btn {
   padding: 0.75rem 1.5rem;
-  background: #27ae60;
+  background: #7B2C2C;
   color: white;
   border: none;
   border-radius: 6px;
@@ -1681,7 +1682,7 @@
 }
 
 .content-card:hover {
-  border-color: #27ae60;
+  border-color: #7B2C2C;
   box-shadow: 0 4px 12px rgba(39, 174, 96, 0.15);
   transform: translateY(-2px);
 }
@@ -1824,7 +1825,7 @@
 }
 
 .admin-committee-card .course-action-btn.primary {
-  background-color: #27ae60;
+  background-color: #7B2C2C;
   color: #ffffff;
 }
 
@@ -1907,7 +1908,7 @@
 
 .schedule-header .time-slot,
 .schedule-header .day-slot {
-  background: #e74c3c;
+  background: #7B2C2C;
   color: white;
   padding: 1rem;
   font-weight: 600;
@@ -2393,7 +2394,7 @@
 
 .form-group input:focus {
   outline: none;
-  border-color: #27ae60;
+  border-color: #7B2C2C;
   box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.1);
 }
 
@@ -2435,7 +2436,7 @@
 
 .submit-btn {
   padding: 0.875rem 2rem;
-  background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+  background: linear-gradient(135deg, #7B2C2C 0%, #2ecc71 100%);
   color: white;
   border: none;
   border-radius: 8px;
@@ -2451,7 +2452,7 @@
 }
 
 .submit-btn:hover {
-  background: linear-gradient(135deg, #219a52 0%, #27ae60 100%);
+  background: linear-gradient(135deg, #219a52 0%, #7B2C2C 100%);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(39, 174, 96, 0.4);
 }
@@ -2493,7 +2494,7 @@
 }
 
 .create-first-course-btn {
-  background: #27ae60;
+  background: #7B2C2C;
   color: white;
   border: none;
   padding: 0.875rem 1.75rem;
@@ -2547,7 +2548,7 @@
 }
 
 .create-first-project-btn {
-  background: #27ae60;
+  background: #7B2C2C;
   color: white;
   border: none;
   padding: 0.75rem 1.5rem;
@@ -2622,11 +2623,11 @@
 
 .administrative-committee-tab:hover {
   background: #f8f9fa;
-  color: #27ae60;
+  color: #7B2C2C;
 }
 
 .administrative-committee-tab.active {
-  background: #27ae60;
+  background: #7B2C2C;
   color: white;
 }
 
@@ -2697,7 +2698,7 @@
 }
 
 .admin-committee-card .card-action-btn.primary {
-  background-color: #27ae60;
+  background-color: #7B2C2C;
   color: #ffffff;
 }
 

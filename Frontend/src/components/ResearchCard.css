@@ -1,7 +1,7 @@
 /* Match the Mark as Finished button to the primary-action-btn style from TeacherProfile.css */
 .research-card .action-btn.primary {
   padding: 0.75rem 1.5rem;
-  background: #27ae60;
+  background: #7B2C2C;
   color: white;
   border: none;
   border-radius: 6px;
@@ -13,7 +13,7 @@
 }
 
 .research-card .action-btn.primary:hover {
-  background: #219a52;
+  background: #7B2C2C;
   transform: translateY(-1px);
 }
 /* ResearchCard Styles - Reuse content-card and research-card classes for consistency */
@@ -42,6 +42,7 @@
 .course-card-header {
   display: flex;
   justify-content: space-between;
+  background-color: #fff;
   align-items: flex-start;
   margin-bottom: 1rem;
   gap: 1rem;
@@ -60,8 +61,8 @@
 
 .project-meta h4 {
   font-size: 1.1rem;
-  font-weight: 600;
-  color: #353839;
+  font-weight: 600; 
+  color: white;
   margin: 0 0 0.25rem 0;
   line-height: 1.3;
 }
@@ -81,7 +82,7 @@
 .status-badge.active {
   background-color: rgba(39, 174, 96, 0.15);
   border: 2px solid rgba(39, 174, 96, 0.3);
-  color: #27ae60;
+  color: #7B2C2C;
   padding: 0.3rem 0.8rem;
   border-radius: 4px;
   font-size: 0.75rem;
@@ -183,7 +184,7 @@
   min-height: 36px;
 }
 .course-action-btn.primary {
-  background-color: #27ae60;
+  background-color: #7B2C2C;
   color: #ffffff;
 }
 .course-action-btn.primary:hover {
@@ -192,13 +193,13 @@
 }
 .course-action-btn.secondary {
   background-color: #f8f9fa;
-  color: #27ae60;
-  border: 1px solid #27ae60;
+  color: #7B2C2C;
+  border: 1px solid #7B2C2C;
 }
 .course-action-btn.secondary:hover {
-  background-color: #27ae60;
+  background-color: #7B2C2C;
   color: #ffffff;
-  border-color: #27ae60;
+  border-color: #7B2C2C;
   transform: translateY(-1px);
 }
 .course-action-btn.complete {
@@ -385,7 +386,7 @@
 }
 
 .primary-action-btn {
-  background: #27ae60;
+  background: #7B2C2C;
   color: white;
 }
 

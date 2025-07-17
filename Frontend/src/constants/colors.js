@@ -32,7 +32,7 @@ export const colors = {
 
   // Accent Colors
   accent: {
-    success: "#27ae60",
+    success: "#7B2C2C",
     warning: "#f39c12",
     error: "#e74c3c",
     info: "#3498db",
@@ -56,7 +56,7 @@ export const colors = {
 
   // Status Colors
   status: {
-    online: "#27ae60",
+    online: "#7B2C2C",
     offline: "#95a5a6",
     busy: "#f39c12",
     away: "#f1c40f",

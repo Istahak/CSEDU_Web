@@ -90,7 +90,7 @@ const ResearchCard = ({ project, onMarkFinished, onViewDetails, onEdit, onArchiv
                     name="projectFiles"
                     value={formData.projectFiles}
                     onChange={handleInputChange}
-                    placeholder="e.g., GitHub repository, shared drive link"
+                    placeholder="e.g., GitHub repository, shared drive link" 
                   />
                 </div>
               </div>

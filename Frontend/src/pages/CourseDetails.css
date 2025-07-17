@@ -789,11 +789,11 @@
   background: #f8f9fa;
   padding: 1.5rem;
   border-radius: 8px;
-  border-left: 4px solid #27ae60;
+  border-left: 4px solid #7B2C2C;
 }
 
 .outcome-number {
-  background: #27ae60;
+  background: #7B2C2C;
   color: white;
   width: 2rem;
   height: 2rem;
