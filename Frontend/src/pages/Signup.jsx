@@ -76,11 +76,11 @@ const Signup = ({ onSignup, onBack }) => {
       <div className="login-container modern-login-container">
         {!selectedRole ? (
           <>
-            <div className="login-header">
+            {/* <div className="login-header">
               <h1 className="login-title">Sign Up</h1>
               <p className="login-subtitle">Create your account</p>
             </div>
-            <div className="login-divider" />
+            <div className="login-divider" /> */}
             <div className="role-selection modern-role-selection">
               <h2 className="role-title">Select Your Role</h2>
               <div className="role-options modern-role-options">

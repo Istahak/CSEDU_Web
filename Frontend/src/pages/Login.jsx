@@ -12,7 +12,7 @@ const Login = ({ onLogin }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   // Dummy credentials
-  const credentials = {
+  const credentials = { 
     student: { email: "student@gmail.com", password: "123" },
     faculty: { email: "faculty@gmail.com", password: "123" },
     admin: { email: "admin@gmail.com", password: "123" }
@@ -81,11 +81,11 @@ const Login = ({ onLogin }) => {
       <div className="login-container modern-login-container">
         {!selectedRole ? (
           <>
-            <div className="login-header">
+            {/* <div className="login-header">
               <h1 className="login-title">Student Portal</h1>
               <p className="login-subtitle">Sign in to your account</p>
-            </div>
-            <div className="login-divider" />
+            </div> */}
+            {/* <div className="login-divider" /> */}
             <div className="role-selection modern-role-selection">
               <h2 className="role-title">Select Your Role</h2>
               <div className="role-options modern-role-options">
@@ -176,14 +176,14 @@ const Login = ({ onLogin }) => {
                 className="login-button"
                 disabled={isLoading}
               >
-                {isLoading ? "Signing in..." : "Sign in"}
+                {isLoading ? "Logging in..." : "Log in"}
               </button>
             </form>
-            <div className="login-help modern-login-help">
+            {/* <div className="login-help modern-login-help">
               <div className="demo-credentials-title">Demo Credentials</div>
               <div className="demo-credentials-row"><strong>Email:</strong> {credentials[selectedRole].email}</div>
               <div className="demo-credentials-row"><strong>Password:</strong> {credentials[selectedRole].password}</div>
-            </div>
+            </div> */}
           </div>
         )}
       </div>

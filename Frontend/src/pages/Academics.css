@@ -134,7 +134,7 @@
 }
 
 .academic-card.clickable .card-title {
-  color: #4a90e2;
+  color: #7B2C2C;
   transition: color 0.3s ease;
 }
 
@@ -144,6 +144,7 @@
 
 .card-image {
   height: 200px;
+  /* background: #667eea; */
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   position: relative;
   display: flex;
