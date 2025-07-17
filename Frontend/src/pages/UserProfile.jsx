@@ -584,7 +584,7 @@ case "due-payments":
                   <textarea value={userData.address} readOnly />
                 </div>
                 <button
-                  className="edit-btn"
+                  className="edit-contact-btn"
                   onClick={() => onEditProfile && onEditProfile()}
                 >
                   Edit Information
@@ -668,7 +668,7 @@ case "due-payments":
       default:
         return "#95a5a6";
     }
-  };
+  }; 
 
   const isOverdue = (dueDate) => {
     return new Date(dueDate) < new Date();
@@ -726,9 +726,9 @@ case "due-payments":
     <div className="user-profile">
       <div className="profile-container">
         <div className="profile-header">
-          <button onClick={onBack} className="back-button">
+          {/* <button onClick={onBack} className="back-button">
             ← Back
-          </button>
+          </button> */}
           <div className="profile-info">
             <div className="profile-avatar">
               {/* <span className="avatar-icon">👩‍🎓</span> */}
@@ -740,11 +740,13 @@ case "due-payments":
               /> */}
               <img
                 alt="alt text"
-                src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
+                src="\src\assets\images\Tasnia Iffat Photograph.jpg"
                 />
             </div>
+            <div className="profile-header-info">
             <div className="profile-details">
-              <h1 className="profile-name">{userData.full_name}</h1>
+              {/* <h1 className="profile-name">{userData.full_name}</h1> */}
+              <h1 className="profile-name">Tasnia Iffat</h1>
               <p className="profile-id">Student ID: {userData.student_id}</p>
               <p className="profile-department">{userData.dept}</p>
             </div>
@@ -754,6 +756,7 @@ case "due-payments":
             >
               Edit Profile
             </button>
+            </div>
           </div>
         </div>
 

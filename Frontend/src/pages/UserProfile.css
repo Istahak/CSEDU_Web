@@ -15,7 +15,7 @@
   .back-button {
     background: none;
     border: none;
-    color: #2d3e50;
+    color: #7B2C2C;
     font-size: 1rem;
     font-weight: 500;
     cursor: pointer;
@@ -26,7 +26,7 @@
   
   .back-button:hover {
     color: #7B2C2C;
-    text-decoration: underline;
+    /* text-decoration: underline; */
   }
   
   /* Profile Header */
@@ -37,10 +37,17 @@
     margin-bottom: 2rem;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
+  .profile-header-info{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
   
   .profile-info {
     display: flex;
     align-items: center;
+    /* justify-content: space-between; */
     gap: 2rem;
   }
   
@@ -61,34 +68,33 @@
   }
   
   .profile-details {
-    flex: 1;
+    flex-direction: column;
   }
   
   .profile-name {
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 700;
     color: #353839;
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 0 0;
   }
   
   .profile-id {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: #2d3e50;
     font-weight: 600;
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 0 0;
   }
   
   .profile-department {
-    font-size: 0.95rem;
-    color: #6c757d;
+    font-size: 1rem;
+    color: #2d3e50;
     margin: 0;
     line-height: 1.4;
   }
-  
-  .edit-profile-header-btn {
-    background: #2d3e50;
-    color: white;
-    border: none;
+  .edit-contact-btn {
+    background: transparent;
+    color: #7B2C2C;
+    border-color: #7B2C2C;
     padding: 0.75rem 1.5rem;
     border-radius: 8px;
     font-weight: 500;
@@ -96,8 +102,29 @@
     transition: all 0.3s ease;
   }
   
+  .edit-contact-btn:hover {
+    transform: translateY(-2px);
+    background: #7B2C2C;
+    color: white;
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+  }
+  
+  .edit-profile-header-btn {
+    background: transparent;
+    color: #7B2C2C;
+    border-color: #7B2C2C;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+  }
+  
   .edit-profile-header-btn:hover {
     transform: translateY(-2px);
+    background: #7B2C2C;
+    color: white;
     box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
   }
   
@@ -122,16 +149,17 @@
     cursor: pointer;
     transition: all 0.3s ease;
     white-space: nowrap;
-    color: #6c757d;
+    color: #353839;
   }
   
   .tab-button:hover {
     background: #f8f9fa;
-    color: #353839;
+    border-color: #7B2C2C;
+    color: #7B2C2C;
   }
   
   .tab-button.active {
-    background: #2d3e50;
+    background: #7B2C2C;
     color: white;
   }
   
@@ -696,7 +724,7 @@
   } */
   
   .pay-now-btn {
-      background: linear-gradient(90deg, #21c08b 0%, #19c2a0 100%);
+      background: linear-gradient(90deg, #7B2C2C 0%, #f9f5f0 100%);
       color: #fff;
       font-size: 0.9rem;
       font-weight: 600;
@@ -766,7 +794,7 @@
   }
   
   .edit-profile-btn {
-    background: linear-gradient(135deg, #4a90e2, #7B2C2C);
+    background: linear-gradient(135deg, #7B2C2C, #7B2C2C);
     color: white;
     border: none;
     padding: 0.75rem 1.5rem;
